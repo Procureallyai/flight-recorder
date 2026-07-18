@@ -93,6 +93,7 @@ describe("flight-recorder command-line interface", () => {
     const allowedRoot = await mkdtemp(join(tmpdir(), "flight-recorder-cli-session-"));
     const repositoryPath = join(allowedRoot, "repository");
     await cp("demo/password-reset-workspace", repositoryPath, { recursive: true });
+    await writeFile(join(repositoryPath, ".gitignore"), ".flight-recorder/\n", "utf8");
     execFileSync("git", ["init", "-q"], { cwd: repositoryPath });
     execFileSync("git", ["config", "user.name", "Synthetic Builder"], { cwd: repositoryPath });
     execFileSync("git", ["config", "user.email", "synthetic@example.invalid"], { cwd: repositoryPath });

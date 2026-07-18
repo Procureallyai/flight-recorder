@@ -57,6 +57,14 @@ async function runGit(repositoryPath: string, argumentsForGit: string[]): Promis
   return result.stdout;
 }
 
+async function requirePrivateStateIgnored(repositoryPath: string): Promise<void> {
+  try {
+    await runGit(repositoryPath, ["check-ignore", "-q", ".flight-recorder/session-probe"]);
+  } catch {
+    throw new Error("The repository must ignore .flight-recorder/ before private session state can be created.");
+  }
+}
+
 function isInside(root: string, candidate: string): boolean {
   return candidate === root || candidate.startsWith(`${root}${sep}`);
 }
@@ -80,11 +88,16 @@ export async function createLocalSession(input: unknown, options: LocalSessionOp
   const repositoryPath = await realpath(resolve(request.repositoryPath));
   const allowedRoot = await realpath(resolve(request.allowedRoot));
   if (!isInside(allowedRoot, repositoryPath)) throw new Error("The repository is outside the explicitly allowed root.");
+  const stateRoot = join(repositoryPath, ".flight-recorder");
+  const sessionsRoot = join(stateRoot, "sessions");
+  await rejectSymlinkIfPresent(stateRoot);
+  await rejectSymlinkIfPresent(sessionsRoot);
 
   const insideWorktree = (await runGit(repositoryPath, ["rev-parse", "--is-inside-work-tree"])).trim();
   if (insideWorktree !== "true") throw new Error("The selected path is not a Git worktree.");
   const worktreeRoot = await realpath((await runGit(repositoryPath, ["rev-parse", "--show-toplevel"])).trim());
   if (worktreeRoot !== repositoryPath) throw new Error("The selected path must be the root of the Git worktree.");
+  await requirePrivateStateIgnored(repositoryPath);
 
   const capturedAt = (options.now ?? (() => new Date().toISOString()))();
   const commit = (await runGit(repositoryPath, ["rev-parse", "HEAD"])).trim();
@@ -93,10 +106,6 @@ export async function createLocalSession(input: unknown, options: LocalSessionOp
   const sessionId = (options.sessionId ?? (() => `fr_${randomBytes(16).toString("hex")}`))();
   if (!/^fr_[a-f0-9]{32}$/u.test(sessionId)) throw new Error("The generated session identifier is invalid.");
 
-  const stateRoot = join(repositoryPath, ".flight-recorder");
-  const sessionsRoot = join(stateRoot, "sessions");
-  await rejectSymlinkIfPresent(stateRoot);
-  await rejectSymlinkIfPresent(sessionsRoot);
   const storageDirectory = join(sessionsRoot, sessionId);
   await mkdir(storageDirectory, { recursive: false, mode: 0o700 }).catch(async (error: NodeJS.ErrnoException) => {
     if (error.code !== "ENOENT") throw error;

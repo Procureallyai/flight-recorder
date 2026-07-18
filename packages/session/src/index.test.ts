@@ -19,7 +19,8 @@ async function createRepository(): Promise<{ allowedRoot: string; repositoryPath
   execFileSync("git", ["config", "user.name", "Synthetic Builder"], { cwd: repositoryPath });
   execFileSync("git", ["config", "user.email", "synthetic@example.invalid"], { cwd: repositoryPath });
   await writeFile(join(repositoryPath, "README.md"), "# Synthetic repository\n", "utf8");
-  execFileSync("git", ["add", "README.md"], { cwd: repositoryPath });
+  await writeFile(join(repositoryPath, ".gitignore"), ".flight-recorder/\n", "utf8");
+  execFileSync("git", ["add", "README.md", ".gitignore"], { cwd: repositoryPath });
   execFileSync("git", ["commit", "-q", "-m", "Initial synthetic commit"], { cwd: repositoryPath });
   return { allowedRoot, repositoryPath };
 }
@@ -78,6 +79,17 @@ describe("createLocalSession", () => {
       acceptanceCriteria: ["One criterion."],
       policy: { ...policy, acknowledged: false },
     })).rejects.toThrow();
+  });
+
+  it("fails closed when private state is not ignored by Git", async () => {
+    const repository = await createRepository();
+    await writeFile(join(repository.repositoryPath, ".gitignore"), "", "utf8");
+    await expect(createLocalSession({
+      ...repository,
+      task: "Synthetic task.",
+      acceptanceCriteria: ["One criterion."],
+      policy,
+    })).rejects.toThrow("must ignore .flight-recorder");
   });
 
   it("rejects symbolic-link private storage", async () => {
