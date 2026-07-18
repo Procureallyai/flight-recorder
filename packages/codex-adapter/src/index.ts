@@ -1,6 +1,7 @@
 import { sha256 } from "@flight-recorder/crypto";
 import { createEvidenceChain, sanitiseEvidenceValue, type EvidenceDraft } from "@flight-recorder/evidence";
 import type { EvidenceEvent, JsonValue } from "@flight-recorder/schema";
+export * from "./app-server.js";
 
 const DEFAULT_MAX_LINE_BYTES = 1_000_000;
 const DEFAULT_MAX_TOTAL_BYTES = 25_000_000;
