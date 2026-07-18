@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "description": "A verifiable engineering passport for software built with Codex.",
-  "license": "Apache-2.0",
+  "license": "UNLICENSED",
   "type": "module",
   "packageManager": "pnpm@8.15.9",
   "engines": {

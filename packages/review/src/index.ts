@@ -276,6 +276,7 @@ export class ReviewClient {
 
 export interface SealGateInput {
   reviews: ReviewRun | undefined;
+  evidenceDigestSha256: string;
   acceptanceCriteria: readonly { id: string; status: "supported" | "unsupported" | "missing" }[];
   requiredTests: readonly { evidenceId: string; passed: boolean }[];
   finalGitStateCaptured: boolean;
@@ -294,13 +295,28 @@ export function evaluateSealGate(input: SealGateInput): SealGateDecision {
   if (input.reviews === undefined || input.reviews.specialists.length !== specialistNames.length) {
     blockingReasons.push("All four specialist reviews and synthesis must complete.");
   } else {
+    const reviewerNames = input.reviews.specialists.map((review) => review.output.reviewer);
+    const reviewerSet = new Set(reviewerNames);
+    if (reviewerSet.size !== specialistNames.length || specialistNames.some((reviewer) => !reviewerSet.has(reviewer))) {
+      blockingReasons.push("Each required specialist reviewer must appear exactly once.");
+    }
+    const allReviewCalls = [...input.reviews.specialists, input.reviews.synthesis];
+    if (allReviewCalls.some((review) => review.inputDigestSha256 !== input.evidenceDigestSha256)) {
+      blockingReasons.push("Every review must be bound to the current evidence digest.");
+    }
+    const responseIdentifiers = allReviewCalls.map((review) => review.responseId);
+    if (new Set(responseIdentifiers).size !== responseIdentifiers.length) {
+      blockingReasons.push("Review response identifiers must be unique.");
+    }
     const openBlockers = [...input.reviews.specialists.flatMap((review) => review.output.findings), ...input.reviews.synthesis.output.findings]
       .filter((finding) => finding.status === "open" && (finding.severity === "high" || finding.severity === "critical"));
     if (openBlockers.length > 0) blockingReasons.push("High or critical review findings remain open.");
     if (input.reviews.synthesis.output.verdict !== "ready") blockingReasons.push("The synthesis review is not ready.");
   }
-  if (input.acceptanceCriteria.some((criterion) => criterion.status === "missing")) blockingReasons.push("Acceptance criteria are missing evidence status.");
-  if (!input.requiredTests.some((test) => test.passed)) blockingReasons.push("At least one required test must pass.");
+  if (input.acceptanceCriteria.length === 0) blockingReasons.push("At least one acceptance criterion is required.");
+  else if (input.acceptanceCriteria.some((criterion) => criterion.status !== "supported")) blockingReasons.push("Every acceptance criterion must have supported evidence.");
+  if (input.requiredTests.length === 0) blockingReasons.push("At least one required test is required.");
+  else if (input.requiredTests.some((test) => !test.passed)) blockingReasons.push("Every required test must pass.");
   if (!input.finalGitStateCaptured) blockingReasons.push("Final Git state has not been captured.");
   if (input.secretScanBlocked) blockingReasons.push("Secret scanning reported a blocker.");
   if (!input.humanApproved) blockingReasons.push("Explicit human approval is required.");

@@ -73,6 +73,7 @@ describe("evaluateSealGate", () => {
   it("requires model review, deterministic evidence, and explicit human approval", () => {
     const base = {
       reviews: readyReviews,
+      evidenceDigestSha256: "a".repeat(64),
       acceptanceCriteria: [{ id: "ac_1", status: "supported" as const }],
       requiredTests: [{ evidenceId: "ev_test", passed: true }],
       finalGitStateCaptured: true,
@@ -97,11 +98,85 @@ describe("evaluateSealGate", () => {
     });
     expect(evaluateSealGate({
       reviews,
+      evidenceDigestSha256: "a".repeat(64),
       acceptanceCriteria: [{ id: "ac_1", status: "supported" }],
       requiredTests: [{ evidenceId: "ev_test", passed: true }],
       finalGitStateCaptured: true,
       secretScanBlocked: false,
       humanApproved: true,
     }).ready).toBe(false);
+  });
+
+  it.each([
+    {
+      name: "unsupported acceptance evidence",
+      acceptanceCriteria: [{ id: "ac_1", status: "unsupported" as const }],
+      requiredTests: [{ evidenceId: "ev_test", passed: true }],
+    },
+    {
+      name: "missing acceptance evidence",
+      acceptanceCriteria: [{ id: "ac_1", status: "missing" as const }],
+      requiredTests: [{ evidenceId: "ev_test", passed: true }],
+    },
+    {
+      name: "no acceptance criteria",
+      acceptanceCriteria: [],
+      requiredTests: [{ evidenceId: "ev_test", passed: true }],
+    },
+    {
+      name: "one failed required test among passing tests",
+      acceptanceCriteria: [{ id: "ac_1", status: "supported" as const }],
+      requiredTests: [{ evidenceId: "ev_failed", passed: false }, { evidenceId: "ev_passed", passed: true }],
+    },
+    {
+      name: "no required tests",
+      acceptanceCriteria: [{ id: "ac_1", status: "supported" as const }],
+      requiredTests: [],
+    },
+  ])("fails closed for $name", ({ acceptanceCriteria, requiredTests }) => {
+    expect(evaluateSealGate({
+      reviews: readyReviews,
+      evidenceDigestSha256: "a".repeat(64),
+      acceptanceCriteria,
+      requiredTests,
+      finalGitStateCaptured: true,
+      secretScanBlocked: false,
+      humanApproved: true,
+    }).ready).toBe(false);
+  });
+
+  it("rejects stale review evidence and duplicated response identifiers", () => {
+    const staleReviews = structuredClone(readyReviews);
+    staleReviews.specialists[0]!.inputDigestSha256 = "b".repeat(64);
+    staleReviews.synthesis.responseId = staleReviews.specialists[1]!.responseId;
+
+    const decision = evaluateSealGate({
+      reviews: staleReviews,
+      evidenceDigestSha256: "a".repeat(64),
+      acceptanceCriteria: [{ id: "ac_1", status: "supported" }],
+      requiredTests: [{ evidenceId: "ev_test", passed: true }],
+      finalGitStateCaptured: true,
+      secretScanBlocked: false,
+      humanApproved: true,
+    });
+
+    expect(decision.ready).toBe(false);
+    expect(decision.blockingReasons).toContain("Every review must be bound to the current evidence digest.");
+    expect(decision.blockingReasons).toContain("Review response identifiers must be unique.");
+  });
+
+  it("rejects duplicate or missing specialist identities", () => {
+    const duplicatedReviews = structuredClone(readyReviews);
+    duplicatedReviews.specialists[3]!.output.reviewer = "requirements";
+
+    expect(evaluateSealGate({
+      reviews: duplicatedReviews,
+      evidenceDigestSha256: "a".repeat(64),
+      acceptanceCriteria: [{ id: "ac_1", status: "supported" }],
+      requiredTests: [{ evidenceId: "ev_test", passed: true }],
+      finalGitStateCaptured: true,
+      secretScanBlocked: false,
+      humanApproved: true,
+    }).blockingReasons).toContain("Each required specialist reviewer must appear exactly once.");
   });
 });
