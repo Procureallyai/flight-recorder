@@ -38,11 +38,17 @@ describe("ReviewClient", () => {
       return apiResponse({ reviewer: "synthesis", model: "gpt-5.6-sol", verdict: "ready", summary: "Evidence is ready for deterministic checks.", findings: [], limitations: [] }, call);
     });
 
-    const client = new ReviewClient({ apiKey: "synthetic-test-key", fetchImplementation: fetchMock as typeof fetch });
+    const client = new ReviewClient({ apiKey: "synthetic-test-key", enabled: true, fetchImplementation: fetchMock as typeof fetch });
     const result = await client.run(digest);
     expect(result.specialists).toHaveLength(4);
     expect(result.synthesis.output.verdict).toBe("ready");
     expect(fetchMock).toHaveBeenCalledTimes(5);
+  });
+
+  it("fails closed unless a bounded runtime review is explicitly enabled", () => {
+    expect(() => new ReviewClient({ apiKey: "synthetic-test-key" })).toThrow("disabled");
+    expect(() => new ReviewClient({ apiKey: "synthetic-test-key", enabled: true, maxCalls: 4 })).toThrow("cannot complete");
+    expect(() => new ReviewClient({ apiKey: "synthetic-test-key", enabled: true, maxOutputTokens: 4_001 })).toThrow("bounded");
   });
 });
 

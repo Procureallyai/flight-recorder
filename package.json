@@ -17,7 +17,8 @@
     "typecheck": "pnpm build",
     "demo:generate": "pnpm build && node packages/cli/dist/index.js generate-demo",
     "verify": "pnpm build && node packages/cli/dist/index.js verify fixtures/demo-passport/passport.json fixtures/demo-passport/artifacts",
-    "candidate:generate": "pnpm build && node packages/cli/dist/index.js assemble-demo-candidate fixtures/demo-session/capture.json demo/password-reset-workspace fixtures/demo-session/passport-candidate.json HEAD",
+    "candidate:generate": "pnpm build && node packages/cli/dist/index.js assemble-demo-candidate fixtures/demo-session/capture.json demo/password-reset-workspace fixtures/demo-session/passport-candidate.json 75c0e45e5e99b9d48142269235ebd2c76e9f32bc",
+    "security:secrets": "node scripts/scan-public-secrets.mjs",
     "validate:truth": "bash scripts/validate-canonical-truth.sh"
   },
   "devDependencies": {

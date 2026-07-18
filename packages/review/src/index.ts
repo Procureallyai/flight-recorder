@@ -51,10 +51,13 @@ export interface ReviewRun {
 
 export interface ReviewClientOptions {
   apiKey: string;
+  enabled?: boolean;
   model?: string;
   endpoint?: string;
   fetchImplementation?: typeof fetch;
   maxOutputTokens?: number;
+  maxInputBytes?: number;
+  maxCalls?: number;
   timeoutMs?: number;
 }
 
@@ -153,9 +156,15 @@ export class ReviewClient {
   readonly #endpoint: string;
   readonly #fetch: typeof fetch;
   readonly #maxOutputTokens: number;
+  readonly #maxInputBytes: number;
+  readonly #maxCalls: number;
   readonly #timeoutMs: number;
+  #callsMade = 0;
 
   constructor(options: ReviewClientOptions) {
+    if (options.enabled !== true) {
+      throw new Error("Runtime review is disabled. Set enabled=true only for an authorised bounded run.");
+    }
     if (options.apiKey.trim() === "") {
       throw new Error("An injected OpenAI API key is required.");
     }
@@ -164,6 +173,14 @@ export class ReviewClient {
     this.#endpoint = options.endpoint ?? "https://api.openai.com/v1/responses";
     this.#fetch = options.fetchImplementation ?? fetch;
     this.#maxOutputTokens = options.maxOutputTokens ?? 2_000;
+    if (this.#maxOutputTokens < 1 || this.#maxOutputTokens > 4_000) {
+      throw new Error("Review output must be bounded between 1 and 4,000 tokens per call.");
+    }
+    this.#maxInputBytes = options.maxInputBytes ?? 500_000;
+    this.#maxCalls = options.maxCalls ?? 5;
+    if (this.#maxCalls < 5) {
+      throw new Error("The configured call limit cannot complete four specialists and one synthesis.");
+    }
     this.#timeoutMs = options.timeoutMs ?? 60_000;
   }
 
@@ -175,6 +192,14 @@ export class ReviewClient {
     inputDigestSha256: string;
     parse: (value: unknown) => T;
   }): Promise<ReviewCall<T>> {
+    this.#callsMade += 1;
+    if (this.#callsMade > this.#maxCalls) {
+      throw new Error("Runtime review call limit exceeded.");
+    }
+    const serializedInput = JSON.stringify(args.input);
+    if (Buffer.byteLength(serializedInput, "utf8") > this.#maxInputBytes) {
+      throw new Error("Runtime review input exceeds the configured byte limit.");
+    }
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), this.#timeoutMs);
     try {
@@ -192,7 +217,7 @@ export class ReviewClient {
           reasoning: { effort: "low" },
           input: [
             { role: "developer", content: args.developer },
-            { role: "user", content: `UNTRUSTED_EVIDENCE_START\n${JSON.stringify(args.input)}\nUNTRUSTED_EVIDENCE_END` },
+            { role: "user", content: `UNTRUSTED_EVIDENCE_START\n${serializedInput}\nUNTRUSTED_EVIDENCE_END` },
           ],
           text: {
             format: {
