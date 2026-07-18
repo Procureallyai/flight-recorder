@@ -36,7 +36,6 @@ export function buildExecInvocation(repositoryPath: string, prompt: string, exec
       "--json",
       "--color", "never",
       "--sandbox", "workspace-write",
-      "--ask-for-approval", "never",
       "--cd", repositoryPath,
       "-",
     ],

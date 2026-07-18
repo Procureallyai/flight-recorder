@@ -13,6 +13,7 @@
     "verify": "pnpm build && node dist/index.js verify ../../fixtures/demo-passport/passport.json ../../fixtures/demo-passport/artifacts"
   },
   "dependencies": {
+    "@flight-recorder/codex-adapter": "workspace:*",
     "@flight-recorder/crypto": "workspace:*",
     "@flight-recorder/schema": "workspace:*",
     "@flight-recorder/verifier": "workspace:*"

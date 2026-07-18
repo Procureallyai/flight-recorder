@@ -9,6 +9,7 @@ import {
   sha256,
   sealManifest,
 } from "@flight-recorder/crypto";
+import { importExecJsonLines } from "@flight-recorder/codex-adapter";
 import type { PassportManifest } from "@flight-recorder/schema";
 import { verifyPassport } from "@flight-recorder/verifier";
 import { collectArtifacts } from "./artifacts.js";
@@ -129,12 +130,23 @@ async function verify(passportFile: string, artifactRoot: string): Promise<void>
   process.exitCode = result.valid ? 0 : 1;
 }
 
-const [command, first, second] = process.argv.slice(2);
+async function importExecCapture(inputFile: string, outputFile: string, version: string): Promise<void> {
+  const raw = await readFile(resolve(inputFile), "utf8");
+  const result = importExecJsonLines(raw.split(/\r?\n/u), { testedCodexVersion: version });
+  await mkdir(dirname(resolve(outputFile)), { recursive: true });
+  await writeFile(resolve(outputFile), `${JSON.stringify(result, null, 2)}\n`, { encoding: "utf8", mode: 0o600 });
+  process.stdout.write(`Imported ${result.events.length} sanitised events; complete=${String(result.complete)}; issues=${result.issues.length}.\n`);
+  process.exitCode = result.complete ? 0 : 1;
+}
+
+const [command, first, second, third] = process.argv.slice(2);
 if (command === "generate-demo") {
   await generateDemo();
 } else if (command === "verify" && first !== undefined && second !== undefined) {
   await verify(first, second);
+} else if (command === "import-exec-json" && first !== undefined && second !== undefined) {
+  await importExecCapture(first, second, third ?? "codex-cli 0.140.0");
 } else {
-  process.stderr.write("Usage: flight-recorder generate-demo | verify <passport.json> <artifact-directory>\n");
+  process.stderr.write("Usage: flight-recorder generate-demo | verify <passport.json> <artifact-directory> | import-exec-json <raw.jsonl> <sanitised.json> [codex-version]\n");
   process.exitCode = 2;
 }

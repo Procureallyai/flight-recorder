@@ -24,6 +24,9 @@ importers:
 
   packages/cli:
     dependencies:
+      '@flight-recorder/codex-adapter':
+        specifier: workspace:*
+        version: link:../codex-adapter
       '@flight-recorder/crypto':
         specifier: workspace:*
         version: link:../crypto
