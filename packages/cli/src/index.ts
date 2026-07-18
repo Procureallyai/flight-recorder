@@ -16,6 +16,7 @@ import { evidenceEventSchema, type PassportManifest } from "@flight-recorder/sch
 import { verifyPassport } from "@flight-recorder/verifier";
 import { z } from "zod";
 import { collectArtifacts } from "./artifacts.js";
+import { exportPassportBundle, verifyPassportBundle } from "./bundle.js";
 
 const demoArtifacts = {
   "src/password-reset.ts": `export async function requestPasswordReset(email: string) {
@@ -192,6 +193,22 @@ async function assembleDemoCandidate(captureFile: string, workspaceRoot: string,
   process.stdout.write(`Assembled unsealed genuine-session candidate ${manifest.passportId}.\n`);
 }
 
+async function exportBundle(passportFile: string, artifactRoot: string, outputParent: string): Promise<void> {
+  const destination = await exportPassportBundle(passportFile, artifactRoot, outputParent);
+  process.stdout.write(`Exported portable passport bundle to ${relative(process.cwd(), destination)}.\n`);
+}
+
+async function verifyBundle(bundleDirectory: string, jsonOutput: boolean): Promise<void> {
+  const result = await verifyPassportBundle(bundleDirectory);
+  if (jsonOutput) {
+    process.stdout.write(`${JSON.stringify(result)}\n`);
+  } else {
+    for (const check of result.checks) process.stdout.write(`${check.valid ? "PASS" : "FAIL"} ${check.name}: ${check.detail}\n`);
+    process.stdout.write(`${result.bundle.valid ? "PASS" : "FAIL"} bundle: deterministic bundle inventory and projections ${result.bundle.valid ? "match" : "do not match"}.\n`);
+  }
+  process.exitCode = result.valid ? 0 : 1;
+}
+
 interface PublicCommandFailure {
   code: "invalid-json" | "invalid-schema" | "unsafe-input" | "input-limit" | "inaccessible-input" | "command-failed";
   message: string;
@@ -224,8 +241,12 @@ async function main(argumentsAfterExecutable: string[]): Promise<void> {
     await importExecCapture(first, second, third ?? "codex-cli 0.145.0-alpha.18", fourth);
   } else if (command === "assemble-demo-candidate" && first !== undefined && second !== undefined && third !== undefined) {
     await assembleDemoCandidate(first, second, third, fourth ?? "HEAD");
+  } else if (command === "export-bundle" && first !== undefined && second !== undefined && third !== undefined) {
+    await exportBundle(first, second, third);
+  } else if (command === "verify-bundle" && first !== undefined) {
+    await verifyBundle(first, argumentsAfterExecutable.includes("--json"));
   } else {
-    process.stderr.write("Usage: flight-recorder generate-demo | verify <passport.json> <artifact-directory> [--json] | import-exec-json <raw.jsonl> <sanitised.json> [codex-version] [repository-root] | assemble-demo-candidate <capture.json> <workspace-root> <candidate.json> [commit-or-HEAD]\n");
+    process.stderr.write("Usage: flight-recorder generate-demo | verify <passport.json> <artifact-directory> [--json] | export-bundle <passport.json> <artifact-directory> <output-parent> | verify-bundle <passport-directory> [--json] | import-exec-json <raw.jsonl> <sanitised.json> [codex-version] [repository-root] | assemble-demo-candidate <capture.json> <workspace-root> <candidate.json> [commit-or-HEAD]\n");
     process.exitCode = 2;
   }
 }

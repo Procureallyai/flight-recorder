@@ -1,4 +1,4 @@
-import { cp, mkdtemp, readFile, writeFile } from "node:fs/promises";
+import { cp, mkdtemp, readFile, readdir, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { spawnSync } from "node:child_process";
@@ -70,5 +70,22 @@ describe("flight-recorder command-line interface", () => {
         message: "The input is not valid JavaScript Object Notation.",
       },
     });
+  });
+
+  it("exports and verifies a portable bundle through the command-line interface", async () => {
+    const outputParent = await mkdtemp(join(tmpdir(), "flight-recorder-cli-bundle-"));
+    const exported = runCli([
+      "export-bundle",
+      "fixtures/demo-passport/passport.json",
+      "fixtures/demo-passport/artifacts",
+      outputParent,
+    ]);
+    expect(exported.status).toBe(0);
+    const [directoryName] = await readdir(outputParent);
+    expect(directoryName).toMatch(/^flight-recorder-.*\.passport$/u);
+
+    const verified = runCli(["verify-bundle", join(outputParent, directoryName!), "--json"]);
+    expect(verified.status).toBe(0);
+    expect(JSON.parse(verified.stdout)).toMatchObject({ valid: true, bundle: { valid: true } });
   });
 });
