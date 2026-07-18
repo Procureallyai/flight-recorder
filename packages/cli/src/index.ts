@@ -122,13 +122,17 @@ async function generateDemo(): Promise<void> {
   process.stdout.write(`Generated synthetic test fixture ${relative(process.cwd(), join(outputRoot, "passport.json"))}; this is not genuine session evidence.\n`);
 }
 
-async function verify(passportFile: string, artifactRoot: string): Promise<void> {
+async function verify(passportFile: string, artifactRoot: string, jsonOutput: boolean): Promise<void> {
   const passportPath = resolve(passportFile);
   const artifactPath = resolve(artifactRoot);
   const input = JSON.parse(await readFile(passportPath, "utf8")) as unknown;
   const result = verifyPassport(input, await collectArtifacts(passportPath, artifactPath));
-  for (const check of result.checks) {
-    process.stdout.write(`${check.valid ? "PASS" : "FAIL"} ${check.name}: ${check.detail}\n`);
+  if (jsonOutput) {
+    process.stdout.write(`${JSON.stringify(result)}\n`);
+  } else {
+    for (const check of result.checks) {
+      process.stdout.write(`${check.valid ? "PASS" : "FAIL"} ${check.name}: ${check.detail}\n`);
+    }
   }
   process.exitCode = result.valid ? 0 : 1;
 }
@@ -188,16 +192,50 @@ async function assembleDemoCandidate(captureFile: string, workspaceRoot: string,
   process.stdout.write(`Assembled unsealed genuine-session candidate ${manifest.passportId}.\n`);
 }
 
-const [command, first, second, third, fourth] = process.argv.slice(2);
-if (command === "generate-demo") {
-  await generateDemo();
-} else if (command === "verify" && first !== undefined && second !== undefined) {
-  await verify(first, second);
-} else if (command === "import-exec-json" && first !== undefined && second !== undefined) {
-  await importExecCapture(first, second, third ?? "codex-cli 0.145.0-alpha.18", fourth);
-} else if (command === "assemble-demo-candidate" && first !== undefined && second !== undefined && third !== undefined) {
-  await assembleDemoCandidate(first, second, third, fourth ?? "HEAD");
-} else {
-  process.stderr.write("Usage: flight-recorder generate-demo | verify <passport.json> <artifact-directory> | import-exec-json <raw.jsonl> <sanitised.json> [codex-version] [repository-root] | assemble-demo-candidate <capture.json> <workspace-root> <candidate.json> [commit-or-HEAD]\n");
-  process.exitCode = 2;
+interface PublicCommandFailure {
+  code: "invalid-json" | "invalid-schema" | "unsafe-input" | "input-limit" | "inaccessible-input" | "command-failed";
+  message: string;
+}
+
+function classifyCommandFailure(error: unknown): PublicCommandFailure {
+  if (error instanceof SyntaxError) return { code: "invalid-json", message: "The input is not valid JavaScript Object Notation." };
+  if (error instanceof z.ZodError) return { code: "invalid-schema", message: "The input does not match the required Flight Recorder schema." };
+  if (error instanceof Error) {
+    if (/symbolic links|escapes the artifact root|portable relative path/iu.test(error.message)) {
+      return { code: "unsafe-input", message: "The input contains an unsafe artifact path or symbolic link." };
+    }
+    if (/exceeds the .*limit|exceed the .*limit/iu.test(error.message)) {
+      return { code: "input-limit", message: "The input exceeds a configured safety limit." };
+    }
+    if (/ENOENT|EACCES|EPERM/iu.test(error.message)) {
+      return { code: "inaccessible-input", message: "A required local input could not be accessed." };
+    }
+  }
+  return { code: "command-failed", message: "The command failed safely. No input content was printed." };
+}
+
+async function main(argumentsAfterExecutable: string[]): Promise<void> {
+  const [command, first, second, third, fourth] = argumentsAfterExecutable;
+  if (command === "generate-demo") {
+    await generateDemo();
+  } else if (command === "verify" && first !== undefined && second !== undefined) {
+    await verify(first, second, argumentsAfterExecutable.includes("--json"));
+  } else if (command === "import-exec-json" && first !== undefined && second !== undefined) {
+    await importExecCapture(first, second, third ?? "codex-cli 0.145.0-alpha.18", fourth);
+  } else if (command === "assemble-demo-candidate" && first !== undefined && second !== undefined && third !== undefined) {
+    await assembleDemoCandidate(first, second, third, fourth ?? "HEAD");
+  } else {
+    process.stderr.write("Usage: flight-recorder generate-demo | verify <passport.json> <artifact-directory> [--json] | import-exec-json <raw.jsonl> <sanitised.json> [codex-version] [repository-root] | assemble-demo-candidate <capture.json> <workspace-root> <candidate.json> [commit-or-HEAD]\n");
+    process.exitCode = 2;
+  }
+}
+
+const argumentsAfterExecutable = process.argv.slice(2);
+try {
+  await main(argumentsAfterExecutable);
+} catch (error) {
+  const failure = classifyCommandFailure(error);
+  if (argumentsAfterExecutable.includes("--json")) process.stdout.write(`${JSON.stringify({ valid: false, error: failure })}\n`);
+  else process.stderr.write(`ERROR ${failure.code}: ${failure.message}\n`);
+  process.exitCode = 1;
 }
