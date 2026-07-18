@@ -17,7 +17,7 @@ A bounded read-only sub-agent review reproduced material flaws in the first Gate
 
 - Resource-count, payload-size, individual-artifact, total-artifact, and passport-size limits are implemented and regression-tested.
 - Unicode normalisation, reserved-name rejection, and portable case-fold collision policy are implemented and regression-tested.
-- The public-file secret scanner most recently passed across 102 files without printing candidate values.
+- The public-file secret scanner most recently passed across 105 files without printing candidate values.
 - `pnpm audit --audit-level=moderate` reported no known vulnerabilities across production and development dependencies. The package manager emitted a deprecation warning from its own audit request path; this is not evidence of application use of the deprecated interface.
 - Archive ingestion is not implemented, so archive-bomb exposure is currently outside the supported product surface. It must be threat-modelled before any future archive-import feature.
 
@@ -35,4 +35,6 @@ Commit `2bea430` separated human decisions from original model findings. Decisio
 
 Commit `65db1eb` added the local bridge security boundary. It binds only to `127.0.0.1`, uses a 256-bit session token carried in a one-time fragment link, replaces the fragment before pairing, sets a restricted session cookie, applies no-store and same-origin headers, rejects non-loopback origins, does not echo tokens, and exposes no generic command route. Full App Server control is not implied by this boundary proof.
 
-Commit `3b2cc70` added the bounded App Server standard-input-and-output transport. It launches without a shell, correlates requests, drains standard error without persistence, discards recognised reasoning notifications before callbacks, limits individual and total output, fails closed on malformed protocol messages, and supports explicit approval responses. Direct local runtime proof covers protocol initialisation and ephemeral thread creation only. A live turn, event-normalisation pipeline, and approval exchange still require separate validation.
+Commit `3b2cc70` added the bounded App Server standard-input-and-output transport. It launches without a shell, correlates requests, drains standard error without persistence, discards recognised reasoning notifications before callbacks, limits individual and total output, fails closed on malformed protocol messages, and supports explicit command and file approval responses.
+
+Commit `04f4400` added a second fail-closed normalisation boundary. It validates required protocol fields, pseudonymises identifiers, normalises repository paths, applies evidence redaction and bounds, ignores streaming deltas, drops reasoning again, reuses exact test-command classification, and rejects unsupported items, malformed terminal state, unmatched or unresolved approvals, duplicate terminal events, and typed permission approvals that the client cannot yet express. A bounded live turn in an isolated temporary Git repository completed with four sanitised observable events and no command, file-change, approval, or retained-reasoning evidence. Approval mapping is schema-valid fixture proof only; live approval exchange remains unverified.

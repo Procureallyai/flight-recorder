@@ -8,7 +8,7 @@
 - Suggested fix: add a bounded preflight with explicit lock and backfill reporting, do not kill or alter active Codex processes, and continue through the stable `codex exec --json` fallback until the backfill clears.
 - Recommended promotion target: project skill update after the behaviour is reproduced or resolved during a later live-capture attempt.
 
-Resolution note: on 18 July 2026, the desktop-bundled `codex-cli 0.145.0-alpha.18` completed protocol initialisation and created an ephemeral thread through the implemented Flight Recorder client. The earlier lock was route-specific and temporary. Live turn events and approval exchange remain a separate unverified boundary.
+Resolution note: on 18 July 2026, the desktop-bundled `codex-cli 0.145.0-alpha.18` completed protocol initialisation, created an ephemeral thread, and completed a bounded live turn through the implemented Flight Recorder client and event normaliser. The earlier lock was route-specific and temporary. Live approval exchange remains a separate unverified boundary.
 
 ## 18 July 2026: Homebrew-linked Codex binary was older than the desktop-bundled binary
 

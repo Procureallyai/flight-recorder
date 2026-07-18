@@ -36,6 +36,7 @@ The repository history and this primary Codex task identify the work performed d
 | `65db1eb` | Authenticated loopback bridge boundary, one-time pairing, strict origin policy, and tested Codex executable preflight. |
 | `40df488` | Reconciled loopback bridge documentation, security review, and validation evidence. |
 | `3b2cc70` | Bounded Codex App Server transport with live protocol initialisation and ephemeral-thread proof against the desktop-bundled binary. |
+| `04f4400` | Fail-closed observable App Server event normalisation, exact test classification reuse, and a successful bounded live-turn probe. |
 
 ## Codex contribution
 

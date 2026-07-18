@@ -15,7 +15,8 @@ The cryptographic claim is deliberately narrow: a valid passport shows that the 
 - A genuine sanitised `codex exec --json` capture from `codex-cli 0.145.0-alpha.18`.
 - Policy-gated local session initialisation with allowed-root enforcement, Git baseline capture, private permissions, and symbolic-link rejection.
 - An authenticated `127.0.0.1` bridge boundary with a random 256-bit session token, one-time fragment pairing, strict loopback origins, and no generic command endpoint.
-- A bounded Codex App Server standard-input-and-output client with request correlation, raw-reasoning suppression, approval-response support, output limits, and fail-closed malformed-message handling.
+- A bounded Codex App Server standard-input-and-output client with request correlation, raw-reasoning suppression, command and file approval-response support, output limits, and fail-closed malformed-message handling.
+- A fail-closed App Server evidence normaliser for authoritative plans, completed commands and tests, file changes, approval requests and decisions, and terminal turn state.
 - Secure Hash Algorithm 256-bit artifact hashing and a hash-linked event chain.
 - A deterministic Merkle root and detached Ed25519 signature.
 - An independent command-line verifier with visible tamper failure and an eight-check result, including signed review provenance.
@@ -29,8 +30,8 @@ The cryptographic claim is deliberately narrow: a valid passport shows that the 
 
 | Surface | Evidence-backed status |
 |---|---|
-| Local repository | Core build, 88 product tests, and 6 demonstration tests pass. |
-| Local session | Command-line initialisation, the authenticated loopback bridge boundary, Codex App Server protocol initialisation, and ephemeral thread creation are verified against desktop-bundled `codex-cli 0.145.0-alpha.18`. A live model turn, streamed observable-event capture, and live approval exchange remain unverified. |
+| Local repository | Core build, 91 product tests, and 6 demonstration tests pass. |
+| Local session | Command-line initialisation, the authenticated loopback bridge boundary, Codex App Server initialisation, ephemeral thread creation, and a bounded live turn with sanitised observable-event capture are verified against desktop-bundled `codex-cli 0.145.0-alpha.18`. No command or file change occurred in the live probe. Live approval exchange remains unverified. |
 | Genuine Codex capture | Verified through the JavaScript Object Notation fallback. Raw capture is private; the public fixture is sanitised. |
 | GPT-5.6 runtime | Request and schema behaviour are tested with a mocked transport. A real billed call is still pending secure 1Password approval. |
 | Passport | Synthetic signed fixture verifies. Genuine candidate is intentionally unsealed pending model review and human approval. |
