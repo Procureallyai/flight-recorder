@@ -13,6 +13,19 @@ function portablePath(path: string): string {
   return path.split(sep).join("/");
 }
 
+export function validatePortableBundlePaths(paths: readonly string[]): void {
+  const portableNames = new Set<string>();
+  for (const path of paths) {
+    const foldedPath = portableBundlePathKey(path);
+    if (portableNames.has(foldedPath)) throw new Error("Passport bundle paths collide after portable case folding.");
+    portableNames.add(foldedPath);
+  }
+}
+
+function portableBundlePathKey(path: string): string {
+  return path.normalize("NFC").toLocaleLowerCase("en-US");
+}
+
 async function inventoryDirectory(root: string): Promise<Map<string, Uint8Array>> {
   const canonicalRoot = await realpath(root);
   const files = new Map<string, Uint8Array>();
@@ -35,7 +48,7 @@ async function inventoryDirectory(root: string): Promise<Map<string, Uint8Array>
         throw new Error("A passport bundle file escapes the selected root.");
       }
       const path = portablePath(relative(canonicalRoot, canonicalCandidate));
-      const foldedPath = path.normalize("NFC").toLocaleLowerCase("en-US");
+      const foldedPath = portableBundlePathKey(path);
       if (portableNames.has(foldedPath)) throw new Error("Passport bundle paths collide after portable case folding.");
       portableNames.add(foldedPath);
       if (metadata.size > MAX_BUNDLE_FILE_BYTES) throw new Error("A passport bundle file exceeds the per-file limit.");

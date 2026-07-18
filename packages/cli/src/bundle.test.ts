@@ -1,8 +1,8 @@
-import { mkdtemp, readFile, symlink, unlink, writeFile } from "node:fs/promises";
+import { mkdtemp, open, readFile, symlink, unlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { exportPassportBundle, verifyPassportBundle } from "./bundle.js";
+import { MAX_BUNDLE_FILE_BYTES, exportPassportBundle, validatePortableBundlePaths, verifyPassportBundle } from "./bundle.js";
 
 async function exportedFixture(): Promise<string> {
   const outputParent = await mkdtemp(join(tmpdir(), "flight-recorder-bundle-"));
@@ -59,5 +59,19 @@ describe("portable passport bundle", () => {
     await symlink(outside, report);
 
     await expect(verifyPassportBundle(bundle)).rejects.toThrow("Symbolic links are not permitted");
+  });
+
+  it("rejects oversized bundle files before reading their contents", async () => {
+    const bundle = await exportedFixture();
+    const oversized = await open(join(bundle, "report.html"), "w");
+    await oversized.truncate(MAX_BUNDLE_FILE_BYTES + 1);
+    await oversized.close();
+
+    await expect(verifyPassportBundle(bundle)).rejects.toThrow("per-file limit");
+  });
+
+  it("rejects case-folding and Unicode-normalisation path collisions", () => {
+    expect(() => validatePortableBundlePaths(["Report.html", "report.html"])).toThrow("collide");
+    expect(() => validatePortableBundlePaths(["café.json", "café.json"])).toThrow("collide");
   });
 });
