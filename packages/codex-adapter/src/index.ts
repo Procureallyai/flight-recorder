@@ -1,11 +1,13 @@
 import { sha256 } from "@flight-recorder/crypto";
 import { createEvidenceChain, sanitiseEvidenceValue, type EvidenceDraft } from "@flight-recorder/evidence";
 import type { EvidenceEvent, JsonValue } from "@flight-recorder/schema";
+import { isLikelyTestCommand } from "./test-command.js";
 export * from "./app-server.js";
+export * from "./app-server-evidence.js";
+export * from "./test-command.js";
 
 const DEFAULT_MAX_LINE_BYTES = 1_000_000;
 const DEFAULT_MAX_TOTAL_BYTES = 25_000_000;
-const TEST_COMMAND_PATTERN = /(?:^|\s)(?:(?:pnpm|npm|yarn|bun)\s+(?:run\s+)?(?:test(?::[A-Za-z0-9_-]+)?|vitest)(?:\s|$)|(?:npx\s+|pnpm\s+exec\s+|yarn\s+dlx\s+|bunx\s+)?vitest(?:\s|$)|pytest(?:\s|$)|python\s+-m\s+pytest(?:\s|$)|cargo\s+test(?:\s|$)|go\s+test(?:\s|$)|dotnet\s+test(?:\s|$))/u;
 
 export interface ExecInvocation {
   executable: string;
@@ -105,13 +107,6 @@ function commandPayload(item: Record<string, unknown>, repositoryRoot?: string):
     durationMs: getNumber(item, "duration_ms", "durationMs"),
     output: getString(item, "aggregated_output", "output", "stdout"),
   }, repositoryRoot);
-}
-
-export function isLikelyTestCommand(command: string, additionalPatterns: readonly RegExp[] = []): boolean {
-  return TEST_COMMAND_PATTERN.test(command) || additionalPatterns.some((pattern) => {
-    pattern.lastIndex = 0;
-    return pattern.test(command);
-  });
 }
 
 function mapCompletedItem(
