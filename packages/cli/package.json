@@ -17,6 +17,7 @@
     "@flight-recorder/crypto": "workspace:*",
     "@flight-recorder/passport": "workspace:*",
     "@flight-recorder/schema": "workspace:*",
+    "@flight-recorder/session": "workspace:*",
     "@flight-recorder/verifier": "workspace:*"
   }
 }

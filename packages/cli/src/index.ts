@@ -13,6 +13,7 @@ import {
 import { importExecJsonLines } from "@flight-recorder/codex-adapter";
 import { assembleManifest } from "@flight-recorder/passport";
 import { evidenceEventSchema, type PassportManifest } from "@flight-recorder/schema";
+import { createLocalSession } from "@flight-recorder/session";
 import { verifyPassport } from "@flight-recorder/verifier";
 import { z } from "zod";
 import { collectArtifacts } from "./artifacts.js";
@@ -209,6 +210,19 @@ async function verifyBundle(bundleDirectory: string, jsonOutput: boolean): Promi
   process.exitCode = result.valid ? 0 : 1;
 }
 
+async function initialiseSession(requestFile: string, jsonOutput: boolean): Promise<void> {
+  const request = JSON.parse(await readFile(resolve(requestFile), "utf8")) as unknown;
+  const session = await createLocalSession(request);
+  const result = {
+    sessionId: session.sessionId,
+    status: session.status,
+    baseline: session.baseline,
+    storageDirectory: session.storageDirectory,
+  };
+  if (jsonOutput) process.stdout.write(`${JSON.stringify(result)}\n`);
+  else process.stdout.write(`Initialised private session ${session.sessionId}; baseline ${session.baseline.commit.slice(0, 8)}; dirty=${String(session.baseline.dirty)}.\n`);
+}
+
 interface PublicCommandFailure {
   code: "invalid-json" | "invalid-schema" | "unsafe-input" | "input-limit" | "inaccessible-input" | "command-failed";
   message: string;
@@ -245,8 +259,10 @@ async function main(argumentsAfterExecutable: string[]): Promise<void> {
     await exportBundle(first, second, third);
   } else if (command === "verify-bundle" && first !== undefined) {
     await verifyBundle(first, argumentsAfterExecutable.includes("--json"));
+  } else if (command === "init-session" && first !== undefined) {
+    await initialiseSession(first, argumentsAfterExecutable.includes("--json"));
   } else {
-    process.stderr.write("Usage: flight-recorder generate-demo | verify <passport.json> <artifact-directory> [--json] | export-bundle <passport.json> <artifact-directory> <output-parent> | verify-bundle <passport-directory> [--json] | import-exec-json <raw.jsonl> <sanitised.json> [codex-version] [repository-root] | assemble-demo-candidate <capture.json> <workspace-root> <candidate.json> [commit-or-HEAD]\n");
+    process.stderr.write("Usage: flight-recorder init-session <request.json> [--json] | generate-demo | verify <passport.json> <artifact-directory> [--json] | export-bundle <passport.json> <artifact-directory> <output-parent> | verify-bundle <passport-directory> [--json] | import-exec-json <raw.jsonl> <sanitised.json> [codex-version] [repository-root] | assemble-demo-candidate <capture.json> <workspace-root> <candidate.json> [commit-or-HEAD]\n");
     process.exitCode = 2;
   }
 }

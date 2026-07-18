@@ -36,6 +36,9 @@ importers:
       '@flight-recorder/schema':
         specifier: workspace:*
         version: link:../schema
+      '@flight-recorder/session':
+        specifier: workspace:*
+        version: link:../session
       '@flight-recorder/verifier':
         specifier: workspace:*
         version: link:../verifier
@@ -93,6 +96,15 @@ importers:
 
   packages/schema:
     dependencies:
+      zod:
+        specifier: ^3.25.0
+        version: 3.25.76
+
+  packages/session:
+    dependencies:
+      '@flight-recorder/crypto':
+        specifier: workspace:*
+        version: link:../crypto
       zod:
         specifier: ^3.25.0
         version: 3.25.76

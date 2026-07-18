@@ -10,9 +10,8 @@ test-results/
 .env.*
 !.env.example
 
-# Private Flight Recorder state
-.flight-recorder/keys/
-.flight-recorder/sessions/raw/
+# Private Flight Recorder state. Sanitised public fixtures live under fixtures/ instead.
+.flight-recorder/
 docs/submission/submission-secrets.local.json
 docs/submission/DEVPOST_BROWSER_LOG.local.md
 submission-assets/video/raw/

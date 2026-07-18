@@ -1,7 +1,7 @@
 import { cp, mkdtemp, readFile, readdir, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { spawnSync } from "node:child_process";
+import { execFileSync, spawnSync } from "node:child_process";
 import { describe, expect, it } from "vitest";
 
 const cli = join(process.cwd(), "packages/cli/dist/index.js");
@@ -87,5 +87,28 @@ describe("flight-recorder command-line interface", () => {
     const verified = runCli(["verify-bundle", join(outputParent, directoryName!), "--json"]);
     expect(verified.status).toBe(0);
     expect(JSON.parse(verified.stdout)).toMatchObject({ valid: true, bundle: { valid: true } });
+  });
+
+  it("initialises an allowed private session from an explicit policy request", async () => {
+    const allowedRoot = await mkdtemp(join(tmpdir(), "flight-recorder-cli-session-"));
+    const repositoryPath = join(allowedRoot, "repository");
+    await cp("demo/password-reset-workspace", repositoryPath, { recursive: true });
+    execFileSync("git", ["init", "-q"], { cwd: repositoryPath });
+    execFileSync("git", ["config", "user.name", "Synthetic Builder"], { cwd: repositoryPath });
+    execFileSync("git", ["config", "user.email", "synthetic@example.invalid"], { cwd: repositoryPath });
+    execFileSync("git", ["add", "."], { cwd: repositoryPath });
+    execFileSync("git", ["commit", "-q", "-m", "Synthetic baseline"], { cwd: repositoryPath });
+    const requestFile = join(allowedRoot, "request.json");
+    await writeFile(requestFile, JSON.stringify({
+      repositoryPath,
+      allowedRoot,
+      task: "Capture a synthetic Codex task.",
+      acceptanceCriteria: ["The private session records the Git baseline."],
+      policy: { redactionPolicyDisplayed: true, storagePolicyDisplayed: true, acknowledged: true },
+    }), "utf8");
+
+    const result = runCli(["init-session", requestFile, "--json"]);
+    expect(result.status).toBe(0);
+    expect(JSON.parse(result.stdout)).toMatchObject({ status: "initialised", baseline: { dirty: false } });
   });
 });
