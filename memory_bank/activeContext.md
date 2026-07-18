@@ -11,20 +11,21 @@
 
 - Workspace: `LOCAL_HOME/Documents/Flight Recorder Codex Build Week`
 - Git repository exists on `main` with dated Build Week provenance commits.
-- Commit `88410fe` checkpoints the verified signed-passport core and operating-contract updates.
+- Commit `3cd97bf` checkpoints the release and security foundation after the genuine candidate work.
 - The four supplied handoff documents are stored under `docs/handoff/` with matching source hashes.
 - Canonical project and skill scaffolding is being created.
 - The TypeScript workspace now contains schema, cryptography, evidence, verifier, and command-line packages.
 - A deterministic public demonstration passport and synthetic password-reset artifacts exist under `fixtures/demo-passport/`.
-- `pnpm test` passes 23 focused tests covering valid verification, tamper failure, strict signed-envelope boundaries, seal-policy contradictions, Ed25519 algorithm enforcement, malformed-key fail-closed behaviour, path traversal, prototype-named paths, symbolic links, pre-hash secret redaction, bounded untrusted output, stable evidence digests, mocked structured reviews, and Codex fallback import.
-- `pnpm verify` passes all six command-line checks against the generated demonstration fixture.
+- `pnpm test` passes 32 focused tests covering valid verification, tamper failure, strict signed-envelope boundaries, seal-policy contradictions, Ed25519 algorithm enforcement, malformed-key fail-closed behaviour, path traversal, prototype-named paths, symbolic links, pre-hash secret redaction, bounded untrusted output, stable evidence digests, mocked structured reviews, runtime-review budget controls, and Codex fallback import.
+- `pnpm verify` passes all seven command-line checks against the generated demonstration fixture.
 - The evidence layer now creates redacted hash-linked events and a deterministic review digest with explicit transmission categories.
 - A current Responses Application Programming Interface client now runs four parallel strict specialist reviews followed by synthesis, with `store: false`, bounded output, no tools, explicit untrusted-data boundaries, and injectable secrets. Only mocked calls have run.
 - A version-pinned `codex exec --json` importer now drops reasoning, retains completed observable events, pseudonymises identifiers, redacts and bounds payloads, and fails visibly on malformed or incomplete captures.
 - A genuine `codex-cli 0.145.0-alpha.18` remediation capture completed with exit code 0. Nineteen sanitised events imported with no issues, and the synthetic password-reset tests expanded from 1 to 6 passing tests.
 - The raw capture remains private and gitignored. The public fixture records approval coverage as `not-observed` and contains no raw reasoning or absolute local path.
 - `pnpm candidate:generate` assembles a genuine-session passport candidate from the 19 events and two final artifacts at commit `75c0e45`. It is intentionally unsealed with no model findings, `ready: false`, and `humanApproved: false`.
-- Portable-path, count, and file-size limits now protect schema and command-line verification. The product suite passes 31 tests, plus 6 demonstration-workspace tests.
+- Portable-path, count, and file-size limits now protect schema and command-line verification. The product suite passes 32 tests, plus 6 demonstration-workspace tests.
+- The public-file secret scan passed across 87 files without printing candidate values. Full production and development dependency audits reported no known vulnerabilities.
 - A read-only security review found six material Gate A issues. The cryptographic and verifier flaws were repaired and regression-tested; the synthetic fixture is explicitly barred from being represented as genuine evidence.
 - No hosted or local user interface, billed GPT-5.6 runtime call, release tag, or final submission assets exist yet.
 - The primary Codex task now has an active end-to-end delivery goal covering build, verification, release, deployment, and Devpost draft preparation.

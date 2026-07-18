@@ -13,4 +13,12 @@ A bounded read-only sub-agent review reproduced material flaws in the first Gate
 | The command-line verifier followed symbolic links outside the artifact root. | Confirmed by code inspection. | Imported artifacts reject symbolic links and enforce real-path containment. | Temporary outside-root symlink regression test is rejected before reading. |
 | The generated fixture implied tests, a model review, repository provenance, and human approval that had not occurred. | Confirmed in fixture source and event text. | The fixture is signed as `synthetic-test-fixture`; every simulated event says what is and is not claimed. | Generator output warns that it is not genuine session evidence. It remains prohibited as final public provenance. |
 
-Additional hardening still required includes resource-count and payload-size limits, streaming artifact hashing, Unicode and case-folding path collision policy, dependency review, archive-bomb protection, and a full threat model.
+## 18 July 2026 release-foundation review
+
+- Resource-count, payload-size, individual-artifact, total-artifact, and passport-size limits are implemented and regression-tested.
+- Unicode normalisation, reserved-name rejection, and portable case-fold collision policy are implemented and regression-tested.
+- The public-file secret scanner passed across 87 files without printing candidate values.
+- `pnpm audit --audit-level=moderate` reported no known vulnerabilities across production and development dependencies. The package manager emitted a deprecation warning from its own audit request path; this is not evidence of application use of the deprecated interface.
+- Archive ingestion is not implemented, so archive-bomb exposure is currently outside the supported product surface. It must be threat-modelled before any future archive-import feature.
+
+Remaining hardening includes streaming artifact hashing, final threat-model confirmation and write-up, browser-level security validation of the selected interface, hosted-route controls, and post-deployment inspection.
