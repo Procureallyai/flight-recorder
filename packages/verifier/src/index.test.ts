@@ -63,6 +63,7 @@ function createPassport() {
     artifacts,
     events,
     findings: [],
+    findingDecisions: [],
     eventChainHead: events.at(-1)?.hash ?? "",
     merkleRoot: calculateMerkleRoot(artifacts, events),
     sealDecision: { ready: true, blockingReasons: [], humanApproved: true },
@@ -162,6 +163,98 @@ describe("verifyPassport", () => {
     expect(result.valid).toBe(false);
     expect(result.checks.find((check) => check.name === "seal-policy")).toMatchObject({ valid: false });
     expect(result.checks.find((check) => check.name === "review-provenance")).toMatchObject({ valid: false });
+  });
+
+  it("preserves accepted risk as a distinct human decision for a non-blocking finding", () => {
+    const passport = createGenuinePassport();
+    passport.manifest.findings.push({
+      id: "finding-warning",
+      reviewer: "security",
+      severity: "warning",
+      title: "Synthetic residual risk",
+      detail: "A bounded synthetic limitation remains.",
+      evidenceIds: ["event-test"],
+      resolved: false,
+    });
+    passport.manifest.findingDecisions.push({
+      id: "decision-warning",
+      findingId: "finding-warning",
+      decision: "accepted-risk",
+      reason: "The synthetic limitation is understood and bounded for this fixture.",
+      decidedAt: "2026-07-18T12:12:00.000Z",
+      actor: "human",
+      decisionEventId: "event-approval",
+    });
+    const keys = generateSigningKeyPair();
+    const resealed = sealManifest(passport.manifest, keys.privateKey);
+    const result = verifyPassport(resealed, { "src/reset.ts": taskSource, "test/reset.test.ts": testSource });
+    expect(result.valid).toBe(true);
+    expect(resealed.manifest.findings[0]?.resolved).toBe(false);
+    expect(resealed.manifest.findingDecisions[0]?.decision).toBe("accepted-risk");
+  });
+
+  it("does not permit accepted risk to clear a blocking finding", () => {
+    const passport = createGenuinePassport();
+    passport.manifest.findings.push({
+      id: "finding-blocking-risk",
+      reviewer: "security",
+      severity: "blocking",
+      title: "Synthetic blocking risk",
+      detail: "The blocker remains open.",
+      evidenceIds: ["event-test"],
+      resolved: false,
+    });
+    passport.manifest.findingDecisions.push({
+      id: "decision-blocking-risk",
+      findingId: "finding-blocking-risk",
+      decision: "accepted-risk",
+      reason: "Synthetic attempt to accept a blocking risk.",
+      decidedAt: "2026-07-18T12:12:00.000Z",
+      actor: "human",
+      decisionEventId: "event-approval",
+    });
+    const keys = generateSigningKeyPair();
+    expect(() => sealManifest(passport.manifest, keys.privateKey)).toThrow("Accepted risk cannot clear");
+  });
+
+  it("requires a recorded resolution decision for every resolved genuine finding", () => {
+    const passport = createGenuinePassport();
+    passport.manifest.findings.push({
+      id: "finding-resolved-without-decision",
+      reviewer: "tests",
+      severity: "warning",
+      title: "Synthetic resolved issue",
+      detail: "The model output alone asserts resolution.",
+      evidenceIds: ["event-test"],
+      resolved: true,
+    });
+    const keys = generateSigningKeyPair();
+    expect(() => sealManifest(passport.manifest, keys.privateKey)).toThrow("recorded human resolution decision");
+  });
+
+  it("rejects a decision that does not reference an approval event", () => {
+    const passport = createPassport();
+    passport.manifest.findings.push({
+      id: "finding-invalid-decision-event",
+      reviewer: "evidence",
+      severity: "warning",
+      title: "Synthetic decision reference",
+      detail: "The decision points to a test event.",
+      evidenceIds: ["event-test"],
+      resolved: false,
+    });
+    passport.manifest.findingDecisions.push({
+      id: "decision-invalid-event",
+      findingId: "finding-invalid-decision-event",
+      decision: "accepted-risk",
+      reason: "Synthetic invalid reference.",
+      decidedAt: "2026-07-18T12:12:00.000Z",
+      actor: "human",
+      decisionEventId: "event-test",
+    });
+    const result = verifyPassport(passport, {});
+    expect(result.valid).toBe(false);
+    expect(result.checks[0]).toMatchObject({ name: "schema", valid: false });
   });
 
   it("rejects the passport immediately after a covered artifact changes", () => {

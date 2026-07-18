@@ -167,6 +167,16 @@ export function validateSealPolicy(manifest: PassportManifest): string[] {
   if (manifest.findings.some((finding) => finding.severity === "blocking" && !finding.resolved)) {
     reasons.push("Blocking review findings remain unresolved.");
   }
+  const decisionsByFinding = new Map(manifest.findingDecisions.map((decision) => [decision.findingId, decision]));
+  if (manifest.evidenceClassification === "genuine-session" && manifest.findings.some((finding) => finding.resolved && decisionsByFinding.get(finding.id)?.decision !== "resolved")) {
+    reasons.push("Every resolved genuine-session finding requires a recorded human resolution decision.");
+  }
+  if (manifest.findings.some((finding) => !finding.resolved && decisionsByFinding.get(finding.id)?.decision === "resolved")) {
+    reasons.push("A human resolution decision cannot rewrite an unresolved original finding.");
+  }
+  if (manifest.findings.some((finding) => finding.severity === "blocking" && decisionsByFinding.get(finding.id)?.decision === "accepted-risk")) {
+    reasons.push("Accepted risk cannot clear a blocking finding.");
+  }
   const eventIds = new Set(manifest.events.map((event) => event.id));
   if (manifest.findings.some((finding) => finding.evidenceIds.some((evidenceId) => !eventIds.has(evidenceId)))) {
     reasons.push("Review findings contain unknown evidence references.");

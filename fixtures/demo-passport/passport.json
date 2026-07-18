@@ -37,6 +37,7 @@
     "events": [
       {
         "id": "event-001",
+        "index": 0,
         "recordedAt": "2026-07-18T12:00:00.000+00:00",
         "type": "task",
         "summary": "Synthetic fixture models receipt of the password-reset task and acceptance criteria.",
@@ -44,12 +45,12 @@
           "acceptanceCriteriaCount": 4,
           "simulated": true
         },
-        "index": 0,
         "previousHash": null,
         "hash": "a66a28d012cf8e4fadd61a84038cd28d99558530e1cc0566c9876e681cc8514b"
       },
       {
         "id": "event-002",
+        "index": 1,
         "recordedAt": "2026-07-18T12:08:00.000+00:00",
         "type": "review",
         "summary": "Synthetic fixture models a security finding; no runtime model call is claimed.",
@@ -59,12 +60,12 @@
           ],
           "simulated": true
         },
-        "index": 1,
         "previousHash": "a66a28d012cf8e4fadd61a84038cd28d99558530e1cc0566c9876e681cc8514b",
         "hash": "ece7db0eb280c810e651184522d3bd28614359c1359ecd5900743bfba643b683"
       },
       {
         "id": "event-003",
+        "index": 2,
         "recordedAt": "2026-07-18T12:16:00.000+00:00",
         "type": "file-change",
         "summary": "Synthetic fixture models remediation; no genuine Codex session is claimed.",
@@ -75,12 +76,12 @@
           ],
           "simulated": true
         },
-        "index": 2,
         "previousHash": "ece7db0eb280c810e651184522d3bd28614359c1359ecd5900743bfba643b683",
         "hash": "71d2359164a0d37260afe802cd81b054d9d4d46b5b0cfe171e4ea7c48cfa69d9"
       },
       {
         "id": "event-004",
+        "index": 3,
         "recordedAt": "2026-07-18T12:20:00.000+00:00",
         "type": "test",
         "summary": "Synthetic fixture includes five intended test scenarios; no executed test result is claimed.",
@@ -88,12 +89,12 @@
           "intendedTestCount": 5,
           "simulated": true
         },
-        "index": 3,
         "previousHash": "71d2359164a0d37260afe802cd81b054d9d4d46b5b0cfe171e4ea7c48cfa69d9",
         "hash": "75431123d0f588944a081304cd897454b1a73a4532bae4696b17eb3056bae2c6"
       },
       {
         "id": "event-005",
+        "index": 4,
         "recordedAt": "2026-07-18T12:22:00.000+00:00",
         "type": "approval",
         "summary": "Synthetic fixture models an approval state; no actual human approval is claimed.",
@@ -101,7 +102,6 @@
           "decision": "synthetic-approved-state",
           "simulated": true
         },
-        "index": 4,
         "previousHash": "75431123d0f588944a081304cd897454b1a73a4532bae4696b17eb3056bae2c6",
         "hash": "55a2495cb669f388619bd6094d08590089f666f3036957f5f84931cf30d7930f"
       }
@@ -121,6 +121,7 @@
         "resolved": true
       }
     ],
+    "findingDecisions": [],
     "eventChainHead": "55a2495cb669f388619bd6094d08590089f666f3036957f5f84931cf30d7930f",
     "merkleRoot": "53f4798fe3e80f1dec0f841c167c8f9b63396d19413834a9f152aae16e238f0a",
     "sealDecision": {
@@ -133,7 +134,7 @@
   "signature": {
     "algorithm": "Ed25519",
     "publicKeyPem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAMAc2YJhZTsNKGzX8wtCPQS1XfBxLYq7JCO2fE51kklo=\n-----END PUBLIC KEY-----\n",
-    "signedDigestSha256": "ec80fe082f4f43a20a82b8f76db67bb4d73118f5e395785a919c9004e5c14ccf",
-    "signatureBase64": "dfx6TD4OFgARhVgmv02GHJULBCeFsIIKE4JzOPfenfDdTtdCvU59XUIfnqRgw3JcTaiaV+TXDUHkXj46cy3IAw=="
+    "signedDigestSha256": "d20cc5c81be24a6de542f1733c1694cc59f65893532589e83060ad4ecc29467c",
+    "signatureBase64": "KWnuM/cmEZ93ReUoM9h1zDrGznhf07LQudVw3XPmIG3VRPWRVavrRitefHUXDrPeE9V8th19Oh4GZijXGSCyAg=="
   }
 }

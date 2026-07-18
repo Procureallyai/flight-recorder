@@ -355,6 +355,7 @@
     }
   ],
   "findings": [],
+  "findingDecisions": [],
   "eventChainHead": "439fe4237e1c19ede08654f51ba35f76b41a8b9405f3809ec0fa4c3454f7a243",
   "merkleRoot": "0f07491b4258bd54f6226a4901711ae3a80f5236f51c3d4f1cb86a44d1a1a35f",
   "sealDecision": {

@@ -3,6 +3,7 @@ import {
   passportSchema,
   passportManifestSchema,
   type EvidenceEvent,
+  type FindingDecision,
   type Passport,
   type PassportManifest,
   type ReviewFinding,
@@ -24,6 +25,7 @@ export interface AssembleManifestInput {
   artifacts: readonly CandidateArtifactInput[];
   events: readonly EvidenceEvent[];
   findings: readonly ReviewFinding[];
+  findingDecisions: readonly FindingDecision[];
   reviewProvenance?: PassportManifest["reviewProvenance"];
   sealDecision: PassportManifest["sealDecision"];
 }
@@ -52,6 +54,7 @@ export function assembleManifest(input: AssembleManifestInput): PassportManifest
     artifacts,
     events: [...input.events],
     findings: [...input.findings],
+    findingDecisions: [...input.findingDecisions],
     ...(input.reviewProvenance === undefined ? {} : { reviewProvenance: input.reviewProvenance }),
     eventChainHead,
     merkleRoot: calculateMerkleRoot(artifacts, input.events),
@@ -120,6 +123,7 @@ export function buildPassportBundle(input: unknown, artifacts: PassportBundleArt
   files.set("events.jsonl", Buffer.from(passport.manifest.events.map((event) => canonicalize(event)).join("\n") + "\n", "utf8"));
   files.set("git.json", jsonFile({ repositoryCommit: passport.manifest.project.repositoryCommit }));
   files.set("approvals.json", jsonFile(passport.manifest.events.filter((event) => event.type === "approval")));
+  files.set("finding-decisions.json", jsonFile(passport.manifest.findingDecisions));
   files.set("tests.json", jsonFile(passport.manifest.events.filter((event) => event.type === "test")));
   files.set("diff.patch", Buffer.from(passport.manifest.events
     .filter((event) => event.type === "file-change" && typeof event.payload.patch === "string")

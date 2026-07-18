@@ -20,6 +20,7 @@ describe("assembleManifest", () => {
       artifacts: [{ id: "artifact_1", path: "src/reset.ts", mediaType: "text/typescript", content: "export {};\n" }],
       events,
       findings: [],
+      findingDecisions: [],
       sealDecision: { ready: false, humanApproved: false, blockingReasons: ["GPT-5.6 review and human approval are pending."] },
     });
 
@@ -46,6 +47,7 @@ describe("assembleManifest", () => {
       artifacts: [{ id: "artifact_1", path: "src/reset.ts", mediaType: "text/typescript", content: "export {};\n" }],
       events,
       findings: [],
+      findingDecisions: [],
       sealDecision: { ready: false, humanApproved: false, blockingReasons: ["Pending."] },
     })).toThrow("valid hash chain");
   });

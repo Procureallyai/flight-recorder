@@ -89,6 +89,16 @@ export const reviewFindingSchema = z.object({
   resolved: z.boolean(),
 }).strict();
 
+export const findingDecisionSchema = z.object({
+  id: identifierSchema,
+  findingId: identifierSchema,
+  decision: z.enum(["resolved", "accepted-risk"]),
+  reason: shortTextSchema,
+  decidedAt: z.string().datetime({ offset: true }),
+  actor: z.literal("human"),
+  decisionEventId: identifierSchema,
+}).strict();
+
 export const reviewProvenanceSchema = z.object({
   evidenceSource: z.enum(["codex-app-server", "codex-exec-json", "fixture"]),
   evidenceDigestSha256: sha256Schema,
@@ -118,6 +128,7 @@ export const passportManifestSchema = z.object({
   artifacts: z.array(artifactSchema).min(1).max(1_000),
   events: z.array(evidenceEventSchema).min(1).max(10_000),
   findings: z.array(reviewFindingSchema).max(1_000),
+  findingDecisions: z.array(findingDecisionSchema).max(1_000),
   reviewProvenance: reviewProvenanceSchema.optional(),
   eventChainHead: sha256Schema,
   merkleRoot: sha256Schema,
@@ -173,6 +184,26 @@ export const passportManifestSchema = z.object({
     }
     findingIds.add(finding.id);
   }
+
+  const decisionIds = new Set<string>();
+  const decidedFindingIds = new Set<string>();
+  const eventsById = new Map(manifest.events.map((event) => [event.id, event]));
+  for (const [index, decision] of manifest.findingDecisions.entries()) {
+    if (decisionIds.has(decision.id)) {
+      context.addIssue({ code: z.ZodIssueCode.custom, path: ["findingDecisions", index, "id"], message: "Finding decision identifiers must be unique." });
+    }
+    if (decidedFindingIds.has(decision.findingId)) {
+      context.addIssue({ code: z.ZodIssueCode.custom, path: ["findingDecisions", index, "findingId"], message: "A finding may have at most one final human decision." });
+    }
+    if (!findingIds.has(decision.findingId)) {
+      context.addIssue({ code: z.ZodIssueCode.custom, path: ["findingDecisions", index, "findingId"], message: "Finding decisions must reference a declared finding." });
+    }
+    if (eventsById.get(decision.decisionEventId)?.type !== "approval") {
+      context.addIssue({ code: z.ZodIssueCode.custom, path: ["findingDecisions", index, "decisionEventId"], message: "Finding decisions must reference a declared human approval event." });
+    }
+    decisionIds.add(decision.id);
+    decidedFindingIds.add(decision.findingId);
+  }
 });
 
 export const signatureSchema = z.object({
@@ -190,6 +221,7 @@ export const passportSchema = z.object({
 export type Artifact = z.infer<typeof artifactSchema>;
 export type EvidenceEvent = z.infer<typeof evidenceEventSchema>;
 export type ReviewFinding = z.infer<typeof reviewFindingSchema>;
+export type FindingDecision = z.infer<typeof findingDecisionSchema>;
 export type ReviewProvenance = z.infer<typeof reviewProvenanceSchema>;
 export type PassportManifest = z.infer<typeof passportManifestSchema>;
 export type Signature = z.infer<typeof signatureSchema>;
