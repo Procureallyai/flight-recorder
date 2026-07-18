@@ -1,6 +1,6 @@
 # Flight Recorder Build Week Execution Plan
 
-**Status:** End-to-end goal active. Hardened passport Gate A and genuine fallback-capture Gate B are verified locally. GPT-5.6 runtime Gate C is next.
+**Status:** End-to-end goal active. Hardened passport Gate A, genuine fallback-capture Gate B, and the unsealed genuine candidate are verified locally. GPT-5.6 runtime Gate C and the selected interface build are the next human-gated lanes.
 
 ## Objective
 

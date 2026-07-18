@@ -23,6 +23,8 @@
 - A version-pinned `codex exec --json` importer now drops reasoning, retains completed observable events, pseudonymises identifiers, redacts and bounds payloads, and fails visibly on malformed or incomplete captures.
 - A genuine `codex-cli 0.145.0-alpha.18` remediation capture completed with exit code 0. Nineteen sanitised events imported with no issues, and the synthetic password-reset tests expanded from 1 to 6 passing tests.
 - The raw capture remains private and gitignored. The public fixture records approval coverage as `not-observed` and contains no raw reasoning or absolute local path.
+- `pnpm candidate:generate` assembles a genuine-session passport candidate from the 19 events and two final artifacts at commit `75c0e45`. It is intentionally unsealed with no model findings, `ready: false`, and `humanApproved: false`.
+- Portable-path, count, and file-size limits now protect schema and command-line verification. The product suite passes 31 tests, plus 6 demonstration-workspace tests.
 - A read-only security review found six material Gate A issues. The cryptographic and verifier flaws were repaired and regression-tested; the synthetic fixture is explicitly barred from being represented as genuine evidence.
 - No hosted or local user interface, billed GPT-5.6 runtime call, release tag, or final submission assets exist yet.
 - The primary Codex task now has an active end-to-end delivery goal covering build, verification, release, deployment, and Devpost draft preparation.
@@ -53,12 +55,14 @@
 - Floyd confirmed that the intended entrant is himself as an individual, not Evidary AI Ltd.
 - Floyd confirmed receipt of US$100 in Build Week Codex credits.
 - Floyd directed that runtime secrets use the configured 1Password Environments integration without raw values entering repository or task output.
+- The 1Password Model Context Protocol server and value-hiding tools are available. One authentication request remained pending and was terminated after a bounded wait; no Environment, variable name, mount, or secret value was accessed.
 - Repository ownership, licence acceptance, eligibility, Vercel terms, and final submission remain human review surfaces.
 
 ## Immediate work
 
-1. Run one user-approved GPT-5.6 review through securely injected Application Programming Interface access.
-2. Convert the genuine capture, model findings, remediation, test evidence, and final Git state into the signed judge passport.
+1. Obtain fresh 1Password desktop approval and run one bounded GPT-5.6 review through securely injected Application Programming Interface access.
+2. In parallel, complete the Product Design visual-direction checkpoint and prepare the front-end scaffold only after Floyd selects one of three options.
+3. Convert the genuine capture, model findings, remediation, test evidence, and final Git state into the signed judge passport.
 3. Return to the Devpost draft only as verified release facts and assets become available.
 
 ## Next clean action

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { execFileSync } from "node:child_process";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, join, relative, resolve } from "node:path";
 import {
@@ -10,8 +11,10 @@ import {
   sealManifest,
 } from "@flight-recorder/crypto";
 import { importExecJsonLines } from "@flight-recorder/codex-adapter";
-import type { PassportManifest } from "@flight-recorder/schema";
+import { assembleManifest } from "@flight-recorder/passport";
+import { evidenceEventSchema, type PassportManifest } from "@flight-recorder/schema";
 import { verifyPassport } from "@flight-recorder/verifier";
+import { z } from "zod";
 import { collectArtifacts } from "./artifacts.js";
 
 const demoArtifacts = {
@@ -142,6 +145,49 @@ async function importExecCapture(inputFile: string, outputFile: string, version:
   process.exitCode = result.complete ? 0 : 1;
 }
 
+async function assembleDemoCandidate(captureFile: string, workspaceRoot: string, outputFile: string, commitArgument: string): Promise<void> {
+  const capture = JSON.parse(await readFile(resolve(captureFile), "utf8")) as { events?: unknown };
+  const events = z.array(evidenceEventSchema).parse(capture.events);
+  const workspace = resolve(workspaceRoot);
+  const repositoryCommit = commitArgument === "HEAD"
+    ? execFileSync("git", ["rev-parse", "HEAD"], { cwd: process.cwd(), encoding: "utf8" }).trim()
+    : commitArgument;
+  const createdAt = events.at(-1)?.recordedAt;
+  if (createdAt === undefined) throw new Error("The genuine capture contains no completed evidence events.");
+  const sourcePath = "src/password-reset.ts";
+  const testPath = "test/password-reset.test.ts";
+  const manifest = assembleManifest({
+    passportId: `frp_${sha256(`${events.at(-1)?.hash ?? ""}:${repositoryCommit}`).slice(0, 24)}`,
+    createdAt,
+    evidenceClassification: "genuine-session",
+    project: { name: "Synthetic password-reset remediation", repositoryCommit },
+    session: {
+      task: "Repair the synthetic password-reset implementation using expiring, single-use tokens without account enumeration or unsafe token logging.",
+      acceptanceCriteria: [
+        "Password-reset tokens expire and are single use.",
+        "Known and unknown accounts receive the same neutral public response.",
+        "Raw reset tokens never enter logs or audit events.",
+        "A safe audit event contains no direct account or token identifier.",
+        "Automated tests cover both account states and the token contract.",
+      ],
+    },
+    artifacts: [
+      { id: "artifact_source", path: sourcePath, mediaType: "text/typescript", content: await readFile(join(workspace, sourcePath)) },
+      { id: "artifact_tests", path: testPath, mediaType: "text/typescript", content: await readFile(join(workspace, testPath)) },
+    ],
+    events,
+    findings: [],
+    sealDecision: {
+      ready: false,
+      humanApproved: false,
+      blockingReasons: ["A genuine GPT-5.6 runtime review and explicit human approval are pending."],
+    },
+  });
+  await mkdir(dirname(resolve(outputFile)), { recursive: true });
+  await writeFile(resolve(outputFile), `${JSON.stringify(manifest, null, 2)}\n`, "utf8");
+  process.stdout.write(`Assembled unsealed genuine-session candidate ${manifest.passportId}.\n`);
+}
+
 const [command, first, second, third, fourth] = process.argv.slice(2);
 if (command === "generate-demo") {
   await generateDemo();
@@ -149,7 +195,9 @@ if (command === "generate-demo") {
   await verify(first, second);
 } else if (command === "import-exec-json" && first !== undefined && second !== undefined) {
   await importExecCapture(first, second, third ?? "codex-cli 0.145.0-alpha.18", fourth);
+} else if (command === "assemble-demo-candidate" && first !== undefined && second !== undefined && third !== undefined) {
+  await assembleDemoCandidate(first, second, third, fourth ?? "HEAD");
 } else {
-  process.stderr.write("Usage: flight-recorder generate-demo | verify <passport.json> <artifact-directory> | import-exec-json <raw.jsonl> <sanitised.json> [codex-version] [repository-root]\n");
+  process.stderr.write("Usage: flight-recorder generate-demo | verify <passport.json> <artifact-directory> | import-exec-json <raw.jsonl> <sanitised.json> [codex-version] [repository-root] | assemble-demo-candidate <capture.json> <workspace-root> <candidate.json> [commit-or-HEAD]\n");
   process.exitCode = 2;
 }

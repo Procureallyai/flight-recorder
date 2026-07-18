@@ -15,6 +15,7 @@
   "dependencies": {
     "@flight-recorder/codex-adapter": "workspace:*",
     "@flight-recorder/crypto": "workspace:*",
+    "@flight-recorder/passport": "workspace:*",
     "@flight-recorder/schema": "workspace:*",
     "@flight-recorder/verifier": "workspace:*"
   }

@@ -1,0 +1,368 @@
+{
+  "schemaVersion": "0.1.0",
+  "passportId": "frp_b23e5a0895c53e1b78e4c877",
+  "createdAt": "2026-07-18T19:55:02.949Z",
+  "timestampType": "local-recorded-time",
+  "evidenceClassification": "genuine-session",
+  "project": {
+    "name": "Synthetic password-reset remediation",
+    "repositoryCommit": "75c0e45e5e99b9d48142269235ebd2c76e9f32bc"
+  },
+  "session": {
+    "task": "Repair the synthetic password-reset implementation using expiring, single-use tokens without account enumeration or unsafe token logging.",
+    "acceptanceCriteria": [
+      "Password-reset tokens expire and are single use.",
+      "Known and unknown accounts receive the same neutral public response.",
+      "Raw reset tokens never enter logs or audit events.",
+      "A safe audit event contains no direct account or token identifier.",
+      "Automated tests cover both account states and the token contract."
+    ]
+  },
+  "artifacts": [
+    {
+      "id": "artifact_source",
+      "path": "src/password-reset.ts",
+      "mediaType": "text/typescript",
+      "size": 1299,
+      "sha256": "2a5b7347c9242d1402d08cfd958813c59797c3b2d394b5694695f1bda986c3bd"
+    },
+    {
+      "id": "artifact_tests",
+      "path": "test/password-reset.test.ts",
+      "mediaType": "text/typescript",
+      "size": 4717,
+      "sha256": "a45a13a502ede433e3a55bd23f5d6204e511d4af3d00dc5aec77b932dc431236"
+    }
+  ],
+  "events": [
+    {
+      "id": "ev_000001",
+      "index": 0,
+      "recordedAt": "2026-07-18T19:55:02.946Z",
+      "type": "task",
+      "summary": "A non-interactive Codex capture thread started.",
+      "payload": {
+        "threadReference": "sha256:87c79b1c2f77a5b9b4c7d77881d09cdc5a2e01e6baef93d2f8ceedf577e27788"
+      },
+      "previousHash": null,
+      "hash": "d69163d559eb362accb4da8448f19d487420840168b67d16f5c349cf09bd28ad"
+    },
+    {
+      "id": "ev_000002",
+      "index": 1,
+      "recordedAt": "2026-07-18T19:55:02.948Z",
+      "type": "completion",
+      "summary": "An unknown completed item was retained as envelope metadata only.",
+      "payload": {
+        "itemType": "error",
+        "sourceReference": "sha256:2f58b7d7725eac66c32ab446bb53a188688dc1d76fcc40cf31f5cf6509181ce8",
+        "topLevelKeys": [
+          "id",
+          "message",
+          "type"
+        ]
+      },
+      "previousHash": "d69163d559eb362accb4da8448f19d487420840168b67d16f5c349cf09bd28ad",
+      "hash": "bd2f181604fe86b03a34c72031aaa58ef73bae961e4621e1a6eb6dd176325854"
+    },
+    {
+      "id": "ev_000003",
+      "index": 2,
+      "recordedAt": "2026-07-18T19:55:02.948Z",
+      "type": "task",
+      "summary": "A Codex turn started.",
+      "payload": {},
+      "previousHash": "bd2f181604fe86b03a34c72031aaa58ef73bae961e4621e1a6eb6dd176325854",
+      "hash": "d8dedfbac71d2cbc0bde33f44a62a89cc9a893adad0661c54110a4a405876d74"
+    },
+    {
+      "id": "ev_000004",
+      "index": 3,
+      "recordedAt": "2026-07-18T19:55:02.948Z",
+      "type": "completion",
+      "summary": "An unknown completed item was retained as envelope metadata only.",
+      "payload": {
+        "itemType": "error",
+        "sourceReference": "sha256:32012c4c32888ee2c4ba4331e3c77ece9acd811a4b3abb708363123591abfea2",
+        "topLevelKeys": [
+          "id",
+          "message",
+          "type"
+        ]
+      },
+      "previousHash": "d8dedfbac71d2cbc0bde33f44a62a89cc9a893adad0661c54110a4a405876d74",
+      "hash": "0c8ee8a52cbea7bc3c8426291edc4654911ee188c40f8d79abad5bd10e3e22dc"
+    },
+    {
+      "id": "ev_000005",
+      "index": 4,
+      "recordedAt": "2026-07-18T19:55:02.948Z",
+      "type": "completion",
+      "summary": "Codex completed an observable agent message.",
+      "payload": {
+        "text": "I’m using the repository’s `flight-recorder-delivery` skill because this is a scoped implementation and validation task. I’ll first anchor to the required project truth and handoff files, then inspect the current branch and tests before making the smallest safe repair. I will not access anything outside this workspace.",
+        "sourceReference": "sha256:6a9722cdf589a2a068832c955a8253b9df87983501c03dd92e95debae1f409da"
+      },
+      "previousHash": "0c8ee8a52cbea7bc3c8426291edc4654911ee188c40f8d79abad5bd10e3e22dc",
+      "hash": "c16fe52f1d141c4bc196d778d678bfa3e63d8bec031c53650c8bb1125b2932fc"
+    },
+    {
+      "id": "ev_000006",
+      "index": 5,
+      "recordedAt": "2026-07-18T19:55:02.949Z",
+      "type": "command",
+      "summary": "A command execution completed.",
+      "payload": {
+        "command": "/bin/zsh -lc \"pwd && rg --files -g 'CANONICAL_TRUTH.md' -g 'projectbrief.md' -g 'activeContext.md' -g 'PLANS.md' -g 'DECISION_LOG.md' -g 'BLOCKERS.md' -g 'VALIDATION_MATRIX.md' -g 'SKILL.md' -g 'docs/handoff/**' -g 'AGENTS.md' | sort\"",
+        "cwd": ".",
+        "status": "completed",
+        "exitCode": 0,
+        "output": "<repository>\n",
+        "sourceReference": "sha256:57dbfc296665f072254d15345fb3a2bbf457ae03cbb6ee8f6020e8f11d4b056b"
+      },
+      "previousHash": "c16fe52f1d141c4bc196d778d678bfa3e63d8bec031c53650c8bb1125b2932fc",
+      "hash": "972e14db00bc9576f92bfe24576bd8fcbe1a6c9f8ba5e0906b18d234eb8a7a7c"
+    },
+    {
+      "id": "ev_000007",
+      "index": 6,
+      "recordedAt": "2026-07-18T19:55:02.949Z",
+      "type": "command",
+      "summary": "A command execution completed.",
+      "payload": {
+        "command": "/bin/zsh -lc 'ls -la && find . -maxdepth 3 -type f -print | sort'",
+        "cwd": ".",
+        "status": "completed",
+        "exitCode": 0,
+        "output": "total 24\ndrwxr-xr-x@ 7 developer  staff  224 Jul 18 20:48 .\ndrwxr-xr-x@ 3 developer  staff   96 Jul 18 20:46 ..\n-rw-r--r--@ 1 developer  staff  849 Jul 18 20:48 CODEX_TASK.md\n-rw-r--r--@ 1 developer  staff  392 Jul 18 20:46 README.md\n-rw-r--r--@ 1 developer  staff  206 Jul 18 20:46 package.json\ndrwxr-xr-x@ 3 developer  staff   96 Jul 18 20:46 src\ndrwxr-xr-x@ 3 developer  staff   96 Jul 18 20:46 test\n./CODEX_TASK.md\n./README.md\n./package.json\n./src/password-reset.ts\n./test/password-reset.test.ts\n",
+        "sourceReference": "sha256:9462965f2002ffb6e5ebf84d633936910b584441932a9dee26f8497eb9d82c75"
+      },
+      "previousHash": "972e14db00bc9576f92bfe24576bd8fcbe1a6c9f8ba5e0906b18d234eb8a7a7c",
+      "hash": "c1935b1f8a9a03d8aadc5503018148f1c45381b98157ae5d0b1a768c005b3624"
+    },
+    {
+      "id": "ev_000008",
+      "index": 7,
+      "recordedAt": "2026-07-18T19:55:02.949Z",
+      "type": "completion",
+      "summary": "Codex completed an observable agent message.",
+      "payload": {
+        "text": "The synthetic workspace does not contain the repository delivery skill or the broader Flight Recorder truth files named by the operating contract. Because your scope explicitly forbids access outside this workspace, I will not open their copies elsewhere. I’m continuing with the workspace’s own task file, implementation, and tests as the authoritative local inputs.",
+        "sourceReference": "sha256:919299b8b8860441036a08b8ce4a6486ee1712366afaec2286c8579387359f27"
+      },
+      "previousHash": "c1935b1f8a9a03d8aadc5503018148f1c45381b98157ae5d0b1a768c005b3624",
+      "hash": "7b2984359b43e2add2d548fbc18faf0b7c5cbbe156cd07a1c5be640230399939"
+    },
+    {
+      "id": "ev_000009",
+      "index": 8,
+      "recordedAt": "2026-07-18T19:55:02.949Z",
+      "type": "command",
+      "summary": "A command execution completed.",
+      "payload": {
+        "command": "/bin/zsh -lc \"sed -n '1,240p' CODEX_TASK.md && sed -n '1,200p' README.md && sed -n '1,200p' package.json && sed -n '1,260p' src/password-reset.ts && sed -n '1,320p' test/password-reset.test.ts\"",
+        "cwd": ".",
+        "status": "completed",
+        "exitCode": 0,
+        "output": "# Codex remediation task\n\nWork only in this fully synthetic password-reset workspace.\n\nRepair the existing implementation so that it satisfies all of these acceptance criteria:\n\n1. Password-reset tokens expire and are single use.\n2. Known and unknown accounts receive the same neutral public response, preventing account enumeration.\n3. Raw reset tokens never enter logs or audit events.\n4. A safe audit event is recorded without exposing direct account or token identifiers.\n5. Automated tests cover known and unknown accounts, response equality, safe logging and audit behaviour, token expiry configuration, and the single-use contract.\n\nUse only synthetic values. Preserve dependency injection so the behaviour remains testable. Run the test suite and leave the workspace in a passing state. Do not access or modify files outside this workspace.\n# Synthetic password-reset workspace\n\nThis deliberately defective, fully synthetic workspace exists only to produce the genuine Flight Recorder demonstration capture. It contains no real accounts, tokens, credentials, or production code.\n\nThe baseline is expected to fail the final acceptance criteria. A captured Codex run must remediate the defects and add the missing negative-path tests.\n{\n  \"name\": \"flight-recorder-synthetic-password-reset\",\n  \"version\": \"0.0.0\",\n  \"private\": true,\n  \"type\": \"module\",\n  \"scripts\": {\n    \"test\": \"node --experimental-strip-types --test test/*.test.ts\"\n  }\n}\nexport interface ResetDependencies {\n  findAccountByEmail(email: string): Promise<{ id: string } | undefined>;\n  issueSingleUseToken(accountId: string, options: { expiresInMinutes: number }): Promise<string>;\n  sendResetInstructions(accountId: string, token: string): Promise<void>;\n  audit(event: string, detail: Record<string, string>): Promise<void>;\n  log(message: string): void;\n}\n\nexport async function requestPasswordReset(email: string, dependencies: ResetDependencies) {\n  const account = await dependencies.findAccountByEmail(email);\n  if (account === undefined) {\n    return { accepted: false, message: \"No account was found for that email address.\" };\n  }\n\n  const token = await dependencies.issueSingleUseToken(account.id, { expiresInMinutes: 15 });\n  dependencies.log(`Issued password reset token: ${token}`);\n  await dependencies.audit(\"password_reset_requested\", { accountId: account.id, token });\n  await dependencies.sendResetInstructions(account.id, token);\n\n  return { accepted: true, message: \"Reset instructions have been sent.\" };\n}\nimport assert from \"node:assert/strict\";\nimport test from \"node:test\";\nimport { requestPasswordReset, type ResetDependencies } from \"../src/password-reset.ts\";\n\nfunction createDependencies(): ResetDependencies {\n  return {\n    async findAccountByEmail() {\n      return { id: \"account-synthetic-001\" };\n    },\n    async issueSingleUseToken() {\n      return \"token-synthetic-001\";\n    },\n    async sendResetInstructions() {},\n    async audit() {},\n    log() {},\n  };\n}\n\ntest(\"known accounts receive reset instructions\", async () => {\n  const result = await requestPasswordReset(\"known@example.test\", createDependencies());\n  assert.equal(result.accepted, true);\n});\n",
+        "sourceReference": "sha256:3f21b4ea2fbe67cd553dbcfae108e6632bdb6c655218a1e4ad5a543cc24800f4"
+      },
+      "previousHash": "7b2984359b43e2add2d548fbc18faf0b7c5cbbe156cd07a1c5be640230399939",
+      "hash": "558502d05687e59f73ed3cd18dfa96b0cb406cf2ea9debb1ec2f687f7e7692bf"
+    },
+    {
+      "id": "ev_000010",
+      "index": 9,
+      "recordedAt": "2026-07-18T19:55:02.949Z",
+      "type": "command",
+      "summary": "A command execution completed.",
+      "payload": {
+        "command": "/bin/zsh -lc 'git status --short --branch'",
+        "cwd": ".",
+        "status": "completed",
+        "exitCode": 0,
+        "output": "## main\n M ../../packages/cli/src/index.ts\n M ../../packages/codex-adapter/src/index.test.ts\n M ../../planning/DECISION_LOG.md\n M ../../planning/WORKFLOW_FEEDBACK.md\n M ../../scripts/capture-codex-exec.mjs\n",
+        "sourceReference": "sha256:f4fdd034b54297294baf2c6977028dba2f4e8949c52e921b04118670cad8192e"
+      },
+      "previousHash": "558502d05687e59f73ed3cd18dfa96b0cb406cf2ea9debb1ec2f687f7e7692bf",
+      "hash": "c6a44f3c4bf7fdb2a3c75bbd3ec373113e4da74898d233c424060ea4ebbc1f86"
+    },
+    {
+      "id": "ev_000011",
+      "index": 10,
+      "recordedAt": "2026-07-18T19:55:02.949Z",
+      "type": "command",
+      "summary": "A command execution completed.",
+      "payload": {
+        "command": "/bin/zsh -lc 'npm test'",
+        "cwd": ".",
+        "status": "completed",
+        "exitCode": 0,
+        "output": "\n> flight-recorder-synthetic-password-reset@0.0.0 test\n> node --experimental-strip-types --test test/*.test.ts\n\n✔ known accounts receive reset instructions (0.952333ms)\nℹ tests 1\nℹ suites 0\nℹ pass 1\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 145.346417\n",
+        "sourceReference": "sha256:cfc5c391b5ba915c081c7d09c3edfc599f5369196d03ab00aa96b73369f89b5f"
+      },
+      "previousHash": "c6a44f3c4bf7fdb2a3c75bbd3ec373113e4da74898d233c424060ea4ebbc1f86",
+      "hash": "d2d9ee9bd1e55f6061bf96d4102b67e3fe5c46c8b5f582690b87af1f1030bd29"
+    },
+    {
+      "id": "ev_000012",
+      "index": 11,
+      "recordedAt": "2026-07-18T19:55:02.949Z",
+      "type": "completion",
+      "summary": "Codex completed an observable agent message.",
+      "payload": {
+        "text": "The baseline has one passing happy-path test, but it does not test the required security contracts. The workspace is nested in a broader Git checkout with unrelated modified files; I will not inspect or touch those files. The remediation will be limited to `src/password-reset.ts` and `test/password-reset.test.ts` inside this synthetic workspace.",
+        "sourceReference": "sha256:a26c6de8780e4e792e8ad6df3fb6ac31fe229b7b2f8bc2aa29c602e8d647918c"
+      },
+      "previousHash": "d2d9ee9bd1e55f6061bf96d4102b67e3fe5c46c8b5f582690b87af1f1030bd29",
+      "hash": "c9138d7fce66e2e33cf305705c934a74f20526a91bd9a798740c30b72b286762"
+    },
+    {
+      "id": "ev_000013",
+      "index": 12,
+      "recordedAt": "2026-07-18T19:55:02.949Z",
+      "type": "file-change",
+      "summary": "A file change completed.",
+      "payload": {
+        "status": "completed",
+        "changes": [
+          {
+            "path": "<repository>/src/password-reset.ts",
+            "kind": "update"
+          },
+          {
+            "path": "<repository>/test/password-reset.test.ts",
+            "kind": "update"
+          }
+        ],
+        "sourceReference": "sha256:00bf463c9d57c76acacd039e798555d6101dbddf9708e68d232d71a4c30e0633"
+      },
+      "previousHash": "c9138d7fce66e2e33cf305705c934a74f20526a91bd9a798740c30b72b286762",
+      "hash": "879469ba897b9cdf79f049e55cfbfd5a55cdfe279a20ae62bcc33f21250819b6"
+    },
+    {
+      "id": "ev_000014",
+      "index": 13,
+      "recordedAt": "2026-07-18T19:55:02.949Z",
+      "type": "completion",
+      "summary": "Codex completed an observable agent message.",
+      "payload": {
+        "text": "The implementation now returns one neutral public response for both account states, sends a reset only for known accounts, requests a 15-minute token with a one-use limit, and emits identical identifier-free telemetry. The expanded tests exercise each acceptance criterion directly; I’m validating them now.",
+        "sourceReference": "sha256:fcf995ce3ce15e435101e7a49adbafdc79fcf9203eefbab40b5d124cae39b03f"
+      },
+      "previousHash": "879469ba897b9cdf79f049e55cfbfd5a55cdfe279a20ae62bcc33f21250819b6",
+      "hash": "ed5aa1934412d294a71f9547f4da2943a66b9725ddff5d51179188f99a90b814"
+    },
+    {
+      "id": "ev_000015",
+      "index": 14,
+      "recordedAt": "2026-07-18T19:55:02.949Z",
+      "type": "command",
+      "summary": "A command execution completed.",
+      "payload": {
+        "command": "/bin/zsh -lc 'npm test'",
+        "cwd": ".",
+        "status": "completed",
+        "exitCode": 0,
+        "output": "\n> flight-recorder-synthetic-password-reset@0.0.0 test\n> node --experimental-strip-types --test test/*.test.ts\n\n✔ known accounts receive reset instructions and a neutral response (1.962875ms)\n✔ unknown accounts receive the neutral response without issuing a token (0.146125ms)\n✔ known and unknown accounts receive exactly equal public responses (0.099209ms)\n✔ logs and audit events are safe and identical for known and unknown accounts (0.259167ms)\n✔ token issuance requires a 15-minute expiry (0.643167ms)\n✔ one request issues one token under the single-use contract (0.159959ms)\nℹ tests 6\nℹ suites 0\nℹ pass 6\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 146.492916\n",
+        "sourceReference": "sha256:b40ee9c64c8028e7786be4b1266661a398dfa60613358262a0ce9e36bddd365d"
+      },
+      "previousHash": "ed5aa1934412d294a71f9547f4da2943a66b9725ddff5d51179188f99a90b814",
+      "hash": "0ff8f4ce8bb2d3c133df70af6308410f73e41a157782c7e9f9f289fe15f1c396"
+    },
+    {
+      "id": "ev_000016",
+      "index": 15,
+      "recordedAt": "2026-07-18T19:55:02.949Z",
+      "type": "command",
+      "summary": "A command execution completed.",
+      "payload": {
+        "command": "/bin/zsh -lc 'nl -ba src/password-reset.ts && nl -ba test/password-reset.test.ts && node --experimental-strip-types --check src/password-reset.ts && node --experimental-strip-types --check test/password-reset.test.ts'",
+        "cwd": ".",
+        "status": "completed",
+        "exitCode": 0,
+        "output": "",
+        "sourceReference": "sha256:9d348a4243d4ca091c5a70d9e547c9f8a44b7c9f9d9326ec2086feeee1e440b9"
+      },
+      "previousHash": "0ff8f4ce8bb2d3c133df70af6308410f73e41a157782c7e9f9f289fe15f1c396",
+      "hash": "326c09609401cb58d0e14897a01862367d9fff5623913447ea064dfbe5e9e18a"
+    },
+    {
+      "id": "ev_000017",
+      "index": 16,
+      "recordedAt": "2026-07-18T19:55:02.949Z",
+      "type": "completion",
+      "summary": "Codex completed an observable agent message.",
+      "payload": {
+        "text": "Implemented and passing.\n\n### Completed\n\n- Added a neutral, identical response for known and unknown accounts.\n- Configured reset tokens for a 15-minute lifetime and exactly one permitted use.\n- Removed raw tokens and account identifiers from logs and audit events.\n- Added identical, identifier-free telemetry for both account states.\n- Preserved dependency injection.\n- Expanded coverage from 1 to 6 tests in [password-reset.test.ts](<repository>/test/password-reset.test.ts:26).\n- Updated the implementation in [password-reset.ts](<repository>/src/password-reset.ts:1).\n\n### Validation\n\n- `npm test`: 6 passed, 0 failed.\n- Node.js syntax checks: passed for implementation and tests.\n- Only synthetic account, email, and token values were used.\n\n### Unactioned / Blocked\n\n- None within the requested remediation.\n- The broader canonical-truth validation script and delivery skill are not present inside this authorised workspace, so they were not run or accessed elsewhere.\n\n### Blind Spots / Unverified\n\n- The injected token issuer’s persistence layer is outside this synthetic workspace. Tests verify that it receives `expiresInMinutes: 15` and `maxUses: 1`; storage-level enforcement cannot be independently inspected here.\n- Live GitHub truth, browser truth, deployment truth, and human acceptance were not part of this local task and remain unverified.\n\n### Next clean action\n\nReview the two changed files and, if accepted, commit them through the parent repository workflow.",
+        "sourceReference": "sha256:8fdb99dc4306238c16aab4f1834bc653b29af2e24fa23ffba130daeb8403a4fc"
+      },
+      "previousHash": "326c09609401cb58d0e14897a01862367d9fff5623913447ea064dfbe5e9e18a",
+      "hash": "29791894b769497e8701069865a604fc08cd59d2dc259aa9ed395610700eabed"
+    },
+    {
+      "id": "ev_000018",
+      "index": 17,
+      "recordedAt": "2026-07-18T19:55:02.949Z",
+      "type": "plan",
+      "summary": "The authoritative plan state changed.",
+      "payload": {
+        "items": [
+          {
+            "text": "Read the required project truth, delivery skill, and relevant handoff material",
+            "completed": true
+          },
+          {
+            "text": "Inventory repository state and inspect the password-reset implementation and tests",
+            "completed": true
+          },
+          {
+            "text": "Implement the narrow remediation and automated coverage",
+            "completed": true
+          },
+          {
+            "text": "Run focused tests, full suite, and canonical truth validation",
+            "completed": true
+          },
+          {
+            "text": "Review the final diff and report separated truth surfaces and remaining gaps",
+            "completed": true
+          }
+        ],
+        "sourceReference": "sha256:4a317b6972e2f1834050485420bd71fe6fc2d87cd25d572cb4b8b327b37bc030"
+      },
+      "previousHash": "29791894b769497e8701069865a604fc08cd59d2dc259aa9ed395610700eabed",
+      "hash": "ad9a7c566e0e8fa194f90198c1e11b72313ec0446ef136d78843b397436ba4e3"
+    },
+    {
+      "id": "ev_000019",
+      "index": 18,
+      "recordedAt": "2026-07-18T19:55:02.949Z",
+      "type": "completion",
+      "summary": "The Codex turn completed.",
+      "payload": {
+        "usage": {
+          "input_tokens": "[REDACTED]",
+          "cached_input_tokens": "[REDACTED]",
+          "cache_write_input_tokens": "[REDACTED]",
+          "output_tokens": "[REDACTED]",
+          "reasoning_output_tokens": "[REDACTED]"
+        },
+        "status": "completed"
+      },
+      "previousHash": "ad9a7c566e0e8fa194f90198c1e11b72313ec0446ef136d78843b397436ba4e3",
+      "hash": "439fe4237e1c19ede08654f51ba35f76b41a8b9405f3809ec0fa4c3454f7a243"
+    }
+  ],
+  "findings": [],
+  "eventChainHead": "439fe4237e1c19ede08654f51ba35f76b41a8b9405f3809ec0fa4c3454f7a243",
+  "merkleRoot": "0f07491b4258bd54f6226a4901711ae3a80f5236f51c3d4f1cb86a44d1a1a35f",
+  "sealDecision": {
+    "ready": false,
+    "blockingReasons": [
+      "A genuine GPT-5.6 runtime review and explicit human approval are pending."
+    ],
+    "humanApproved": false
+  },
+  "claim": "The covered evidence has not changed since it was sealed by the holder of the corresponding signing key."
+}

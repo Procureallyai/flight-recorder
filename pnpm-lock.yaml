@@ -30,6 +30,9 @@ importers:
       '@flight-recorder/crypto':
         specifier: workspace:*
         version: link:../crypto
+      '@flight-recorder/passport':
+        specifier: workspace:*
+        version: link:../passport
       '@flight-recorder/schema':
         specifier: workspace:*
         version: link:../schema
@@ -66,6 +69,15 @@ importers:
       zod:
         specifier: ^3.25.0
         version: 3.25.76
+
+  packages/passport:
+    dependencies:
+      '@flight-recorder/crypto':
+        specifier: workspace:*
+        version: link:../crypto
+      '@flight-recorder/schema':
+        specifier: workspace:*
+        version: link:../schema
 
   packages/review:
     dependencies:

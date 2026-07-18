@@ -210,4 +210,32 @@ describe("verifyPassport", () => {
     expect(result.valid).toBe(false);
     expect(result.checks.find((check) => check.name === "artifacts")).toMatchObject({ valid: false });
   });
+
+  it("rejects artifact paths that collide after portable case folding", () => {
+    const passport = createPassport();
+    passport.manifest.artifacts[1]!.path = "SRC/RESET.TS";
+    const result = verifyPassport(passport, {});
+    expect(result.valid).toBe(false);
+    expect(result.checks[0]).toMatchObject({ name: "schema", valid: false });
+  });
+
+  it.each(["CON", "src/NUL.txt", "src/trailing. "])("rejects non-portable reserved artifact path: %s", (path) => {
+    const passport = createPassport();
+    passport.manifest.artifacts[0]!.path = path;
+    const result = verifyPassport(passport, {});
+    expect(result.valid).toBe(false);
+    expect(result.checks[0]).toMatchObject({ name: "schema", valid: false });
+  });
+
+  it("rejects evidence streams above the documented event limit", () => {
+    const passport = createPassport();
+    passport.manifest.events = Array.from({ length: 10_001 }, (_, index) => ({
+      ...passport.manifest.events[0]!,
+      id: `event-${index}`,
+      index,
+    }));
+    const result = verifyPassport(passport, {});
+    expect(result.valid).toBe(false);
+    expect(result.checks[0]).toMatchObject({ name: "schema", valid: false });
+  });
 });
