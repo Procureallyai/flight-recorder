@@ -26,7 +26,7 @@ The cryptographic claim is deliberately narrow: a valid passport shows that the 
 
 | Surface | Evidence-backed status |
 |---|---|
-| Local repository | Core build, 62 product tests, and 6 demonstration tests pass. |
+| Local repository | Core build, 79 product tests, and 6 demonstration tests pass. |
 | Local session | Command-line initialisation is verified. Live App Server control remains route-blocked and unverified. |
 | Genuine Codex capture | Verified through the JavaScript Object Notation fallback. Raw capture is private; the public fixture is sanitised. |
 | GPT-5.6 runtime | Request and schema behaviour are tested with a mocked transport. A real billed call is still pending secure 1Password approval. |

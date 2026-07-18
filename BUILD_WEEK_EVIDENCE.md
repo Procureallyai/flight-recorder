@@ -28,6 +28,8 @@ The repository history and this primary Codex task identify the work performed d
 | `d8f4296` | Reconciled public and canonical evidence for signed review provenance. |
 | `6aa0500` | Policy-gated local session initialisation, Git baseline evidence, private-state protections, and command-line operator path. |
 | `b66da29` | Fail-closed Git-ignore and symbolic-link preflight for private local session storage. |
+| `4de833b` | Reconciled operator documentation and validation evidence for local session initialisation. |
+| `351037c` | Exact test-evidence classification, configurable and manual confirmation paths, and exit-code-authoritative regressions. |
 
 ## Codex contribution
 
