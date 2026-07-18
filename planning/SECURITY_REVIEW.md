@@ -22,3 +22,11 @@ A bounded read-only sub-agent review reproduced material flaws in the first Gate
 - Archive ingestion is not implemented, so archive-bomb exposure is currently outside the supported product surface. It must be threat-modelled before any future archive-import feature.
 
 Remaining hardening includes streaming artifact hashing, final threat-model confirmation and write-up, browser-level security validation of the selected interface, hosted-route controls, and post-deployment inspection.
+
+## 18 July 2026 seal-gate review
+
+A bounded read-only sub-agent reproduced a Priority One deterministic-gate failure. Unsupported acceptance criteria could pass, one passing test could hide another failed required test, and review calls were not bound to the current evidence digest.
+
+The gate now requires every criterion to be supported, every declared required test to pass, non-empty criteria and test sets, all four unique specialist identities, five unique response identifiers, and every specialist and synthesis call to match the current evidence digest. Focused stale-review, duplicate-review, unsupported-evidence, empty-set, and mixed-test regressions pass.
+
+Verifier-visible review provenance remains required before the genuine reviewed passport is sealed.

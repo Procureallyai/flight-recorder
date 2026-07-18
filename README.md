@@ -16,6 +16,7 @@ The cryptographic claim is deliberately narrow: a valid passport shows that the 
 - Secure Hash Algorithm 256-bit artifact hashing and a hash-linked event chain.
 - A deterministic Merkle root and detached Ed25519 signature.
 - An independent command-line verifier with visible tamper failure.
+- A deterministic portable directory bundle with detached signature, public key, evidence projections, covered artifacts, review files, scope limitations, an integrity index, and a self-contained report.
 - Four parallel GPT-5.6 specialist-review contracts and a synthesis contract, using strict Structured Outputs, `store: false`, no tools, bounded inputs and outputs, timeouts, and an explicit disabled-by-default runtime switch.
 - A deterministic seal-readiness policy that remains separate from model judgement.
 - An unsealed genuine-session candidate containing 19 captured events and two final artifacts.
@@ -24,7 +25,7 @@ The cryptographic claim is deliberately narrow: a valid passport shows that the 
 
 | Surface | Evidence-backed status |
 |---|---|
-| Local repository | Core build, 32 product tests, and 6 demonstration tests pass. |
+| Local repository | Core build, 50 product tests, and 6 demonstration tests pass. |
 | Genuine Codex capture | Verified through the JavaScript Object Notation fallback. Raw capture is private; the public fixture is sanitised. |
 | GPT-5.6 runtime | Request and schema behaviour are tested with a mocked transport. A real billed call is still pending secure 1Password approval. |
 | Passport | Synthetic signed fixture verifies. Genuine candidate is intentionally unsealed pending model review and human approval. |
@@ -75,6 +76,15 @@ pnpm validate:truth
 
 `pnpm verify` checks the synthetic cryptographic fixture. `pnpm candidate:generate` rebuilds the genuine, unsealed candidate from the sanitised captured session and its final artifacts.
 
+To export and independently verify the portable synthetic proof bundle:
+
+```zsh
+node packages/cli/dist/index.js export-bundle fixtures/demo-passport/passport.json fixtures/demo-passport/artifacts <output-directory>
+node packages/cli/dist/index.js verify-bundle <passport-directory> --json
+```
+
+The bundle is a directory rather than an archive. This keeps inspection simple and avoids introducing archive-extraction risk during the Build Week release.
+
 ## Secret handling
 
 Real secrets must be injected through 1Password Environments. They must not enter task messages, committed files, persistent `.env` files, command output, screenshots, browser code, or public capture fixtures.
@@ -91,6 +101,6 @@ See [BUILD_WEEK_EVIDENCE.md](BUILD_WEEK_EVIDENCE.md) for dated provenance.
 
 ## Licence
 
-The recommended release licence is Apache License 2.0. The licence file will be added only after the individual entrant confirms that legal choice. Until then, no licence grant is implied.
+The recommended release licence is Apache License 2.0. The licence file will be added only after the individual entrant confirms that legal choice. Until then, package metadata is `UNLICENSED`, and no licence grant is implied.
 
 Agentic development needs more than faster code. It needs evidence that can survive inspection.

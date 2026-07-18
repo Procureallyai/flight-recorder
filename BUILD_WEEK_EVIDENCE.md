@@ -17,6 +17,11 @@ The repository history and this primary Codex task identify the work performed d
 | `b524f0f` | Private capture runner and exact Codex remediation task. |
 | `75c0e45` | Genuine sanitised Codex remediation capture and six passing demonstration tests. |
 | `0115ed4` | Unsealed genuine passport candidate and resource/path hardening. |
+| `3cd97bf` | Release documentation, continuous integration, bounded runtime controls, and public-file secret scanning. |
+| `592d9b2` | Reconciled security and validation evidence after dependency auditing. |
+| `282c7ff` | Machine-readable command-line verification and explicit valid, tampered, and usage exit-code contracts. |
+| `8b61b64` | Priority One seal-gate remediation binding review calls to current evidence and failing closed on unsupported criteria or failed required tests. |
+| `56bc047` | Portable deterministic passport bundle export, independent bundle verification, and bundle tamper tests. |
 
 ## Codex contribution
 
