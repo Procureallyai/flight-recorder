@@ -25,6 +25,9 @@ The repository history and this primary Codex task identify the work performed d
 | `c9bc381` | Portable bundle resource-limit, Unicode-normalisation, and case-fold collision regressions. |
 | `f957954` | Cryptographic-semantics and hosted fixture-only architecture decisions with reconciled release evidence. |
 | `cd6c5cd` | Signed five-call model-review provenance and independent evidence-digest verification. |
+| `d8f4296` | Reconciled public and canonical evidence for signed review provenance. |
+| `6aa0500` | Policy-gated local session initialisation, Git baseline evidence, private-state protections, and command-line operator path. |
+| `b66da29` | Fail-closed Git-ignore and symbolic-link preflight for private local session storage. |
 
 ## Codex contribution
 

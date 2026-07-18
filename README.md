@@ -13,6 +13,7 @@ The cryptographic claim is deliberately narrow: a valid passport shows that the 
 - Strict TypeScript schemas for evidence events, findings, manifests, and signatures.
 - Pre-persistence secret redaction, output bounds, identifier pseudonymisation, and raw-reasoning exclusion.
 - A genuine sanitised `codex exec --json` capture from `codex-cli 0.145.0-alpha.18`.
+- Policy-gated local session initialisation with allowed-root enforcement, Git baseline capture, private permissions, and symbolic-link rejection.
 - Secure Hash Algorithm 256-bit artifact hashing and a hash-linked event chain.
 - A deterministic Merkle root and detached Ed25519 signature.
 - An independent command-line verifier with visible tamper failure and an eight-check result, including signed review provenance.
@@ -25,7 +26,8 @@ The cryptographic claim is deliberately narrow: a valid passport shows that the 
 
 | Surface | Evidence-backed status |
 |---|---|
-| Local repository | Core build, 55 product tests, and 6 demonstration tests pass. |
+| Local repository | Core build, 62 product tests, and 6 demonstration tests pass. |
+| Local session | Command-line initialisation is verified. Live App Server control remains route-blocked and unverified. |
 | Genuine Codex capture | Verified through the JavaScript Object Notation fallback. Raw capture is private; the public fixture is sanitised. |
 | GPT-5.6 runtime | Request and schema behaviour are tested with a mocked transport. A real billed call is still pending secure 1Password approval. |
 | Passport | Synthetic signed fixture verifies. Genuine candidate is intentionally unsealed pending model review and human approval. |
@@ -43,6 +45,7 @@ packages/evidence        Redaction, normalisation, event chaining, and review di
 packages/codex-adapter   Version-pinned Codex JavaScript Object Notation importer
 packages/review          GPT-5.6 review contracts and deterministic seal gate
 packages/passport        Genuine manifest assembly
+packages/session         Policy-gated local session and Git baseline initialisation
 packages/verifier        Independent verification
 packages/cli             Capture import, candidate assembly, and verification commands
 demo/password-reset-workspace
@@ -60,6 +63,32 @@ planning                 Decisions, blockers, validation, security review, and c
 - Separately billed OpenAI Application Programming Interface access for genuine runtime GPT-5.6 review.
 
 The hosted judge route will not require an account, an Application Programming Interface key, or local code execution.
+
+## Initialise a local session
+
+Create a private request file outside the public repository after the redaction and storage policies have been displayed and acknowledged:
+
+```json
+{
+  "repositoryPath": "/absolute/path/to/repository",
+  "allowedRoot": "/absolute/path/to/allowed-root",
+  "task": "Implement the agreed change.",
+  "acceptanceCriteria": ["The required behaviour is tested."],
+  "policy": {
+    "redactionPolicyDisplayed": true,
+    "storagePolicyDisplayed": true,
+    "acknowledged": true
+  }
+}
+```
+
+Then initialise the session:
+
+```zsh
+node packages/cli/dist/index.js init-session /absolute/path/to/request.json --json
+```
+
+Private state is written under the selected repository’s `.flight-recorder/` directory with restrictive permissions. Initialisation fails unless that directory is already ignored by Git. The tool does not silently change the target repository’s ignore rules. Session identifiers, local paths, raw captures, and signing keys must not be committed.
 
 ## Local verification
 
