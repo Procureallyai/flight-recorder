@@ -1,6 +1,6 @@
 # Flight Recorder Build Week Execution Plan
 
-**Status:** Canonical setup in progress. Product implementation has not started.
+**Status:** End-to-end goal active. Deterministic passport Gate A is implemented and verified locally.
 
 ## Objective
 
@@ -13,7 +13,7 @@ Build, test, document, deploy, and prepare Flight Recorder for the OpenAI Build 
 3. Evidence schema, event chain, redaction, and fixture pipeline.
 4. GPT-5.6 specialist reviews, synthesis, and deterministic seal gate.
 5. Codex App Server adapter with a formal fallback gate.
-6. Complete hosted replay and local-live interface.
+6. Invoke the Product Design workflow, select a visual direction, then complete the hosted replay and local-live interface using accessible shadcn/ui primitives where appropriate.
 7. Security hardening, unit tests, integration tests, end-to-end tests, and production build.
 8. GitHub repository, release history, licence, and Build Week evidence.
 9. Public judge deployment and no-login verification.
@@ -38,6 +38,11 @@ Build, test, document, deploy, and prepare Flight Recorder for the OpenAI Build 
 - Hosting: existing eligible provider or paid Vercel Pro; do not assume Vercel Hobby is valid for a prize-bearing deployment without provider confirmation.
 - Runtime model budget and OpenAI Application Programming Interface billing authority.
 - Build credits: US$100 Build Week Codex credit confirmed received; actual remaining balance is not yet inspected.
+- Front-end delivery: Product Design skill invocation and visual selection are mandatory before user-interface implementation; use shadcn/ui to compress standard component work.
+- Devpost Plugin: installed and connected as an advisory aid; it never overrides current official rules or verified release facts.
+- Secrets: use user-approved 1Password Environments injection for the OpenAI Application Programming Interface key and deployment credentials; never persist raw values.
+- Repository: target a public, appropriately licensed repository under the authenticated individual owner. Current GitHub command-line authentication is invalid and must be repaired before remote creation.
+- Parallelism: use explicitly owned sub-agent lanes when they materially accelerate research, review, testing, accessibility, security, or documentation. Preserve the primary task as the majority core-build record.
 
 ## Time control
 

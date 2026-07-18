@@ -20,6 +20,8 @@ description: Build, continue, review, or release the Flight Recorder OpenAI Buil
 - Do not copy Evidary production code. Prior artificial intelligence assurance expertise may inform decisions only.
 - Never persist raw model reasoning, secrets, Codex credentials, private signing keys, or the private `/feedback` Session ID.
 - Use advisory GPT-5.6 findings plus deterministic application gates. Never let model output certify correctness, security, compliance, identity, or trusted time.
+- Before front-end implementation, invoke `product-design:index`, follow its routed visual-selection workflow, and use accessible shadcn/ui primitives where they accelerate standard component delivery.
+- Use sub-agents for bounded parallel research, review, testing, accessibility, security, or documentation work when materially helpful. Keep most core implementation and every final truth claim in the primary task, assign explicit ownership, and never delegate secrets, legal acceptance, purchases, or final submission.
 
 ## Validate and close
 

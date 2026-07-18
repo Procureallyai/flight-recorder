@@ -1,0 +1,20 @@
+{
+  "name": "@flight-recorder/cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "flight-recorder": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
+    "generate-demo": "pnpm build && node dist/index.js generate-demo",
+    "verify": "pnpm build && node dist/index.js verify ../../fixtures/demo-passport/passport.json ../../fixtures/demo-passport/artifacts"
+  },
+  "dependencies": {
+    "@flight-recorder/crypto": "workspace:*",
+    "@flight-recorder/schema": "workspace:*",
+    "@flight-recorder/verifier": "workspace:*"
+  }
+}

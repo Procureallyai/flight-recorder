@@ -1,0 +1,134 @@
+{
+  "manifest": {
+    "schemaVersion": "0.1.0",
+    "passportId": "flight-recorder-demo-001",
+    "createdAt": "2026-07-18T12:23:00.000+00:00",
+    "timestampType": "local-recorded-time",
+    "project": {
+      "name": "Password reset demonstration",
+      "repositoryCommit": "demo-build-week-2026"
+    },
+    "session": {
+      "task": "Implement a password-reset endpoint using expiring, single-use reset tokens.",
+      "acceptanceCriteria": [
+        "Prevent account enumeration.",
+        "Do not log raw tokens.",
+        "Record a safe audit event.",
+        "Test known and unknown accounts."
+      ]
+    },
+    "artifacts": [
+      {
+        "id": "artifact-1",
+        "path": "src/password-reset.ts",
+        "mediaType": "text/typescript",
+        "size": 315,
+        "sha256": "ec30a3056a18d6c17d4d0b596bd440adf2ec29f274cd807c5281097250746e59"
+      },
+      {
+        "id": "artifact-2",
+        "path": "test/password-reset.test.ts",
+        "mediaType": "text/typescript",
+        "size": 249,
+        "sha256": "8de609e6ca93685c29863922bb9ab5159082baa5dc9668cab529db887eababcc"
+      }
+    ],
+    "events": [
+      {
+        "id": "event-001",
+        "recordedAt": "2026-07-18T12:00:00.000+00:00",
+        "type": "task",
+        "summary": "Codex received the password-reset task and acceptance criteria.",
+        "payload": {
+          "acceptanceCriteriaCount": 4
+        },
+        "index": 0,
+        "previousHash": null,
+        "hash": "ace4af233468b12321074ea40548aae1c52f48f0878fb9156a790fb9f432c1fa"
+      },
+      {
+        "id": "event-002",
+        "recordedAt": "2026-07-18T12:08:00.000+00:00",
+        "type": "review",
+        "summary": "The security reviewer identified account-enumeration and token-logging risks.",
+        "payload": {
+          "findingIds": [
+            "finding-security-001"
+          ]
+        },
+        "index": 1,
+        "previousHash": "ace4af233468b12321074ea40548aae1c52f48f0878fb9156a790fb9f432c1fa",
+        "hash": "0c477926a5d466954411449bdcfd6a29789f1e19e995c77d03d5d858c96671ec"
+      },
+      {
+        "id": "event-003",
+        "recordedAt": "2026-07-18T12:16:00.000+00:00",
+        "type": "file-change",
+        "summary": "Codex remediated the evidenced defects.",
+        "payload": {
+          "artifactIds": [
+            "artifact-1",
+            "artifact-2"
+          ]
+        },
+        "index": 2,
+        "previousHash": "0c477926a5d466954411449bdcfd6a29789f1e19e995c77d03d5d858c96671ec",
+        "hash": "59167a7dcab6f4d07f726a4d8ba8b8c54acca2a357877889e92f9377d6b9d3a8"
+      },
+      {
+        "id": "event-004",
+        "recordedAt": "2026-07-18T12:20:00.000+00:00",
+        "type": "test",
+        "summary": "Known-account, unknown-account, token-log, expiry, and reuse tests passed.",
+        "payload": {
+          "exitCode": 0,
+          "testCount": 5
+        },
+        "index": 3,
+        "previousHash": "59167a7dcab6f4d07f726a4d8ba8b8c54acca2a357877889e92f9377d6b9d3a8",
+        "hash": "7041fa0746af8e9caabf379414ebab415a44627f97216ae4cc2ba5c0097b84d8"
+      },
+      {
+        "id": "event-005",
+        "recordedAt": "2026-07-18T12:22:00.000+00:00",
+        "type": "approval",
+        "summary": "Human approved the evidence set for sealing.",
+        "payload": {
+          "decision": "approved"
+        },
+        "index": 4,
+        "previousHash": "7041fa0746af8e9caabf379414ebab415a44627f97216ae4cc2ba5c0097b84d8",
+        "hash": "56b7d135c1ebf714d25031d3a8209141028376741ed3c6f7cb3e15cc7709a5ae"
+      }
+    ],
+    "findings": [
+      {
+        "id": "finding-security-001",
+        "reviewer": "security",
+        "severity": "blocking",
+        "title": "Password-reset response and logging defects",
+        "detail": "The initial implementation revealed account existence and logged a raw reset token. The final artifacts remediate both defects.",
+        "evidenceIds": [
+          "event-002",
+          "event-003",
+          "event-004"
+        ],
+        "resolved": true
+      }
+    ],
+    "eventChainHead": "56b7d135c1ebf714d25031d3a8209141028376741ed3c6f7cb3e15cc7709a5ae",
+    "merkleRoot": "c88dc4f2779b5848397f4a7915edd1cc4dad36dd6e74b65d3b793adf5b66684c",
+    "sealDecision": {
+      "ready": true,
+      "blockingReasons": [],
+      "humanApproved": true
+    },
+    "claim": "The covered evidence has not changed since it was sealed by the holder of the corresponding signing key."
+  },
+  "signature": {
+    "algorithm": "Ed25519",
+    "publicKeyPem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAMAc2YJhZTsNKGzX8wtCPQS1XfBxLYq7JCO2fE51kklo=\n-----END PUBLIC KEY-----\n",
+    "signedDigestSha256": "c6798490b8a90112087b7f1892043968e87fb7585846acf4063cdfdd2be29410",
+    "signatureBase64": "2zHAzW3ZI40g/foYTNRICmV6n7l+2/czQnSOzPFdb7gXjdp3GgntWuOANOvAk0HC1WzW97FRAO60oA8/qRbACg=="
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "flight-recorder",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A verifiable engineering passport for software built with Codex.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "packageManager": "pnpm@8.15.9",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "pnpm --recursive --workspace-concurrency=1 run build",
+    "clean": "pnpm --recursive run clean",
+    "test": "pnpm build && vitest run",
+    "test:watch": "vitest",
+    "typecheck": "pnpm build",
+    "demo:generate": "pnpm build && node packages/cli/dist/index.js generate-demo",
+    "verify": "pnpm build && node packages/cli/dist/index.js verify fixtures/demo-passport/passport.json fixtures/demo-passport/artifacts",
+    "validate:truth": "bash scripts/validate-canonical-truth.sh"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.8.0",
+    "vitest": "^3.2.0"
+  },
+  "dependencies": {
+    "zod": "^3.25.0"
+  }
+}
