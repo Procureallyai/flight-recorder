@@ -20,13 +20,14 @@ The cryptographic claim is deliberately narrow: a valid passport shows that the 
 - A deterministic portable directory bundle with detached signature, public key, evidence projections, covered artifacts, review files, scope limitations, an integrity index, and a self-contained report.
 - Four parallel GPT-5.6 specialist-review contracts and a synthesis contract, using strict Structured Outputs, `store: false`, no tools, bounded inputs and outputs, timeouts, and an explicit disabled-by-default runtime switch.
 - A deterministic seal-readiness policy that remains separate from model judgement.
+- Signed human finding decisions that preserve reasons, timestamps, approval evidence, and the distinction between remediation and accepted risk.
 - An unsealed genuine-session candidate containing 19 captured events and two final artifacts.
 
 ## Current truth
 
 | Surface | Evidence-backed status |
 |---|---|
-| Local repository | Core build, 79 product tests, and 6 demonstration tests pass. |
+| Local repository | Core build, 83 product tests, and 6 demonstration tests pass. |
 | Local session | Command-line initialisation is verified. Live App Server control remains route-blocked and unverified. |
 | Genuine Codex capture | Verified through the JavaScript Object Notation fallback. Raw capture is private; the public fixture is sanitised. |
 | GPT-5.6 runtime | Request and schema behaviour are tested with a mocked transport. A real billed call is still pending secure 1Password approval. |

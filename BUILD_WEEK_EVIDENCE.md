@@ -30,6 +30,8 @@ The repository history and this primary Codex task identify the work performed d
 | `b66da29` | Fail-closed Git-ignore and symbolic-link preflight for private local session storage. |
 | `4de833b` | Reconciled operator documentation and validation evidence for local session initialisation. |
 | `351037c` | Exact test-evidence classification, configurable and manual confirmation paths, and exit-code-authoritative regressions. |
+| `1e3590e` | Reconciled documentation and validation evidence for exact test classification. |
+| `2bea430` | Signed human finding decisions, approval-event traceability, and fail-closed accepted-risk policy. |
 
 ## Codex contribution
 
