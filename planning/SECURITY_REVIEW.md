@@ -32,3 +32,5 @@ The gate now requires every criterion to be supported, every declared required t
 Commit `cd6c5cd` added verifier-visible review provenance. A genuine passport cannot be sealed without a signed five-call receipt. Independent verification recomputes the evidence digest from recorded events and rejects missing, stale, duplicated, or mixed review receipts even when the enclosing signature is otherwise valid.
 
 Commit `2bea430` separated human decisions from original model findings. Decisions require a reason, timestamp, human actor, declared finding, and approval event. A resolution cannot rewrite an unresolved original finding, and accepted risk cannot clear a blocking finding.
+
+Commit `65db1eb` added the local bridge security boundary. It binds only to `127.0.0.1`, uses a 256-bit session token carried in a one-time fragment link, replaces the fragment before pairing, sets a restricted session cookie, applies no-store and same-origin headers, rejects non-loopback origins, does not echo tokens, and exposes no generic command route. Full App Server control is not implied by this boundary proof.

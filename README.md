@@ -14,6 +14,7 @@ The cryptographic claim is deliberately narrow: a valid passport shows that the 
 - Pre-persistence secret redaction, output bounds, identifier pseudonymisation, and raw-reasoning exclusion.
 - A genuine sanitised `codex exec --json` capture from `codex-cli 0.145.0-alpha.18`.
 - Policy-gated local session initialisation with allowed-root enforcement, Git baseline capture, private permissions, and symbolic-link rejection.
+- An authenticated `127.0.0.1` bridge boundary with a random 256-bit session token, one-time fragment pairing, strict loopback origins, and no generic command endpoint.
 - Secure Hash Algorithm 256-bit artifact hashing and a hash-linked event chain.
 - A deterministic Merkle root and detached Ed25519 signature.
 - An independent command-line verifier with visible tamper failure and an eight-check result, including signed review provenance.
@@ -27,8 +28,8 @@ The cryptographic claim is deliberately narrow: a valid passport shows that the 
 
 | Surface | Evidence-backed status |
 |---|---|
-| Local repository | Core build, 83 product tests, and 6 demonstration tests pass. |
-| Local session | Command-line initialisation is verified. Live App Server control remains route-blocked and unverified. |
+| Local repository | Core build, 86 product tests, and 6 demonstration tests pass. |
+| Local session | Command-line initialisation and the authenticated loopback bridge boundary are verified. The desktop Codex preflight matches `codex-cli 0.145.0-alpha.18`. Live App Server control remains route-blocked and unverified. |
 | Genuine Codex capture | Verified through the JavaScript Object Notation fallback. Raw capture is private; the public fixture is sanitised. |
 | GPT-5.6 runtime | Request and schema behaviour are tested with a mocked transport. A real billed call is still pending secure 1Password approval. |
 | Passport | Synthetic signed fixture verifies. Genuine candidate is intentionally unsealed pending model review and human approval. |
@@ -40,6 +41,7 @@ See [the validation matrix](planning/VALIDATION_MATRIX.md) and [active context](
 ## Repository structure
 
 ```text
+apps/bridge             Authenticated loopback bridge and Codex preflight
 packages/schema          Signed-envelope and evidence schemas
 packages/crypto          Canonicalisation, hashing, Merkle tree, and Ed25519
 packages/evidence        Redaction, normalisation, event chaining, and review digest

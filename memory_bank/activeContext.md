@@ -11,12 +11,12 @@
 
 - Workspace: `LOCAL_HOME/Documents/Flight Recorder Codex Build Week`
 - Git repository exists on `main` with dated Build Week provenance commits.
-- Commit `2bea430` checkpoints signed human finding decisions after exact test classification and review provenance.
+- Commit `65db1eb` checkpoints the authenticated loopback bridge after signed human decisions and exact test classification.
 - The four supplied handoff documents are stored under `docs/handoff/` with matching source hashes.
 - Canonical project and skill scaffolding is being created.
 - The TypeScript workspace now contains schema, cryptography, evidence, verifier, and command-line packages.
 - A deterministic public demonstration passport and synthetic password-reset artifacts exist under `fixtures/demo-passport/`.
-- `pnpm test` passes 83 product tests covering valid verification, tamper failure, strict signed-envelope boundaries, seal-policy contradictions, evidence-bound review gates, signed review provenance, signed human finding decisions, Ed25519 algorithm enforcement, malformed-key fail-closed behaviour, path traversal, prototype-named paths, symbolic links, portable bundle integrity, private local-session initialisation, exact test classification, pre-hash secret redaction, bounded untrusted output, stable evidence digests, mocked structured reviews, runtime-review budget controls, command-line exit codes, and Codex fallback import.
+- `pnpm test` passes 86 product tests with loopback permission, covering valid verification, tamper failure, strict signed-envelope boundaries, seal-policy contradictions, evidence-bound review gates, signed review provenance, signed human finding decisions, Ed25519 algorithm enforcement, malformed-key fail-closed behaviour, path traversal, prototype-named paths, symbolic links, portable bundle integrity, private local-session initialisation, authenticated loopback pairing, exact test classification, pre-hash secret redaction, bounded untrusted output, stable evidence digests, mocked structured reviews, runtime-review budget controls, command-line exit codes, and Codex fallback import.
 - `pnpm verify` passes all eight command-line checks against the generated demonstration fixture.
 - The evidence layer now creates redacted hash-linked events and a deterministic review digest with explicit transmission categories.
 - A current Responses Application Programming Interface client now runs four parallel strict specialist reviews followed by synthesis, with `store: false`, bounded output, no tools, explicit untrusted-data boundaries, and injectable secrets. Only mocked calls have run.
@@ -24,8 +24,9 @@
 - A genuine `codex-cli 0.145.0-alpha.18` remediation capture completed with exit code 0. Nineteen sanitised events imported with no issues, and the synthetic password-reset tests expanded from 1 to 6 passing tests.
 - The raw capture remains private and gitignored. The public fixture records approval coverage as `not-observed` and contains no raw reasoning or absolute local path.
 - `pnpm candidate:generate` assembles a genuine-session passport candidate from the 19 events and two final artifacts at commit `75c0e45`. It is intentionally unsealed with no model findings, `ready: false`, and `humanApproved: false`.
-- Portable-path, count, and file-size limits now protect schema, command-line verification, and deterministic directory bundles. The product suite passes 83 tests, plus 6 demonstration-workspace tests.
-- The public-file secret scan passed across 96 files without printing candidate values. Full production and development dependency audits reported no known vulnerabilities.
+- Portable-path, count, and file-size limits now protect schema, command-line verification, and deterministic directory bundles. The product suite passes 86 tests, plus 6 demonstration-workspace tests.
+- The public-file secret scan passed across 100 files without printing candidate values. Full production and development dependency audits reported no known vulnerabilities.
+- The bridge binds only to `127.0.0.1`, uses a one-time fragment pairing link and restricted session cookie, rejects non-loopback origins, exposes no generic command endpoint, and reports App Server honestly as not connected. Live executable preflight matches `codex-cli 0.145.0-alpha.18`.
 - Local session initialisation now enforces an explicit allowed Git root, policy acknowledgement, and a pre-existing `.flight-recorder/` Git-ignore rule; it captures the baseline commit and dirty-state digest, writes mode `0700` and `0600` private state, and rejects symbolic-link storage. Full live App Server control remains unverified.
 - A synthetic 20-file portable passport bundle exported and independently reverified from `/private/tmp`; it is proof of bundle mechanics, not genuine final provenance.
 - A read-only security review found six material Gate A issues. The cryptographic and verifier flaws were repaired and regression-tested; the synthetic fixture is explicitly barred from being represented as genuine evidence.

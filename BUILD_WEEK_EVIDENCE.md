@@ -32,6 +32,8 @@ The repository history and this primary Codex task identify the work performed d
 | `351037c` | Exact test-evidence classification, configurable and manual confirmation paths, and exit-code-authoritative regressions. |
 | `1e3590e` | Reconciled documentation and validation evidence for exact test classification. |
 | `2bea430` | Signed human finding decisions, approval-event traceability, and fail-closed accepted-risk policy. |
+| `51777db` | Reconciled public, security, and validation evidence for signed human decisions. |
+| `65db1eb` | Authenticated loopback bridge boundary, one-time pairing, strict origin policy, and tested Codex executable preflight. |
 
 ## Codex contribution
 

@@ -15,3 +15,11 @@
 - Why it slowed or risked the work: relying on the first executable in `PATH` produced a false capture failure and stale protocol assumptions.
 - Suggested fix: discovery must inspect all candidate binaries, prefer the signed-in desktop-bundled binary when version-compatible, and record the exact tested path and version.
 - Recommended promotion target: local capture preflight and delivery skill.
+
+## 18 July 2026: managed sandbox denied loopback test binding
+
+- Surface: validation
+- What happened: bridge tests that bind an ephemeral `127.0.0.1` port failed with `EPERM` in the default managed sandbox and passed unchanged through the narrow approved loopback route.
+- Why it slowed or risked the work: an ordinary test failure could be misreported as an application defect even though compilation and the same runtime checks pass outside the socket-restricted sandbox.
+- Suggested fix: label loopback-runtime proof separately, request only ephemeral loopback permission for this test group, and retain conventional continuous integration execution as the portable gate.
+- Recommended promotion target: project skill update if the restriction recurs in later bridge or browser integration work.
