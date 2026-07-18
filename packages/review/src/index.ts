@@ -33,6 +33,9 @@ export const synthesisReviewSchema = z.object({
   limitations: z.array(z.string()),
 });
 
+const specialistResponseSchema = specialistReviewSchema.omit({ model: true });
+const synthesisResponseSchema = synthesisReviewSchema.omit({ model: true });
+
 export type SpecialistName = (typeof specialistNames)[number];
 export type SpecialistReview = z.infer<typeof specialistReviewSchema>;
 export type SynthesisReview = z.infer<typeof synthesisReviewSchema>;
@@ -107,10 +110,9 @@ function specialistJsonSchema(reviewer: SpecialistName): object {
   return {
     type: "object",
     additionalProperties: false,
-    required: ["reviewer", "model", "verdict", "findings", "limitations"],
+    required: ["reviewer", "verdict", "findings", "limitations"],
     properties: {
       reviewer: { type: "string", enum: [reviewer] },
-      model: { type: "string" },
       verdict: { type: "string", enum: ["pass", "warn", "fail", "unsupported"] },
       findings: { type: "array", items: findingJsonSchema },
       limitations: { type: "array", items: { type: "string" } },
@@ -121,10 +123,9 @@ function specialistJsonSchema(reviewer: SpecialistName): object {
 const synthesisJsonSchema = {
   type: "object",
   additionalProperties: false,
-  required: ["reviewer", "model", "verdict", "summary", "findings", "limitations"],
+  required: ["reviewer", "verdict", "summary", "findings", "limitations"],
   properties: {
     reviewer: { type: "string", enum: ["synthesis"] },
-    model: { type: "string" },
     verdict: { type: "string", enum: ["ready", "not-ready", "unsupported"] },
     summary: { type: "string" },
     findings: { type: "array", items: findingJsonSchema },
@@ -215,7 +216,7 @@ export class ReviewClient {
     developer: string;
     input: unknown;
     inputDigestSha256: string;
-    parse: (value: unknown) => T;
+    parse: (value: unknown, responseModel: string) => T;
   }): Promise<ReviewCall<T>> {
     this.#callsMade += 1;
     if (this.#callsMade > this.#maxCalls) {
@@ -269,7 +270,8 @@ export class ReviewClient {
         createdAt: typeof raw.created_at === "number" ? new Date(raw.created_at * 1_000).toISOString() : new Date().toISOString(),
         model: raw.model,
         inputDigestSha256: args.inputDigestSha256,
-        output: args.parse(parsedJson),
+        // Model identity is authoritative response metadata, never model-authored output text.
+        output: args.parse(parsedJson, raw.model),
       };
     } finally {
       clearTimeout(timeout);
@@ -283,7 +285,10 @@ export class ReviewClient {
       developer: `${untrustedDataBoundary} ${reviewerInstructions[reviewer]}`,
       input: digest,
       inputDigestSha256: digest.inputDigestSha256,
-      parse: (value) => specialistReviewSchema.parse(value),
+      parse: (value, responseModel) => specialistReviewSchema.parse({
+        ...specialistResponseSchema.parse(value),
+        model: responseModel,
+      }),
     })));
 
     const synthesis = await this.#call({
@@ -292,7 +297,10 @@ export class ReviewClient {
       developer: `${untrustedDataBoundary} Synthesize the four structured specialist reviews. Preserve evidence references and do not treat model judgement as certification.`,
       input: { specialists: specialists.map((entry) => entry.output), evidenceStatistics: { eventCount: digest.eventCount, eventTypes: digest.eventTypes } },
       inputDigestSha256: digest.inputDigestSha256,
-      parse: (value) => synthesisReviewSchema.parse(value),
+      parse: (value, responseModel) => synthesisReviewSchema.parse({
+        ...synthesisResponseSchema.parse(value),
+        model: responseModel,
+      }),
     });
 
     return { specialists, synthesis };

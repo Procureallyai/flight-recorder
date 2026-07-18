@@ -1,0 +1,630 @@
+{
+  "schemaVersion": "0.1.0",
+  "evidenceSource": "codex-exec-json",
+  "evidenceDigestSha256": "6d177b9104bbf0163d03c67f1ac26a2c86e55b37044895e46ea2c32bc4734416",
+  "eventCount": 19,
+  "provenance": {
+    "evidenceSource": "codex-exec-json",
+    "evidenceDigestSha256": "6d177b9104bbf0163d03c67f1ac26a2c86e55b37044895e46ea2c32bc4734416",
+    "calls": [
+      {
+        "reviewer": "requirements",
+        "responseId": "resp_0b6331e9cc4ec9ec016a5bfbefc458819cad54f002e1ea0304",
+        "createdAt": "2026-07-18T22:19:27.000Z",
+        "model": "gpt-5.6-sol",
+        "inputDigestSha256": "6d177b9104bbf0163d03c67f1ac26a2c86e55b37044895e46ea2c32bc4734416"
+      },
+      {
+        "reviewer": "security",
+        "responseId": "resp_042f9d4b1e846c60016a5bfbefc5408192a6ffcbc3941762f4",
+        "createdAt": "2026-07-18T22:19:27.000Z",
+        "model": "gpt-5.6-sol",
+        "inputDigestSha256": "6d177b9104bbf0163d03c67f1ac26a2c86e55b37044895e46ea2c32bc4734416"
+      },
+      {
+        "reviewer": "tests",
+        "responseId": "resp_077597a320fd825f016a5bfbefc76881a2917c5495974dfd5e",
+        "createdAt": "2026-07-18T22:19:27.000Z",
+        "model": "gpt-5.6-sol",
+        "inputDigestSha256": "6d177b9104bbf0163d03c67f1ac26a2c86e55b37044895e46ea2c32bc4734416"
+      },
+      {
+        "reviewer": "evidence",
+        "responseId": "resp_020dcb267c8550c2016a5bfbefc31c81a1beb709b718f324f5",
+        "createdAt": "2026-07-18T22:19:27.000Z",
+        "model": "gpt-5.6-sol",
+        "inputDigestSha256": "6d177b9104bbf0163d03c67f1ac26a2c86e55b37044895e46ea2c32bc4734416"
+      },
+      {
+        "reviewer": "synthesis",
+        "responseId": "resp_049a00d7aa55366e016a5bfc0de94c819f8022e656cc7d13c5",
+        "createdAt": "2026-07-18T22:19:57.000Z",
+        "model": "gpt-5.6-sol",
+        "inputDigestSha256": "6d177b9104bbf0163d03c67f1ac26a2c86e55b37044895e46ea2c32bc4734416"
+      }
+    ]
+  },
+  "run": {
+    "specialists": [
+      {
+        "responseId": "resp_0b6331e9cc4ec9ec016a5bfbefc458819cad54f002e1ea0304",
+        "createdAt": "2026-07-18T22:19:27.000Z",
+        "model": "gpt-5.6-sol",
+        "inputDigestSha256": "6d177b9104bbf0163d03c67f1ac26a2c86e55b37044895e46ea2c32bc4734416",
+        "output": {
+          "reviewer": "requirements",
+          "model": "gpt-5.6-sol",
+          "verdict": "warn",
+          "findings": [
+            {
+              "id": "REQ-001",
+              "title": "Neutral responses for known and unknown accounts are supported by passing tests",
+              "severity": "info",
+              "status": "resolved",
+              "claim": "Acceptance criterion 2 is supported: known and unknown accounts receive equal neutral public responses.",
+              "rationale": "The post-change suite reports passing tests for each account state and exact public-response equality. The implementation summary also states that one neutral response is returned for both states.",
+              "evidenceRefs": [
+                "ev_000014",
+                "ev_000015",
+                "ev_000017"
+              ],
+              "affectedCriteria": [
+                "AC2: Known and unknown accounts receive the same neutral public response"
+              ],
+              "remediation": "No remediation indicated by the supplied evidence."
+            },
+            {
+              "id": "REQ-002",
+              "title": "Safe logging and identifier-free audit behavior are covered, but source assertions are not inspectable",
+              "severity": "low",
+              "status": "resolved",
+              "claim": "Acceptance criteria 3 and 4 are supported at the test-execution level.",
+              "rationale": "A passing test is explicitly named as checking that logs and audit events are safe and identical for known and unknown accounts, while completion summaries state that raw tokens and account identifiers were removed. However, the digest does not include the changed source or test bodies, so assertion quality cannot be independently reviewed.",
+              "evidenceRefs": [
+                "ev_000013",
+                "ev_000014",
+                "ev_000015",
+                "ev_000017"
+              ],
+              "affectedCriteria": [
+                "AC3: Raw reset tokens never enter logs or audit events",
+                "AC4: A safe audit event is recorded without direct account or token identifiers"
+              ],
+              "remediation": "Include the final implementation diff or post-change file contents so reviewers can verify that no sensitive values reach telemetry and that the audit event is actually emitted on both paths."
+            },
+            {
+              "id": "REQ-003",
+              "title": "Token expiry and one-use configuration are tested, but enforcement is not independently established",
+              "severity": "medium",
+              "status": "open",
+              "claim": "Acceptance criterion 1 is only partially demonstrated.",
+              "rationale": "The passing suite includes tests named for a 15-minute expiry and the single-use contract, and the completion report says the issuer receives `expiresInMinutes: 15` and `maxUses: 1`. The same report explicitly acknowledges that persistence-layer enforcement is outside the workspace and was not inspected. Therefore configuration is supported, but actual expiration and prevention of token reuse are not proven by the supplied evidence.",
+              "evidenceRefs": [
+                "ev_000015",
+                "ev_000017"
+              ],
+              "affectedCriteria": [
+                "AC1: Password-reset tokens expire and are single use"
+              ],
+              "remediation": "Add an integration or issuer-level test demonstrating rejection after expiry and rejection on a second redemption. If enforcement is intentionally delegated, document the issuer contract and supply evidence that its implementation enforces both properties."
+            },
+            {
+              "id": "REQ-004",
+              "title": "Requested automated coverage is reported as passing",
+              "severity": "info",
+              "status": "resolved",
+              "claim": "Acceptance criterion 5 is supported by six passing tests whose names correspond to all requested coverage areas.",
+              "rationale": "The final test run reports tests for known accounts, unknown accounts, exact response equality, safe logs and audits, expiry configuration, and the single-use contract, with 6 passes and 0 failures. Because the changed test source is absent from the command output, this establishes execution and topical coverage but not the detailed strength of every assertion.",
+              "evidenceRefs": [
+                "ev_000015",
+                "ev_000016",
+                "ev_000017"
+              ],
+              "affectedCriteria": [
+                "AC5: Automated tests cover known and unknown accounts, response equality, safe logging and audit behavior, token expiry configuration, and single-use contract"
+              ],
+              "remediation": "Retain the passing suite and provide the post-change test source or diff for assertion-level review."
+            },
+            {
+              "id": "REQ-005",
+              "title": "Canonical validation plan status contradicts the final report",
+              "severity": "medium",
+              "status": "open",
+              "claim": "The recorded plan marks canonical truth validation complete even though the final report says the required validation assets were absent and were not run.",
+              "rationale": "The plan marks “Run focused tests, full suite, and canonical truth validation” completed. Earlier discovery found none of the named truth files, and the final report explicitly says the canonical-truth validation script and delivery skill were not present and were not run. This is a provenance contradiction, although it does not invalidate the reported local `npm test` result.",
+              "evidenceRefs": [
+                "ev_000006",
+                "ev_000008",
+                "ev_000017",
+                "ev_000018"
+              ],
+              "affectedCriteria": [],
+              "remediation": "Correct the plan item to distinguish completed local tests from skipped or unavailable canonical validation."
+            },
+            {
+              "id": "REQ-006",
+              "title": "Post-change source inspection output is missing",
+              "severity": "low",
+              "status": "open",
+              "claim": "The digest does not expose the final implementation or test contents despite recording a command intended to print them.",
+              "rationale": "The baseline source and tests are present in the evidence, and a later file-change event confirms both files were updated. The subsequent command invokes `nl` on both files but records empty output, leaving reviewers unable to verify the resulting API shape, control flow, or test assertions directly.",
+              "evidenceRefs": [
+                "ev_000009",
+                "ev_000013",
+                "ev_000016"
+              ],
+              "affectedCriteria": [
+                "AC1: Password-reset tokens expire and are single use",
+                "AC2: Known and unknown accounts receive the same neutral public response",
+                "AC3: Raw reset tokens never enter logs or audit events",
+                "AC4: A safe audit event is recorded without direct account or token identifiers",
+                "AC5: Automated tests cover all specified behavior"
+              ],
+              "remediation": "Capture and supply the final diff or complete post-change contents of `src/password-reset.ts` and `test/password-reset.test.ts`."
+            }
+          ],
+          "limitations": [
+            "No post-change source code or test bodies are included; conclusions rely partly on test names, pass output, and completion summaries.",
+            "No test results demonstrate storage-level expiration or rejection of a second token redemption.",
+            "The canonical truth files and validation tooling were absent from the authorized workspace and were not run.",
+            "No external persistence, deployment, browser, or human-acceptance evidence was supplied."
+          ]
+        }
+      },
+      {
+        "responseId": "resp_042f9d4b1e846c60016a5bfbefc5408192a6ffcbc3941762f4",
+        "createdAt": "2026-07-18T22:19:27.000Z",
+        "model": "gpt-5.6-sol",
+        "inputDigestSha256": "6d177b9104bbf0163d03c67f1ac26a2c86e55b37044895e46ea2c32bc4734416",
+        "output": {
+          "reviewer": "security",
+          "model": "gpt-5.6-sol",
+          "verdict": "unsupported",
+          "findings": [
+            {
+              "id": "SEC-001",
+              "title": "Final password-reset implementation is not available for security verification",
+              "severity": "high",
+              "status": "unsupported",
+              "claim": "The final implementation prevents account enumeration and excludes raw tokens and direct account identifiers from logs and audit events.",
+              "rationale": "The supplied digest shows that the baseline implementation returned distinguishable responses and logged/audited raw token and account values. A subsequent file change and passing test names suggest remediation, but neither the final source nor the patch content is included. The command intended to print the changed files has empty captured output, so the actual response and telemetry behavior cannot be independently reviewed.",
+              "evidenceRefs": [
+                "ev_000009",
+                "ev_000013",
+                "ev_000015",
+                "ev_000016",
+                "ev_000017"
+              ],
+              "affectedCriteria": [
+                "Known and unknown accounts receive the same neutral public response",
+                "Raw reset tokens never enter logs or audit events",
+                "Safe audit events omit direct account and token identifiers"
+              ],
+              "remediation": "Supply the final contents or diff of `src/password-reset.ts` and the associated tests, including captured output sufficient to verify response equality and all telemetry fields."
+            },
+            {
+              "id": "SEC-002",
+              "title": "Token expiry and single-use enforcement cannot be established end to end",
+              "severity": "high",
+              "status": "unsupported",
+              "claim": "Reset tokens expire after 15 minutes and can be used no more than once.",
+              "rationale": "The evidence reports tests for a 15-minute expiry and a single-use contract, but the token issuer and its persistence or redemption implementation are outside the supplied workspace. The completion explicitly states that storage-level enforcement was not inspected. Passing an options object to an injected dependency does not itself demonstrate expiry or atomic one-time redemption enforcement.",
+              "evidenceRefs": [
+                "ev_000015",
+                "ev_000017"
+              ],
+              "affectedCriteria": [
+                "Password-reset tokens expire",
+                "Password-reset tokens are single use"
+              ],
+              "remediation": "Review and test the token issuer and redemption path. Verify persisted expiry, rejection after expiration, atomic consume-on-success behavior, and rejection of a second redemption attempt. Include concurrent-redemption coverage where applicable."
+            },
+            {
+              "id": "SEC-003",
+              "title": "Security tests passed, but their assertions are unavailable",
+              "severity": "medium",
+              "status": "unsupported",
+              "claim": "Automated tests adequately cover response equality, safe logging and auditing, expiry configuration, and single-use behavior.",
+              "rationale": "The test runner reports six passing tests with security-relevant names, but the final test source was not captured. Therefore it is not possible to determine whether assertions inspect every logged/audited field, prohibit token and account-derived values, or meaningfully exercise reuse rather than merely checking issuance count.",
+              "evidenceRefs": [
+                "ev_000013",
+                "ev_000015",
+                "ev_000016"
+              ],
+              "affectedCriteria": [
+                "Automated security coverage",
+                "Safe logging and audit behavior",
+                "Single-use contract"
+              ],
+              "remediation": "Provide the final test file and add explicit negative assertions for raw tokens, account IDs, email addresses, and derived identifiers. Exercise actual token redemption twice and after expiry rather than only validating issuance options or call counts."
+            }
+          ],
+          "limitations": [
+            "No final source diff or file contents were supplied after the recorded file change.",
+            "The captured output for the command intended to display and syntax-check the final files is empty.",
+            "No token persistence or redemption implementation is included, so expiry and one-time-use enforcement cannot be independently assessed.",
+            "The broader repository contained unrelated modifications, but their contents were neither supplied nor relevant enough to assess."
+          ]
+        }
+      },
+      {
+        "responseId": "resp_077597a320fd825f016a5bfbefc76881a2917c5495974dfd5e",
+        "createdAt": "2026-07-18T22:19:27.000Z",
+        "model": "gpt-5.6-sol",
+        "inputDigestSha256": "6d177b9104bbf0163d03c67f1ac26a2c86e55b37044895e46ea2c32bc4734416",
+        "output": {
+          "reviewer": "tests",
+          "model": "gpt-5.6-sol",
+          "verdict": "warn",
+          "findings": [
+            {
+              "id": "TST-001",
+              "title": "Single-use behavior is not demonstrated end to end",
+              "severity": "high",
+              "status": "open",
+              "claim": "The reported test verifies one token issuance and allegedly checks a `maxUses: 1` option, but there is no evidence that a token cannot actually be consumed twice.",
+              "rationale": "The passing test is named “one request issues one token under the single-use contract,” which demonstrates issuance count rather than rejection of a second redemption. The final report also acknowledges that persistence-level enforcement was not inspected. This is test presence without adequate behavioral or integration evidence for token single use.",
+              "evidenceRefs": [
+                "ev_000015",
+                "ev_000017"
+              ],
+              "affectedCriteria": [
+                "1",
+                "5"
+              ],
+              "remediation": "Add a token-redemption integration test that successfully consumes a token once and proves a second consumption is rejected. If enforcement belongs to an injected token service, add a contract test for that service and keep the option-forwarding unit test."
+            },
+            {
+              "id": "TST-002",
+              "title": "Expiry enforcement is not behaviorally tested",
+              "severity": "medium",
+              "status": "open",
+              "claim": "Tests reportedly verify a 15-minute issuance configuration, but no boundary or integration test proves that the token works before expiry and fails at or after expiry.",
+              "rationale": "The test output only identifies “token issuance requires a 15-minute expiry,” and the report says storage-level enforcement cannot be independently inspected. Configuration forwarding is useful but is not evidence of expiration behavior.",
+              "evidenceRefs": [
+                "ev_000015",
+                "ev_000017"
+              ],
+              "affectedCriteria": [
+                "1",
+                "5"
+              ],
+              "remediation": "Use an injected clock or token-store test double to test immediately-before-expiry, exact-expiry, and after-expiry behavior. Add integration coverage for the real token issuer where available."
+            },
+            {
+              "id": "TST-003",
+              "title": "Security-test assertions cannot be independently assessed from the digest",
+              "severity": "medium",
+              "status": "open",
+              "claim": "Passing tests are reported for neutral responses and safe telemetry, but the post-change test source and assertions are not present in the supplied evidence.",
+              "rationale": "The file-change event lists modified files and the test runner reports six passing test names, but the command intended to print the final files has empty output. Test names and pass status establish test presence, not assertion adequacy. It is therefore unclear whether checks cover complete payloads, nested values, serialized output, email addresses, account IDs, and raw-token leakage rather than selected fields only.",
+              "evidenceRefs": [
+                "ev_000013",
+                "ev_000015",
+                "ev_000016"
+              ],
+              "affectedCriteria": [
+                "2",
+                "3",
+                "4",
+                "5"
+              ],
+              "remediation": "Provide the final test diff or source. Ensure tests capture every log and audit invocation, recursively inspect or serialize complete telemetry payloads, and assert absence of the raw token, account ID, and submitted email while verifying the exact safe event schema."
+            },
+            {
+              "id": "TST-004",
+              "title": "Known and unknown account paths have reported regression coverage",
+              "severity": "info",
+              "status": "resolved",
+              "claim": "The suite includes known-account, unknown-account, exact response-equality, and telemetry-comparison tests, and all six reported tests pass.",
+              "rationale": "This supplies direct test-run evidence for both account branches and exact public-response equality, improving the baseline from one happy-path test. Assertion internals remain unavailable, as noted separately.",
+              "evidenceRefs": [
+                "ev_000009",
+                "ev_000015"
+              ],
+              "affectedCriteria": [
+                "2",
+                "5"
+              ],
+              "remediation": "Retain these tests as regression coverage and supplement them with the source-level and boundary checks described in the open findings."
+            },
+            {
+              "id": "TST-005",
+              "title": "Failure-path behavior is not covered by reported tests",
+              "severity": "medium",
+              "status": "open",
+              "claim": "No reported tests exercise dependency failures such as account lookup, token issuance, audit, logging, or instruction delivery failures.",
+              "rationale": "The six reported tests cover account state, equality, telemetry safety, expiry configuration, and issuance count only. Missing negative-path evidence leaves error handling and possible security leakage during exceptions unverified.",
+              "evidenceRefs": [
+                "ev_000015"
+              ],
+              "affectedCriteria": [
+                "2",
+                "3",
+                "4",
+                "5"
+              ],
+              "remediation": "Add negative tests for rejected dependency calls. Verify public behavior remains non-enumerating where appropriate, raw tokens and identifiers do not appear in thrown errors or telemetry, and partial failures do not create unexpected duplicate tokens or sends."
+            }
+          ],
+          "limitations": [
+            "No post-change implementation or test source is included in the digest; ev_000016 reports an empty output despite a command intended to print both files.",
+            "No structured testResults were supplied; conclusions rely on captured `npm test` console output.",
+            "No evidence covers the injected token issuer’s persistence or redemption implementation, so actual expiry and single-use enforcement remain unverified.",
+            "Only the focused six-test suite is evidenced. No broader integration, full-repository, deployment, or human acceptance validation is available.",
+            "The reported syntax-check command exited successfully, but its empty output does not expose what final source was checked."
+          ]
+        }
+      },
+      {
+        "responseId": "resp_020dcb267c8550c2016a5bfbefc31c81a1beb709b718f324f5",
+        "createdAt": "2026-07-18T22:19:27.000Z",
+        "model": "gpt-5.6-sol",
+        "inputDigestSha256": "6d177b9104bbf0163d03c67f1ac26a2c86e55b37044895e46ea2c32bc4734416",
+        "output": {
+          "reviewer": "evidence",
+          "model": "gpt-5.6-sol",
+          "verdict": "warn",
+          "findings": [
+            {
+              "id": "F-001",
+              "title": "Post-change implementation and test contents are unavailable",
+              "severity": "high",
+              "status": "open",
+              "claim": "The implementation and expanded tests satisfy all acceptance criteria.",
+              "rationale": "A file-change record identifies two updated files, and a subsequent test run reports six passing tests. However, the digest does not contain the resulting source or test content. The command intended to print both files completed with empty output, so the implementation details and assertion quality cannot be independently reviewed from this evidence.",
+              "evidenceRefs": [
+                "ev_000013",
+                "ev_000015",
+                "ev_000016",
+                "ev_000017"
+              ],
+              "affectedCriteria": [
+                "AC1",
+                "AC2",
+                "AC3",
+                "AC4",
+                "AC5"
+              ],
+              "remediation": "Provide a post-change patch or complete final contents of both changed files, with stable hashes, and rerun the tests against that exact state."
+            },
+            {
+              "id": "F-002",
+              "title": "Single-use and expiry enforcement are only partially demonstrated",
+              "severity": "high",
+              "status": "open",
+              "claim": "Password-reset tokens expire after 15 minutes and can be used exactly once.",
+              "rationale": "The passing test names indicate checks for a 15-minute issuance option and that one request issues one token. The completion message says the tests verify `expiresInMinutes: 15` and `maxUses: 1`, but no final code or assertions are supplied. There is no evidence of token redemption, rejection after first use, rejection after expiry, or persistence-layer enforcement. The agent itself acknowledges that storage-level enforcement was not inspected.",
+              "evidenceRefs": [
+                "ev_000015",
+                "ev_000017"
+              ],
+              "affectedCriteria": [
+                "AC1",
+                "AC5"
+              ],
+              "remediation": "Supply the final interface and tests, and add behavioral tests proving that a token succeeds once, fails on reuse, and fails after simulated expiry. If enforcement belongs to an injected issuer, document and verify that dependency contract."
+            },
+            {
+              "id": "F-003",
+              "title": "Neutral responses and safe telemetry have test-result support but cannot be inspected",
+              "severity": "medium",
+              "status": "open",
+              "claim": "Known and unknown accounts receive identical neutral responses, and logs and audit events expose neither tokens nor direct account identifiers.",
+              "rationale": "The final test run reports passing tests explicitly named for response equality and safe, identical logs and audit events. This is meaningful execution evidence, but the absent final test and source contents prevent verification that assertions cover raw token values, emails, account IDs, event details, and both account paths rather than only narrow examples.",
+              "evidenceRefs": [
+                "ev_000015",
+                "ev_000016"
+              ],
+              "affectedCriteria": [
+                "AC2",
+                "AC3",
+                "AC4",
+                "AC5"
+              ],
+              "remediation": "Provide the final tests and implementation. Tests should inspect complete log and audit payloads for both paths and assert absence of the raw token, email, account ID, and other direct identifiers."
+            },
+            {
+              "id": "F-004",
+              "title": "Canonical validation plan status conflicts with recorded limitations",
+              "severity": "medium",
+              "status": "open",
+              "claim": "Canonical truth validation was completed.",
+              "rationale": "The authoritative plan marks the canonical truth validation step complete, but earlier evidence shows the named truth and delivery files were absent, and the final report explicitly says the broader canonical-truth validation script was not run. The completed plan item therefore overstates validation.",
+              "evidenceRefs": [
+                "ev_000006",
+                "ev_000008",
+                "ev_000017",
+                "ev_000018"
+              ],
+              "affectedCriteria": [
+                "Process integrity"
+              ],
+              "remediation": "Mark canonical validation as blocked or not applicable, or provide evidence that the required validation was actually run. Keep plan status consistent with the final report."
+            },
+            {
+              "id": "F-005",
+              "title": "No final-state diff or repository status was captured",
+              "severity": "medium",
+              "status": "open",
+              "claim": "Only the two scoped workspace files were changed and the workspace was left in the intended final state.",
+              "rationale": "The file-change event reports updates to two scoped files, but there is no post-change Git status or diff. The only Git status predates the remediation and reports unrelated modifications in the parent checkout. Consequently, the exact final delta, absence of additional changes, and relationship between the tested files and final repository state are not established.",
+              "evidenceRefs": [
+                "ev_000010",
+                "ev_000012",
+                "ev_000013",
+                "ev_000015"
+              ],
+              "affectedCriteria": [
+                "Scope control",
+                "Final-state integrity"
+              ],
+              "remediation": "Capture a final scoped diff, final Git status, and hashes of the tested files immediately after the passing test run."
+            },
+            {
+              "id": "F-006",
+              "title": "No review approval or human acceptance is evidenced",
+              "severity": "low",
+              "status": "open",
+              "claim": "The remediation is approved or accepted for delivery.",
+              "rationale": "The final message recommends review and commit through the parent workflow, while the digest contains no reviewer approval, commit, or human acceptance record.",
+              "evidenceRefs": [
+                "ev_000017",
+                "ev_000019"
+              ],
+              "affectedCriteria": [
+                "Delivery approval"
+              ],
+              "remediation": "Obtain and record the required review or acceptance before representing the change as approved for delivery."
+            }
+          ],
+          "limitations": [
+            "Review is limited to the supplied digest; no commands were executed and no files outside it were inspected.",
+            "The digest provides test names and outcomes but no post-change source, assertions, patch, or file hashes.",
+            "The capture contains two error envelopes without their messages, so their effect cannot be assessed.",
+            "No cryptographic binding is shown between the file-change event, the test execution, and a final repository revision.",
+            "Runtime behavior of the injected token persistence or redemption layer is outside the supplied evidence."
+          ]
+        }
+      }
+    ],
+    "synthesis": {
+      "responseId": "resp_049a00d7aa55366e016a5bfc0de94c819f8022e656cc7d13c5",
+      "createdAt": "2026-07-18T22:19:57.000Z",
+      "model": "gpt-5.6-sol",
+      "inputDigestSha256": "6d177b9104bbf0163d03c67f1ac26a2c86e55b37044895e46ea2c32bc4734416",
+      "output": {
+        "reviewer": "synthesis",
+        "model": "gpt-5.6-sol",
+        "verdict": "not-ready",
+        "summary": "The reported six-test run provides meaningful support for neutral responses across known and unknown accounts, and suggests safer logging and auditing. However, readiness is not established because the post-change implementation and test assertions are absent, actual expiry and one-time redemption enforcement were not demonstrated, and the validation record contains provenance and final-state gaps. These are evidence-based review judgments, not certification.",
+        "findings": [
+          {
+            "id": "SYN-001",
+            "title": "Actual token expiry and single-use enforcement are not demonstrated",
+            "severity": "high",
+            "status": "open",
+            "claim": "Password-reset tokens expire after 15 minutes and cannot be redeemed more than once.",
+            "rationale": "The reported tests and completion summary indicate that issuance configuration includes a 15-minute expiry and a single-use contract, but no evidence exercises redemption after expiration or a second redemption. The completion report also acknowledges that persistence-layer enforcement was outside the inspected workspace. Passing configuration to an injected issuer is insufficient to prove end-to-end enforcement.",
+            "evidenceRefs": [
+              "ev_000015",
+              "ev_000017"
+            ],
+            "affectedCriteria": [
+              "AC1: Password-reset tokens expire and are single use",
+              "AC5: Automated coverage of expiry and single-use behavior"
+            ],
+            "remediation": "Provide issuer or integration tests proving successful first redemption, rejection of a second and concurrent redemption, and rejection at or after expiry. Document and inspect the persistence-layer contract if enforcement is delegated."
+          },
+          {
+            "id": "SYN-002",
+            "title": "Final implementation and test assertions cannot be independently reviewed",
+            "severity": "high",
+            "status": "open",
+            "claim": "The changed implementation prevents account enumeration, excludes sensitive values from telemetry, and is adequately tested.",
+            "rationale": "A file-change event and six passing test names suggest that the implementation was remediated, but the final source, patch, and test bodies are not supplied. The command intended to print the changed files has empty captured output. Consequently, reviewers cannot verify exact response behavior, control flow, audit schema, or whether tests inspect complete and nested telemetry payloads for tokens, emails, account IDs, and other direct identifiers.",
+            "evidenceRefs": [
+              "ev_000013",
+              "ev_000015",
+              "ev_000016",
+              "ev_000017"
+            ],
+            "affectedCriteria": [
+              "AC2: Known and unknown accounts receive the same neutral public response",
+              "AC3: Raw reset tokens never enter logs or audit events",
+              "AC4: Safe audit events omit direct account and token identifiers",
+              "AC5: Automated tests cover all specified behavior"
+            ],
+            "remediation": "Supply the final diff or complete contents of `src/password-reset.ts` and `test/password-reset.test.ts`, with stable hashes. Ensure tests compare exact public responses and inspect every log and audit invocation and complete payload for sensitive values on both account paths."
+          },
+          {
+            "id": "SYN-003",
+            "title": "Reported tests support neutral responses and safer telemetry, but only at test-result level",
+            "severity": "medium",
+            "status": "open",
+            "claim": "Known and unknown accounts receive the same neutral response, and their logs and audit events are safe and identical.",
+            "rationale": "The test run reports passing tests for known and unknown accounts, exact response equality, and safe identical telemetry. This is meaningful execution evidence, but absent source and assertion bodies prevent independent assessment of assertion completeness. The behavior is therefore supported but not sufficiently verified for delivery.",
+            "evidenceRefs": [
+              "ev_000014",
+              "ev_000015",
+              "ev_000016",
+              "ev_000017"
+            ],
+            "affectedCriteria": [
+              "AC2: Known and unknown accounts receive the same neutral public response",
+              "AC3: Raw reset tokens never enter logs or audit events",
+              "AC4: A safe audit event is recorded without direct account or token identifiers",
+              "AC5: Automated coverage"
+            ],
+            "remediation": "Retain the reported regression coverage and provide its source. Add explicit negative assertions against raw tokens, submitted email addresses, account IDs, derived identifiers, nested fields, and serialized telemetry."
+          },
+          {
+            "id": "SYN-004",
+            "title": "Failure-path security behavior lacks reported coverage",
+            "severity": "medium",
+            "status": "open",
+            "claim": "Dependency failures preserve non-enumerating responses and do not leak sensitive data or cause unsafe partial operations.",
+            "rationale": "The six reported tests cover account state, response equality, telemetry safety, expiry configuration, and issuance count. No reported test addresses failures in account lookup, token issuance, audit, logging, or instruction delivery, leaving exception leakage and partial-failure behavior unverified.",
+            "evidenceRefs": [
+              "ev_000015"
+            ],
+            "affectedCriteria": [
+              "AC2: Neutral public behavior",
+              "AC3: Sensitive-data exclusion from telemetry",
+              "AC4: Safe auditing",
+              "AC5: Automated coverage"
+            ],
+            "remediation": "Add negative-path tests for each dependency. Verify that errors do not expose account existence, tokens, or identifiers and that partial failures do not result in duplicate issuance or delivery."
+          },
+          {
+            "id": "SYN-005",
+            "title": "Canonical validation status is internally inconsistent",
+            "severity": "medium",
+            "status": "open",
+            "claim": "Canonical truth validation was completed.",
+            "rationale": "The plan records focused tests, the full suite, and canonical truth validation as complete, while discovery and the final report state that the required canonical-validation assets were absent and the validation was not run. This overstates validation even though it does not negate the reported local test result.",
+            "evidenceRefs": [
+              "ev_000006",
+              "ev_000008",
+              "ev_000017",
+              "ev_000018"
+            ],
+            "affectedCriteria": [
+              "Process integrity"
+            ],
+            "remediation": "Correct the plan to distinguish completed local testing from unavailable or skipped canonical validation, or provide evidence that canonical validation was performed."
+          },
+          {
+            "id": "SYN-006",
+            "title": "Final tested repository state and delivery approval are not established",
+            "severity": "medium",
+            "status": "open",
+            "claim": "The reported test run corresponds to the intended final scoped change and the change is approved for delivery.",
+            "rationale": "The digest includes a scoped file-change event and a passing test run, but no post-change diff, final repository status, file hashes, commit, or human approval. The available Git status predates remediation and notes unrelated parent-checkout modifications. There is therefore no strong binding between the tested files and an approved final revision.",
+            "evidenceRefs": [
+              "ev_000010",
+              "ev_000012",
+              "ev_000013",
+              "ev_000015",
+              "ev_000017",
+              "ev_000019"
+            ],
+            "affectedCriteria": [
+              "Scope control",
+              "Final-state integrity",
+              "Delivery approval"
+            ],
+            "remediation": "Capture the final scoped diff, repository status, tested-file hashes, and revision immediately after testing, then obtain the required review or acceptance."
+          }
+        ],
+        "limitations": [
+          "No post-change implementation, test source, patch, or stable file hashes were supplied.",
+          "No evidence demonstrates persistence-level expiration or atomic one-time token redemption.",
+          "Only the reported focused six-test run is available; no broader integration, deployment, or human-acceptance evidence was supplied.",
+          "Canonical validation tooling was reported absent and was not run.",
+          "No commands were executed and nothing outside the supplied digest was inspected."
+        ]
+      }
+    }
+  }
+}

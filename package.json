@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "description": "A verifiable engineering passport for software built with Codex.",
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "type": "module",
   "packageManager": "pnpm@8.15.9",
   "engines": {
@@ -18,6 +18,7 @@
     "demo:generate": "pnpm build && node packages/cli/dist/index.js generate-demo",
     "verify": "pnpm build && node packages/cli/dist/index.js verify fixtures/demo-passport/passport.json fixtures/demo-passport/artifacts",
     "candidate:generate": "pnpm build && node packages/cli/dist/index.js assemble-demo-candidate fixtures/demo-session/capture.json demo/password-reset-workspace fixtures/demo-session/passport-candidate.json 75c0e45e5e99b9d48142269235ebd2c76e9f32bc",
+    "review:genuine": "pnpm build && node scripts/run-genuine-review.mjs",
     "security:secrets": "node scripts/scan-public-secrets.mjs",
     "validate:truth": "bash scripts/validate-canonical-truth.sh"
   },

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createEvidenceChain, createEvidenceDigest, sanitiseEvidenceValue } from "./index.js";
+import { createEvidenceChain, createEvidenceDigest, createReviewDigestFromExecCapture, sanitiseEvidenceValue } from "./index.js";
 
 describe("evidence sanitisation", () => {
   it("redacts named secret fields and inline credentials before hashing", () => {
@@ -48,5 +48,52 @@ describe("evidence digest", () => {
     expect(first.testResults).toEqual([{ evidenceId: "ev_test", status: "passed", command: "pnpm test" }]);
     expect(first.transmissionCategories).toEqual(["commands-and-tests", "task-and-criteria"]);
     expect(JSON.stringify(first)).not.toContain("unsafe-example-token-value");
+  });
+
+  it("rejects incomplete or tampered captures before review", () => {
+    const events = createEvidenceChain([{
+      id: "ev_task",
+      recordedAt: "2026-07-18T12:00:00.000Z",
+      type: "task",
+      summary: "Implement reset flow",
+      payload: {},
+    }]);
+    const base = {
+      source: "codex-exec-json",
+      testedCodexVersion: "codex-cli synthetic-version",
+      complete: true,
+      approvalCoverage: "not-observed",
+      issues: [],
+      events,
+    } as const;
+
+    expect(() => createReviewDigestFromExecCapture({ ...base, complete: false })).toThrow();
+    expect(() => createReviewDigestFromExecCapture({ ...base, source: "fixture" })).toThrow();
+    expect(() => createReviewDigestFromExecCapture({ ...base, issues: ["missing terminal event"] })).toThrow();
+    expect(() => createReviewDigestFromExecCapture({
+      ...base,
+      events: [{ ...events[0]!, summary: "Tampered" }],
+    })).toThrow("valid event hash chain");
+  });
+
+  it("reapplies redaction immediately before creating a remote review digest", () => {
+    const events = createEvidenceChain([{
+      id: "ev_command",
+      recordedAt: "2026-07-18T12:00:00.000Z",
+      type: "command",
+      summary: "Synthetic credential leaked after import: sk-examplevalue123456789",
+      payload: { output: "Authorization: Bearer synthetic-secret-value" },
+    }]);
+    const digest = createReviewDigestFromExecCapture({
+      source: "codex-exec-json",
+      testedCodexVersion: "codex-cli synthetic-version",
+      complete: true,
+      approvalCoverage: "not-observed",
+      issues: [],
+      events,
+    });
+
+    expect(JSON.stringify(digest)).not.toContain("sk-examplevalue");
+    expect(JSON.stringify(digest)).not.toContain("synthetic-secret-value");
   });
 });

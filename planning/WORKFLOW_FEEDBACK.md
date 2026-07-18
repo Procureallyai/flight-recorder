@@ -25,3 +25,11 @@ Resolution note: on 18 July 2026, the desktop-bundled `codex-cli 0.145.0-alpha.1
 - Why it slowed or risked the work: an ordinary test failure could be misreported as an application defect even though compilation and the same runtime checks pass outside the socket-restricted sandbox.
 - Suggested fix: label loopback-runtime proof separately, request only ephemeral loopback permission for this test group, and retain conventional continuous integration execution as the portable gate.
 - Recommended promotion target: project skill update if the restriction recurs in later bridge or browser integration work.
+
+## 18 July 2026: secure key writer and OnePassword local mount were incompatible
+
+- Surface: secret configuration
+- What happened: OnePassword created its local Environment file as a permission-restricted named pipe. The OpenAI secure key helper correctly refused to write the key because its destination contract permits only a regular non-symbolic-link file.
+- Why it slowed or risked the work: the two individually safe tools had incompatible destination contracts. The first encrypted key was created but could not be persisted, leaving an orphaned Platform credential that now requires revocation.
+- Suggested fix: add a connector-to-OnePassword encrypted handoff or a OnePassword import operation that accepts locally encrypted key material without exposing plaintext to Codex.
+- Recommended promotion target: OpenAI key skill and OnePassword Environments skill update.

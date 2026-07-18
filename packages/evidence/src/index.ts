@@ -1,4 +1,4 @@
-import { buildEventChain, canonicalize, sha256 } from "@flight-recorder/crypto";
+import { buildEventChain, canonicalize, sha256, verifyEventChain } from "@flight-recorder/crypto";
 import { evidenceEventSchema, jsonValueSchema, type EvidenceEvent } from "@flight-recorder/schema";
 import { z } from "zod";
 
@@ -55,6 +55,15 @@ export const evidenceDigestSchema = z.object({
   ])),
   inputDigestSha256: z.string().regex(/^[a-f0-9]{64}$/u),
 });
+
+export const reviewableExecCaptureSchema = z.object({
+  source: z.literal("codex-exec-json"),
+  testedCodexVersion: z.string().min(1),
+  complete: z.literal(true),
+  approvalCoverage: z.literal("not-observed"),
+  issues: z.array(z.string()).length(0),
+  events: z.array(evidenceEventSchema).min(1),
+}).strict();
 
 export type EvidenceDraft = z.infer<typeof evidenceDraftSchema>;
 export type EvidenceDigest = z.infer<typeof evidenceDigestSchema>;
@@ -191,4 +200,19 @@ export function createEvidenceDigest(source: CaptureSource, events: readonly Evi
     ...digestWithoutHash,
     inputDigestSha256: sha256(canonicalize(digestWithoutHash)),
   });
+}
+
+export function createReviewDigestFromExecCapture(input: unknown): EvidenceDigest {
+  const capture = reviewableExecCaptureSchema.parse(input);
+  if (!verifyEventChain(capture.events)) {
+    throw new Error("A reviewable Codex capture must contain a complete, valid event hash chain.");
+  }
+
+  const safeEvents = capture.events.map((event) => evidenceEventSchema.parse({
+    ...event,
+    // Apply a second mandatory redaction boundary immediately before remote transmission.
+    summary: sanitiseEvidenceValue(event.summary),
+    payload: sanitiseEvidenceValue(event.payload),
+  }));
+  return createEvidenceDigest(capture.source, safeEvents);
 }
