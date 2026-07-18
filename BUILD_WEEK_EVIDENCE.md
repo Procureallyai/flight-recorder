@@ -22,6 +22,9 @@ The repository history and this primary Codex task identify the work performed d
 | `282c7ff` | Machine-readable command-line verification and explicit valid, tampered, and usage exit-code contracts. |
 | `8b61b64` | Priority One seal-gate remediation binding review calls to current evidence and failing closed on unsupported criteria or failed required tests. |
 | `56bc047` | Portable deterministic passport bundle export, independent bundle verification, and bundle tamper tests. |
+| `c9bc381` | Portable bundle resource-limit, Unicode-normalisation, and case-fold collision regressions. |
+| `f957954` | Cryptographic-semantics and hosted fixture-only architecture decisions with reconciled release evidence. |
+| `cd6c5cd` | Signed five-call model-review provenance and independent evidence-digest verification. |
 
 ## Codex contribution
 

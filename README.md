@@ -15,7 +15,7 @@ The cryptographic claim is deliberately narrow: a valid passport shows that the 
 - A genuine sanitised `codex exec --json` capture from `codex-cli 0.145.0-alpha.18`.
 - Secure Hash Algorithm 256-bit artifact hashing and a hash-linked event chain.
 - A deterministic Merkle root and detached Ed25519 signature.
-- An independent command-line verifier with visible tamper failure.
+- An independent command-line verifier with visible tamper failure and an eight-check result, including signed review provenance.
 - A deterministic portable directory bundle with detached signature, public key, evidence projections, covered artifacts, review files, scope limitations, an integrity index, and a self-contained report.
 - Four parallel GPT-5.6 specialist-review contracts and a synthesis contract, using strict Structured Outputs, `store: false`, no tools, bounded inputs and outputs, timeouts, and an explicit disabled-by-default runtime switch.
 - A deterministic seal-readiness policy that remains separate from model judgement.
@@ -25,7 +25,7 @@ The cryptographic claim is deliberately narrow: a valid passport shows that the 
 
 | Surface | Evidence-backed status |
 |---|---|
-| Local repository | Core build, 50 product tests, and 6 demonstration tests pass. |
+| Local repository | Core build, 55 product tests, and 6 demonstration tests pass. |
 | Genuine Codex capture | Verified through the JavaScript Object Notation fallback. Raw capture is private; the public fixture is sanitised. |
 | GPT-5.6 runtime | Request and schema behaviour are tested with a mocked transport. A real billed call is still pending secure 1Password approval. |
 | Passport | Synthetic signed fixture verifies. Genuine candidate is intentionally unsealed pending model review and human approval. |

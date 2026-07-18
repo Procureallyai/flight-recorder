@@ -29,4 +29,4 @@ A bounded read-only sub-agent reproduced a Priority One deterministic-gate failu
 
 The gate now requires every criterion to be supported, every declared required test to pass, non-empty criteria and test sets, all four unique specialist identities, five unique response identifiers, and every specialist and synthesis call to match the current evidence digest. Focused stale-review, duplicate-review, unsupported-evidence, empty-set, and mixed-test regressions pass.
 
-Verifier-visible review provenance remains required before the genuine reviewed passport is sealed.
+Commit `cd6c5cd` added verifier-visible review provenance. A genuine passport cannot be sealed without a signed five-call receipt. Independent verification recomputes the evidence digest from recorded events and rejects missing, stale, duplicated, or mixed review receipts even when the enclosing signature is otherwise valid.
