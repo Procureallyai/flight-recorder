@@ -1,0 +1,4 @@
+interface:
+  display_name: "Flight Recorder Delivery"
+  short_description: "Build and verify Flight Recorder safely"
+  default_prompt: "Use $flight-recorder-delivery to continue the next verified Flight Recorder delivery slice."

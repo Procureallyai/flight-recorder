@@ -1,0 +1,18 @@
+.DS_Store
+node_modules/
+.next/
+dist/
+coverage/
+playwright-report/
+test-results/
+*.log
+.env
+.env.*
+!.env.example
+
+# Private Flight Recorder state
+.flight-recorder/keys/
+.flight-recorder/sessions/raw/
+docs/submission/submission-secrets.local.json
+docs/submission/DEVPOST_BROWSER_LOG.local.md
+submission-assets/video/raw/

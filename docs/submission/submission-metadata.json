@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "0.1.0",
+  "projectName": {
+    "value": "Flight Recorder",
+    "verified": true,
+    "enteredInDevpost": true
+  },
+  "elevatorPitch": {
+    "value": "Prove what your coding agent changed, tested and approved.",
+    "verified": true,
+    "enteredInDevpost": true
+  },
+  "track": {
+    "value": "Developer Tools",
+    "verified": true,
+    "enteredInDevpost": false,
+    "blocker": "Additional information cannot be completed before required release facts exist."
+  },
+  "submitterType": {
+    "value": "Individual",
+    "verified": true,
+    "enteredInDevpost": false,
+    "evidence": "Confirmed by Floyd Livingstone Rowe on 18 July 2026."
+  },
+  "country": {
+    "value": "United Kingdom",
+    "verified": false,
+    "enteredInDevpost": false,
+    "blocker": "Confirm as part of entrant review."
+  },
+  "repositoryUrl": {
+    "value": "",
+    "verified": false,
+    "enteredInDevpost": false
+  },
+  "demoUrl": {
+    "value": "",
+    "verified": false,
+    "enteredInDevpost": false
+  },
+  "videoUrl": {
+    "value": "",
+    "verified": false,
+    "enteredInDevpost": false
+  },
+  "feedbackSessionId": {
+    "source": "docs/submission/submission-secrets.local.json",
+    "verified": false,
+    "enteredInDevpost": false
+  },
+  "finalSubmission": {
+    "performed": false,
+    "actorRequired": "Floyd Livingstone Rowe"
+  }
+}

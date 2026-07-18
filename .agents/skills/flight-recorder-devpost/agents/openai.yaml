@@ -1,0 +1,4 @@
+interface:
+  display_name: "Flight Recorder Devpost"
+  short_description: "Prepare the Devpost draft safely"
+  default_prompt: "Use $flight-recorder-devpost to verify and complete safe Devpost draft fields without submitting."
