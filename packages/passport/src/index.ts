@@ -24,6 +24,7 @@ export interface AssembleManifestInput {
   artifacts: readonly CandidateArtifactInput[];
   events: readonly EvidenceEvent[];
   findings: readonly ReviewFinding[];
+  reviewProvenance?: PassportManifest["reviewProvenance"];
   sealDecision: PassportManifest["sealDecision"];
 }
 
@@ -51,6 +52,7 @@ export function assembleManifest(input: AssembleManifestInput): PassportManifest
     artifacts,
     events: [...input.events],
     findings: [...input.findings],
+    ...(input.reviewProvenance === undefined ? {} : { reviewProvenance: input.reviewProvenance }),
     eventChainHead,
     merkleRoot: calculateMerkleRoot(artifacts, input.events),
     sealDecision: input.sealDecision,
@@ -126,6 +128,7 @@ export function buildPassportBundle(input: unknown, artifacts: PassportBundleArt
   for (const reviewer of ["requirements", "security", "tests", "evidence", "synthesis"] as const) {
     files.set(`reviews/${reviewer}.json`, reviewProjection(passport, reviewer));
   }
+  if (passport.manifest.reviewProvenance !== undefined) files.set("reviews/provenance.json", jsonFile(passport.manifest.reviewProvenance));
   files.set("scope-and-limitations.json", jsonFile({
     evidenceClassification: passport.manifest.evidenceClassification,
     includedArtifactPaths: passport.manifest.artifacts.map((artifact) => artifact.path),

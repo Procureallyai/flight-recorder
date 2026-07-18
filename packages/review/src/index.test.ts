@@ -1,6 +1,6 @@
 import type { EvidenceDigest } from "@flight-recorder/evidence";
 import { describe, expect, it, vi } from "vitest";
-import { ReviewClient, evaluateSealGate, type ReviewRun } from "./index.js";
+import { ReviewClient, createReviewProvenance, evaluateSealGate, type ReviewRun } from "./index.js";
 
 const digest: EvidenceDigest = {
   schemaVersion: "0.1.0",
@@ -178,5 +178,12 @@ describe("evaluateSealGate", () => {
       secretScanBlocked: false,
       humanApproved: true,
     }).blockingReasons).toContain("Each required specialist reviewer must appear exactly once.");
+  });
+
+  it("creates a strict five-call provenance receipt", () => {
+    const provenance = createReviewProvenance("codex-exec-json", readyReviews);
+    expect(provenance.evidenceDigestSha256).toBe("a".repeat(64));
+    expect(provenance.calls.map((call) => call.reviewer)).toEqual(["requirements", "security", "tests", "evidence", "synthesis"]);
+    expect(new Set(provenance.calls.map((call) => call.responseId)).size).toBe(5);
   });
 });

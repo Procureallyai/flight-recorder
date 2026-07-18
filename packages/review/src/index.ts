@@ -1,4 +1,5 @@
 import type { EvidenceDigest } from "@flight-recorder/evidence";
+import { reviewProvenanceSchema, type ReviewProvenance } from "@flight-recorder/schema";
 import { z } from "zod";
 
 const specialistNames = ["requirements", "security", "tests", "evidence"] as const;
@@ -47,6 +48,30 @@ export interface ReviewCall<T> {
 export interface ReviewRun {
   specialists: ReviewCall<SpecialistReview>[];
   synthesis: ReviewCall<SynthesisReview>;
+}
+
+export function createReviewProvenance(evidenceSource: ReviewProvenance["evidenceSource"], run: ReviewRun): ReviewProvenance {
+  const calls = [
+    ...run.specialists.map((review) => ({
+      reviewer: review.output.reviewer,
+      responseId: review.responseId,
+      createdAt: review.createdAt,
+      model: review.model,
+      inputDigestSha256: review.inputDigestSha256,
+    })),
+    {
+      reviewer: run.synthesis.output.reviewer,
+      responseId: run.synthesis.responseId,
+      createdAt: run.synthesis.createdAt,
+      model: run.synthesis.model,
+      inputDigestSha256: run.synthesis.inputDigestSha256,
+    },
+  ];
+  return reviewProvenanceSchema.parse({
+    evidenceSource,
+    evidenceDigestSha256: run.synthesis.inputDigestSha256,
+    calls,
+  });
 }
 
 export interface ReviewClientOptions {

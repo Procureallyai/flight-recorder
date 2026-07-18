@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@flight-recorder/evidence": "workspace:*",
+    "@flight-recorder/schema": "workspace:*",
     "zod": "^3.25.0"
   }
 }

@@ -8,7 +8,8 @@ import {
   sealManifest,
 } from "@flight-recorder/crypto";
 import { generateKeyPairSync, sign as signBytes } from "node:crypto";
-import type { PassportManifest } from "@flight-recorder/schema";
+import { createEvidenceDigest } from "@flight-recorder/evidence";
+import type { Passport, PassportManifest, ReviewProvenance } from "@flight-recorder/schema";
 import { verifyPassport } from "./index.js";
 
 const taskSource = "export function resetPassword() { return { accepted: true }; }\n";
@@ -71,6 +72,30 @@ function createPassport() {
   return sealManifest(manifest, keys.privateKey);
 }
 
+function genuineReviewProvenance(manifest: PassportManifest): ReviewProvenance {
+  const evidenceDigestSha256 = createEvidenceDigest("codex-exec-json", manifest.events).inputDigestSha256;
+  return {
+    evidenceSource: "codex-exec-json",
+    evidenceDigestSha256,
+    calls: ["requirements", "security", "tests", "evidence", "synthesis"].map((reviewer, index) => ({
+      reviewer: reviewer as ReviewProvenance["calls"][number]["reviewer"],
+      responseId: `resp_${index}`,
+      createdAt: "2026-07-18T12:12:30.000Z",
+      model: "gpt-5.6-sol",
+      inputDigestSha256: evidenceDigestSha256,
+    })),
+  };
+}
+
+function createGenuinePassport(): Passport {
+  const synthetic = createPassport();
+  const manifest = structuredClone(synthetic.manifest);
+  manifest.evidenceClassification = "genuine-session";
+  manifest.reviewProvenance = genuineReviewProvenance(manifest);
+  const keys = generateSigningKeyPair();
+  return sealManifest(manifest, keys.privateKey);
+}
+
 describe("verifyPassport", () => {
   it("accepts a valid signed passport with unchanged artifacts", () => {
     const result = verifyPassport(createPassport(), {
@@ -79,6 +104,64 @@ describe("verifyPassport", () => {
     });
     expect(result.valid).toBe(true);
     expect(result.checks.every((check) => check.valid)).toBe(true);
+  });
+
+  it("independently verifies five review receipts against genuine recorded evidence", () => {
+    const result = verifyPassport(createGenuinePassport(), {
+      "src/reset.ts": taskSource,
+      "test/reset.test.ts": testSource,
+    });
+    expect(result.valid).toBe(true);
+    expect(result.checks.find((check) => check.name === "review-provenance")).toMatchObject({ valid: true });
+  });
+
+  it("rejects a signed genuine passport whose review receipt belongs to stale evidence", () => {
+    const passport = createGenuinePassport();
+    passport.manifest.reviewProvenance!.evidenceDigestSha256 = "b".repeat(64);
+    for (const call of passport.manifest.reviewProvenance!.calls) call.inputDigestSha256 = "b".repeat(64);
+    const keys = generateSigningKeyPair();
+    passport.signature = signManifest(passport.manifest, keys.privateKey);
+
+    const result = verifyPassport(passport, {
+      "src/reset.ts": taskSource,
+      "test/reset.test.ts": testSource,
+    });
+    expect(result.valid).toBe(false);
+    expect(result.checks.find((check) => check.name === "signature")).toMatchObject({ valid: true });
+    expect(result.checks.find((check) => check.name === "review-provenance")).toMatchObject({ valid: false });
+  });
+
+  it("rejects duplicate review receipts even when the enclosing signature is valid", () => {
+    const passport = createGenuinePassport();
+    passport.manifest.reviewProvenance!.calls[4] = { ...passport.manifest.reviewProvenance!.calls[0]! };
+    const keys = generateSigningKeyPair();
+    passport.signature = signManifest(passport.manifest, keys.privateKey);
+
+    const result = verifyPassport(passport, {
+      "src/reset.ts": taskSource,
+      "test/reset.test.ts": testSource,
+    });
+    expect(result.valid).toBe(false);
+    expect(result.checks.find((check) => check.name === "review-provenance")).toMatchObject({ valid: false });
+  });
+
+  it("refuses to seal a genuine session without signed review provenance", () => {
+    const passport = createPassport();
+    passport.manifest.evidenceClassification = "genuine-session";
+    const keys = generateSigningKeyPair();
+    expect(() => sealManifest(passport.manifest, keys.privateKey)).toThrow("review provenance");
+
+    const deliberatelyBypassedPassport: Passport = {
+      manifest: passport.manifest,
+      signature: signManifest(passport.manifest, keys.privateKey),
+    };
+    const result = verifyPassport(deliberatelyBypassedPassport, {
+      "src/reset.ts": taskSource,
+      "test/reset.test.ts": testSource,
+    });
+    expect(result.valid).toBe(false);
+    expect(result.checks.find((check) => check.name === "seal-policy")).toMatchObject({ valid: false });
+    expect(result.checks.find((check) => check.name === "review-provenance")).toMatchObject({ valid: false });
   });
 
   it("rejects the passport immediately after a covered artifact changes", () => {

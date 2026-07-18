@@ -5,11 +5,13 @@ import {
   verifyEventChain,
   verifyManifestSignature,
 } from "@flight-recorder/crypto";
+import { createEvidenceDigest } from "@flight-recorder/evidence";
 import { passportSchema, type Passport } from "@flight-recorder/schema";
 
 export type VerificationCheckName =
   | "schema"
   | "seal-policy"
+  | "review-provenance"
   | "signature"
   | "event-chain"
   | "event-chain-head"
@@ -56,6 +58,29 @@ export function verifyPassport(input: unknown, artifactContents: VerificationArt
       valid: sealPolicyFailures.length === 0,
       detail: sealPolicyFailures.length === 0 ? "Deterministic seal policy is internally consistent." : sealPolicyFailures.join(" "),
     });
+
+    const provenance = passport.manifest.reviewProvenance;
+    let provenanceValid = passport.manifest.evidenceClassification === "synthetic-test-fixture" && provenance === undefined;
+    let provenanceDetail = "Review provenance is not required for a synthetic cryptographic test fixture.";
+    if (provenance !== undefined) {
+      const expectedReviewers = new Set(["requirements", "security", "tests", "evidence", "synthesis"]);
+      const actualReviewers = new Set(provenance.calls.map((call) => call.reviewer));
+      const responseIdentifiers = provenance.calls.map((call) => call.responseId);
+      const recomputedDigest = createEvidenceDigest(provenance.evidenceSource, passport.manifest.events).inputDigestSha256;
+      provenanceValid =
+        actualReviewers.size === expectedReviewers.size &&
+        [...expectedReviewers].every((reviewer) => actualReviewers.has(reviewer as typeof provenance.calls[number]["reviewer"])) &&
+        new Set(responseIdentifiers).size === responseIdentifiers.length &&
+        provenance.calls.every((call) => call.inputDigestSha256 === provenance.evidenceDigestSha256) &&
+        provenance.evidenceDigestSha256 === recomputedDigest;
+      provenanceDetail = provenanceValid
+        ? "All five review receipts are uniquely bound to the recorded evidence digest."
+        : "Review receipts are incomplete, duplicated, stale, or do not match the recorded evidence digest.";
+    } else if (passport.manifest.evidenceClassification === "genuine-session") {
+      provenanceValid = false;
+      provenanceDetail = "A genuine-session passport requires signed review provenance.";
+    }
+    checks.push({ name: "review-provenance", valid: provenanceValid, detail: provenanceDetail });
 
     const signatureValid = verifyManifestSignature(passport);
     checks.push({

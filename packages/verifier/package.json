@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@flight-recorder/crypto": "workspace:*",
+    "@flight-recorder/evidence": "workspace:*",
     "@flight-recorder/schema": "workspace:*"
   }
 }

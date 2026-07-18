@@ -89,6 +89,18 @@ export const reviewFindingSchema = z.object({
   resolved: z.boolean(),
 }).strict();
 
+export const reviewProvenanceSchema = z.object({
+  evidenceSource: z.enum(["codex-app-server", "codex-exec-json", "fixture"]),
+  evidenceDigestSha256: sha256Schema,
+  calls: z.array(z.object({
+    reviewer: z.enum(["requirements", "security", "tests", "evidence", "synthesis"]),
+    responseId: identifierSchema,
+    createdAt: z.string().datetime({ offset: true }),
+    model: z.string().min(1).max(200),
+    inputDigestSha256: sha256Schema,
+  }).strict()).length(5),
+}).strict();
+
 export const passportManifestSchema = z.object({
   schemaVersion: z.literal("0.1.0"),
   passportId: identifierSchema,
@@ -106,6 +118,7 @@ export const passportManifestSchema = z.object({
   artifacts: z.array(artifactSchema).min(1).max(1_000),
   events: z.array(evidenceEventSchema).min(1).max(10_000),
   findings: z.array(reviewFindingSchema).max(1_000),
+  reviewProvenance: reviewProvenanceSchema.optional(),
   eventChainHead: sha256Schema,
   merkleRoot: sha256Schema,
   sealDecision: z.object({
@@ -177,6 +190,7 @@ export const passportSchema = z.object({
 export type Artifact = z.infer<typeof artifactSchema>;
 export type EvidenceEvent = z.infer<typeof evidenceEventSchema>;
 export type ReviewFinding = z.infer<typeof reviewFindingSchema>;
+export type ReviewProvenance = z.infer<typeof reviewProvenanceSchema>;
 export type PassportManifest = z.infer<typeof passportManifestSchema>;
 export type Signature = z.infer<typeof signatureSchema>;
 export type Passport = z.infer<typeof passportSchema>;

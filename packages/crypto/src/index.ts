@@ -7,12 +7,13 @@ import {
   verify as verifyBytes,
   type KeyObject,
 } from "node:crypto";
-import type {
-  Artifact,
-  EvidenceEvent,
-  Passport,
-  PassportManifest,
-  Signature,
+import {
+  passportManifestSchema,
+  type Artifact,
+  type EvidenceEvent,
+  type Passport,
+  type PassportManifest,
+  type Signature,
 } from "@flight-recorder/schema";
 
 type JsonValue = null | boolean | number | string | JsonValue[] | { [key: string]: JsonValue };
@@ -170,13 +171,28 @@ export function validateSealPolicy(manifest: PassportManifest): string[] {
   if (manifest.findings.some((finding) => finding.evidenceIds.some((evidenceId) => !eventIds.has(evidenceId)))) {
     reasons.push("Review findings contain unknown evidence references.");
   }
+  if (manifest.evidenceClassification === "genuine-session" && manifest.reviewProvenance === undefined) {
+    reasons.push("A genuine-session seal requires signed review provenance.");
+  }
+  if (manifest.reviewProvenance !== undefined) {
+    const expectedReviewers = new Set(["requirements", "security", "tests", "evidence", "synthesis"]);
+    const actualReviewers = new Set(manifest.reviewProvenance.calls.map((call) => call.reviewer));
+    const responseIdentifiers = manifest.reviewProvenance.calls.map((call) => call.responseId);
+    if (actualReviewers.size !== expectedReviewers.size || [...expectedReviewers].some((reviewer) => !actualReviewers.has(reviewer as typeof manifest.reviewProvenance.calls[number]["reviewer"]))) {
+      reasons.push("Signed review provenance must contain each required reviewer exactly once.");
+    }
+    if (new Set(responseIdentifiers).size !== responseIdentifiers.length) reasons.push("Signed review response identifiers must be unique.");
+    if (manifest.reviewProvenance.calls.some((call) => call.inputDigestSha256 !== manifest.reviewProvenance?.evidenceDigestSha256)) {
+      reasons.push("Signed review calls must reference one evidence digest.");
+    }
+  }
   return reasons;
 }
 
 export function signManifest(manifest: PassportManifest, privateKey: KeyObject): Signature {
   requireEd25519PrivateKey(privateKey);
   const publicKey = createPublicKey(privateKey);
-  const canonicalManifest = canonicalize(manifest);
+  const canonicalManifest = canonicalize(passportManifestSchema.parse(manifest));
   const signedDigestSha256 = sha256(canonicalManifest);
   const signature = signBytes(null, Buffer.from(canonicalManifest, "utf8"), privateKey);
   return {
@@ -188,11 +204,12 @@ export function signManifest(manifest: PassportManifest, privateKey: KeyObject):
 }
 
 export function sealManifest(manifest: PassportManifest, privateKey: KeyObject): Passport {
-  const policyFailures = validateSealPolicy(manifest);
+  const validatedManifest = passportManifestSchema.parse(manifest);
+  const policyFailures = validateSealPolicy(validatedManifest);
   if (policyFailures.length > 0) {
     throw new Error(`The manifest cannot be sealed: ${policyFailures.join(" ")}`);
   }
-  return { manifest, signature: signManifest(manifest, privateKey) };
+  return { manifest: validatedManifest, signature: signManifest(validatedManifest, privateKey) };
 }
 
 export function verifyManifestSignature(passport: Passport): boolean {
