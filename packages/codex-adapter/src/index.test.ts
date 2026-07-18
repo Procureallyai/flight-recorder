@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { buildExecInvocation, importExecJsonLines } from "./index.js";
+import { createEvidenceDigest } from "@flight-recorder/evidence";
+import { buildExecInvocation, importExecJsonLines, isLikelyTestCommand } from "./index.js";
 
 const capturedAt = () => "2026-07-18T20:00:00.000Z";
 
@@ -35,5 +36,47 @@ describe("codex exec JSON importer", () => {
     expect(invocation.args.at(-1)).toBe("-");
     expect(invocation.args).not.toContain(invocation.stdin);
     expect(invocation.stdin).toContain("$HOME");
+  });
+
+  it.each([
+    "pnpm test",
+    "npm run test -- --watch=false",
+    "pnpm run test:integration",
+    "yarn test",
+    "bun test",
+    "vitest run",
+    "npx vitest",
+    "pytest -q",
+    "python -m pytest",
+    "cargo test",
+    "go test ./...",
+    "dotnet test",
+  ])("recognises supported test command: %s", (command) => {
+    expect(isLikelyTestCommand(command)).toBe(true);
+  });
+
+  it.each(["npm run build", "pnpm lint", "yarn install", "bun run typecheck"])('does not misclassify non-test command: %s', (command) => {
+    expect(isLikelyTestCommand(command)).toBe(false);
+  });
+
+  it("supports configurable and manual test evidence without inferring pass from text", () => {
+    const result = importExecJsonLines([
+      JSON.stringify({ type: "thread.started" }),
+      JSON.stringify({ type: "item.completed", item: { id: "custom-1", type: "command_execution", command: "acme verify", exit_code: 1, output: "all tests passed" } }),
+      JSON.stringify({ type: "item.completed", item: { id: "manual-1", type: "command_execution", command: "custom harness", exit_code: 0 } }),
+      JSON.stringify({ type: "turn.completed" }),
+    ], {
+      testedCodexVersion: "codex-cli 0.145.0-alpha.18",
+      recordedAt: capturedAt,
+      additionalTestCommandPatterns: [/^acme verify$/u],
+      manuallyConfirmedTestItemIds: ["manual-1"],
+    });
+
+    const tests = result.events.filter((event) => event.type === "test");
+    expect(tests).toHaveLength(2);
+    expect(tests[0]?.payload.exitCode).toBe(1);
+    expect(tests[0]?.payload.output).toBe("all tests passed");
+    expect(tests[1]?.payload.manuallyConfirmedTest).toBe(true);
+    expect(createEvidenceDigest("codex-exec-json", result.events).testResults[0]?.status).toBe("failed");
   });
 });

@@ -4,7 +4,7 @@ import type { EvidenceEvent, JsonValue } from "@flight-recorder/schema";
 
 const DEFAULT_MAX_LINE_BYTES = 1_000_000;
 const DEFAULT_MAX_TOTAL_BYTES = 25_000_000;
-const TEST_COMMAND_PATTERN = /(?:^|\s)(?:pnpm|npm|yarn|bun|pytest|python\s+-m\s+pytest|cargo\s+test|go\s+test|dotnet\s+test)(?:\s|$)/u;
+const TEST_COMMAND_PATTERN = /(?:^|\s)(?:(?:pnpm|npm|yarn|bun)\s+(?:run\s+)?(?:test(?::[A-Za-z0-9_-]+)?|vitest)(?:\s|$)|(?:npx\s+|pnpm\s+exec\s+|yarn\s+dlx\s+|bunx\s+)?vitest(?:\s|$)|pytest(?:\s|$)|python\s+-m\s+pytest(?:\s|$)|cargo\s+test(?:\s|$)|go\s+test(?:\s|$)|dotnet\s+test(?:\s|$))/u;
 
 export interface ExecInvocation {
   executable: string;
@@ -18,6 +18,8 @@ export interface ImportOptions {
   recordedAt?: () => string;
   maxLineBytes?: number;
   maxTotalBytes?: number;
+  additionalTestCommandPatterns?: readonly RegExp[];
+  manuallyConfirmedTestItemIds?: readonly string[];
 }
 
 export interface CaptureImportResult {
@@ -104,7 +106,18 @@ function commandPayload(item: Record<string, unknown>, repositoryRoot?: string):
   }, repositoryRoot);
 }
 
-function mapCompletedItem(envelope: Record<string, unknown>, draftBase: Pick<EvidenceDraft, "id" | "recordedAt">, repositoryRoot?: string): EvidenceDraft | undefined {
+export function isLikelyTestCommand(command: string, additionalPatterns: readonly RegExp[] = []): boolean {
+  return TEST_COMMAND_PATTERN.test(command) || additionalPatterns.some((pattern) => {
+    pattern.lastIndex = 0;
+    return pattern.test(command);
+  });
+}
+
+function mapCompletedItem(
+  envelope: Record<string, unknown>,
+  draftBase: Pick<EvidenceDraft, "id" | "recordedAt">,
+  options: Pick<ImportOptions, "repositoryRoot" | "additionalTestCommandPatterns" | "manuallyConfirmedTestItemIds">,
+): EvidenceDraft | undefined {
   const item = itemRecord(envelope);
   if (item === undefined) return undefined;
   const itemType = getString(item, "type") ?? "unknown";
@@ -112,13 +125,15 @@ function mapCompletedItem(envelope: Record<string, unknown>, draftBase: Pick<Evi
 
   const sourceReference = pseudonymousReference(item.id);
   if (itemType === "command_execution" || itemType === "commandExecution") {
-    const payload = commandPayload(item, repositoryRoot);
+    const payload = commandPayload(item, options.repositoryRoot);
     const command = typeof payload.command === "string" ? payload.command : "[command unavailable]";
+    const manuallyConfirmed = typeof item.id === "string" && options.manuallyConfirmedTestItemIds?.includes(item.id) === true;
+    const isTest = manuallyConfirmed || isLikelyTestCommand(command, options.additionalTestCommandPatterns);
     return {
       ...draftBase,
-      type: TEST_COMMAND_PATTERN.test(command) ? "test" : "command",
-      summary: TEST_COMMAND_PATTERN.test(command) ? "A recognised test command completed." : "A command execution completed.",
-      payload: { ...payload, sourceReference: sourceReference ?? null },
+      type: isTest ? "test" : "command",
+      summary: isTest ? "A recognised or explicitly confirmed test command completed." : "A command execution completed.",
+      payload: { ...payload, manuallyConfirmedTest: manuallyConfirmed, sourceReference: sourceReference ?? null },
     };
   }
   if (itemType === "file_change" || itemType === "fileChange") {
@@ -131,18 +146,18 @@ function mapCompletedItem(envelope: Record<string, unknown>, draftBase: Pick<Evi
         changes: item.changes,
         patch: getString(item, "patch", "diff"),
         sourceReference,
-      }, repositoryRoot),
+      }, options.repositoryRoot),
     };
   }
   if (itemType === "todo_list" || itemType === "plan") {
-    return { ...draftBase, type: "plan", summary: "The authoritative plan state changed.", payload: safeRecord({ items: item.items, sourceReference }, repositoryRoot) };
+    return { ...draftBase, type: "plan", summary: "The authoritative plan state changed.", payload: safeRecord({ items: item.items, sourceReference }, options.repositoryRoot) };
   }
   if (itemType === "agent_message" || itemType === "agentMessage") {
     return {
       ...draftBase,
       type: "completion",
       summary: "Codex completed an observable agent message.",
-      payload: safeRecord({ text: getString(item, "text", "message"), sourceReference }, repositoryRoot),
+      payload: safeRecord({ text: getString(item, "text", "message"), sourceReference }, options.repositoryRoot),
     };
   }
   if (["mcp_tool_call", "mcpToolCall", "dynamic_tool_call", "dynamicToolCall", "collab_tool_call", "collabToolCall", "web_search"].includes(itemType)) {
@@ -150,7 +165,7 @@ function mapCompletedItem(envelope: Record<string, unknown>, draftBase: Pick<Evi
       ...draftBase,
       type: "command",
       summary: "A tool call completed; only safe metadata was retained.",
-      payload: safeRecord({ itemType, tool: getString(item, "tool", "name", "server"), status: getString(item, "status"), sourceReference }, repositoryRoot),
+      payload: safeRecord({ itemType, tool: getString(item, "tool", "name", "server"), status: getString(item, "status"), sourceReference }, options.repositoryRoot),
     };
   }
 
@@ -158,7 +173,7 @@ function mapCompletedItem(envelope: Record<string, unknown>, draftBase: Pick<Evi
     ...draftBase,
     type: "completion",
     summary: "An unknown completed item was retained as envelope metadata only.",
-    payload: safeRecord({ itemType, sourceReference, topLevelKeys: Object.keys(item).sort() }, repositoryRoot),
+    payload: safeRecord({ itemType, sourceReference, topLevelKeys: Object.keys(item).sort() }, options.repositoryRoot),
   };
 }
 
@@ -195,7 +210,7 @@ export function importExecJsonLines(lines: readonly string[], options: ImportOpt
     const envelopeType = getString(envelope, "type") ?? "unknown";
     const draftBase = { id: `ev_${String(drafts.length + 1).padStart(6, "0")}`, recordedAt: eventTimestamp(envelope, now) };
     if (envelopeType === "item.completed") {
-      const draft = mapCompletedItem(envelope, draftBase, options.repositoryRoot);
+      const draft = mapCompletedItem(envelope, draftBase, options);
       if (draft !== undefined) drafts.push(draft);
       continue;
     }
