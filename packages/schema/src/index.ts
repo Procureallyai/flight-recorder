@@ -2,6 +2,25 @@ import { z } from "zod";
 
 export const sha256Schema = z.string().regex(/^[a-f0-9]{64}$/u);
 
+export type JsonValue = null | boolean | number | string | JsonValue[] | { [key: string]: JsonValue };
+
+const forbiddenJsonKeys = new Set(["__proto__", "constructor", "prototype"]);
+
+export const jsonValueSchema: z.ZodType<JsonValue> = z.lazy(() => z.union([
+  z.null(),
+  z.boolean(),
+  z.number().finite(),
+  z.string(),
+  z.array(jsonValueSchema),
+  z.record(jsonValueSchema).superRefine((value, context) => {
+    for (const key of Object.keys(value)) {
+      if (forbiddenJsonKeys.has(key)) {
+        context.addIssue({ code: z.ZodIssueCode.custom, path: [key], message: "Unsafe JSON object key." });
+      }
+    }
+  }),
+]));
+
 const artifactPathSchema = z
   .string()
   .min(1)
@@ -23,7 +42,7 @@ export const artifactSchema = z.object({
   mediaType: z.string().min(1),
   size: z.number().int().nonnegative(),
   sha256: sha256Schema,
-});
+}).strict();
 
 export const evidenceEventSchema = z.object({
   id: z.string().min(1),
@@ -40,10 +59,10 @@ export const evidenceEventSchema = z.object({
     "completion",
   ]),
   summary: z.string().min(1),
-  payload: z.record(z.unknown()),
+  payload: z.record(jsonValueSchema),
   previousHash: sha256Schema.nullable(),
   hash: sha256Schema,
-});
+}).strict();
 
 export const reviewFindingSchema = z.object({
   id: z.string().min(1),
@@ -53,21 +72,22 @@ export const reviewFindingSchema = z.object({
   detail: z.string().min(1),
   evidenceIds: z.array(z.string().min(1)),
   resolved: z.boolean(),
-});
+}).strict();
 
 export const passportManifestSchema = z.object({
   schemaVersion: z.literal("0.1.0"),
   passportId: z.string().min(1),
   createdAt: z.string().datetime({ offset: true }),
   timestampType: z.literal("local-recorded-time"),
+  evidenceClassification: z.enum(["synthetic-test-fixture", "genuine-session"]),
   project: z.object({
     name: z.string().min(1),
     repositoryCommit: z.string().min(1),
-  }),
+  }).strict(),
   session: z.object({
     task: z.string().min(1),
     acceptanceCriteria: z.array(z.string().min(1)).min(1),
-  }),
+  }).strict(),
   artifacts: z.array(artifactSchema).min(1),
   events: z.array(evidenceEventSchema).min(1),
   findings: z.array(reviewFindingSchema),
@@ -77,11 +97,11 @@ export const passportManifestSchema = z.object({
     ready: z.boolean(),
     blockingReasons: z.array(z.string()),
     humanApproved: z.boolean(),
-  }),
+  }).strict(),
   claim: z.literal(
     "The covered evidence has not changed since it was sealed by the holder of the corresponding signing key.",
   ),
-}).superRefine((manifest, context) => {
+}).strict().superRefine((manifest, context) => {
   const artifactIds = new Set<string>();
   const artifactPaths = new Set<string>();
   for (const [index, artifact] of manifest.artifacts.entries()) {
@@ -102,6 +122,23 @@ export const passportManifestSchema = z.object({
     }
     eventIds.add(event.id);
   }
+
+  const findingIds = new Set<string>();
+  for (const [index, finding] of manifest.findings.entries()) {
+    if (findingIds.has(finding.id)) {
+      context.addIssue({ code: z.ZodIssueCode.custom, path: ["findings", index, "id"], message: "Finding identifiers must be unique." });
+    }
+    for (const [referenceIndex, evidenceId] of finding.evidenceIds.entries()) {
+      if (!eventIds.has(evidenceId)) {
+        context.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["findings", index, "evidenceIds", referenceIndex],
+          message: "Finding evidence identifiers must reference declared events.",
+        });
+      }
+    }
+    findingIds.add(finding.id);
+  }
 });
 
 export const signatureSchema = z.object({
@@ -109,12 +146,12 @@ export const signatureSchema = z.object({
   publicKeyPem: z.string().min(1).max(2048),
   signedDigestSha256: sha256Schema,
   signatureBase64: z.string().regex(/^[A-Za-z0-9+/]+={0,2}$/u).max(512),
-});
+}).strict();
 
 export const passportSchema = z.object({
   manifest: passportManifestSchema,
   signature: signatureSchema,
-});
+}).strict();
 
 export type Artifact = z.infer<typeof artifactSchema>;
 export type EvidenceEvent = z.infer<typeof evidenceEventSchema>;

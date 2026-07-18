@@ -1,6 +1,6 @@
 # Flight Recorder Build Week Execution Plan
 
-**Status:** End-to-end goal active. Deterministic passport Gate A is implemented and verified locally.
+**Status:** End-to-end goal active. Deterministic passport Gate A is implemented and verified locally. Evidence redaction and digest work is in progress.
 
 ## Objective
 
@@ -52,4 +52,4 @@ Build, test, document, deploy, and prepare Flight Recorder for the OpenAI Build 
 
 ## Next clean action
 
-Complete this canonical scaffold, verify the active Devpost draft route, then begin the deterministic passport-and-verifier thin slice in this primary Codex task.
+Complete the isolated Codex event adapter and import a genuine, sanitised session fixture without persisting raw reasoning.

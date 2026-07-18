@@ -105,7 +105,8 @@ function hashMerkleNode(left: string, right: string): string {
 
 export function calculateMerkleRoot(artifacts: readonly Artifact[], events: readonly EvidenceEvent[]): string {
   const values = [
-    ...artifacts.map((artifact) => `artifact:${artifact.id}:${artifact.sha256}`),
+    // The full descriptor binds path, media type, size, identifier, and digest to the tree.
+    ...artifacts.map((artifact) => `artifact:${canonicalize(artifact)}`),
     ...events.map((event) => `event:${event.id}:${event.hash}`),
   ].sort();
 
@@ -151,7 +152,30 @@ export function createDeterministicDemoKeyPair(seed: Uint8Array): { publicKey: K
   return { privateKey, publicKey: createPublicKey(privateKey) };
 }
 
-export function signManifest(manifest: PassportManifest, privateKey: KeyObject, publicKey: KeyObject): Signature {
+function requireEd25519PrivateKey(privateKey: KeyObject): void {
+  if (privateKey.type !== "private" || privateKey.asymmetricKeyType !== "ed25519") {
+    throw new Error("Flight Recorder signing requires an Ed25519 private key.");
+  }
+}
+
+export function validateSealPolicy(manifest: PassportManifest): string[] {
+  const reasons: string[] = [];
+  if (!manifest.sealDecision.ready) reasons.push("The manifest is not marked ready.");
+  if (!manifest.sealDecision.humanApproved) reasons.push("Explicit human approval is missing.");
+  if (manifest.sealDecision.blockingReasons.length > 0) reasons.push("Blocking reasons remain recorded.");
+  if (manifest.findings.some((finding) => finding.severity === "blocking" && !finding.resolved)) {
+    reasons.push("Blocking review findings remain unresolved.");
+  }
+  const eventIds = new Set(manifest.events.map((event) => event.id));
+  if (manifest.findings.some((finding) => finding.evidenceIds.some((evidenceId) => !eventIds.has(evidenceId)))) {
+    reasons.push("Review findings contain unknown evidence references.");
+  }
+  return reasons;
+}
+
+export function signManifest(manifest: PassportManifest, privateKey: KeyObject): Signature {
+  requireEd25519PrivateKey(privateKey);
+  const publicKey = createPublicKey(privateKey);
   const canonicalManifest = canonicalize(manifest);
   const signedDigestSha256 = sha256(canonicalManifest);
   const signature = signBytes(null, Buffer.from(canonicalManifest, "utf8"), privateKey);
@@ -163,15 +187,24 @@ export function signManifest(manifest: PassportManifest, privateKey: KeyObject, 
   };
 }
 
-export function sealManifest(manifest: PassportManifest, privateKey: KeyObject, publicKey: KeyObject): Passport {
-  if (!manifest.sealDecision.ready || !manifest.sealDecision.humanApproved) {
-    throw new Error("The manifest is not ready for a human-approved seal.");
+export function sealManifest(manifest: PassportManifest, privateKey: KeyObject): Passport {
+  const policyFailures = validateSealPolicy(manifest);
+  if (policyFailures.length > 0) {
+    throw new Error(`The manifest cannot be sealed: ${policyFailures.join(" ")}`);
   }
-  return { manifest, signature: signManifest(manifest, privateKey, publicKey) };
+  return { manifest, signature: signManifest(manifest, privateKey) };
 }
 
 export function verifyManifestSignature(passport: Passport): boolean {
   try {
+    const publicKey = createPublicKey(passport.signature.publicKeyPem);
+    if (publicKey.asymmetricKeyType !== "ed25519") {
+      return false;
+    }
+    const signature = Buffer.from(passport.signature.signatureBase64, "base64");
+    if (signature.byteLength !== 64) {
+      return false;
+    }
     const canonicalManifest = canonicalize(passport.manifest);
     if (sha256(canonicalManifest) !== passport.signature.signedDigestSha256) {
       return false;
@@ -179,8 +212,8 @@ export function verifyManifestSignature(passport: Passport): boolean {
     return verifyBytes(
       null,
       Buffer.from(canonicalManifest, "utf8"),
-      passport.signature.publicKeyPem,
-      Buffer.from(passport.signature.signatureBase64, "base64"),
+      publicKey,
+      signature,
     );
   } catch {
     return false;

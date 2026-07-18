@@ -1,7 +1,7 @@
 # Flight Recorder Active Context
 
 **Updated:** 18 July 2026, British Summer Time
-**Overall status:** End-to-end goal active; deterministic passport Gate A implemented and verified locally
+**Overall status:** End-to-end goal active; Gate A re-reviewed, hardened, and verified; evidence, review, and fallback-import foundations implemented; genuine capture pending
 
 ## Memory context
 
@@ -10,15 +10,19 @@
 ## Local repository truth
 
 - Workspace: `LOCAL_HOME/Documents/Flight Recorder Codex Build Week`
-- Git repository exists with no commits.
-- Current branch name is `master`; branch naming has not yet been changed.
+- Git repository exists on `main` with dated Build Week provenance commits.
+- Commit `88410fe` checkpoints the verified signed-passport core and operating-contract updates.
 - The four supplied handoff documents are stored under `docs/handoff/` with matching source hashes.
 - Canonical project and skill scaffolding is being created.
-- The TypeScript workspace now contains schema, cryptography, verifier, and command-line packages.
+- The TypeScript workspace now contains schema, cryptography, evidence, verifier, and command-line packages.
 - A deterministic public demonstration passport and synthetic password-reset artifacts exist under `fixtures/demo-passport/`.
-- `pnpm test` passes 5 focused tests, including valid verification, artifact tamper failure, signed-manifest tamper failure, malformed-key fail-closed behaviour, and path-traversal rejection.
+- `pnpm test` passes 23 focused tests covering valid verification, tamper failure, strict signed-envelope boundaries, seal-policy contradictions, Ed25519 algorithm enforcement, malformed-key fail-closed behaviour, path traversal, prototype-named paths, symbolic links, pre-hash secret redaction, bounded untrusted output, stable evidence digests, mocked structured reviews, and Codex fallback import.
 - `pnpm verify` passes all six command-line checks against the generated demonstration fixture.
-- No hosted or local user interface, Codex adapter, GPT-5.6 runtime call, release tag, or final submission assets exist yet.
+- The evidence layer now creates redacted hash-linked events and a deterministic review digest with explicit transmission categories.
+- A current Responses Application Programming Interface client now runs four parallel strict specialist reviews followed by synthesis, with `store: false`, bounded output, no tools, explicit untrusted-data boundaries, and injectable secrets. Only mocked calls have run.
+- A version-pinned `codex exec --json` importer now drops reasoning, retains completed observable events, pseudonymises identifiers, redacts and bounds payloads, and fails visibly on malformed or incomplete captures.
+- A read-only security review found six material Gate A issues. The cryptographic and verifier flaws were repaired and regression-tested; the synthetic fixture is explicitly barred from being represented as genuine evidence.
+- No hosted or local user interface, genuine captured session, billed GPT-5.6 runtime call, release tag, or final submission assets exist yet.
 - The primary Codex task now has an active end-to-end delivery goal covering build, verification, release, deployment, and Devpost draft preparation.
 - Front-end implementation is gated on the Product Design skill and a selected visual target. Accessible shadcn/ui components are the preferred standard primitives.
 - Selective sub-agent parallelism is authorised for bounded research, review, testing, accessibility, security, and documentation lanes. Core implementation and final truth integration remain in this primary task.
@@ -51,10 +55,10 @@
 
 ## Immediate work
 
-1. Commit the verified deterministic passport Gate A implementation.
-2. Implement evidence normalisation, redaction, and hash-linked fixture ingestion.
+1. Create and import a genuine sanitised `codex exec --json` session.
+2. Run one user-approved GPT-5.6 review through securely injected Application Programming Interface access.
 3. Return to the Devpost draft only as verified release facts and assets become available.
 
 ## Next clean action
 
-Commit Gate A, then implement the evidence and capture boundary without storing raw reasoning.
+Create and import one genuine sanitised `codex exec --json` session without storing raw reasoning, then checkpoint Gate B evidence.

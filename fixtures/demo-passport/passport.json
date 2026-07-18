@@ -4,9 +4,10 @@
     "passportId": "flight-recorder-demo-001",
     "createdAt": "2026-07-18T12:23:00.000+00:00",
     "timestampType": "local-recorded-time",
+    "evidenceClassification": "synthetic-test-fixture",
     "project": {
-      "name": "Password reset demonstration",
-      "repositoryCommit": "demo-build-week-2026"
+      "name": "Synthetic cryptographic test fixture",
+      "repositoryCommit": "a0ed4f0faab71a8484f805a98055d42fd6eaeab169996ea189b82d4c0a96926e"
     },
     "session": {
       "task": "Implement a password-reset endpoint using expiring, single-use reset tokens.",
@@ -38,67 +39,71 @@
         "id": "event-001",
         "recordedAt": "2026-07-18T12:00:00.000+00:00",
         "type": "task",
-        "summary": "Codex received the password-reset task and acceptance criteria.",
+        "summary": "Synthetic fixture models receipt of the password-reset task and acceptance criteria.",
         "payload": {
-          "acceptanceCriteriaCount": 4
+          "acceptanceCriteriaCount": 4,
+          "simulated": true
         },
         "index": 0,
         "previousHash": null,
-        "hash": "ace4af233468b12321074ea40548aae1c52f48f0878fb9156a790fb9f432c1fa"
+        "hash": "a66a28d012cf8e4fadd61a84038cd28d99558530e1cc0566c9876e681cc8514b"
       },
       {
         "id": "event-002",
         "recordedAt": "2026-07-18T12:08:00.000+00:00",
         "type": "review",
-        "summary": "The security reviewer identified account-enumeration and token-logging risks.",
+        "summary": "Synthetic fixture models a security finding; no runtime model call is claimed.",
         "payload": {
           "findingIds": [
             "finding-security-001"
-          ]
+          ],
+          "simulated": true
         },
         "index": 1,
-        "previousHash": "ace4af233468b12321074ea40548aae1c52f48f0878fb9156a790fb9f432c1fa",
-        "hash": "0c477926a5d466954411449bdcfd6a29789f1e19e995c77d03d5d858c96671ec"
+        "previousHash": "a66a28d012cf8e4fadd61a84038cd28d99558530e1cc0566c9876e681cc8514b",
+        "hash": "ece7db0eb280c810e651184522d3bd28614359c1359ecd5900743bfba643b683"
       },
       {
         "id": "event-003",
         "recordedAt": "2026-07-18T12:16:00.000+00:00",
         "type": "file-change",
-        "summary": "Codex remediated the evidenced defects.",
+        "summary": "Synthetic fixture models remediation; no genuine Codex session is claimed.",
         "payload": {
           "artifactIds": [
             "artifact-1",
             "artifact-2"
-          ]
+          ],
+          "simulated": true
         },
         "index": 2,
-        "previousHash": "0c477926a5d466954411449bdcfd6a29789f1e19e995c77d03d5d858c96671ec",
-        "hash": "59167a7dcab6f4d07f726a4d8ba8b8c54acca2a357877889e92f9377d6b9d3a8"
+        "previousHash": "ece7db0eb280c810e651184522d3bd28614359c1359ecd5900743bfba643b683",
+        "hash": "71d2359164a0d37260afe802cd81b054d9d4d46b5b0cfe171e4ea7c48cfa69d9"
       },
       {
         "id": "event-004",
         "recordedAt": "2026-07-18T12:20:00.000+00:00",
         "type": "test",
-        "summary": "Known-account, unknown-account, token-log, expiry, and reuse tests passed.",
+        "summary": "Synthetic fixture includes five intended test scenarios; no executed test result is claimed.",
         "payload": {
-          "exitCode": 0,
-          "testCount": 5
+          "intendedTestCount": 5,
+          "simulated": true
         },
         "index": 3,
-        "previousHash": "59167a7dcab6f4d07f726a4d8ba8b8c54acca2a357877889e92f9377d6b9d3a8",
-        "hash": "7041fa0746af8e9caabf379414ebab415a44627f97216ae4cc2ba5c0097b84d8"
+        "previousHash": "71d2359164a0d37260afe802cd81b054d9d4d46b5b0cfe171e4ea7c48cfa69d9",
+        "hash": "75431123d0f588944a081304cd897454b1a73a4532bae4696b17eb3056bae2c6"
       },
       {
         "id": "event-005",
         "recordedAt": "2026-07-18T12:22:00.000+00:00",
         "type": "approval",
-        "summary": "Human approved the evidence set for sealing.",
+        "summary": "Synthetic fixture models an approval state; no actual human approval is claimed.",
         "payload": {
-          "decision": "approved"
+          "decision": "synthetic-approved-state",
+          "simulated": true
         },
         "index": 4,
-        "previousHash": "7041fa0746af8e9caabf379414ebab415a44627f97216ae4cc2ba5c0097b84d8",
-        "hash": "56b7d135c1ebf714d25031d3a8209141028376741ed3c6f7cb3e15cc7709a5ae"
+        "previousHash": "75431123d0f588944a081304cd897454b1a73a4532bae4696b17eb3056bae2c6",
+        "hash": "55a2495cb669f388619bd6094d08590089f666f3036957f5f84931cf30d7930f"
       }
     ],
     "findings": [
@@ -116,8 +121,8 @@
         "resolved": true
       }
     ],
-    "eventChainHead": "56b7d135c1ebf714d25031d3a8209141028376741ed3c6f7cb3e15cc7709a5ae",
-    "merkleRoot": "c88dc4f2779b5848397f4a7915edd1cc4dad36dd6e74b65d3b793adf5b66684c",
+    "eventChainHead": "55a2495cb669f388619bd6094d08590089f666f3036957f5f84931cf30d7930f",
+    "merkleRoot": "53f4798fe3e80f1dec0f841c167c8f9b63396d19413834a9f152aae16e238f0a",
     "sealDecision": {
       "ready": true,
       "blockingReasons": [],
@@ -128,7 +133,7 @@
   "signature": {
     "algorithm": "Ed25519",
     "publicKeyPem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAMAc2YJhZTsNKGzX8wtCPQS1XfBxLYq7JCO2fE51kklo=\n-----END PUBLIC KEY-----\n",
-    "signedDigestSha256": "c6798490b8a90112087b7f1892043968e87fb7585846acf4063cdfdd2be29410",
-    "signatureBase64": "2zHAzW3ZI40g/foYTNRICmV6n7l+2/czQnSOzPFdb7gXjdp3GgntWuOANOvAk0HC1WzW97FRAO60oA8/qRbACg=="
+    "signedDigestSha256": "ec80fe082f4f43a20a82b8f76db67bb4d73118f5e395785a919c9004e5c14ccf",
+    "signatureBase64": "dfx6TD4OFgARhVgmv02GHJULBCeFsIIKE4JzOPfenfDdTtdCvU59XUIfnqRgw3JcTaiaV+TXDUHkXj46cy3IAw=="
   }
 }
