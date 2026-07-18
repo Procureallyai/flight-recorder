@@ -14,6 +14,7 @@ export interface ExecInvocation {
 
 export interface ImportOptions {
   testedCodexVersion: string;
+  repositoryRoot?: string;
   recordedAt?: () => string;
   maxLineBytes?: number;
   maxTotalBytes?: number;
@@ -65,8 +66,20 @@ function pseudonymousReference(value: unknown): string | undefined {
   return typeof value === "string" && value !== "" ? `sha256:${sha256(value)}` : undefined;
 }
 
-function safeRecord(value: unknown): Record<string, JsonValue> {
-  const sanitised = sanitiseEvidenceValue(value);
+function normaliseLocalPaths(value: unknown, repositoryRoot: string | undefined): unknown {
+  if (repositoryRoot === undefined) return value;
+  if (typeof value === "string") {
+    return value.replaceAll(repositoryRoot, "<repository>").replaceAll(encodeURI(repositoryRoot), "<repository>");
+  }
+  if (Array.isArray(value)) return value.map((entry) => normaliseLocalPaths(entry, repositoryRoot));
+  if (isRecord(value)) {
+    return Object.fromEntries(Object.entries(value).map(([key, entry]) => [key, normaliseLocalPaths(entry, repositoryRoot)]));
+  }
+  return value;
+}
+
+function safeRecord(value: unknown, repositoryRoot?: string): Record<string, JsonValue> {
+  const sanitised = sanitiseEvidenceValue(normaliseLocalPaths(value, repositoryRoot));
   return isRecord(sanitised) ? sanitised as Record<string, JsonValue> : { value: String(sanitised) };
 }
 
@@ -79,7 +92,7 @@ function eventTimestamp(envelope: Record<string, unknown>, now: () => string): s
   return candidate !== undefined && !Number.isNaN(Date.parse(candidate)) ? new Date(candidate).toISOString() : now();
 }
 
-function commandPayload(item: Record<string, unknown>): Record<string, JsonValue> {
+function commandPayload(item: Record<string, unknown>, repositoryRoot?: string): Record<string, JsonValue> {
   const command = getString(item, "command", "cmd") ?? "[command unavailable]";
   return safeRecord({
     command,
@@ -88,10 +101,10 @@ function commandPayload(item: Record<string, unknown>): Record<string, JsonValue
     exitCode: getNumber(item, "exit_code", "exitCode"),
     durationMs: getNumber(item, "duration_ms", "durationMs"),
     output: getString(item, "aggregated_output", "output", "stdout"),
-  });
+  }, repositoryRoot);
 }
 
-function mapCompletedItem(envelope: Record<string, unknown>, draftBase: Pick<EvidenceDraft, "id" | "recordedAt">): EvidenceDraft | undefined {
+function mapCompletedItem(envelope: Record<string, unknown>, draftBase: Pick<EvidenceDraft, "id" | "recordedAt">, repositoryRoot?: string): EvidenceDraft | undefined {
   const item = itemRecord(envelope);
   if (item === undefined) return undefined;
   const itemType = getString(item, "type") ?? "unknown";
@@ -99,7 +112,7 @@ function mapCompletedItem(envelope: Record<string, unknown>, draftBase: Pick<Evi
 
   const sourceReference = pseudonymousReference(item.id);
   if (itemType === "command_execution" || itemType === "commandExecution") {
-    const payload = commandPayload(item);
+    const payload = commandPayload(item, repositoryRoot);
     const command = typeof payload.command === "string" ? payload.command : "[command unavailable]";
     return {
       ...draftBase,
@@ -118,18 +131,18 @@ function mapCompletedItem(envelope: Record<string, unknown>, draftBase: Pick<Evi
         changes: item.changes,
         patch: getString(item, "patch", "diff"),
         sourceReference,
-      }),
+      }, repositoryRoot),
     };
   }
   if (itemType === "todo_list" || itemType === "plan") {
-    return { ...draftBase, type: "plan", summary: "The authoritative plan state changed.", payload: safeRecord({ items: item.items, sourceReference }) };
+    return { ...draftBase, type: "plan", summary: "The authoritative plan state changed.", payload: safeRecord({ items: item.items, sourceReference }, repositoryRoot) };
   }
   if (itemType === "agent_message" || itemType === "agentMessage") {
     return {
       ...draftBase,
       type: "completion",
       summary: "Codex completed an observable agent message.",
-      payload: safeRecord({ text: getString(item, "text", "message"), sourceReference }),
+      payload: safeRecord({ text: getString(item, "text", "message"), sourceReference }, repositoryRoot),
     };
   }
   if (["mcp_tool_call", "mcpToolCall", "dynamic_tool_call", "dynamicToolCall", "collab_tool_call", "collabToolCall", "web_search"].includes(itemType)) {
@@ -137,7 +150,7 @@ function mapCompletedItem(envelope: Record<string, unknown>, draftBase: Pick<Evi
       ...draftBase,
       type: "command",
       summary: "A tool call completed; only safe metadata was retained.",
-      payload: safeRecord({ itemType, tool: getString(item, "tool", "name", "server"), status: getString(item, "status"), sourceReference }),
+      payload: safeRecord({ itemType, tool: getString(item, "tool", "name", "server"), status: getString(item, "status"), sourceReference }, repositoryRoot),
     };
   }
 
@@ -145,7 +158,7 @@ function mapCompletedItem(envelope: Record<string, unknown>, draftBase: Pick<Evi
     ...draftBase,
     type: "completion",
     summary: "An unknown completed item was retained as envelope metadata only.",
-    payload: safeRecord({ itemType, sourceReference, topLevelKeys: Object.keys(item).sort() }),
+    payload: safeRecord({ itemType, sourceReference, topLevelKeys: Object.keys(item).sort() }, repositoryRoot),
   };
 }
 
@@ -182,7 +195,7 @@ export function importExecJsonLines(lines: readonly string[], options: ImportOpt
     const envelopeType = getString(envelope, "type") ?? "unknown";
     const draftBase = { id: `ev_${String(drafts.length + 1).padStart(6, "0")}`, recordedAt: eventTimestamp(envelope, now) };
     if (envelopeType === "item.completed") {
-      const draft = mapCompletedItem(envelope, draftBase);
+      const draft = mapCompletedItem(envelope, draftBase, options.repositoryRoot);
       if (draft !== undefined) drafts.push(draft);
       continue;
     }
@@ -191,22 +204,22 @@ export function importExecJsonLines(lines: readonly string[], options: ImportOpt
       continue;
     }
     if (envelopeType === "thread.started") {
-      drafts.push({ ...draftBase, type: "task", summary: "A non-interactive Codex capture thread started.", payload: safeRecord({ threadReference: pseudonymousReference(envelope.thread_id ?? envelope.threadId) }) });
+      drafts.push({ ...draftBase, type: "task", summary: "A non-interactive Codex capture thread started.", payload: safeRecord({ threadReference: pseudonymousReference(envelope.thread_id ?? envelope.threadId) }, options.repositoryRoot) });
       continue;
     }
     if (envelopeType === "turn.started") {
-      drafts.push({ ...draftBase, type: "task", summary: "A Codex turn started.", payload: safeRecord({ turnReference: pseudonymousReference(envelope.turn_id ?? envelope.turnId) }) });
+      drafts.push({ ...draftBase, type: "task", summary: "A Codex turn started.", payload: safeRecord({ turnReference: pseudonymousReference(envelope.turn_id ?? envelope.turnId) }, options.repositoryRoot) });
       continue;
     }
     if (envelopeType === "turn.completed") {
       terminalSeen = true;
-      drafts.push({ ...draftBase, type: "completion", summary: "The Codex turn completed.", payload: safeRecord({ usage: envelope.usage, status: "completed" }) });
+      drafts.push({ ...draftBase, type: "completion", summary: "The Codex turn completed.", payload: safeRecord({ usage: envelope.usage, status: "completed" }, options.repositoryRoot) });
       continue;
     }
     if (envelopeType === "turn.failed" || envelopeType === "error") {
       terminalSeen = true;
       issues.push(`Capture reported terminal event: ${envelopeType}.`);
-      drafts.push({ ...draftBase, type: "completion", summary: "The Codex capture failed.", payload: safeRecord({ status: "failed", message: envelope.message ?? envelope.error }) });
+      drafts.push({ ...draftBase, type: "completion", summary: "The Codex capture failed.", payload: safeRecord({ status: "failed", message: envelope.message ?? envelope.error }, options.repositoryRoot) });
       continue;
     }
 
@@ -214,7 +227,7 @@ export function importExecJsonLines(lines: readonly string[], options: ImportOpt
       ...draftBase,
       type: "completion",
       summary: "An unknown event was retained as envelope metadata only.",
-      payload: safeRecord({ envelopeType, lineSha256: sha256(line), topLevelKeys: Object.keys(envelope).sort() }),
+      payload: safeRecord({ envelopeType, lineSha256: sha256(line), topLevelKeys: Object.keys(envelope).sort() }, options.repositoryRoot),
     });
   }
 

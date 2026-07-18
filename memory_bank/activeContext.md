@@ -1,7 +1,7 @@
 # Flight Recorder Active Context
 
 **Updated:** 18 July 2026, British Summer Time
-**Overall status:** End-to-end goal active; Gate A re-reviewed, hardened, and verified; evidence, review, and fallback-import foundations implemented; genuine capture pending
+**Overall status:** End-to-end goal active; hardened Gate A and genuine fallback Gate B verified; GPT-5.6 runtime Gate C pending
 
 ## Memory context
 
@@ -21,8 +21,10 @@
 - The evidence layer now creates redacted hash-linked events and a deterministic review digest with explicit transmission categories.
 - A current Responses Application Programming Interface client now runs four parallel strict specialist reviews followed by synthesis, with `store: false`, bounded output, no tools, explicit untrusted-data boundaries, and injectable secrets. Only mocked calls have run.
 - A version-pinned `codex exec --json` importer now drops reasoning, retains completed observable events, pseudonymises identifiers, redacts and bounds payloads, and fails visibly on malformed or incomplete captures.
+- A genuine `codex-cli 0.145.0-alpha.18` remediation capture completed with exit code 0. Nineteen sanitised events imported with no issues, and the synthetic password-reset tests expanded from 1 to 6 passing tests.
+- The raw capture remains private and gitignored. The public fixture records approval coverage as `not-observed` and contains no raw reasoning or absolute local path.
 - A read-only security review found six material Gate A issues. The cryptographic and verifier flaws were repaired and regression-tested; the synthetic fixture is explicitly barred from being represented as genuine evidence.
-- No hosted or local user interface, genuine captured session, billed GPT-5.6 runtime call, release tag, or final submission assets exist yet.
+- No hosted or local user interface, billed GPT-5.6 runtime call, release tag, or final submission assets exist yet.
 - The primary Codex task now has an active end-to-end delivery goal covering build, verification, release, deployment, and Devpost draft preparation.
 - Front-end implementation is gated on the Product Design skill and a selected visual target. Accessible shadcn/ui components are the preferred standard primitives.
 - Selective sub-agent parallelism is authorised for bounded research, review, testing, accessibility, security, and documentation lanes. Core implementation and final truth integration remain in this primary task.
@@ -55,10 +57,10 @@
 
 ## Immediate work
 
-1. Create and import a genuine sanitised `codex exec --json` session.
-2. Run one user-approved GPT-5.6 review through securely injected Application Programming Interface access.
+1. Run one user-approved GPT-5.6 review through securely injected Application Programming Interface access.
+2. Convert the genuine capture, model findings, remediation, test evidence, and final Git state into the signed judge passport.
 3. Return to the Devpost draft only as verified release facts and assets become available.
 
 ## Next clean action
 
-Create and import one genuine sanitised `codex exec --json` session without storing raw reasoning, then checkpoint Gate B evidence.
+Securely inject runtime OpenAI access, run the bounded GPT-5.6 specialist and synthesis review, and checkpoint Gate C evidence without exposing the key.

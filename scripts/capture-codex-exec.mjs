@@ -23,7 +23,8 @@ if ([workspaceArgument, promptArgument, stdoutArgument, stderrArgument].some((va
   const stdoutStream = createWriteStream(stdoutFile, { flags: "a", mode: 0o600 });
   const stderrStream = createWriteStream(stderrFile, { flags: "a", mode: 0o600 });
 
-  const child = spawn("/opt/homebrew/bin/codex", [
+  // The desktop-bundled binary is version-aligned with the signed-in Codex application.
+  const child = spawn("/Applications/ChatGPT.app/Contents/Resources/codex", [
     "exec",
     "--json",
     "--color", "never",

@@ -7,3 +7,11 @@
 - Why it slowed or risked the work: a live adapter test cannot currently prove the experimental App Server route even though version-matched schemas and command availability are confirmed.
 - Suggested fix: add a bounded preflight with explicit lock and backfill reporting, do not kill or alter active Codex processes, and continue through the stable `codex exec --json` fallback until the backfill clears.
 - Recommended promotion target: project skill update after the behaviour is reproduced or resolved during a later live-capture attempt.
+
+## 18 July 2026: Homebrew-linked Codex binary was older than the desktop-bundled binary
+
+- Surface: local capture
+- What happened: `/opt/homebrew/bin/codex` exposed `codex-cli 0.140.0`, which the service rejected for the configured GPT-5.6 Sol model. `/Applications/ChatGPT.app/Contents/Resources/codex` exposed `codex-cli 0.145.0-alpha.18`.
+- Why it slowed or risked the work: relying on the first executable in `PATH` produced a false capture failure and stale protocol assumptions.
+- Suggested fix: discovery must inspect all candidate binaries, prefer the signed-in desktop-bundled binary when version-compatible, and record the exact tested path and version.
+- Recommended promotion target: local capture preflight and delivery skill.

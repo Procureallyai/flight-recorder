@@ -1,6 +1,6 @@
 # Flight Recorder Build Week Execution Plan
 
-**Status:** End-to-end goal active. Deterministic passport Gate A is implemented and verified locally. Evidence redaction and digest work is in progress.
+**Status:** End-to-end goal active. Hardened passport Gate A and genuine fallback-capture Gate B are verified locally. GPT-5.6 runtime Gate C is next.
 
 ## Objective
 
@@ -52,4 +52,4 @@ Build, test, document, deploy, and prepare Flight Recorder for the OpenAI Build 
 
 ## Next clean action
 
-Complete the isolated Codex event adapter and import a genuine, sanitised session fixture without persisting raw reasoning.
+Run the bounded GPT-5.6 specialist and synthesis review through securely injected server-side access, then assemble the genuine signed judge passport.
