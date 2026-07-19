@@ -35,13 +35,13 @@ Build, test, document, deploy, and prepare Flight Recorder for the OpenAI Build 
 - Entrant: Floyd Livingstone Rowe as an individual. Confirmed 18 July 2026.
 - Remote owner: Floyd's selected personal GitHub login `Procureallyai`, verified through Profile 7 and the GitHub command-line client on 19 July 2026.
 - Repository: public Apache License 2.0, approved by Floyd.
-- Hosting: Vercel project `flight-recorder-web` is publicly deployed from only `Procureallyai/flight-recorder`. Profile 7 trusted browser proof reports Hobby and a `Ready` production deployment from current `main` commit `ef80990`; the approved 14-day Pro trial was not required or activated for the static judge route.
+- Hosting: Vercel project `flight-recorder-web` is publicly deployed from only `Procureallyai/flight-recorder`. Profile 7 trusted browser proof reports Hobby and a `Ready` production deployment from inspected deployment-source commit `ef80990`; the approved 14-day Pro trial was not required or activated for the static judge route.
 - Runtime model budget: US$10.00 prepaid Application Programming Interface credit verified and genuine GPT-5.6 review executed.
 - Build credits: US$100 Build Week Codex credit confirmed received; actual remaining balance is not yet inspected.
 - Front-end delivery: Product Design skill invocation and visual selection are mandatory before user-interface implementation; use shadcn/ui to compress standard component work.
 - Devpost Plugin: installed and connected as an advisory aid; it never overrides current official rules or verified release facts.
 - Secrets: use user-approved 1Password Environments injection for the OpenAI Application Programming Interface key and deployment credentials; never persist raw values.
-- Repository: `https://github.com/Procureallyai/flight-recorder` is public under Apache License 2.0; the public `v0.1.0` release resolves to `6675e41`, and current `main` commit `ef80990` passed Continuous Integration run `29679128761` without moving the release tag.
+- Repository: `https://github.com/Procureallyai/flight-recorder` is public under Apache License 2.0; the public `v0.1.0` release resolves to `6675e41`, and evidence-record commit `89e10a6` passed Continuous Integration run `29679310497` without moving the release tag.
 - Parallelism: use explicitly owned sub-agent lanes when they materially accelerate research, review, testing, accessibility, security, or documentation. Preserve the primary task as the majority core-build record.
 - Browser fallback: use Chrome Profile 7 for authenticated Devpost state and operator handoff. If it is unavailable, use the Codex in-app browser for local, public, or unauthenticated checks, label the route, and leave Profile 7-dependent actions open.
 
