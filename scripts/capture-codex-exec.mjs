@@ -4,7 +4,7 @@ import { mkdir, open, readFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { spawn } from "node:child_process";
 
-const [workspaceArgument, promptArgument, stdoutArgument, stderrArgument] = process.argv.slice(2);
+const [workspaceArgument, promptArgument, stdoutArgument, stderrArgument, modelArgument = "gpt-5.6-terra"] = process.argv.slice(2);
 if ([workspaceArgument, promptArgument, stdoutArgument, stderrArgument].some((value) => value === undefined)) {
   process.stderr.write("Usage: capture-codex-exec <workspace> <prompt-file> <raw-stdout.jsonl> <raw-stderr.log>\n");
   process.exitCode = 2;
@@ -29,6 +29,7 @@ if ([workspaceArgument, promptArgument, stdoutArgument, stderrArgument].some((va
     "--json",
     "--color", "never",
     "--sandbox", "workspace-write",
+    "--model", modelArgument,
     "--cd", workspace,
     "-",
   ], { stdio: ["pipe", "pipe", "pipe"] });
