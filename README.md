@@ -24,18 +24,22 @@ The cryptographic claim is deliberately narrow: a valid passport shows that the 
 - Four parallel GPT-5.6 specialist-review contracts and a synthesis contract, using strict Structured Outputs, `store: false`, no tools, bounded inputs and outputs, timeouts, and an explicit disabled-by-default runtime switch.
 - A deterministic seal-readiness policy that remains separate from model judgement.
 - Signed human finding decisions that preserve reasons, timestamps, approval evidence, and the distinction between remediation and accepted risk.
-- An unsealed genuine-session candidate containing 19 captured events and two final artifacts.
+- An unsealed pre-remediation genuine-session candidate containing 19 captured events and two final artifacts.
+- A browser-compatible verifier that uses Web Cryptography, validates the signed manifest, event chain, Merkle root, review provenance, and covered artifacts, and fails closed when cryptography is unavailable.
+- A responsive React verification split view bound to the real signed synthetic fixture, with independent proof details, visible verify and loading states, and a safe memory-only tamper demonstration.
+- A final-state evidence envelope and command-line finaliser that bind committed artifact bytes, post-commit test evidence, clean scoped Git state, and one stable final commit before candidate assembly.
+- A concrete synthetic password-reset token lifecycle with exact expiry rejection, single-process concurrent redemption control, consume-after-success behaviour, retry after action failure, neutral failure responses, and identifier-free telemetry.
 
 ## Current truth
 
 | Surface | Evidence-backed status |
 |---|---|
-| Local repository | Core build, 91 product tests, and 6 demonstration tests pass. |
+| Local repository | Core build, 113 product tests, 10 demonstration tests, canonical-truth validation, production web build, and public-file secret scan pass. |
 | Local session | Command-line initialisation, the authenticated loopback bridge boundary, Codex App Server initialisation, ephemeral thread creation, and a bounded live turn with sanitised observable-event capture are verified against desktop-bundled `codex-cli 0.145.0-alpha.18`. No command or file change occurred in the live probe. Live approval exchange remains unverified. |
 | Genuine Codex capture | Verified through the JavaScript Object Notation fallback. Raw capture is private; the public fixture is sanitised. |
-| GPT-5.6 runtime | Request and schema behaviour are tested with a mocked transport. A real billed call is still pending secure 1Password approval. |
-| Passport | Synthetic signed fixture verifies. Genuine candidate is intentionally unsealed pending model review and human approval. |
-| User interface | Three Product Design directions exist. Implementation is awaiting the entrant’s visual selection. |
+| GPT-5.6 runtime | Four real specialist calls and one synthesis call completed with `gpt-5.6-sol`. The hardened evidence-bound review returned `not-ready` with 26 findings; a post-remediation rerun remains required. |
+| Passport | Synthetic signed fixture verifies. Final-state evidence binding and finalisation are implemented and tested, but the pre-remediation genuine candidate remains intentionally unsealed until a new capture, post-remediation review, and human approval exist. |
+| User interface | Floyd selected refined Product Design option 3. The local verification split view runs the actual browser verifier against the signed synthetic fixture and is production-built and interaction-checked through `in-app browser proof`. Public hosted proof remains open. |
 | GitHub, deployment, video, and Devpost | Not yet release-complete. These are separate evidence surfaces. |
 
 See [the validation matrix](planning/VALIDATION_MATRIX.md) and [active context](memory_bank/activeContext.md) for current details.
@@ -44,6 +48,7 @@ See [the validation matrix](planning/VALIDATION_MATRIX.md) and [active context](
 
 ```text
 apps/bridge             Authenticated loopback bridge and Codex preflight
+apps/web                Responsive judge replay and independent verifier interface
 packages/schema          Signed-envelope and evidence schemas
 packages/crypto          Canonicalisation, hashing, Merkle tree, and Ed25519
 packages/evidence        Redaction, normalisation, event chaining, and review digest
@@ -68,6 +73,14 @@ planning                 Decisions, blockers, validation, security review, and c
 - Separately billed OpenAI Application Programming Interface access for genuine runtime GPT-5.6 review.
 
 The hosted judge route will not require an account, an Application Programming Interface key, or local code execution.
+
+## Local interface preview
+
+```zsh
+pnpm --filter web dev --host 127.0.0.1 --port 5173
+```
+
+Open `http://127.0.0.1:5173/`. The current interface is explicitly labelled `Signed synthetic cryptographic fixture` until a new genuine post-remediation capture is bound. Verification runs locally in the browser. Its tamper control changes browser memory only and never writes to a covered file.
 
 ## Initialise a local session
 
@@ -103,12 +116,13 @@ pnpm test
 npm test --prefix demo/password-reset-workspace
 pnpm demo:generate
 pnpm verify
+pnpm capture:finalise
 pnpm candidate:generate
 pnpm security:secrets
 pnpm validate:truth
 ```
 
-`pnpm verify` checks the synthetic cryptographic fixture. `pnpm candidate:generate` rebuilds the genuine, unsealed candidate from the sanitised captured session and its final artifacts.
+`pnpm verify` checks the synthetic cryptographic fixture. `pnpm capture:finalise` will bind a new genuine capture to one clean committed demonstration state and its passing post-commit test. Do not run it against the historical pre-remediation capture. `pnpm candidate:generate` accepts only that finalised capture and never rereads the mutable working tree.
 
 To export and independently verify the portable synthetic proof bundle:
 
@@ -121,7 +135,7 @@ The bundle is a directory rather than an archive. This keeps inspection simple a
 
 ## Secret handling
 
-Real secrets must be injected through 1Password Environments. They must not enter task messages, committed files, persistent `.env` files, command output, screenshots, browser code, or public capture fixtures.
+Real secrets must be injected through 1Password Environments or an explicitly approved permission-restricted local fallback when the value-hiding integration cannot provide a regular-file boundary. They must not enter task messages, committed files, persistent `.env` files, command output, screenshots, browser code, or public capture fixtures.
 
 `.env.example` contains variable names and non-secret controls only. Runtime GPT review is disabled unless explicitly enabled for one authorised, bounded execution.
 
@@ -135,6 +149,6 @@ See [BUILD_WEEK_EVIDENCE.md](BUILD_WEEK_EVIDENCE.md) for dated provenance.
 
 ## Licence
 
-The recommended release licence is Apache License 2.0. The licence file will be added only after the individual entrant confirms that legal choice. Until then, package metadata is `UNLICENSED`, and no licence grant is implied.
+Floyd approved Apache License 2.0 for the public individual-entry repository. The repository licence file and package metadata record that decision.
 
 Agentic development needs more than faster code. It needs evidence that can survive inspection.

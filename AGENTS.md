@@ -63,7 +63,8 @@ Treat plans, prompts, and the Product Requirements Document (PRD) as desired sta
 ## Browser route matrix
 
 - Use the Chrome plugin route through the Codex Chrome Extension in the user's normal Google Chrome Profile 7 for authenticated Devpost work, real signed-in state, or operator handoff. Label it `Profile 7 trusted browser proof`.
-- Use the in-app browser or Browser Use for public pages, isolated previews, and non-authenticated smoke tests. Label the exact route.
+- If Chrome Profile 7 is unavailable, fall back to the Codex in-app browser for public pages, isolated previews, local interfaces, and non-authenticated smoke tests that do not require its signed-in state. Label it `in-app browser proof` and keep any Profile 7-dependent action open.
+- Use Browser Use only when the selected in-app route is unavailable or the current task explicitly selects it. Label it `Browser Use proof`.
 - Use Playwright Model Context Protocol (MCP) for deterministic browser regression checks.
 - Use Chrome DevTools Model Context Protocol (MCP) for console, network, rendering, and performance inspection.
 - Do not silently switch routes. Report the route attempted, blocker, impact, fallback considered, and fallback evidence label.

@@ -7,6 +7,9 @@ const TRUNCATED = "[TRUNCATED]";
 const DEFAULT_MAX_STRING_LENGTH = 8_000;
 const DEFAULT_MAX_COLLECTION_LENGTH = 100;
 const DEFAULT_MAX_DEPTH = 8;
+const MAX_FINAL_ARTIFACT_COUNT = 25;
+const MAX_FINAL_ARTIFACT_BYTES = 100_000;
+const MAX_FINAL_ENVELOPE_BYTES = 1_000_000;
 
 const secretKeyPattern = /(?:api[-_]?key|authorization|cookie|credential|password|private[-_]?key|refresh[-_]?token|secret|session[-_]?token|token)/iu;
 
@@ -65,9 +68,101 @@ export const reviewableExecCaptureSchema = z.object({
   events: z.array(evidenceEventSchema).min(1),
 }).strict();
 
+const repositoryRelativePathSchema = z
+  .string()
+  .min(1)
+  .max(512)
+  .refine((path) => {
+    const segments = path.split("/");
+    return (
+      path === path.normalize("NFC") &&
+      !path.startsWith("/") &&
+      !path.startsWith("\\") &&
+      !path.includes("\\") &&
+      !path.includes("\u0000") &&
+      !/^[a-zA-Z]:/u.test(path) &&
+      segments.every((segment) =>
+        segment !== "" &&
+        segment !== "." &&
+        segment !== ".." &&
+        !/[. ]$/u.test(segment) &&
+        !/^(?:CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?:\..*)?$/iu.test(segment)
+      )
+    );
+  }, "Final-state paths must be Unicode-normalised, portable repository-relative paths without traversal or reserved segments.");
+
+export const finalArtifactSnapshotSchema = z.object({
+  path: repositoryRelativePathSchema,
+  mediaType: z.string().min(1).max(200),
+  byteSize: z.number().int().nonnegative().max(MAX_FINAL_ARTIFACT_BYTES),
+  sha256: z.string().regex(/^[a-f0-9]{64}$/u),
+  content: z.string().max(MAX_FINAL_ARTIFACT_BYTES),
+}).strict().superRefine((artifact, context) => {
+  const actualByteSize = Buffer.byteLength(artifact.content, "utf8");
+  if (actualByteSize > MAX_FINAL_ARTIFACT_BYTES) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["content"],
+      message: `Final artifact content may contain at most ${MAX_FINAL_ARTIFACT_BYTES} UTF-8 bytes.`,
+    });
+  }
+  if (artifact.byteSize !== actualByteSize) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["byteSize"],
+      message: "Final artifact byte size does not match its content.",
+    });
+  }
+  if (artifact.sha256 !== sha256(Buffer.from(artifact.content, "utf8"))) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["sha256"],
+      message: "Final artifact Secure Hash Algorithm 256-bit digest does not match its content.",
+    });
+  }
+});
+
+export const finalStateEvidenceEnvelopeSchema = z.object({
+  schemaVersion: z.literal("0.1.0"),
+  recordKind: z.literal("final-git-state"),
+  finalCommit: z.string().regex(/^(?:[a-f0-9]{40}|[a-f0-9]{64})$/u),
+  scopedClean: z.literal(true),
+  scopePaths: z.array(repositoryRelativePathSchema).min(1).max(100),
+  postCommitPassingTestEvidenceId: z.string().min(1).max(200),
+  artifacts: z.array(finalArtifactSnapshotSchema).min(1).max(MAX_FINAL_ARTIFACT_COUNT),
+}).strict().superRefine((envelope, context) => {
+  const portableScopePaths = new Set<string>();
+  for (const [index, path] of envelope.scopePaths.entries()) {
+    const portablePath = path.toLocaleLowerCase("en-US");
+    if (portableScopePaths.has(portablePath)) {
+      context.addIssue({ code: z.ZodIssueCode.custom, path: ["scopePaths", index], message: "Final-state scope paths must be unique after portable case folding." });
+    }
+    portableScopePaths.add(portablePath);
+  }
+
+  const portableArtifactPaths = new Set<string>();
+  let totalBytes = 0;
+  for (const [index, artifact] of envelope.artifacts.entries()) {
+    const portablePath = artifact.path.toLocaleLowerCase("en-US");
+    if (portableArtifactPaths.has(portablePath)) {
+      context.addIssue({ code: z.ZodIssueCode.custom, path: ["artifacts", index, "path"], message: "Final artifact paths must be unique after portable case folding." });
+    }
+    if (!portableScopePaths.has(portablePath)) {
+      context.addIssue({ code: z.ZodIssueCode.custom, path: ["artifacts", index, "path"], message: "Every final artifact must be explicitly included in the scoped-clean path set." });
+    }
+    portableArtifactPaths.add(portablePath);
+    totalBytes += artifact.byteSize;
+  }
+  if (totalBytes > MAX_FINAL_ENVELOPE_BYTES) {
+    context.addIssue({ code: z.ZodIssueCode.custom, path: ["artifacts"], message: `Final-state artifact content may contain at most ${MAX_FINAL_ENVELOPE_BYTES} UTF-8 bytes in total.` });
+  }
+});
+
 export type EvidenceDraft = z.infer<typeof evidenceDraftSchema>;
 export type EvidenceDigest = z.infer<typeof evidenceDigestSchema>;
 export type CaptureSource = z.infer<typeof captureSourceSchema>;
+export type FinalArtifactSnapshot = z.infer<typeof finalArtifactSnapshotSchema>;
+export type FinalStateEvidenceEnvelope = z.infer<typeof finalStateEvidenceEnvelopeSchema>;
 
 export interface SanitiseOptions {
   maxStringLength?: number;
@@ -149,7 +244,51 @@ function inferTestStatus(payload: Record<string, unknown>): "passed" | "failed" 
   return "unknown";
 }
 
-function categoryFor(event: EvidenceEvent): EvidenceDigest["transmissionCategories"][number] | undefined {
+export function createFinalArtifactSnapshot(path: string, mediaType: string, content: string): FinalArtifactSnapshot {
+  const bytes = Buffer.from(content, "utf8");
+  return finalArtifactSnapshotSchema.parse({
+    path,
+    mediaType,
+    byteSize: bytes.byteLength,
+    sha256: sha256(bytes),
+    content,
+  });
+}
+
+export function assertFinalStateEvidenceEnvelope(input: unknown, events: readonly EvidenceEvent[]): FinalStateEvidenceEnvelope {
+  const envelope = finalStateEvidenceEnvelopeSchema.parse(input);
+  const safeEvents = events.map((event) => evidenceEventSchema.parse(event));
+  if (!verifyEventChain(safeEvents)) {
+    throw new Error("Final-state evidence must bind to a complete, valid event hash chain.");
+  }
+  const matchingTests = safeEvents.filter((event) => event.id === envelope.postCommitPassingTestEvidenceId);
+  if (matchingTests.length !== 1) {
+    throw new Error("Final-state evidence must bind exactly one post-commit test evidence identifier.");
+  }
+
+  const testEvent = matchingTests[0];
+  if (
+    testEvent === undefined ||
+    testEvent.type !== "test" ||
+    inferTestStatus(testEvent.payload) !== "passed" ||
+    testEvent.payload.phase !== "post-commit" ||
+    testEvent.payload.repositoryCommit !== envelope.finalCommit
+  ) {
+    throw new Error("Final-state evidence must bind a passing post-commit test from the same final Git commit.");
+  }
+  return envelope;
+}
+
+export function verifyFinalStateEvidenceEnvelope(input: unknown, events: readonly EvidenceEvent[]): boolean {
+  try {
+    assertFinalStateEvidenceEnvelope(input, events);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function categoryFor(event: EvidenceEvent, events: readonly EvidenceEvent[]): EvidenceDigest["transmissionCategories"][number] | undefined {
   switch (event.type) {
     case "task": return "task-and-criteria";
     case "plan": return "plans";
@@ -157,7 +296,15 @@ function categoryFor(event: EvidenceEvent): EvidenceDigest["transmissionCategori
     case "test": return "commands-and-tests";
     case "file-change": return "file-changes";
     case "approval": return "approvals";
-    case "completion": return "git-state";
+    case "completion": {
+      if (event.payload.recordKind !== "final-git-state") return undefined;
+      const envelope = assertFinalStateEvidenceEnvelope(event.payload, events);
+      const testEvent = events.find((candidate) => candidate.id === envelope.postCommitPassingTestEvidenceId);
+      if (testEvent === undefined || testEvent.index >= event.index) {
+        throw new Error("The final Git-state record must follow its bound post-commit passing test evidence.");
+      }
+      return "git-state";
+    }
     case "review": return undefined;
   }
 }
@@ -169,7 +316,7 @@ export function createEvidenceDigest(source: CaptureSource, events: readonly Evi
 
   for (const event of safeEvents) {
     eventTypes[event.type] = (eventTypes[event.type] ?? 0) + 1;
-    const category = categoryFor(event);
+    const category = categoryFor(event, safeEvents);
     if (category !== undefined) {
       categories.add(category);
     }
@@ -206,6 +353,25 @@ export function createReviewDigestFromExecCapture(input: unknown): EvidenceDiges
   const capture = reviewableExecCaptureSchema.parse(input);
   if (!verifyEventChain(capture.events)) {
     throw new Error("A reviewable Codex capture must contain a complete, valid event hash chain.");
+  }
+
+  const finalStateRecords = capture.events.filter(
+    (event) => event.type === "completion" && event.payload.recordKind === "final-git-state",
+  );
+  if (finalStateRecords.length !== 1) {
+    throw new Error("A reviewable Codex capture must contain exactly one explicit final Git-state evidence record.");
+  }
+  const finalStateRecord = finalStateRecords[0];
+  if (finalStateRecord === undefined) {
+    throw new Error("A reviewable Codex capture is missing its final Git-state evidence record.");
+  }
+  if (capture.events.at(-1)?.id !== finalStateRecord.id) {
+    throw new Error("A reviewable Codex capture must end with its authoritative final Git-state evidence record.");
+  }
+  const finalStateEnvelope = assertFinalStateEvidenceEnvelope(finalStateRecord.payload, capture.events);
+  const boundTest = capture.events.find((event) => event.id === finalStateEnvelope.postCommitPassingTestEvidenceId);
+  if (boundTest === undefined || boundTest.index >= finalStateRecord.index) {
+    throw new Error("A reviewable Codex capture must record its bound post-commit passing test before its final Git-state evidence record.");
   }
 
   const safeEvents = capture.events.map((event) => evidenceEventSchema.parse({

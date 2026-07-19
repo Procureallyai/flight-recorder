@@ -37,6 +37,7 @@ The repository history and this primary Codex task identify the work performed d
 | `40df488` | Reconciled loopback bridge documentation, security review, and validation evidence. |
 | `3b2cc70` | Bounded Codex App Server transport with live protocol initialisation and ephemeral-thread proof against the desktop-bundled binary. |
 | `04f4400` | Fail-closed observable App Server event normalisation, exact test classification reuse, and a successful bounded live-turn probe. |
+| `258f23c` | Approved Product Design option 3 verification split view, ten-test password-reset lifecycle remediation, and local design-quality evidence. |
 
 ## Codex contribution
 
@@ -57,7 +58,7 @@ A separate genuine `codex exec --json` run remediated the synthetic password-res
 
 ## GPT-5.6 truth
 
-The repository contains a tested runtime integration contract for four specialist reviews and one synthesis review. A genuine billed GPT-5.6 call has not yet occurred because secure 1Password approval is pending. No submission or video may claim completed runtime use until [the validation matrix](planning/VALIDATION_MATRIX.md) records direct evidence.
+Four genuine specialist reviews and one synthesis review completed with `gpt-5.6-sol`, strict Structured Outputs, `store: false`, no tools, bounded evidence, and securely injected credentials. The hardened evidence-bound result was `not-ready` with 26 findings. That result is preserved as evidence; a new post-remediation capture and review remain required before sealing or claiming readiness.
 
 ## Validation commands
 

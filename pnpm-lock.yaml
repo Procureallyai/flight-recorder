@@ -26,6 +26,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@flight-recorder/verifier':
+        specifier: workspace:*
+        version: link:../../packages/verifier
       '@fontsource/ibm-plex-mono':
         specifier: 5.2.7
         version: 5.2.7
@@ -68,6 +71,9 @@ importers:
       '@flight-recorder/crypto':
         specifier: workspace:*
         version: link:../crypto
+      '@flight-recorder/evidence':
+        specifier: workspace:*
+        version: link:../evidence
       '@flight-recorder/passport':
         specifier: workspace:*
         version: link:../passport

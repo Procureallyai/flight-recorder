@@ -43,6 +43,7 @@ Build, test, document, deploy, and prepare Flight Recorder for the OpenAI Build 
 - Secrets: use user-approved 1Password Environments injection for the OpenAI Application Programming Interface key and deployment credentials; never persist raw values.
 - Repository: target a public, appropriately licensed repository under the authenticated individual owner. Current GitHub command-line authentication is invalid and must be repaired before remote creation.
 - Parallelism: use explicitly owned sub-agent lanes when they materially accelerate research, review, testing, accessibility, security, or documentation. Preserve the primary task as the majority core-build record.
+- Browser fallback: use Chrome Profile 7 for authenticated Devpost state and operator handoff. If it is unavailable, use the Codex in-app browser for local, public, or unauthenticated checks, label the route, and leave Profile 7-dependent actions open.
 
 ## Time control
 

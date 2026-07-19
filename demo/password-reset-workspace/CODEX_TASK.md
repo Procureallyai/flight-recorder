@@ -17,4 +17,14 @@ Repair the existing implementation so that it satisfies all of these acceptance 
 
 The in-memory store reserves a token by changing its state synchronously before the first awaited reset action. That transition is atomic only among asynchronous attempts in one JavaScript process. It does not coordinate multiple worker processes or hosts, and it does not survive a process restart. A production implementation therefore requires a persistent shared store with a transaction or atomic compare-and-set operation covering the equivalent state transition.
 
+## Final evidence handoff
+
+Before completing the task:
+
+1. Run the complete test command for this workspace and report the exact pass or fail count.
+2. Identify the final source file and final test file by repository-relative path.
+3. Report scoped Git status only for those two files and this task file.
+4. Report a Secure Hash Algorithm 256-bit digest for each final file without printing any secret-bearing value.
+5. Do not claim that repository-wide canonical validation, release checks, or hosted verification passed. Those checks are outside this isolated workspace and must be recorded as unavailable here.
+
 Use only synthetic values. Preserve dependency injection so the behaviour remains testable. Run the test suite and leave the workspace in a passing state. Do not access or modify files outside this workspace.
