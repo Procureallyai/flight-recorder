@@ -48,6 +48,9 @@ The repository history and this primary Codex task identify the work performed d
 | `8526ffd` | Complete final GPT-5.6 review evidence binding and genuine approval request. |
 | `a6d8baa` | Typed human approval, signed genuine-session judge passport, independent verification, and genuine interface binding. |
 | `dee28e2` | Verified public GitHub publication recorded in canonical truth. |
+| `d457b41` | Cross-platform path safety, Vercel configuration, and release documentation. |
+| `f858933` | Portable canonical-truth validation and first fully green Ubuntu release candidate. |
+| `6675e41` | Verified production deployment evidence, release notes, and final 3:2 submission screenshots. |
 
 ## Codex contribution
 
@@ -83,4 +86,4 @@ bash scripts/validate-canonical-truth.sh
 node packages/cli/dist/index.js verify fixtures/judge-passport/passport.json fixtures/judge-passport/artifacts --json
 ```
 
-Live GitHub publication was verified separately on 19 July 2026 at `https://github.com/Procureallyai/flight-recorder`; the public repository reported Apache License 2.0, and live `main` matched local `main`. Ubuntu Continuous Integration run `29677887315` passed at commit `f858933`. Vercel deployed that commit to `https://flight-recorder-web.vercel.app/`; an unauthenticated status and security-header probe passed, and two fresh hosted browser runs completed the verified, tampered-invalid, and restored-verified sequence with clean consoles. Video eligibility, Devpost completion, final release acceptance, and final human acceptance remain separate until directly verified.
+Live GitHub publication was verified separately on 19 July 2026 at `https://github.com/Procureallyai/flight-recorder`; the public repository reported Apache License 2.0, and live `main` matched local release commit `6675e41ad5b0fcec2f8d42ad07e4321950cbf821`. Ubuntu Continuous Integration run `29678114178` passed at that commit. The public annotated `v0.1.0` tag peels to the same commit, and the non-draft, non-prerelease GitHub Release is published. Vercel deployed that commit to `https://flight-recorder-web.vercel.app/`; an unauthenticated status and security-header probe passed, and two fresh hosted browser runs completed the verified, tampered-invalid, and restored-verified sequence with clean consoles. Video eligibility, Devpost completion, and final human acceptance remain separate until directly verified.

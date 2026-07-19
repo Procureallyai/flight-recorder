@@ -74,6 +74,10 @@ Codex, GPT-5.6, OpenAI Responses Application Programming Interface, TypeScript, 
 
 Open `https://flight-recorder-web.vercel.app/` in a modern browser. No account or Application Programming Interface key is required. Confirm the initial `VERIFIED` state, inspect the proof details and accepted warnings, select **Alter covered artifact in memory**, confirm the `INVALID` state and artifact mismatch, then select **Restore original artifact** and confirm that verification returns to `VERIFIED`.
 
-## Release-dependent fields
+## Verified release
 
-The public YouTube address, final release tag, and private `/feedback` Session Identifier must be added only after direct verification. The private Session Identifier must never enter this public document or repository.
+- Release: `https://github.com/Procureallyai/flight-recorder/releases/tag/v0.1.0`
+- Release commit: `6675e41ad5b0fcec2f8d42ad07e4321950cbf821`
+- Green Continuous Integration run: `https://github.com/Procureallyai/flight-recorder/actions/runs/29678114178`
+
+The public YouTube address and private `/feedback` Session Identifier must be added only after direct verification. The private Session Identifier must never enter this public document or repository.

@@ -1,7 +1,7 @@
 # Flight Recorder Active Context
 
 **Updated:** 19 July 2026, British Summer Time
-**Overall status:** End-to-end goal active; the final genuine passport, interface, public GitHub repository, green Continuous Integration run, and public no-login Vercel judge route are verified; release tagging, video, final assets, `/feedback`, and Devpost preparation remain open
+**Overall status:** End-to-end goal active; the final genuine passport, interface, public GitHub repository, green Continuous Integration run, public no-login Vercel judge route, and public `v0.1.0` release are verified; video publication, `/feedback`, Devpost completion, and human acceptance remain open
 
 ## Memory context
 
@@ -35,10 +35,10 @@
 - Local session initialisation now enforces an explicit allowed Git root, policy acknowledgement, and a pre-existing `.flight-recorder/` Git-ignore rule; it captures the baseline commit and dirty-state digest, writes mode `0700` and `0600` private state, and rejects symbolic-link storage.
 - A synthetic 20-file portable passport bundle exported and independently reverified from `/private/tmp`; it is proof of bundle mechanics, not genuine final provenance.
 - A read-only security review found six material Gate A issues. The cryptographic and verifier flaws were repaired and regression-tested; the synthetic fixture is explicitly barred from being represented as genuine evidence.
-- A local React verification split-view interface now exists under `apps/web/`, based on Floyd's approved refined direction 3. It runs the real browser-compatible verifier against the genuine signed judge passport and provides proof disclosure, accepted-scope warnings, a truthful verified-to-invalid in-memory artifact mismatch, restore and visible loading states, and responsive layout. It is not yet a public hosted route.
+- A React verification split-view interface exists under `apps/web/`, based on Floyd's approved refined direction 3. It runs the real browser-compatible verifier against the genuine signed judge passport and provides proof disclosure, accepted-scope warnings, a truthful verified-to-invalid in-memory artifact mismatch, restore and visible loading states, and responsive layout. The exact release candidate is publicly deployed on Vercel.
 - The evidence layer now supports a bounded final-state envelope containing committed artifact snapshots, one stable final commit, clean scoped Git state, and exactly one passing post-commit test. The command-line finaliser reads covered bytes from Git objects, checks scope cleanliness and commit stability before and after testing, writes atomically with mode `0600`, and candidate assembly accepts only the finalised capture without rereading the working tree.
 - The synthetic password-reset workspace now has uniform deferred scheduling off the response path, an injected clock and token generator, exact expiry rejection, single-process atomic reservation, consume-after-success behaviour, safe retry contracts, neutral dependency-failure responses, identifier-free telemetry, and 16 passing deterministic tests. Audit durability and cross-process persistence remain explicit production boundaries.
-- No release tag or final submission assets exist yet. A genuine billed GPT-5.6 review artifact exists at `fixtures/demo-session/review-run.json`.
+- The public `v0.1.0` tag and GitHub Release resolve to commit `6675e41ad5b0fcec2f8d42ad07e4321950cbf821`. Two final 1440 by 960 pixel submission screenshots exist under `docs/submission/assets/`. A genuine billed GPT-5.6 review artifact exists at `fixtures/demo-session/review-run.json`.
 - The primary Codex task now has an active end-to-end delivery goal covering build, verification, release, deployment, and Devpost draft preparation.
 - Front-end implementation used the Product Design skill, the approved refined direction 3 source image, Radix accessibility primitives, shadcn/ui-style local components, Phosphor icons, and IBM Plex fonts. The genuine passport production build and `in-app browser proof` pass for verified, invalid, restore, proof details, accepted warnings, and 390-pixel mobile states without horizontal overflow or console warnings and errors. The design quality assurance comparison passes; browser requests remained local and hosted proof remains open.
 - Selective sub-agent parallelism is authorised for bounded research, review, testing, accessibility, security, and documentation lanes. Core implementation and final truth integration remain in this primary task.
@@ -47,9 +47,9 @@
 
 - Profile 7 trusted browser proof completed GitHub's device authorisation for the official GitHub command-line client as `Procureallyai` on 19 July 2026.
 - The public Apache License 2.0 repository exists at `https://github.com/Procureallyai/flight-recorder` with `main` as its default branch.
-- Live GitHub `main` and local `main` both resolve to commit `f85893390014132e0f67cd0418b211421f71a3a4`. Repository metadata reports `PUBLIC`, Apache License 2.0, and the approved description.
-- Continuous Integration run `29677887315` passed against `f858933` after the macOS-only system-directory alias and missing-Ripgrep portability defects were repaired. The run built and passed 126 product tests, 16 demonstration tests, deterministic fixture regeneration, both signed passport verifiers, the secret scan, and canonical-truth validation on Ubuntu.
-- No release tag exists yet.
+- Live GitHub `main` and local `main` both resolve to release commit `6675e41ad5b0fcec2f8d42ad07e4321950cbf821`. Repository metadata reports `PUBLIC`, Apache License 2.0, and the approved description.
+- Continuous Integration run `29678114178` passed against `6675e41`. The run built and passed 126 product tests, 16 demonstration tests, deterministic fixture regeneration, both signed passport verifiers, the secret scan, and canonical-truth validation on Ubuntu.
+- The public annotated tag `v0.1.0` peels to `6675e41`, and the non-draft, non-prerelease GitHub Release is published at `https://github.com/Procureallyai/flight-recorder/releases/tag/v0.1.0`.
 
 ## Browser or hosted truth
 
@@ -65,7 +65,7 @@
 
 ## Deployment truth
 
-- Vercel project `flight-recorder-web` deployed the GitHub-connected `apps/web` application from commit `f858933` on 19 July 2026.
+- Vercel project `flight-recorder-web` deployed the GitHub-connected `apps/web` application from release commit `6675e41ad5b0fcec2f8d42ad07e4321950cbf821` on 19 July 2026.
 - The stable production route is `https://flight-recorder-web.vercel.app/`. It is public, requires no account or Application Programming Interface key, and completed two independent hosted verification runs.
 - The dashboard displayed the project under the Hobby plan. Floyd's earlier approval of a 14-day Pro trial did not itself activate that trial, and no Pro-only runtime capability is required for this static judge route.
 
@@ -81,9 +81,9 @@
 
 ## Immediate work
 
-1. Produce the final video, release tag, and GitHub Release. Two final 1440 by 960 pixel hosted screenshots now exist under `docs/submission/assets/` and remain pending Floyd's human asset selection.
+1. Record and publish the final under-three-minute public YouTube video. Two final 1440 by 960 pixel hosted screenshots exist under `docs/submission/assets/` and remain pending Floyd's human asset selection.
 2. Run `/feedback`, store the private Session Identifier outside public artifacts, and complete the remaining factual Devpost fields.
 
 ## Next clean action
 
-Create the under-three-minute video from the verified production route, then tag the exact release commit.
+Record the under-three-minute video from the verified production route, publish it publicly on YouTube, then run `/feedback` from this primary task.

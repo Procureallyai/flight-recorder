@@ -1,6 +1,6 @@
 # Flight Recorder Build Week Execution Plan
 
-**Status:** End-to-end goal active. Gates A through D are verified: the signed passport, genuine capture, GPT-5.6 review, public GitHub repository, green Continuous Integration run, and public no-login judge route pass. Release tagging, video, final assets, `/feedback`, and submission remain open.
+**Status:** End-to-end goal active. Gates A through D are verified, and the public `v0.1.0` release is published from the green release candidate. Video publication, `/feedback`, Devpost completion, and human acceptance remain open.
 
 ## Objective
 
@@ -41,7 +41,7 @@ Build, test, document, deploy, and prepare Flight Recorder for the OpenAI Build 
 - Front-end delivery: Product Design skill invocation and visual selection are mandatory before user-interface implementation; use shadcn/ui to compress standard component work.
 - Devpost Plugin: installed and connected as an advisory aid; it never overrides current official rules or verified release facts.
 - Secrets: use user-approved 1Password Environments injection for the OpenAI Application Programming Interface key and deployment credentials; never persist raw values.
-- Repository: `https://github.com/Procureallyai/flight-recorder` is public under Apache License 2.0; live and local `main` match at `f858933`, with green Continuous Integration run `29677887315`.
+- Repository: `https://github.com/Procureallyai/flight-recorder` is public under Apache License 2.0; live and local `main` match at `6675e41`, Continuous Integration run `29678114178` is green, and the public `v0.1.0` release resolves to that commit.
 - Parallelism: use explicitly owned sub-agent lanes when they materially accelerate research, review, testing, accessibility, security, or documentation. Preserve the primary task as the majority core-build record.
 - Browser fallback: use Chrome Profile 7 for authenticated Devpost state and operator handoff. If it is unavailable, use the Codex in-app browser for local, public, or unauthenticated checks, label the route, and leave Profile 7-dependent actions open.
 
@@ -53,4 +53,4 @@ Build, test, document, deploy, and prepare Flight Recorder for the OpenAI Build 
 
 ## Next clean action
 
-Use the final hosted 3:2 screenshots and create the under-three-minute video from `https://flight-recorder-web.vercel.app/`, then complete the release tag and `/feedback` gate.
+Use the final hosted 3:2 screenshots and record the under-three-minute video from `https://flight-recorder-web.vercel.app/`, publish it publicly on YouTube, then complete the `/feedback` gate.
