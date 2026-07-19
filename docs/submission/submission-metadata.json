@@ -43,6 +43,22 @@
     "verified": false,
     "enteredInDevpost": false
   },
+  "localVideoDraft": {
+    "path": "output/video/flight-recorder-openai-build-week-demo.mp4",
+    "durationSeconds": 160,
+    "width": 1920,
+    "height": 1080,
+    "sha256": "2175c3c92867d39522028fd733bd5274d506e6f51b50a6b1f39fabe2c6fc595c",
+    "verified": true,
+    "humanAccepted": false
+  },
+  "youtubeThumbnail": {
+    "path": "docs/submission/assets/flight-recorder-video-thumbnail-16x9.jpg",
+    "width": 1920,
+    "height": 1080,
+    "verified": true,
+    "uploaded": false
+  },
   "screenshots": [
     {
       "path": "docs/submission/assets/flight-recorder-hosted-verified-3x2.png",

@@ -1,6 +1,6 @@
 # Flight Recorder demonstration script
 
-**Target duration:** 2 minutes 50 seconds
+**Rendered draft duration:** 2 minutes 40 seconds
 
 ## 0:00 to 0:15: thesis
 
@@ -42,6 +42,10 @@ Flight Recorder does not ask reviewers to trust an engineering story. It gives t
 
 ## Recording checklist
 
+- Local review video: `output/video/flight-recorder-openai-build-week-demo.mp4`.
+- YouTube thumbnail: `docs/submission/assets/flight-recorder-video-thumbnail-16x9.jpg`.
+- Reviewed upload copy: `docs/submission/YOUTUBE_DESCRIPTION.md`.
+- The rendered draft uses clearly disclosed synthetic narration because the selected OpenAI project does not have access to any Audio Application Programming Interface speech model.
 - Record the production route: `https://flight-recorder-web.vercel.app/`.
 - Keep the final public YouTube video below three minutes.
 - Make the narration audible and explicitly retain the Codex and GPT-5.6 sections.

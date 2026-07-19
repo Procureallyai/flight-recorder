@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Flight Recorder video card</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: #071016;
+        color: #f5faf8;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      body {
+        position: relative;
+        background: #071016;
+      }
+
+      .product-frame {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+      }
+
+      .scrim {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(4, 10, 14, 0.32), rgba(4, 10, 14, 0.82));
+      }
+
+      .title-card {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 80px;
+      }
+
+      .eyebrow {
+        color: #46d49a;
+        font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+        font-size: 25px;
+        font-weight: 650;
+        letter-spacing: 0.11em;
+      }
+
+      h1 {
+        margin: 32px 0 20px;
+        font-size: 82px;
+        letter-spacing: -0.045em;
+        line-height: 0.98;
+      }
+
+      .subtitle {
+        max-width: 1100px;
+        color: #d6e3e0;
+        font-size: 36px;
+        line-height: 1.35;
+      }
+
+      .disclosure {
+        position: absolute;
+        bottom: 46px;
+        color: #9baaa6;
+        font-size: 22px;
+      }
+
+      .lower-third {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        min-height: 130px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+        padding: 26px 70px;
+        background: rgba(4, 12, 17, 0.94);
+        border-top: 1px solid rgba(138, 168, 160, 0.24);
+      }
+
+      .lower-third strong {
+        font-size: 32px;
+        font-weight: 650;
+      }
+
+      .lower-third span {
+        color: #aebfba;
+        font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+        font-size: 25px;
+      }
+
+      .lower-third.danger {
+        background: rgba(36, 8, 14, 0.95);
+        border-top-color: rgba(255, 105, 120, 0.42);
+      }
+
+      .lower-third.danger strong,
+      .lower-third.danger span {
+        color: #ff9eaa;
+      }
+
+      .lower-third.success strong {
+        color: #8df0be;
+      }
+
+      .lower-third.success span {
+        color: #ffffff;
+      }
+
+      [data-scene]:not([data-scene="title"]) .title-card,
+      [data-scene="title"] .lower-third {
+        display: none;
+      }
+    </style>
+  </head>
+  <body data-scene="title">
+    <img class="product-frame" src="assets/flight-recorder-hosted-verified-3x2.png" alt="" />
+    <div class="scrim"></div>
+
+    <main class="title-card">
+      <div class="eyebrow">OPENAI BUILD WEEK 2026 · DEVELOPER TOOLS</div>
+      <h1>Flight Recorder</h1>
+      <div class="subtitle">A verifiable engineering passport for software built with Codex.</div>
+      <div class="disclosure">Synthetic narration</div>
+    </main>
+
+    <section class="lower-third" id="caption">
+      <strong id="caption-title">Genuine Codex session</strong>
+      <span id="caption-detail">Observable evidence · no private reasoning</span>
+    </section>
+
+    <script>
+      const scene = new URLSearchParams(window.location.search).get("scene") || "title";
+      const scenes = {
+        title: {
+          image: "assets/flight-recorder-hosted-verified-3x2.png",
+          className: "",
+          title: "",
+          detail: "",
+        },
+        capture: {
+          image: "assets/flight-recorder-hosted-verified-3x2.png",
+          className: "",
+          title: "Genuine Codex session",
+          detail: "Observable evidence · no private reasoning",
+        },
+        assurance: {
+          image: "assets/flight-recorder-hosted-verified-3x2.png",
+          className: "",
+          title: "Five GPT-5.6 reviews · deterministic seal gate",
+          detail: "Independent browser verification · no login required",
+        },
+        invalid: {
+          image: "assets/flight-recorder-hosted-invalid-3x2.png",
+          className: "danger",
+          title: "One memory-only artifact change",
+          detail: "SIGNATURE VALID · ARTIFACT MISMATCH · PASSPORT INVALID",
+        },
+        restored: {
+          image: "assets/flight-recorder-hosted-verified-3x2.png",
+          className: "success",
+          title: "Restored and independently verified",
+          detail: "flight-recorder-web.vercel.app",
+        },
+      };
+
+      const selected = scenes[scene] || scenes.title;
+      document.body.dataset.scene = scene in scenes ? scene : "title";
+      document.querySelector(".product-frame").src = selected.image;
+      document.querySelector(".lower-third").className = `lower-third ${selected.className}`;
+      document.querySelector("#caption-title").textContent = selected.title;
+      document.querySelector("#caption-detail").textContent = selected.detail;
+    </script>
+  </body>
+</html>

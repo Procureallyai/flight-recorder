@@ -1,6 +1,6 @@
 # Flight Recorder Build Week Execution Plan
 
-**Status:** End-to-end goal active. Gates A through D are verified, and the public `v0.1.0` release is published from the green release candidate. Video publication, `/feedback`, Devpost completion, and human acceptance remain open.
+**Status:** End-to-end goal active. Gates A through D are verified, the public `v0.1.0` release is published from the green release candidate, and a validated 160-second local video draft exists. Public video publication, `/feedback`, Devpost completion, and human acceptance remain open.
 
 ## Objective
 
@@ -53,4 +53,4 @@ Build, test, document, deploy, and prepare Flight Recorder for the OpenAI Build 
 
 ## Next clean action
 
-Use the final hosted 3:2 screenshots and record the under-three-minute video from `https://flight-recorder-web.vercel.app/`, publish it publicly on YouTube, then complete the `/feedback` gate.
+Review the local 160-second video draft at `output/video/flight-recorder-openai-build-week-demo.mp4`, publish the accepted file publicly on YouTube, then complete the `/feedback` gate.

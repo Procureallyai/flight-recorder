@@ -1,7 +1,7 @@
 # Flight Recorder Active Context
 
 **Updated:** 19 July 2026, British Summer Time
-**Overall status:** End-to-end goal active; the final genuine passport, interface, public GitHub repository, green Continuous Integration run, public no-login Vercel judge route, and public `v0.1.0` release are verified; video publication, `/feedback`, Devpost completion, and human acceptance remain open
+**Overall status:** End-to-end goal active; the final genuine passport, interface, public GitHub repository, green Continuous Integration run, public no-login Vercel judge route, public `v0.1.0` release, and local under-three-minute video draft are verified; public video publication, `/feedback`, Devpost completion, and human acceptance remain open
 
 ## Memory context
 
@@ -42,6 +42,8 @@
 - The primary Codex task now has an active end-to-end delivery goal covering build, verification, release, deployment, and Devpost draft preparation.
 - Front-end implementation used the Product Design skill, the approved refined direction 3 source image, Radix accessibility primitives, shadcn/ui-style local components, Phosphor icons, and IBM Plex fonts. The genuine passport production build and `in-app browser proof` pass for verified, invalid, restore, proof details, accepted warnings, and 390-pixel mobile states without horizontal overflow or console warnings and errors. The design quality assurance comparison passes; browser requests remained local and hosted proof remains open.
 - Selective sub-agent parallelism is authorised for bounded research, review, testing, accessibility, security, and documentation lanes. Core implementation and final truth integration remain in this primary task.
+- A reproducible 160-second 1920 by 1080 H.264 demonstration video now exists locally at `output/video/flight-recorder-openai-build-week-demo.mp4`. It includes an Advanced Audio Coding narration track at 48 kilohertz, a visible synthetic-narration disclosure, the genuine verified and invalid states, the narrow claim, Codex use, GPT-5.6 runtime use, and the public judge address. The final file has Secure Hash Algorithm 256-bit digest `2175c3c92867d39522028fd733bd5274d506e6f51b50a6b1f39fabe2c6fc595c`. Integrated loudness measures minus 16.53 loudness units relative to full scale. Public YouTube availability and human acceptance remain unverified.
+- The OpenAI Audio Application Programming Interface returned permission errors for the version-pinned speech model, the general GPT-4o speech model, and the high-definition text-to-speech model under the selected project. The local video therefore uses the macOS British English synthetic voice `Daniel` at 160 words per minute; no key or audio payload was exposed.
 
 ## Live GitHub truth
 
@@ -81,9 +83,9 @@
 
 ## Immediate work
 
-1. Record and publish the final under-three-minute public YouTube video. Two final 1440 by 960 pixel hosted screenshots exist under `docs/submission/assets/` and remain pending Floyd's human asset selection.
+1. Have Floyd review the local 160-second video draft, then publish the accepted file publicly on YouTube and verify it in private browsing. Two final 1440 by 960 pixel hosted screenshots exist under `docs/submission/assets/` and are already attached to the Devpost project-details draft.
 2. Run `/feedback`, store the private Session Identifier outside public artifacts, and complete the remaining factual Devpost fields.
 
 ## Next clean action
 
-Record the under-three-minute video from the verified production route, publish it publicly on YouTube, then run `/feedback` from this primary task.
+Obtain Floyd's human acceptance of the local video draft, publish it publicly on YouTube, then run `/feedback` from this primary task.
