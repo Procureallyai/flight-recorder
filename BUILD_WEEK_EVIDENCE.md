@@ -39,12 +39,18 @@ The repository history and this primary Codex task identify the work performed d
 | `04f4400` | Fail-closed observable App Server event normalisation, exact test classification reuse, and a successful bounded live-turn probe. |
 | `258f23c` | Approved Product Design option 3 verification split view, ten-test password-reset lifecycle remediation, and local design-quality evidence. |
 | `2e420c6` | Browser-native passport verification, clean-commit final-state evidence binding, and tested capture finalisation and immutable candidate assembly. |
+| `94c7fc1` | Genuine post-remediation capture import and source-aware redaction regression. |
+| `19d05f0` | Timing-enumeration remediation, reviewed-prefix approval binding, advisory model gate correction, and review-bound candidate workflow. |
+| `88bc886` | Explicit GPT-5.6 Terra model pin for genuine Codex capture. |
+| `a5d1093` | Final genuine Codex remediation, 16-test pass, and 15-event sanitised capture. |
+| `14a7bb0` | Seal-scope severity calibration preserving production boundaries as advisory findings. |
+| `039d256` | Deterministic criterion support binding through model evidence references. |
 
 ## Codex contribution
 
 Codex has been used in this primary task for protocol research, architecture, schema design, cryptographic implementation, evidence processing, command-line tooling, tests, security remediation, documentation, browser-assisted Devpost preparation, and Product Design exploration.
 
-The first genuine `codex exec --json` run remediated the synthetic password-reset workspace. Its public fixture retains 19 observable events while excluding raw reasoning and private identifiers. A second genuine post-remediation run inspected the committed implementation, executed all 10 deterministic tests, collected scoped Git and digest evidence, and imported 12 sanitised observable events with zero issues. The raw capture remains private and gitignored.
+The first genuine `codex exec --json` run remediated the synthetic password-reset workspace. The final `gpt-5.6-terra` run then identified and repaired a stalled-audit response-path issue, passed 16 deterministic tests, and imported 15 sanitised observable events with zero issues. Finalisation added a passing post-commit test and final Git-state record, binding 17 events and four committed artifacts. Raw captures remain private and gitignored.
 
 ## Human decisions
 
@@ -59,7 +65,7 @@ The first genuine `codex exec --json` run remediated the synthetic password-rese
 
 ## GPT-5.6 truth
 
-Four genuine specialist reviews and one synthesis review completed with `gpt-5.6-sol`, strict Structured Outputs, `store: false`, no tools, bounded evidence, and securely injected credentials. The hardened evidence-bound result was `not-ready` with 26 findings. That result is preserved as evidence; a new post-remediation capture and review remain required before sealing or claiming readiness.
+Four genuine specialist reviews and one synthesis review completed against the final evidence digest with `gpt-5.6-sol`, strict Structured Outputs, `store: false`, no tools, bounded evidence, and securely injected credentials. All four specialists returned `pass`, and synthesis returned `ready` for the declared synthetic scope. The 22 findings retain four open low-severity limitations covering best-effort audit durability and the explicit single-process boundary. The candidate remains unsealed pending explicit human decisions and approval.
 
 ## Validation commands
 

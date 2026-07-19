@@ -24,7 +24,7 @@ The cryptographic claim is deliberately narrow: a valid passport shows that the 
 - Four parallel GPT-5.6 specialist-review contracts and a synthesis contract, using strict Structured Outputs, `store: false`, no tools, bounded inputs and outputs, timeouts, and an explicit disabled-by-default runtime switch.
 - A deterministic seal-readiness policy that remains separate from model judgement.
 - Signed human finding decisions that preserve reasons, timestamps, approval evidence, and the distinction between remediation and accepted risk.
-- An unsealed pre-remediation genuine-session candidate containing 19 captured events and two final artifacts.
+- A review-bound genuine-session candidate containing 17 events, four committed artifacts, 22 evidence-linked findings, and five GPT-5.6 review receipts.
 - A browser-compatible verifier that uses Web Cryptography, validates the signed manifest, event chain, Merkle root, review provenance, and covered artifacts, and fails closed when cryptography is unavailable.
 - A responsive React verification split view bound to the real signed synthetic fixture, with independent proof details, visible verify and loading states, and a safe memory-only tamper demonstration.
 - A final-state evidence envelope and command-line finaliser that bind committed artifact bytes, post-commit test evidence, clean scoped Git state, and one stable final commit before candidate assembly.
@@ -34,11 +34,11 @@ The cryptographic claim is deliberately narrow: a valid passport shows that the 
 
 | Surface | Evidence-backed status |
 |---|---|
-| Local repository | Core build, 114 product tests, 10 demonstration tests, canonical-truth validation, production web build, and public-file secret scan pass. |
+| Local repository | Core build, 119 product tests, 16 demonstration tests, canonical-truth validation, production web build, and public-file secret scan pass. |
 | Local session | Command-line initialisation, the authenticated loopback bridge boundary, Codex App Server initialisation, ephemeral thread creation, and a bounded live turn with sanitised observable-event capture are verified against desktop-bundled `codex-cli 0.145.0-alpha.18`. No command or file change occurred in the live probe. Live approval exchange remains unverified. |
-| Genuine Codex capture | Verified through the JavaScript Object Notation fallback. Raw capture is private; the public fixture is sanitised. |
-| GPT-5.6 runtime | Four real specialist calls and one synthesis call completed with `gpt-5.6-sol`. The hardened evidence-bound review returned `not-ready` with 26 findings; a post-remediation rerun remains required. |
-| Passport | Synthetic signed fixture verifies. Final-state evidence binding and finalisation are implemented and tested, but the pre-remediation genuine candidate remains intentionally unsealed until a new capture, post-remediation review, and human approval exist. |
+| Genuine Codex capture | A final `gpt-5.6-terra` run imported 15 sanitised observable events with zero issues. Finalisation added a passing post-commit test and final Git-state envelope bound to commit `a5d1093` and four artifacts. Raw capture remains private and gitignored. |
+| GPT-5.6 runtime | Four specialist calls and one synthesis call completed with `gpt-5.6-sol`. All specialists passed and synthesis returned `ready`, with four open low-severity scope warnings preserved in the candidate. |
+| Passport | The review-bound genuine candidate contains 22 findings and five signed-review receipts. Deterministic readiness is blocked only on explicit human approval and decisions for four warning findings; no genuine passport has been signed yet. |
 | User interface | Floyd selected refined Product Design option 3. The local verification split view runs the actual browser verifier against the signed synthetic fixture and is production-built and interaction-checked through `in-app browser proof`. Public hosted proof remains open. |
 | GitHub, deployment, video, and Devpost | Not yet release-complete. These are separate evidence surfaces. |
 
@@ -118,11 +118,12 @@ pnpm demo:generate
 pnpm verify
 pnpm capture:finalise
 pnpm candidate:generate
+pnpm candidate:bind-review
 pnpm security:secrets
 pnpm validate:truth
 ```
 
-`pnpm verify` checks the synthetic cryptographic fixture. `pnpm capture:finalise` will bind a new genuine capture to one clean committed demonstration state and its passing post-commit test. Do not run it against the historical pre-remediation capture. `pnpm candidate:generate` accepts only that finalised capture and never rereads the mutable working tree.
+`pnpm verify` checks the synthetic cryptographic fixture. `pnpm capture:finalise` binds the genuine capture to one clean committed demonstration state and its passing post-commit test. `pnpm candidate:generate` accepts only that finalised capture and never rereads the mutable working tree. `pnpm candidate:bind-review` validates and binds the five-call GPT-5.6 artifact, then emits an unsealed candidate and a factual human approval request.
 
 To export and independently verify the portable synthetic proof bundle:
 

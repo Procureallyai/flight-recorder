@@ -1,7 +1,7 @@
 # Flight Recorder Active Context
 
 **Updated:** 19 July 2026, British Summer Time
-**Overall status:** End-to-end goal active; hardened Gate A, genuine fallback Gate B, and GPT-5.6 runtime Gate C are verified; the local interface and lifecycle remediation are implemented, while seal readiness remains `not-ready`
+**Overall status:** End-to-end goal active; final capture and scoped GPT-5.6 review are verified, and the reviewed candidate is blocked only on explicit human sealing approval
 
 ## Memory context
 
@@ -16,18 +16,18 @@
 - Canonical project and skill scaffolding is being created.
 - The TypeScript workspace now contains schema, cryptography, evidence, verifier, and command-line packages.
 - A deterministic public demonstration passport and synthetic password-reset artifacts exist under `fixtures/demo-passport/`.
-- `pnpm test` passes 114 product tests with loopback permission. The new coverage includes browser-native verification, final-state envelope validation, finalisation and candidate-binding regressions, and source-aware literal-secret redaction in addition to the existing cryptographic, evidence, review, capture, bridge, session, bundle, and command-line checks.
+- `pnpm test` passes 119 product tests with loopback permission. Coverage includes browser-native verification, final-state envelopes, provenance-safe typed approval tails, finalisation, review-bound candidate assembly, and source-aware secret redaction.
 - `pnpm verify` passes all eight command-line checks against the generated demonstration fixture.
 - The evidence layer now creates redacted hash-linked events and a deterministic review digest with explicit transmission categories.
-- The Responses Application Programming Interface client completed four strict specialist reviews followed by synthesis with `gpt-5.6-sol`, `store: false`, bounded output, no tools, explicit untrusted-data boundaries, and securely injected credentials. The hardened genuine evidence-bound rerun returned `not-ready` with 26 findings.
+- The final Responses Application Programming Interface review completed four strict specialists plus synthesis with `gpt-5.6-sol`, `store: false`, bounded output, no tools, explicit untrusted-data and scope boundaries, and securely injected credentials. All specialists passed and synthesis returned `ready`; four open low-severity scope warnings remain visible for human decision.
 - A version-pinned `codex exec --json` importer now drops reasoning, retains completed observable events, pseudonymises identifiers, redacts and bounds payloads, and fails visibly on malformed or incomplete captures.
 - A genuine `codex-cli 0.145.0-alpha.18` remediation capture completed with exit code 0. Nineteen sanitised events imported with no issues, and the synthetic password-reset tests expanded from 1 to 6 passing tests.
-- A second genuine `gpt-5.6-terra` Codex run inspected the post-remediation workspace, executed all 10 tests, and reported scoped clean Git and final file digests without modifying the demonstration. Twelve sanitised observable events imported to `fixtures/demo-session/capture-post-remediation.json` with zero issues; its raw JavaScript Object Notation Lines capture remains private and gitignored.
+- The final genuine `gpt-5.6-terra` Codex run identified and repaired a stalled-audit response-path issue, executed 16 passing tests, and imported 15 sanitised observable events with zero issues. Finalisation added a passing post-commit test and final Git-state envelope, binding 17 events and four artifacts at commit `a5d1093`; raw JavaScript Object Notation Lines remain private and gitignored.
 - A redaction regression discovered during import was fixed: source-code expressions such as `token = dependencies.tokenStore.issue(...)` and synthetic identifier constants are preserved, while literal secret assignments remain redacted. Focused evidence tests cover both cases.
 - The raw capture remains private and gitignored. The public fixture records approval coverage as `not-observed` and contains no raw reasoning or absolute local path.
-- `pnpm candidate:generate` assembles a genuine-session passport candidate from the 19 events and two final artifacts at commit `75c0e45`. It is intentionally unsealed with no model findings, `ready: false`, and `humanApproved: false`.
-- Portable-path, count, and file-size limits now protect schema, command-line verification, deterministic directory bundles, and the final-state evidence envelope. The product suite passes 114 tests, plus 10 demonstration-workspace tests.
-- The public-file secret scan passed across 127 tracked and untracked public files without printing candidate values. Full production and development dependency audits reported no known vulnerabilities.
+- Review binding assembles a genuine-session candidate from 17 events, four artifacts, 22 findings, and five GPT-5.6 receipts. Deterministic readiness has one blocker: explicit human approval and decisions for four warning findings. It remains unsealed.
+- Portable-path, count, and file-size limits protect schema, command-line verification, deterministic directory bundles, and the final-state evidence envelope. The product suite passes 119 tests, plus 16 demonstration-workspace tests.
+- The public-file secret scan passed across 132 public files without printing candidate values. Full production and development dependency audits reported no known vulnerabilities.
 - The bridge binds only to `127.0.0.1`, uses a one-time fragment pairing link and restricted session cookie, rejects non-loopback origins, and exposes no generic command endpoint. Live executable preflight matches `codex-cli 0.145.0-alpha.18`.
 - The App Server client launches without a shell, correlates bounded requests, suppresses recognised reasoning notifications, supports explicit command and file approval responses, and fails closed on malformed output. A second normalisation boundary validates authoritative observable events, applies redaction and pseudonymisation, and fails closed on unsupported or unresolved state.
 - Direct local proof covers protocol initialisation, ephemeral thread creation, and a bounded live no-command turn. The hardened normaliser produced four sanitised observable events with zero issues and no command or file-change evidence. Approval mapping is fixture-tested; live approval exchange remains unverified, and typed permission approvals are intentionally unsupported.
@@ -36,7 +36,7 @@
 - A read-only security review found six material Gate A issues. The cryptographic and verifier flaws were repaired and regression-tested; the synthetic fixture is explicitly barred from being represented as genuine evidence.
 - A local React verification split-view interface now exists under `apps/web/`, based on Floyd's approved refined direction 3. It runs the real browser-compatible verifier against the signed synthetic fixture and provides proof disclosure, a truthful verified-to-invalid in-memory artifact mismatch, restore and visible loading states, and responsive layout. It is not yet a public hosted route or final genuine-session binding.
 - The evidence layer now supports a bounded final-state envelope containing committed artifact snapshots, one stable final commit, clean scoped Git state, and exactly one passing post-commit test. The command-line finaliser reads covered bytes from Git objects, checks scope cleanliness and commit stability before and after testing, writes atomically with mode `0600`, and candidate assembly accepts only the finalised capture without rereading the working tree.
-- The synthetic password-reset workspace now has an injected clock and token generator, exact expiry rejection, single-process atomic reservation, consume-after-success behaviour, retry after action failure, neutral dependency-failure responses, identifier-free telemetry, and 10 passing deterministic tests. Its documented atomicity boundary does not extend across processes, hosts, or restarts.
+- The synthetic password-reset workspace now has uniform deferred scheduling off the response path, an injected clock and token generator, exact expiry rejection, single-process atomic reservation, consume-after-success behaviour, safe retry contracts, neutral dependency-failure responses, identifier-free telemetry, and 16 passing deterministic tests. Audit durability and cross-process persistence remain explicit production boundaries.
 - No release tag or final submission assets exist yet. A genuine billed GPT-5.6 review artifact exists at `fixtures/demo-session/review-run.json`.
 - The primary Codex task now has an active end-to-end delivery goal covering build, verification, release, deployment, and Devpost draft preparation.
 - Front-end implementation used the Product Design skill, the approved refined direction 3 source image, Radix accessibility primitives, shadcn/ui-style local components, Phosphor icons, and IBM Plex fonts. The production build and `in-app browser proof` pass for verified, visible verifying, invalid, restore, proof details, and 390-pixel mobile states; browser requests remained local and hosted proof remains open.
@@ -74,11 +74,11 @@
 
 ## Immediate work
 
-1. Commit the sanitised post-remediation capture and redaction regression, then run the implemented final-state finaliser against the clean committed demonstration scope.
-2. Rerun the bounded review after remediation, bind the result to Git state and human decisions, and generate the signed judge passport.
-3. Create the public personal GitHub repository, activate the approved Vercel Pro trial, deploy, and verify the no-login route twice.
-4. Produce the final video, screenshots, release documentation, `/feedback` Session ID, and remaining factual Devpost fields.
+1. Present the four warning findings and narrow integrity claim for explicit human sealing approval.
+2. After approval, append the typed approval event, record decisions, sign the genuine passport, and independently verify it.
+3. Bind the interface to the genuine passport, create the public personal GitHub repository, deploy to Vercel, and verify the no-login route twice.
+4. Produce the final video, screenshots, release documentation, `/feedback` Session Identifier, and remaining factual Devpost fields.
 
 ## Next clean action
 
-Commit and finalise the genuine post-remediation capture, then rerun the review without exposing the key.
+Checkpoint the final evidence and approval request, then obtain Floyd's explicit human sealing decision.
