@@ -1,20 +1,18 @@
 # Devpost Browser Handoff
 
-**Route:** Profile 7 trusted browser proof through the Codex Chrome Extension  
-**Submission:** `1100007-flight-recorder`  
-**Project:** `flight-recorder-jma65p`  
-**Current page:** Project Details  
-**Current progress:** Two of five steps saved
+**Route:** Profile 7 trusted browser proof through the Codex Chrome Extension
+**Submission:** `1100007-flight-recorder`
+**Project:** `flight-recorder-jma65p`
+**Current page:** Additional Information
+**Current progress:** Three of five steps saved
 
 ## Project Details state
 
-The browser contains the verified project story from `DEVPOST_SUBMISSION.md`, the four accepted technology tags `OpenAI`, `Responses`, `Web`, and `Cryptography`, the public judge link, and two uploaded gallery screenshots. These text fields are prepared but not saved. The screenshots were uploaded immediately and exist as Devpost photo records `4935504` and `4935505`.
-
-The required video field is blank. Do not save a placeholder address.
+The verified project story from `DEVPOST_SUBMISSION.md`, the four accepted technology tags `OpenAI`, `Responses`, `Web`, and `Cryptography`, the public judge link, public repository link, two uploaded gallery screenshots, and verified public video address are saved. The screenshots exist as Devpost photo records `4935504` and `4935505`.
 
 ## Additional Information values
 
-Enter and save these ordinary factual values only after Project Details has a verified public video address:
+The following ordinary factual values are prepared in the authenticated form but are not yet saved because country and the required private Session Identifier remain blank:
 
 - Submitter Type: `Individual`
 - Category: `Developer Tools`
@@ -33,9 +31,9 @@ Enter and save these ordinary factual values only after Project Details has a ve
 - `/feedback` Session Identifier: obtain through `/feedback` in this primary Codex task and enter it from the gitignored local secret file without repeating it publicly.
 - Optional file upload: no file is required because the public repository, release, judge route, screenshots, and video provide the judging path.
 
-## YouTube publication handoff
+## YouTube publication proof
 
-Profile 7 trusted browser proof confirmed that the signed-in YouTube Studio channel dashboard loads and exposes the standard video-upload control. The Studio tab is left open as a handoff. No upload, visibility setting, audience setting, thumbnail, description, or channel preference was changed. Use `YOUTUBE_DESCRIPTION.md`, `output/video/flight-recorder-openai-build-week-demo.mp4`, and `assets/flight-recorder-video-thumbnail-16x9.jpg` only after Floyd accepts the final video.
+Profile 7 trusted browser proof published the Floyd-approved film at `https://youtu.be/kGo3LUvXG98` on 19 July 2026. The approved title, description, thumbnail, English (United Kingdom) language, Science and Technology category, not-made-for-children audience, and artificial-intelligence narration disclosure were saved. YouTube reported no copyright or Community Guidelines issues. An unauthenticated Hypertext Transfer Protocol request followed the public short link to a status-200 watch page.
 
 ## Stop boundary
 

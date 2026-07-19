@@ -1,7 +1,7 @@
 # Flight Recorder Active Context
 
 **Updated:** 19 July 2026, British Summer Time
-**Overall status:** End-to-end goal active; the final genuine passport, interface, public GitHub repository, green Continuous Integration run, public no-login Vercel judge route, public `v0.1.0` release, and local under-three-minute video draft are verified; public video publication, `/feedback`, Devpost completion, and human acceptance remain open
+**Overall status:** End-to-end goal active; the final genuine passport, interface, public GitHub repository, green Continuous Integration run, public no-login Vercel judge route, public `v0.1.0` release, and public under-three-minute video are verified; `/feedback`, Devpost completion, and final human submission remain open
 
 ## Memory context
 
@@ -42,7 +42,7 @@
 - The primary Codex task now has an active end-to-end delivery goal covering build, verification, release, deployment, and Devpost draft preparation.
 - Front-end implementation used the Product Design skill, the approved refined direction 3 source image, Radix accessibility primitives, shadcn/ui-style local components, Phosphor icons, and IBM Plex fonts. The genuine passport production build and `in-app browser proof` pass for verified, invalid, restore, proof details, accepted warnings, and 390-pixel mobile states without horizontal overflow or console warnings and errors. The design quality assurance comparison passes; browser requests remained local and hosted proof remains open.
 - Selective sub-agent parallelism is authorised for bounded research, review, testing, accessibility, security, and documentation lanes. Core implementation and final truth integration remain in this primary task.
-- A reproducible 163-second 1920 by 1080 H.264 demonstration video now exists locally at `output/video/flight-recorder-openai-build-week-demo.mp4`. It includes a 48-kilohertz Advanced Audio Coding track generated in five screen-aligned scenes with OpenAI's `gpt-4o-mini-tts` speech model and Cedar voice, a visible synthetic-narration disclosure, the genuine verified and invalid states, the narrow claim, Codex use, GPT-5.6 runtime use, and the public judge address. The file has Secure Hash Algorithm 256-bit digest `cf5baa5d022139453473f13322a0cce3349954d68d492f172abf8fae8e762b3f`. Measured integrated loudness is minus 17.0 loudness units relative to full scale, true peak is minus 1.4 decibels true peak, no silence longer than two seconds was detected, and sampled frames cover every scene. Public YouTube availability and Floyd's playback acceptance remain unverified.
+- A reproducible 163-second 1920 by 1080 H.264 demonstration video exists locally at `output/video/flight-recorder-openai-build-week-demo.mp4`. It includes a 48-kilohertz Advanced Audio Coding track generated in five screen-aligned scenes with OpenAI's `gpt-4o-mini-tts` speech model and Cedar voice, a visible synthetic-narration disclosure, the genuine verified and invalid states, the narrow claim, Codex use, GPT-5.6 runtime use, and the public judge address. The file has Secure Hash Algorithm 256-bit digest `cf5baa5d022139453473f13322a0cce3349954d68d492f172abf8fae8e762b3f`. Measured integrated loudness is minus 17.0 loudness units relative to full scale, true peak is minus 1.4 decibels true peak, no silence longer than two seconds was detected, and sampled frames cover every scene. Floyd accepted it, and Profile 7 trusted browser proof published it at `https://youtu.be/kGo3LUvXG98` with no copyright or Community Guidelines issues.
 - Profile 7 trusted browser proof expanded the OpenAI project allowlist to `gpt-4o-mini-tts`, its dated `2025-12-15` snapshot, `gpt-realtime-2.1`, and `gpt-audio-1.5`. The project key lists all four models. The stable speech alias generated the narration, while both speech identifiers intermittently returned permission-denied responses during propagation; bounded retries completed the five local scenes without exposing the key.
 
 ## Live GitHub truth
@@ -57,12 +57,12 @@
 
 - Profile 7 trusted browser proof confirmed the expected Devpost account, OpenAI Build Week, and existing submission identifier `1100007`.
 - The draft was initially untitled and one of five steps complete.
-- The project name and elevator pitch were saved. The draft now shows `Flight Recorder` and two of five steps complete.
-- Team, project overview, project details, and additional-information fields were mapped. Profile 7 trusted browser proof and the Devpost connector now distinguish saved and prepared state: Devpost has saved only the project name and tagline. The authenticated Project Details page contains the verified story, four technology tags, public judge link, and two uploaded screenshots, but its text fields remain unsaved and the video address is blank. Every Additional Information field is blank. No teammate, legal, or finalisation action was performed.
+- The project name and elevator pitch were saved. The draft now shows `Flight Recorder` and three of five steps complete.
+- Team, project overview, project details, and additional-information fields were mapped. Profile 7 trusted browser proof and the Devpost connector confirm that the project story, four technology tags, public judge and repository links, public YouTube video, and two uploaded screenshots are saved. Submitter type, Developer Tools category, repository address, judge instructions, and installation instructions are prepared but unsaved in Additional Information because country and the required private Session Identifier remain blank. No teammate, legal, or finalisation action was performed.
 - `in-app browser proof` verified the public no-login route at `https://flight-recorder-web.vercel.app/` twice on 19 July 2026. Each fresh hosted run completed `VERIFIED` to `INVALID` after a safe memory-only artifact change, then returned to `VERIFIED` after restoration, with no browser console warnings or errors.
 - An independent unauthenticated Hypertext Transfer Protocol check returned status 200 and confirmed the configured Content Security Policy, Strict Transport Security, content-type protection, referrer policy, permissions policy, and cross-origin opener policy.
 - The Devpost Hackathons Plugin was installed and connected through Profile 7 trusted browser proof on 18 July 2026. No secret or repository file was transmitted during installation.
-- Profile 7 trusted browser proof confirmed the signed-in YouTube Studio channel dashboard loads and exposes the standard video-upload control. No upload or channel setting was changed; the Studio tab remains open for the accepted-video handoff.
+- Profile 7 trusted browser proof published the approved film publicly at `https://youtu.be/kGo3LUvXG98`. An unauthenticated request followed the short link to a status-200 public watch page.
 - Profile 7 trusted browser proof showed a US$10.00 OpenAI Application Programming Interface prepaid balance, automatic recharge off, Usage Tier 1, and US$0.00 of a US$100.00 organisation spend limit.
 - Profile 7 trusted browser proof saved broader model permissions for speech and conversational audio. Direct Application Programming Interface model enumeration confirmed `gpt-4o-mini-tts`, its dated snapshot, `gpt-realtime-2.1`, and `gpt-audio-1.5` are visible to the selected project key.
 - Browser fallback contract: use Chrome Profile 7 for authenticated Devpost work and real-session operator handoff. If it is unavailable, use the Codex in-app browser for local, public, or unauthenticated work, label the evidence `in-app browser proof`, and leave Profile 7-dependent actions open.
@@ -80,14 +80,15 @@
 - Floyd directed that runtime secrets use the configured 1Password Environments integration without raw values entering repository or task output.
 - Floyd approved Apache License 2.0, his personal GitHub account as repository owner, the dark `Integrity Control Room` visual direction, Vercel, and its 14-day Pro trial.
 - Floyd personally completed Vercel account terms and account-security setup. Codex limited the Vercel GitHub application to `Procureallyai/flight-recorder` only.
+- Floyd reviewed and approved the 163-second OpenAI Cedar demonstration video on 19 July 2026 and explicitly authorised public YouTube publication and continued Devpost draft completion.
 - A OnePassword Environment and named-pipe mount exist, but the secure OpenAI writer correctly rejected the mount as a non-regular file. The replacement key is in a permission-restricted, gitignored local file pending a safe OnePassword migration path; no raw value entered task output.
-- Eligibility, orphaned-key revocation, video publication, final release acceptance, and final submission remain human review surfaces.
+- Eligibility, orphaned-key revocation, final release acceptance, and final submission remain human review surfaces.
 
 ## Immediate work
 
-1. Have Floyd review the local 163-second OpenAI Cedar video draft, then publish the accepted file publicly on YouTube and verify it in private browsing. Two final 1440 by 960 pixel hosted screenshots exist under `docs/submission/assets/` and are already attached to the Devpost project-details draft.
-2. Run `/feedback`, store the private Session Identifier outside public artifacts, and complete the remaining factual Devpost fields.
+1. Run `/feedback` and store the private Session Identifier outside public artifacts.
+2. Confirm country, save the prepared Additional Information fields, and leave the final legal and submission step to Floyd.
 
 ## Next clean action
 
-Obtain Floyd's human acceptance of the local OpenAI Cedar video draft, publish it publicly on YouTube, then run `/feedback` from this primary task.
+Run `/feedback` from this primary task, confirm country, then save Additional Information without entering the finalisation step.

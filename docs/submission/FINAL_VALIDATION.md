@@ -1,7 +1,7 @@
 # Submission Validation
 
 **Checked:** 19 July 2026  
-**Status:** Technical release and local submission assets verified; public video, private Session Identifier, saved Devpost completion, and human acceptance remain open
+**Status:** Technical release, public judge route, and public video verified; private Session Identifier and saved Devpost completion remain open
 
 ## Verified release facts
 
@@ -19,30 +19,28 @@
 ## Video validation
 
 - Local file: `output/video/flight-recorder-openai-build-week-demo.mp4`
-- Duration: 160 seconds
+- Duration: 163 seconds
 - Dimensions: 1920 by 1080 pixels
 - Video: H.264 at 30 frames per second
 - Audio: Advanced Audio Coding, mono, 48 kilohertz
-- Secure Hash Algorithm 256-bit digest: `2175c3c92867d39522028fd733bd5274d506e6f51b50a6b1f39fabe2c6fc595c`
+- Secure Hash Algorithm 256-bit digest: `cf5baa5d022139453473f13322a0cce3349954d68d492f172abf8fae8e762b3f`
 - Synthetic narration is visibly disclosed
-- Public YouTube address: not yet available
-- Human playback acceptance: not yet recorded
-- Profile 7 trusted browser proof: the signed-in YouTube Studio channel dashboard loaded successfully and exposed the standard video-upload control; no upload or channel setting was changed
+- Public YouTube address: `https://youtu.be/kGo3LUvXG98`
+- Human playback acceptance: recorded from Floyd Livingstone Rowe on 19 July 2026
+- Profile 7 trusted browser proof: the accepted film was published publicly with the approved title, description, thumbnail, English (United Kingdom) language, Science and Technology category, not-made-for-children audience, and disclosed artificial-intelligence narration. YouTube reported no copyright or Community Guidelines issues.
+- Independent unauthenticated Hypertext Transfer Protocol proof: the short address redirected to the public watch page, which returned status 200.
 
 ## Devpost validation
 
 - Correct signed-in author account, OpenAI Build Week, and submission `1100007` verified through Profile 7 trusted browser proof.
 - Saved project name and tagline verified through both the live form and Devpost connector.
-- Prepared project story, four accepted technology tags, judge link, and two uploaded gallery screenshots verified in the live Project Details form.
-- Devpost connector confirms the saved description and video address are blank.
-- Live Additional Information fields are blank.
+- Saved project story, four accepted technology tags, judge and repository links, public video, and two uploaded gallery screenshots verified through the live Project Details form and Devpost connector.
+- The connector reports `submitted_at` as null, so the hackathon submission remains unsubmitted.
+- Submitter type, Developer Tools category, repository address, judge instructions, and installation instructions are prepared but unsaved in Additional Information. Country and the private Session Identifier remain blank.
 - Submission remains a draft and has not been submitted.
 
 ## Remaining gates
 
-1. Floyd reviews and accepts or revises the local video.
-2. Publish the accepted file on YouTube and verify it without account access.
-3. Save Project Details after action-time confirmation.
-4. Run `/feedback` in this primary task and store the returned identifier only in the gitignored local secret file.
-5. Complete and save ordinary Additional Information fields.
-6. Floyd confirms country, performs the factual and legal review, accepts applicable declarations, and submits personally.
+1. Run `/feedback` in this primary task and store the returned identifier only in the gitignored local secret file.
+2. Floyd confirms country so Additional Information can be saved.
+3. Floyd performs the factual and legal review, accepts applicable declarations, and submits personally.

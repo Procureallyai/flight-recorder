@@ -14,7 +14,7 @@
     "value": "Developer Tools",
     "verified": true,
     "enteredInDevpost": false,
-    "blocker": "Additional information cannot be completed before required release facts exist."
+    "blocker": "Prepared in the authenticated form but cannot be saved until country and the private feedback Session Identifier are supplied."
   },
   "submitterType": {
     "value": "Individual",
@@ -36,46 +36,52 @@
   "demoUrl": {
     "value": "https://flight-recorder-web.vercel.app/",
     "verified": true,
-    "enteredInDevpost": false
+    "enteredInDevpost": true
   },
   "devpostDraft": {
     "submissionId": 1100007,
     "projectId": 1348223,
     "slug": "flight-recorder-jma65p",
     "state": "submission_draft",
-    "stepsComplete": 2,
+    "stepsComplete": 3,
     "stepsTotal": 5,
-    "projectStoryPreparedUnsaved": true,
-    "builtWithPreparedUnsaved": [
+    "projectStoryPreparedUnsaved": false,
+    "projectStorySaved": true,
+    "builtWithSaved": [
       "OpenAI",
       "Responses",
       "Web",
       "Cryptography"
     ],
-    "judgeLinkPreparedUnsaved": true,
+    "judgeLinkPreparedUnsaved": false,
+    "judgeLinkSaved": true,
     "additionalInformationSaved": false,
+    "additionalInformationPreparedUnsaved": true,
     "verifiedAt": "2026-07-19"
   },
   "videoUrl": {
-    "value": "",
-    "verified": false,
-    "enteredInDevpost": false
+    "value": "https://youtu.be/kGo3LUvXG98",
+    "verified": true,
+    "enteredInDevpost": true
   },
   "localVideoDraft": {
     "path": "output/video/flight-recorder-openai-build-week-demo.mp4",
-    "durationSeconds": 160,
+    "durationSeconds": 163,
     "width": 1920,
     "height": 1080,
-    "sha256": "2175c3c92867d39522028fd733bd5274d506e6f51b50a6b1f39fabe2c6fc595c",
+    "sha256": "cf5baa5d022139453473f13322a0cce3349954d68d492f172abf8fae8e762b3f",
     "verified": true,
-    "humanAccepted": false
+    "humanAccepted": true,
+    "humanAcceptedAt": "2026-07-19",
+    "narrationModel": "gpt-4o-mini-tts",
+    "narrationVoice": "cedar"
   },
   "youtubeThumbnail": {
     "path": "docs/submission/assets/flight-recorder-video-thumbnail-16x9.jpg",
     "width": 1920,
     "height": 1080,
     "verified": true,
-    "uploaded": false
+    "uploaded": true
   },
   "screenshots": [
     {

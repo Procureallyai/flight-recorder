@@ -15,17 +15,17 @@
 - [x] Final 16:9 YouTube thumbnail prepared
 - [x] Under-three-minute narrated demonstration video validated locally
 - [x] Signed-in YouTube Studio upload surface verified through Profile 7 trusted browser proof
-- [ ] Floyd playback acceptance
-- [ ] Public YouTube upload
-- [ ] Private-window YouTube playback verification
+- [x] Floyd playback acceptance
+- [x] Public YouTube upload
+- [x] Unauthenticated public YouTube address verification
 
 ## Devpost
 
 - [x] Project name and tagline saved
-- [x] Project story prepared in the authenticated form
-- [x] Technology tags prepared in the authenticated form
-- [x] Public judge link prepared in the authenticated form
-- [ ] Project Details saved
+- [x] Project story saved
+- [x] Technology tags saved
+- [x] Public judge link saved
+- [x] Project Details saved
 - [ ] Submitter type saved as Individual
 - [ ] Country confirmed and selected by Floyd
 - [ ] Developer Tools category saved
