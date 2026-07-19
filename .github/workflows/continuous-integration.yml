@@ -44,10 +44,13 @@ jobs:
         run: |
           pnpm demo:generate
           pnpm candidate:generate
-          git diff --exit-code -- fixtures/demo-passport/passport.json fixtures/demo-session/passport-candidate.json
+          git diff --exit-code -- fixtures/demo-passport/passport.json fixtures/demo-session/passport-candidate-post-remediation.json
 
       - name: Verify signed fixture
         run: pnpm verify
+
+      - name: Verify genuine signed judge passport
+        run: node packages/cli/dist/index.js verify fixtures/judge-passport/passport.json fixtures/judge-passport/artifacts --json
 
       - name: Scan public files for secrets
         run: pnpm security:secrets

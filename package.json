@@ -4,10 +4,18 @@
   "private": true,
   "description": "A verifiable engineering passport for software built with Codex.",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Procureallyai/flight-recorder.git"
+  },
+  "homepage": "https://github.com/Procureallyai/flight-recorder#readme",
+  "bugs": {
+    "url": "https://github.com/Procureallyai/flight-recorder/issues"
+  },
   "type": "module",
   "packageManager": "pnpm@8.15.9",
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "scripts": {
     "build": "pnpm --recursive --workspace-concurrency=1 run build",

@@ -29,8 +29,8 @@
     "blocker": "Confirm as part of entrant review."
   },
   "repositoryUrl": {
-    "value": "",
-    "verified": false,
+    "value": "https://github.com/Procureallyai/flight-recorder",
+    "verified": true,
     "enteredInDevpost": false
   },
   "demoUrl": {

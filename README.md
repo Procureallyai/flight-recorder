@@ -26,7 +26,7 @@ The cryptographic claim is deliberately narrow: a valid passport shows that the 
 - Signed human finding decisions that preserve reasons, timestamps, approval evidence, and the distinction between remediation and accepted risk.
 - A review-bound genuine-session candidate containing 17 events, four committed artifacts, 22 evidence-linked findings, and five GPT-5.6 review receipts.
 - A browser-compatible verifier that uses Web Cryptography, validates the signed manifest, event chain, Merkle root, review provenance, and covered artifacts, and fails closed when cryptography is unavailable.
-- A responsive React verification split view bound to the real signed synthetic fixture, with independent proof details, visible verify and loading states, and a safe memory-only tamper demonstration.
+- A responsive React verification split view bound to the signed genuine-session passport for the synthetic demonstration, with independent proof details, visible verify and loading states, and a safe memory-only tamper demonstration.
 - A final-state evidence envelope and command-line finaliser that bind committed artifact bytes, post-commit test evidence, clean scoped Git state, and one stable final commit before candidate assembly.
 - A concrete synthetic password-reset token lifecycle with exact expiry rejection, single-process concurrent redemption control, consume-after-success behaviour, retry after action failure, neutral failure responses, and identifier-free telemetry.
 
@@ -34,13 +34,14 @@ The cryptographic claim is deliberately narrow: a valid passport shows that the 
 
 | Surface | Evidence-backed status |
 |---|---|
-| Local repository | Core build, 119 product tests, 16 demonstration tests, canonical-truth validation, production web build, and public-file secret scan pass. |
+| Local repository | Core build, 126 product tests, 16 demonstration tests, canonical-truth validation, production web build, and public-file secret scan pass. |
 | Local session | Command-line initialisation, the authenticated loopback bridge boundary, Codex App Server initialisation, ephemeral thread creation, and a bounded live turn with sanitised observable-event capture are verified against desktop-bundled `codex-cli 0.145.0-alpha.18`. No command or file change occurred in the live probe. Live approval exchange remains unverified. |
 | Genuine Codex capture | A final `gpt-5.6-terra` run imported 15 sanitised observable events with zero issues. Finalisation added a passing post-commit test and final Git-state envelope bound to commit `a5d1093` and four artifacts. Raw capture remains private and gitignored. |
 | GPT-5.6 runtime | Four specialist calls and one synthesis call completed with `gpt-5.6-sol`. All specialists passed and synthesis returned `ready`, with four open low-severity scope warnings preserved in the candidate. |
-| Passport | The review-bound genuine candidate contains 22 findings and five signed-review receipts. Deterministic readiness is blocked only on explicit human approval and decisions for four warning findings; no genuine passport has been signed yet. |
-| User interface | Floyd selected refined Product Design option 3. The local verification split view runs the actual browser verifier against the signed synthetic fixture and is production-built and interaction-checked through `in-app browser proof`. Public hosted proof remains open. |
-| GitHub, deployment, video, and Devpost | Not yet release-complete. These are separate evidence surfaces. |
+| Passport | Floyd approved the narrow integrity claim and accepted four warning records as demonstration-scope risks. The genuine-session passport contains 18 hash-linked events, four artifacts, five review receipts, 22 human finding decisions, and an Ed25519 signature created without persisting the private key. All eight independent checks pass. |
+| User interface | Floyd selected refined Product Design option 3. The local verification split view runs the actual browser verifier against the genuine-session passport and is production-built and interaction-checked through `in-app browser proof`. Public hosted proof remains open. |
+| GitHub | The public Apache License 2.0 repository is [Procureallyai/flight-recorder](https://github.com/Procureallyai/flight-recorder). Live `main` and local `main` matched when publication was verified on 19 July 2026. |
+| Deployment, video, and Devpost | Not yet release-complete. These remain separate evidence surfaces. |
 
 See [the validation matrix](planning/VALIDATION_MATRIX.md) and [active context](memory_bank/activeContext.md) for current details.
 
@@ -74,13 +75,26 @@ planning                 Decisions, blockers, validation, security review, and c
 
 The hosted judge route will not require an account, an Application Programming Interface key, or local code execution.
 
+## Supported platforms and judge instructions
+
+- The local Codex capture route is tested on macOS with desktop-bundled `codex-cli 0.145.0-alpha.18`.
+- Local build and verification require Node.js 22 or later and pnpm 8.15.9.
+- The judge interface performs verification in the browser through Web Cryptography. The hosted production address remains unverified until Vercel deployment and two no-login checks complete.
+- To verify the signed judge passport directly after installing dependencies and building, run:
+
+```zsh
+node packages/cli/dist/index.js verify fixtures/judge-passport/passport.json fixtures/judge-passport/artifacts --json
+```
+
+Judges do not need an OpenAI Application Programming Interface key for the signed replay or independent verifier. New GPT-5.6 reviews and new live captures require separately authorised local credentials and are outside the hosted judge path.
+
 ## Local interface preview
 
 ```zsh
 pnpm --filter web dev --host 127.0.0.1 --port 5173
 ```
 
-Open `http://127.0.0.1:5173/`. The current interface is explicitly labelled `Signed synthetic cryptographic fixture` until a new genuine post-remediation capture is bound. Verification runs locally in the browser. Its tamper control changes browser memory only and never writes to a covered file.
+Open `http://127.0.0.1:5173/`. The interface is labelled `Genuine signed Codex session` and is bound to the sanitised Build Week capture of the synthetic password-reset demonstration. Verification runs locally in the browser. Its tamper control changes browser memory only and never writes to a covered file.
 
 ## Initialise a local session
 
@@ -121,9 +135,10 @@ pnpm candidate:generate
 pnpm candidate:bind-review
 pnpm security:secrets
 pnpm validate:truth
+node packages/cli/dist/index.js verify fixtures/judge-passport/passport.json fixtures/judge-passport/artifacts --json
 ```
 
-`pnpm verify` checks the synthetic cryptographic fixture. `pnpm capture:finalise` binds the genuine capture to one clean committed demonstration state and its passing post-commit test. `pnpm candidate:generate` accepts only that finalised capture and never rereads the mutable working tree. `pnpm candidate:bind-review` validates and binds the five-call GPT-5.6 artifact, then emits an unsealed candidate and a factual human approval request.
+`pnpm verify` checks the synthetic cryptographic fixture. `pnpm capture:finalise` binds the genuine capture to one clean committed demonstration state and its passing post-commit test. `pnpm candidate:generate` accepts only that finalised capture and never rereads the mutable working tree. `pnpm candidate:bind-review` validates and binds the five-call GPT-5.6 artifact, then emits an unsealed candidate and a factual human approval request. The final command independently verifies the approved signed judge passport and its exact four covered artifacts.
 
 To export and independently verify the portable synthetic proof bundle:
 

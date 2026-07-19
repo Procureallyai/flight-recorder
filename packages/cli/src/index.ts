@@ -32,6 +32,7 @@ import { verifyPassport } from "@flight-recorder/verifier";
 import { z } from "zod";
 import { collectArtifacts } from "./artifacts.js";
 import { exportPassportBundle, verifyPassportBundle } from "./bundle.js";
+import { normaliseSystemDirectoryAlias } from "./safe-path.js";
 
 const demoArtifacts = {
   "src/password-reset.ts": `export async function requestPasswordReset(email: string) {
@@ -179,12 +180,6 @@ async function writeJsonAtomically(outputFile: string, value: unknown): Promise<
   const temporaryPath = join(dirname(outputPath), `.${randomUUID()}.tmp`);
   await writeFile(temporaryPath, `${JSON.stringify(value, null, 2)}\n`, { encoding: "utf8", mode: 0o600, flag: "wx" });
   await rename(temporaryPath, outputPath);
-}
-
-function normaliseSystemDirectoryAlias(path: string): string {
-  if (path === "/tmp" || path.startsWith("/tmp/")) return `/private${path}`;
-  if (path === "/var" || path.startsWith("/var/")) return `/private${path}`;
-  return path;
 }
 
 async function createDirectoryWithoutSymbolicLinks(directory: string): Promise<void> {

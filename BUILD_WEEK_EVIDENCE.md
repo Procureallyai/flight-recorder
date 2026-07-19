@@ -45,6 +45,9 @@ The repository history and this primary Codex task identify the work performed d
 | `a5d1093` | Final genuine Codex remediation, 16-test pass, and 15-event sanitised capture. |
 | `14a7bb0` | Seal-scope severity calibration preserving production boundaries as advisory findings. |
 | `039d256` | Deterministic criterion support binding through model evidence references. |
+| `8526ffd` | Complete final GPT-5.6 review evidence binding and genuine approval request. |
+| `a6d8baa` | Typed human approval, signed genuine-session judge passport, independent verification, and genuine interface binding. |
+| `dee28e2` | Verified public GitHub publication recorded in canonical truth. |
 
 ## Codex contribution
 
@@ -65,7 +68,7 @@ The first genuine `codex exec --json` run remediated the synthetic password-rese
 
 ## GPT-5.6 truth
 
-Four genuine specialist reviews and one synthesis review completed against the final evidence digest with `gpt-5.6-sol`, strict Structured Outputs, `store: false`, no tools, bounded evidence, and securely injected credentials. All four specialists returned `pass`, and synthesis returned `ready` for the declared synthetic scope. The 22 findings retain four open low-severity limitations covering best-effort audit durability and the explicit single-process boundary. The candidate remains unsealed pending explicit human decisions and approval.
+Four genuine specialist reviews and one synthesis review completed against the final evidence digest with `gpt-5.6-sol`, strict Structured Outputs, `store: false`, no tools, bounded evidence, and securely injected credentials. All four specialists returned `pass`, and synthesis returned `ready` for the declared synthetic scope. The 22 findings retain four open low-severity limitations covering best-effort audit durability and the explicit single-process boundary. Floyd approved sealing under the narrow integrity claim and accepted those four warning records as demonstration-scope risks. The signed passport records 18 resolved decisions and four accepted-risk decisions; it does not represent those limitations as resolved production capabilities.
 
 ## Validation commands
 
@@ -77,6 +80,7 @@ pnpm verify
 pnpm candidate:generate
 pnpm security:secrets
 bash scripts/validate-canonical-truth.sh
+node packages/cli/dist/index.js verify fixtures/judge-passport/passport.json fixtures/judge-passport/artifacts --json
 ```
 
-Local repository evidence does not prove live GitHub publication, hosted deployment, browser acceptance, video eligibility, Devpost completion, or human acceptance. Those surfaces remain separate until directly verified.
+Live GitHub publication was verified separately on 19 July 2026 at `https://github.com/Procureallyai/flight-recorder`; the public repository reported Apache License 2.0, and live `main` matched local `main`. Local repository and GitHub evidence do not prove hosted deployment, browser acceptance, video eligibility, Devpost completion, or final human acceptance. Those surfaces remain separate until directly verified.

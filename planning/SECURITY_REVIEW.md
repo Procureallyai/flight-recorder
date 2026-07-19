@@ -17,11 +17,11 @@ A bounded read-only sub-agent review reproduced material flaws in the first Gate
 
 - Resource-count, payload-size, individual-artifact, total-artifact, and passport-size limits are implemented and regression-tested.
 - Unicode normalisation, reserved-name rejection, and portable case-fold collision policy are implemented and regression-tested.
-- The public-file secret scanner most recently passed across 105 files without printing candidate values.
+- The public-file secret scanner most recently passed across 145 tracked public files without printing candidate values.
 - `pnpm audit --audit-level=moderate` reported no known vulnerabilities across production and development dependencies. The package manager emitted a deprecation warning from its own audit request path; this is not evidence of application use of the deprecated interface.
 - Archive ingestion is not implemented, so archive-bomb exposure is currently outside the supported product surface. It must be threat-modelled before any future archive-import feature.
 
-Remaining hardening includes streaming artifact hashing, final threat-model confirmation and write-up, browser-level security validation of the selected interface, hosted-route controls, and post-deployment inspection.
+Local `in-app browser proof` now covers valid verification, safe in-memory artifact mismatch, restoration, responsive layout, and a clean browser console. Remaining hardening includes streaming artifact hashing, final threat-model confirmation and write-up, hosted-route controls, response-header inspection, and post-deployment no-login verification.
 
 ## 18 July 2026 seal-gate review
 
