@@ -10,48 +10,48 @@ The repository history and this primary Codex task identify the work performed d
 
 | Commit | Evidence |
 |---|---|
-| `ff66444` | Canonical truth, operating contract, handoff preservation, and initial Devpost evidence. |
-| `88410fe` | Signed passport and independent verifier core. |
-| `2b370e3` | Security-hardened verifier, redaction, evidence digest, model-review contract, and fallback importer. |
-| `8405073` | Deliberately defective synthetic password-reset baseline. |
-| `b524f0f` | Private capture runner and exact Codex remediation task. |
-| `75c0e45` | Genuine sanitised Codex remediation capture and six passing demonstration tests. |
-| `0115ed4` | Unsealed genuine passport candidate and resource/path hardening. |
-| `3cd97bf` | Release documentation, continuous integration, bounded runtime controls, and public-file secret scanning. |
-| `592d9b2` | Reconciled security and validation evidence after dependency auditing. |
-| `282c7ff` | Machine-readable command-line verification and explicit valid, tampered, and usage exit-code contracts. |
-| `8b61b64` | Priority One seal-gate remediation binding review calls to current evidence and failing closed on unsupported criteria or failed required tests. |
-| `56bc047` | Portable deterministic passport bundle export, independent bundle verification, and bundle tamper tests. |
-| `c9bc381` | Portable bundle resource-limit, Unicode-normalisation, and case-fold collision regressions. |
-| `f957954` | Cryptographic-semantics and hosted fixture-only architecture decisions with reconciled release evidence. |
-| `cd6c5cd` | Signed five-call model-review provenance and independent evidence-digest verification. |
-| `d8f4296` | Reconciled public and canonical evidence for signed review provenance. |
-| `6aa0500` | Policy-gated local session initialisation, Git baseline evidence, private-state protections, and command-line operator path. |
-| `b66da29` | Fail-closed Git-ignore and symbolic-link preflight for private local session storage. |
-| `4de833b` | Reconciled operator documentation and validation evidence for local session initialisation. |
-| `351037c` | Exact test-evidence classification, configurable and manual confirmation paths, and exit-code-authoritative regressions. |
-| `1e3590e` | Reconciled documentation and validation evidence for exact test classification. |
-| `2bea430` | Signed human finding decisions, approval-event traceability, and fail-closed accepted-risk policy. |
-| `51777db` | Reconciled public, security, and validation evidence for signed human decisions. |
-| `65db1eb` | Authenticated loopback bridge boundary, one-time pairing, strict origin policy, and tested Codex executable preflight. |
-| `40df488` | Reconciled loopback bridge documentation, security review, and validation evidence. |
-| `3b2cc70` | Bounded Codex App Server transport with live protocol initialisation and ephemeral-thread proof against the desktop-bundled binary. |
-| `04f4400` | Fail-closed observable App Server event normalisation, exact test classification reuse, and a successful bounded live-turn probe. |
-| `258f23c` | Approved Product Design option 3 verification split view, ten-test password-reset lifecycle remediation, and local design-quality evidence. |
-| `2e420c6` | Browser-native passport verification, clean-commit final-state evidence binding, and tested capture finalisation and immutable candidate assembly. |
-| `94c7fc1` | Genuine post-remediation capture import and source-aware redaction regression. |
-| `19d05f0` | Timing-enumeration remediation, reviewed-prefix approval binding, advisory model gate correction, and review-bound candidate workflow. |
-| `88bc886` | Explicit GPT-5.6 Terra model pin for genuine Codex capture. |
-| `a5d1093` | Final genuine Codex remediation, 16-test pass, and 15-event sanitised capture. |
-| `14a7bb0` | Seal-scope severity calibration preserving production boundaries as advisory findings. |
-| `039d256` | Deterministic criterion support binding through model evidence references. |
-| `8526ffd` | Complete final GPT-5.6 review evidence binding and genuine approval request. |
-| `a6d8baa` | Typed human approval, signed genuine-session judge passport, independent verification, and genuine interface binding. |
-| `dee28e2` | Verified public GitHub publication recorded in canonical truth. |
-| `d457b41` | Cross-platform path safety, Vercel configuration, and release documentation. |
-| `f858933` | Portable canonical-truth validation and first fully green Ubuntu release candidate. |
-| `6675e41` | Verified production deployment evidence, release notes, and final 3:2 submission screenshots. |
-| `1110bf6` | Reproducible under-three-minute submission-video pipeline, synthetic narration disclosure, YouTube copy, and 16:9 thumbnail. |
+| `8e9c264` | Canonical truth, operating contract, handoff preservation, and initial Devpost evidence. |
+| `300f7b6` | Signed passport and independent verifier core. |
+| `1d7030f` | Security-hardened verifier, redaction, evidence digest, model-review contract, and fallback importer. |
+| `5692b0b` | Deliberately defective synthetic password-reset baseline. |
+| `92059b5` | Private capture runner and exact Codex remediation task. |
+| `8229b7b` | Genuine sanitised Codex remediation capture and six passing demonstration tests. |
+| `5632ab5` | Unsealed genuine passport candidate and resource/path hardening. |
+| `b09cf75` | Release documentation, continuous integration, bounded runtime controls, and public-file secret scanning. |
+| `23438f0` | Reconciled security and validation evidence after dependency auditing. |
+| `187a036` | Machine-readable command-line verification and explicit valid, tampered, and usage exit-code contracts. |
+| `dc3ad4b` | Priority One seal-gate remediation binding review calls to current evidence and failing closed on unsupported criteria or failed required tests. |
+| `5d887e0` | Portable deterministic passport bundle export, independent bundle verification, and bundle tamper tests. |
+| `6292014` | Portable bundle resource-limit, Unicode-normalisation, and case-fold collision regressions. |
+| `fa91029` | Cryptographic-semantics and hosted fixture-only architecture decisions with reconciled release evidence. |
+| `50b4463` | Signed five-call model-review provenance and independent evidence-digest verification. |
+| `9bf9c30` | Reconciled public and canonical evidence for signed review provenance. |
+| `131fd25` | Policy-gated local session initialisation, Git baseline evidence, private-state protections, and command-line operator path. |
+| `4fbefc3` | Fail-closed Git-ignore and symbolic-link preflight for private local session storage. |
+| `2c96ec9` | Reconciled operator documentation and validation evidence for local session initialisation. |
+| `276bb45` | Exact test-evidence classification, configurable and manual confirmation paths, and exit-code-authoritative regressions. |
+| `a4006b7` | Reconciled documentation and validation evidence for exact test classification. |
+| `347049d` | Signed human finding decisions, approval-event traceability, and fail-closed accepted-risk policy. |
+| `9ee07c9` | Reconciled public, security, and validation evidence for signed human decisions. |
+| `fd43723` | Authenticated loopback bridge boundary, one-time pairing, strict origin policy, and tested Codex executable preflight. |
+| `6bc6ed0` | Reconciled loopback bridge documentation, security review, and validation evidence. |
+| `68e01d8` | Bounded Codex App Server transport with live protocol initialisation and ephemeral-thread proof against the desktop-bundled binary. |
+| `7c44016` | Fail-closed observable App Server event normalisation, exact test classification reuse, and a successful bounded live-turn probe. |
+| `69d111d` | Approved Product Design option 3 verification split view, ten-test password-reset lifecycle remediation, and local design-quality evidence. |
+| `7192cfe` | Browser-native passport verification, clean-commit final-state evidence binding, and tested capture finalisation and immutable candidate assembly. |
+| `937a443` | Genuine post-remediation capture import and source-aware redaction regression. |
+| `84b266a` | Timing-enumeration remediation, reviewed-prefix approval binding, advisory model gate correction, and review-bound candidate workflow. |
+| `2c77264` | Explicit GPT-5.6 Terra model pin for genuine Codex capture. |
+| `8fd7a35` | Final genuine Codex remediation, 16-test pass, and 15-event sanitised capture. |
+| `4e02b7f` | Seal-scope severity calibration preserving production boundaries as advisory findings. |
+| `f60c3e0` | Deterministic criterion support binding through model evidence references. |
+| `308e631` | Complete final GPT-5.6 review evidence binding and genuine approval request. |
+| `02ccc73` | Typed human approval, signed genuine-session judge passport, independent verification, and genuine interface binding. |
+| `1421275` | Verified public GitHub publication recorded in canonical truth. |
+| `6bc32a5` | Cross-platform path safety, Vercel configuration, and release documentation. |
+| `f7a178f` | Portable canonical-truth validation and first fully green Ubuntu release candidate. |
+| `9c51da5` | Verified production deployment evidence, release notes, and final 3:2 submission screenshots. |
+| `404c6a9` | Reproducible under-three-minute submission-video pipeline, synthetic narration disclosure, YouTube copy, and 16:9 thumbnail. |
 
 ## Codex contribution
 
@@ -91,4 +91,4 @@ node packages/cli/dist/index.js verify fixtures/judge-passport/passport.json fix
 
 The submission video is generated reproducibly by `scripts/render-submission-video.sh` from the final verified and invalid hosted screenshots plus an OpenAI Cedar narration track. The accepted film is 163 seconds, 1920 by 1080 pixels, H.264 video with 48 kilohertz Advanced Audio Coding audio, and has Secure Hash Algorithm 256-bit digest `cf5baa5d022139453473f13322a0cce3349954d68d492f172abf8fae8e762b3f`. The first frame and metadata disclose synthetic narration. Floyd accepted the film on 19 July 2026, Profile 7 trusted browser proof published it publicly at `https://youtu.be/kGo3LUvXG98`, and an unauthenticated request reached a status-200 watch page.
 
-Live GitHub publication was verified separately on 19 July 2026 at `https://github.com/Procureallyai/flight-recorder`; the public repository reported Apache License 2.0. The public annotated `v0.1.0` tag peels to release commit `6675e41ad5b0fcec2f8d42ad07e4321950cbf821`, and the non-draft, non-prerelease GitHub Release is published. Evidence-record commit `89e10a686668aa1770cc5dfb946aa7f325271925` passed Ubuntu Continuous Integration run `29679310497` without moving the annotated tag. GitHub release immutability is not enabled, so this evidence makes no provider-enforced immutability claim. Profile 7 trusted browser proof reports the Hobby-plan Vercel project connected to only `Procureallyai/flight-recorder` and its production deployment `Ready` from inspected deployment-source commit `ef80990`. A fresh unauthenticated status and security-header probe passed at `https://flight-recorder-web.vercel.app/`, and two hosted browser runs completed the verified, tampered-invalid, and restored-verified sequence with clean consoles. All ordinary Devpost fields are saved at the four-of-five finalisation page. Final factual and legal review, acceptance of terms, and submission remain human-only actions.
+Live GitHub publication was verified separately on 19 July 2026 at `https://github.com/Procureallyai/flight-recorder`; the public repository reported Apache License 2.0. The public annotated `v0.1.0` tag peels to release commit `9c51da56a133a689187c0b6347f5fd5b639e3cb4`, and the non-draft, non-prerelease GitHub Release is published. Evidence-record commit `3eec77c9eafe76e6a037018fbd222175edcb8223` passed Ubuntu Continuous Integration run `29679310497` without moving the annotated tag. GitHub release immutability is not enabled, so this evidence makes no provider-enforced immutability claim. Profile 7 trusted browser proof reports the Hobby-plan Vercel project connected to only `Procureallyai/flight-recorder` and its production deployment `Ready` from inspected deployment-source commit `0329093`. A fresh unauthenticated status and security-header probe passed at `https://flight-recorder-web.vercel.app/`, and two hosted browser runs completed the verified, tampered-invalid, and restored-verified sequence with clean consoles. All ordinary Devpost fields are saved at the four-of-five finalisation page. Final factual and legal review, acceptance of terms, and submission remain human-only actions.

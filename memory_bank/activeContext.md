@@ -11,7 +11,7 @@
 
 - Workspace: `<repository-root>`
 - Git repository exists on `main` with dated Build Week provenance commits.
-- Commit `2e420c6` checkpoints browser-native verification and clean-commit final-state evidence binding after the approved verification split view and ten-test lifecycle remediation at `258f23c`.
+- Commit `7192cfe` checkpoints browser-native verification and clean-commit final-state evidence binding after the approved verification split view and ten-test lifecycle remediation at `69d111d`.
 - The four supplied handoff documents are stored under `docs/handoff/` with matching source hashes.
 - Canonical project and skill scaffolding is being created.
 - The TypeScript workspace now contains schema, cryptography, evidence, verifier, and command-line packages.
@@ -22,7 +22,7 @@
 - The final Responses Application Programming Interface review completed four strict specialists plus synthesis with `gpt-5.6-sol`, `store: false`, bounded output, no tools, explicit untrusted-data and scope boundaries, and securely injected credentials. All specialists passed and synthesis returned `ready`; four open low-severity scope warnings remain visible for human decision.
 - A version-pinned `codex exec --json` importer now drops reasoning, retains completed observable events, pseudonymises identifiers, redacts and bounds payloads, and fails visibly on malformed or incomplete captures.
 - A genuine `codex-cli 0.145.0-alpha.18` remediation capture completed with exit code 0. Nineteen sanitised events imported with no issues, and the synthetic password-reset tests expanded from 1 to 6 passing tests.
-- The final genuine `gpt-5.6-terra` Codex run identified and repaired a stalled-audit response-path issue, executed 16 passing tests, and imported 15 sanitised observable events with zero issues. Finalisation added a passing post-commit test and final Git-state envelope, binding 17 events and four artifacts at commit `a5d1093`; raw JavaScript Object Notation Lines remain private and gitignored.
+- The final genuine `gpt-5.6-terra` Codex run identified and repaired a stalled-audit response-path issue, executed 16 passing tests, and imported 15 sanitised observable events with zero issues. Finalisation added a passing post-commit test and final Git-state envelope, binding 17 events and four artifacts at commit `8fd7a35`; raw JavaScript Object Notation Lines remain private and gitignored.
 - A redaction regression discovered during import was fixed: source-code expressions such as `token = dependencies.tokenStore.issue(...)` and synthetic identifier constants are preserved, while literal secret assignments remain redacted. Focused evidence tests cover both cases.
 - The raw capture remains private and gitignored. The public fixture records approval coverage as `not-observed` and contains no raw reasoning or absolute local path.
 - Review binding assembled a genuine-session candidate from 17 events, four artifacts, 22 findings, and five GPT-5.6 receipts. Floyd approved sealing under the narrow integrity claim and accepted the four unresolved warnings as demonstration-scope risks. The typed approval tail records 22 human decisions: 18 evidence-backed resolved findings and four accepted-risk warnings.
@@ -38,7 +38,7 @@
 - A React verification split-view interface exists under `apps/web/`, based on Floyd's approved refined direction 3. It runs the real browser-compatible verifier against the genuine signed judge passport and provides proof disclosure, accepted-scope warnings, a truthful verified-to-invalid in-memory artifact mismatch, restore and visible loading states, and responsive layout. The exact release candidate is publicly deployed on Vercel.
 - The evidence layer now supports a bounded final-state envelope containing committed artifact snapshots, one stable final commit, clean scoped Git state, and exactly one passing post-commit test. The command-line finaliser reads covered bytes from Git objects, checks scope cleanliness and commit stability before and after testing, writes atomically with mode `0600`, and candidate assembly accepts only the finalised capture without rereading the working tree.
 - The synthetic password-reset workspace now has uniform deferred scheduling off the response path, an injected clock and token generator, exact expiry rejection, single-process atomic reservation, consume-after-success behaviour, safe retry contracts, neutral dependency-failure responses, identifier-free telemetry, and 16 passing deterministic tests. Audit durability and cross-process persistence remain explicit production boundaries.
-- The public `v0.1.0` tag and GitHub Release resolve to commit `6675e41ad5b0fcec2f8d42ad07e4321950cbf821`. Two final 1440 by 960 pixel submission screenshots exist under `docs/submission/assets/`. A genuine billed GPT-5.6 review artifact exists at `fixtures/demo-session/review-run.json`.
+- The public `v0.1.0` tag and GitHub Release resolve to commit `9c51da56a133a689187c0b6347f5fd5b639e3cb4`. Two final 1440 by 960 pixel submission screenshots exist under `docs/submission/assets/`. A genuine billed GPT-5.6 review artifact exists at `fixtures/demo-session/review-run.json`.
 - The primary Codex task now has an active end-to-end delivery goal covering build, verification, release, deployment, and Devpost draft preparation.
 - Front-end implementation used the Product Design skill, the approved refined direction 3 source image, Radix accessibility primitives, shadcn/ui-style local components, Phosphor icons, and IBM Plex fonts. The genuine passport production build, local `in-app browser proof`, and two public no-login hosted runs pass verified, invalid, restore, proof details, accepted warnings, and responsive states without horizontal overflow or console warnings and errors. The design quality assurance comparison passes.
 - Selective sub-agent parallelism is authorised for bounded research, review, testing, accessibility, security, and documentation lanes. Core implementation and final truth integration remain in this primary task.
@@ -49,9 +49,9 @@
 
 - Profile 7 trusted browser proof completed GitHub's device authorisation for the official GitHub command-line client as `Procureallyai` on 19 July 2026.
 - The public Apache License 2.0 repository exists at `https://github.com/Procureallyai/flight-recorder` with `main` as its default branch.
-- The annotated `v0.1.0` tag resolves to commit `6675e41ad5b0fcec2f8d42ad07e4321950cbf821`. Repository metadata reports `PUBLIC`, Apache License 2.0, and the approved description. Post-release `main` includes submission documentation and video-production provenance without moving the tag. GitHub release immutability is not enabled.
-- Continuous Integration run `29679310497` passed against evidence-record commit `89e10a686668aa1770cc5dfb946aa7f325271925`. The run followed the already-green submission-video run `29679019561` and preserved the same release gates. GitHub emitted one informational deprecation warning because three pinned actions still target the Node.js 20 action runtime and were forced onto Node.js 24 by the runner.
-- The public annotated tag `v0.1.0` peels to `6675e41`, and the non-draft, non-prerelease GitHub Release is published at `https://github.com/Procureallyai/flight-recorder/releases/tag/v0.1.0`.
+- The annotated `v0.1.0` tag resolves to commit `9c51da56a133a689187c0b6347f5fd5b639e3cb4`. Repository metadata reports `PUBLIC`, Apache License 2.0, and the approved description. Post-release `main` includes submission documentation and video-production provenance without moving the tag. GitHub release immutability is not enabled.
+- Continuous Integration run `29679310497` passed against evidence-record commit `3eec77c9eafe76e6a037018fbd222175edcb8223`. The run followed the already-green submission-video run `29679019561` and preserved the same release gates. GitHub emitted one informational deprecation warning because three pinned actions still target the Node.js 20 action runtime and were forced onto Node.js 24 by the runner.
+- The public annotated tag `v0.1.0` peels to `9c51da5`, and the non-draft, non-prerelease GitHub Release is published at `https://github.com/Procureallyai/flight-recorder/releases/tag/v0.1.0`.
 
 ## Browser or hosted truth
 
@@ -69,7 +69,7 @@
 
 ## Deployment truth
 
-- Profile 7 trusted browser proof verified Vercel project `flight-recorder-web` on the Hobby plan, connected only to `Procureallyai/flight-recorder`, with production status `Ready` from inspected deployment-source commit `ef8099058efce0c651dfd847217a08a15c724531` on 19 July 2026. The annotated `v0.1.0` tag remains at commit `6675e41ad5b0fcec2f8d42ad07e4321950cbf821`; later commits contain submission and evidence documentation rather than a changed product release.
+- Profile 7 trusted browser proof verified Vercel project `flight-recorder-web` on the Hobby plan, connected only to `Procureallyai/flight-recorder`, with production status `Ready` from inspected deployment-source commit `0329093e894e24108789ed23286a01aea855ec35` on 19 July 2026. The annotated `v0.1.0` tag remains at commit `9c51da56a133a689187c0b6347f5fd5b639e3cb4`; later commits contain submission and evidence documentation rather than a changed product release.
 - The stable production route is `https://flight-recorder-web.vercel.app/`. It is public, requires no account or Application Programming Interface key, and completed two independent hosted verification runs.
 - The dashboard displayed the project under the Hobby plan. Floyd's earlier approval of a 14-day Pro trial did not itself activate that trial, and no Pro-only runtime capability is required for this static judge route.
 

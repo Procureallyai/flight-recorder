@@ -7,7 +7,7 @@
 
 - Public repository: `https://github.com/Procureallyai/flight-recorder`
 - Licence: Apache License 2.0
-- Annotated release tag: `v0.1.0` peels to `6675e41ad5b0fcec2f8d42ad07e4321950cbf821`; GitHub release immutability is not enabled
+- Annotated release tag: `v0.1.0` peels to `9c51da56a133a689187c0b6347f5fd5b639e3cb4`; GitHub release immutability is not enabled
 - Public judge route: `https://flight-recorder-web.vercel.app/`
 - Hosting: Vercel Hobby plan, no paid feature required
 - Product tests: 126 passing
