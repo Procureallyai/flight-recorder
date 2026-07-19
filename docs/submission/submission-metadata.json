@@ -38,6 +38,24 @@
     "verified": true,
     "enteredInDevpost": false
   },
+  "devpostDraft": {
+    "submissionId": 1100007,
+    "projectId": 1348223,
+    "slug": "flight-recorder-jma65p",
+    "state": "submission_draft",
+    "stepsComplete": 2,
+    "stepsTotal": 5,
+    "projectStoryPreparedUnsaved": true,
+    "builtWithPreparedUnsaved": [
+      "OpenAI",
+      "Responses",
+      "Web",
+      "Cryptography"
+    ],
+    "judgeLinkPreparedUnsaved": true,
+    "additionalInformationSaved": false,
+    "verifiedAt": "2026-07-19"
+  },
   "videoUrl": {
     "value": "",
     "verified": false,
@@ -65,14 +83,16 @@
       "width": 1440,
       "height": 960,
       "verified": true,
-      "enteredInDevpost": false
+      "enteredInDevpost": true,
+      "devpostPhotoId": 4935504
     },
     {
       "path": "docs/submission/assets/flight-recorder-hosted-invalid-3x2.png",
       "width": 1440,
       "height": 960,
       "verified": true,
-      "enteredInDevpost": false
+      "enteredInDevpost": true,
+      "devpostPhotoId": 4935505
     }
   ],
   "feedbackSessionId": {
