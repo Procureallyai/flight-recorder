@@ -1,7 +1,7 @@
 # Flight Recorder Active Context
 
 **Updated:** 19 July 2026, British Summer Time
-**Overall status:** End-to-end goal active; the final genuine passport, interface, public GitHub repository, green Continuous Integration run, public no-login Vercel judge route, public `v0.1.0` release, and public under-three-minute video are verified; `/feedback`, Devpost completion, and final human submission remain open
+**Overall status:** End-to-end goal active; the final genuine passport, interface, public GitHub repository, green Continuous Integration run, public no-login Vercel judge route, public `v0.1.0` release, public under-three-minute video, and all ordinary Devpost fields are verified; final legal review and human submission remain open
 
 ## Memory context
 
@@ -57,8 +57,8 @@
 
 - Profile 7 trusted browser proof confirmed the expected Devpost account, OpenAI Build Week, and existing submission identifier `1100007`.
 - The draft was initially untitled and one of five steps complete.
-- The project name and elevator pitch were saved. The draft now shows `Flight Recorder` and three of five steps complete.
-- Team, project overview, project details, and additional-information fields were mapped. Profile 7 trusted browser proof and the Devpost connector confirm that the project story, four technology tags, public judge and repository links, public YouTube video, and two uploaded screenshots are saved. Submitter type, Developer Tools category, repository address, judge instructions, and installation instructions are prepared but unsaved in Additional Information because country and the required private Session Identifier remain blank. No teammate, legal, or finalisation action was performed.
+- The project name and elevator pitch were saved. The draft now shows `Flight Recorder` and four of five steps complete.
+- Team, project overview, project details, and Additional Information are saved. Profile 7 trusted browser proof and the Devpost connector confirm that the project story, four technology tags, public judge and repository links, public YouTube video, two uploaded screenshots, Individual submitter type, United Kingdom residence, Developer Tools category, judge instructions, installation instructions, and private Session Identifier are present. Finalisation was inspected without selecting the legal checkbox or final submission button.
 - `in-app browser proof` verified the public no-login route at `https://flight-recorder-web.vercel.app/` twice on 19 July 2026. Each fresh hosted run completed `VERIFIED` to `INVALID` after a safe memory-only artifact change, then returned to `VERIFIED` after restoration, with no browser console warnings or errors.
 - An independent unauthenticated Hypertext Transfer Protocol check returned status 200 and confirmed the configured Content Security Policy, Strict Transport Security, content-type protection, referrer policy, permissions policy, and cross-origin opener policy.
 - The Devpost Hackathons Plugin was installed and connected through Profile 7 trusted browser proof on 18 July 2026. No secret or repository file was transmitted during installation.
@@ -86,9 +86,9 @@
 
 ## Immediate work
 
-1. Run `/feedback` and store the private Session Identifier outside public artifacts.
-2. Confirm country, save the prepared Additional Information fields, and leave the final legal and submission step to Floyd.
+1. Keep Chrome Profile 7 open on the finalisation page for Floyd's review.
+2. Floyd reviews the final facts and legal declaration, accepts the applicable terms, and submits personally.
 
 ## Next clean action
 
-Run `/feedback` from this primary task, confirm country, then save Additional Information without entering the finalisation step.
+Floyd performs the final factual and legal review in Chrome Profile 7, then submits personally.

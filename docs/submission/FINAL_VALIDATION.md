@@ -1,7 +1,7 @@
 # Submission Validation
 
 **Checked:** 19 July 2026  
-**Status:** Technical release, public judge route, and public video verified; private Session Identifier and saved Devpost completion remain open
+**Status:** Technical release, public judge route, public video, and all ordinary Devpost fields verified and saved; final legal review and human submission remain open
 
 ## Verified release facts
 
@@ -36,11 +36,12 @@
 - Saved project name and tagline verified through both the live form and Devpost connector.
 - Saved project story, four accepted technology tags, judge and repository links, public video, and two uploaded gallery screenshots verified through the live Project Details form and Devpost connector.
 - The connector reports `submitted_at` as null, so the hackathon submission remains unsubmitted.
-- Submitter type, Developer Tools category, repository address, judge instructions, and installation instructions are prepared but unsaved in Additional Information. Country and the private Session Identifier remain blank.
+- Submitter type, United Kingdom residence, Developer Tools category, repository address, judge instructions, installation instructions, and the private Session Identifier are saved in Additional Information.
 - Submission remains a draft and has not been submitted.
+- Profile 7 trusted browser proof reached the four-of-five finalisation page. The Official Rules and Devpost Terms of Service checkbox remains unselected, and the final submission button was not activated.
 
 ## Remaining gates
 
-1. Run `/feedback` in this primary task and store the returned identifier only in the gitignored local secret file.
-2. Floyd confirms country so Additional Information can be saved.
-3. Floyd performs the factual and legal review, accepts applicable declarations, and submits personally.
+1. Floyd performs the final factual and legal review.
+2. Floyd personally accepts the applicable Official Rules and Devpost Terms of Service declaration.
+3. Floyd personally selects the final submission button.

@@ -24,9 +24,9 @@
 - Optional try-it-out links.
 - Image gallery, maximum 15 images, maximum 5 megabytes each, recommended 3:2 ratio.
 - Required public video link.
-- Prepared but not saved: the verified project story, `OpenAI`, `Responses`, `Web`, and `Cryptography` tags, and `https://flight-recorder-web.vercel.app/`.
+- Saved: the verified project story, `OpenAI`, `Responses`, `Web`, and `Cryptography` tags, judge route, repository link, and public video.
 - Uploaded immediately: verified and invalid gallery screenshots, Devpost photo records `4935504` and `4935505`.
-- Still blank: public video link.
+- Public video: `https://youtu.be/kGo3LUvXG98`.
 
 ## Additional info
 
@@ -38,11 +38,12 @@
 - Optional judge project link and testing instructions.
 - Required private `/feedback` Session ID.
 - Developer-tool installation instructions, supported platforms, and testing instructions.
-- Live saved state on 19 July 2026: every Additional Information field is blank.
+- Live saved state on 19 July 2026: Individual submitter, United Kingdom residence, Developer Tools category, public repository, judge instructions, installation and test instructions, and the private Session Identifier are saved. No optional file was uploaded.
 
 ## Finalisation
 
-- Not inspected because required project details, video, Additional Information, and the private Session Identifier are incomplete, and the page can contain legal declarations.
+- Inspected through Profile 7 trusted browser proof after four of five steps were saved.
+- The required Official Rules and Devpost Terms of Service checkbox is unselected, and the final submission button was not activated.
 - Codex must not accept declarations or perform final submission.
 
 ## Connector cross-check
@@ -50,7 +51,7 @@
 - Devpost project identifier: `1348223`.
 - Friendly slug: `flight-recorder-jma65p`.
 - Submission state: `submission_draft`.
-- Saved project description: blank.
-- Saved video address: blank.
+- Saved project description: verified story present.
+- Saved video address: verified public YouTube address present.
 - Hackathon submission timestamp: blank.
 - Submission phase: open at the 19 July 2026 check.

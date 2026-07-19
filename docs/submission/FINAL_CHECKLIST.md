@@ -26,13 +26,13 @@
 - [x] Technology tags saved
 - [x] Public judge link saved
 - [x] Project Details saved
-- [ ] Submitter type saved as Individual
-- [ ] Country confirmed and selected by Floyd
-- [ ] Developer Tools category saved
-- [ ] Public repository address saved
-- [ ] Judge instructions saved
-- [ ] Developer-tool installation and supported-platform instructions saved
-- [ ] Private `/feedback` Session Identifier obtained and saved
+- [x] Submitter type saved as Individual
+- [x] Country confirmed and saved as United Kingdom
+- [x] Developer Tools category saved
+- [x] Public repository address saved
+- [x] Judge instructions saved
+- [x] Developer-tool installation and supported-platform instructions saved
+- [x] Private `/feedback` Session Identifier obtained and saved
 - [ ] Final factual and legal review by Floyd
 - [ ] Applicable terms and declarations accepted by Floyd
 - [ ] Final submission performed by Floyd

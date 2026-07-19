@@ -13,25 +13,24 @@
   "track": {
     "value": "Developer Tools",
     "verified": true,
-    "enteredInDevpost": false,
-    "blocker": "Prepared in the authenticated form but cannot be saved until country and the private feedback Session Identifier are supplied."
+    "enteredInDevpost": true
   },
   "submitterType": {
     "value": "Individual",
     "verified": true,
-    "enteredInDevpost": false,
+    "enteredInDevpost": true,
     "evidence": "Confirmed by Floyd Livingstone Rowe on 18 July 2026."
   },
   "country": {
     "value": "United Kingdom",
-    "verified": false,
-    "enteredInDevpost": false,
-    "blocker": "Confirm as part of entrant review."
+    "verified": true,
+    "enteredInDevpost": true,
+    "evidence": "Confirmed by Floyd Livingstone Rowe and prepared in the authenticated form on 19 July 2026."
   },
   "repositoryUrl": {
     "value": "https://github.com/Procureallyai/flight-recorder",
     "verified": true,
-    "enteredInDevpost": false
+    "enteredInDevpost": true
   },
   "demoUrl": {
     "value": "https://flight-recorder-web.vercel.app/",
@@ -43,7 +42,7 @@
     "projectId": 1348223,
     "slug": "flight-recorder-jma65p",
     "state": "submission_draft",
-    "stepsComplete": 3,
+    "stepsComplete": 4,
     "stepsTotal": 5,
     "projectStoryPreparedUnsaved": false,
     "projectStorySaved": true,
@@ -55,8 +54,8 @@
     ],
     "judgeLinkPreparedUnsaved": false,
     "judgeLinkSaved": true,
-    "additionalInformationSaved": false,
-    "additionalInformationPreparedUnsaved": true,
+    "additionalInformationSaved": true,
+    "additionalInformationPreparedUnsaved": false,
     "verifiedAt": "2026-07-19"
   },
   "videoUrl": {
@@ -103,8 +102,8 @@
   ],
   "feedbackSessionId": {
     "source": "docs/submission/submission-secrets.local.json",
-    "verified": false,
-    "enteredInDevpost": false
+    "verified": true,
+    "enteredInDevpost": true
   },
   "finalSubmission": {
     "performed": false,
