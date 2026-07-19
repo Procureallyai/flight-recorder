@@ -338,12 +338,10 @@ async function assembleDemoCandidate(
     throw new Error("The genuine review artifact is not bound to this finalised capture.");
   }
   const findings = reviewArtifact === undefined ? [] : toPassportReviewFindings(reviewArtifact.run);
-  const requiredCriterionFindingIds = ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7", "AC-8"];
-  const requirementFindings = new Map(
-    reviewArtifact?.run.specialists
-      .find((review) => review.output.reviewer === "requirements")
-      ?.output.findings.map((finding) => [finding.id, finding]) ?? [],
-  );
+  const requiredCriterionIds = ["AC1", "AC2", "AC3", "AC4", "AC5", "AC6", "AC7", "AC8"];
+  const requirementFindings = reviewArtifact?.run.specialists
+    .find((review) => review.output.reviewer === "requirements")
+    ?.output.findings ?? [];
   const sealDecision = reviewArtifact === undefined
     ? {
         ready: false,
@@ -353,9 +351,12 @@ async function assembleDemoCandidate(
     : evaluateSealGate({
         reviews: reviewArtifact.run,
         evidenceDigestSha256: digest.inputDigestSha256,
-        acceptanceCriteria: requiredCriterionFindingIds.map((id) => ({
+        acceptanceCriteria: requiredCriterionIds.map((id) => ({
           id,
-          status: requirementFindings.get(id)?.status === "resolved" ? "supported" as const : "unsupported" as const,
+          status: requirementFindings.some((finding) =>
+            finding.status === "resolved" &&
+            finding.affectedCriteria.some((criterion) => criterion.replace(/[^a-z0-9]/giu, "").toLocaleUpperCase("en-US") === id)
+          ) ? "supported" as const : "unsupported" as const,
         })),
         requiredTests: digest.testResults.map((test) => ({ evidenceId: test.evidenceId, passed: test.status === "passed" })),
         finalGitStateCaptured: true,
