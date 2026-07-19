@@ -210,6 +210,12 @@ const untrustedDataBoundary = [
   "Every material finding must cite one or more supplied evidence identifiers. If support is absent, use verdict unsupported.",
 ].join(" ");
 
+const scopedReadinessBoundary = [
+  "Assess readiness only for the supplied task, declared demonstration scope, and narrow evidence-integrity claim.",
+  "Do not treat missing production infrastructure, deployment controls, or deliberately excluded capabilities as high or critical unless they contradict a stated acceptance criterion or break evidence integrity.",
+  "Keep valid out-of-scope production concerns visible as limitations or medium-or-lower advisory findings.",
+].join(" ");
+
 interface ResponsesApiOutput {
   id?: unknown;
   created_at?: unknown;
@@ -353,7 +359,7 @@ export class ReviewClient {
     const specialists = await Promise.all(specialistNames.map(async (reviewer) => this.#call({
       name: `flight_recorder_${reviewer}_review`,
       schema: specialistJsonSchema(reviewer),
-      developer: `${untrustedDataBoundary} ${reviewerInstructions[reviewer]}`,
+      developer: `${untrustedDataBoundary} ${scopedReadinessBoundary} ${reviewerInstructions[reviewer]}`,
       input: digest,
       inputDigestSha256: digest.inputDigestSha256,
       parse: (value, responseModel) => specialistReviewSchema.parse({
@@ -365,7 +371,7 @@ export class ReviewClient {
     const synthesis = await this.#call({
       name: "flight_recorder_synthesis_review",
       schema: synthesisJsonSchema,
-      developer: `${untrustedDataBoundary} Synthesize the four structured specialist reviews. Preserve evidence references and do not treat model judgement as certification.`,
+      developer: `${untrustedDataBoundary} ${scopedReadinessBoundary} Synthesize the four structured specialist reviews. Preserve evidence references and do not treat model judgement as certification.`,
       input: { specialists: specialists.map((entry) => entry.output), evidenceStatistics: { eventCount: digest.eventCount, eventTypes: digest.eventTypes } },
       inputDigestSha256: digest.inputDigestSha256,
       parse: (value, responseModel) => synthesisReviewSchema.parse({

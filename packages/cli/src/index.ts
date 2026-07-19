@@ -338,7 +338,7 @@ async function assembleDemoCandidate(
     throw new Error("The genuine review artifact is not bound to this finalised capture.");
   }
   const findings = reviewArtifact === undefined ? [] : toPassportReviewFindings(reviewArtifact.run);
-  const requiredCriterionFindingIds = ["AC-1", "AC-2", "AC-3-4", "AC-5", "AC-6", "AC-7", "AC-8"];
+  const requiredCriterionFindingIds = ["AC-1", "AC-2", "AC-3", "AC-4", "AC-5", "AC-6", "AC-7", "AC-8"];
   const requirementFindings = new Map(
     reviewArtifact?.run.specialists
       .find((review) => review.output.reviewer === "requirements")
