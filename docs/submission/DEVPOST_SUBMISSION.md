@@ -77,7 +77,7 @@ Open `https://flight-recorder-web.vercel.app/` in a modern browser. No account o
 ## Verified release
 
 - Release: `https://github.com/Procureallyai/flight-recorder/releases/tag/v0.1.0`
-- Release commit: `9c51da56a133a689187c0b6347f5fd5b639e3cb4`
-- Green Continuous Integration run: `https://github.com/Procureallyai/flight-recorder/actions/runs/29678114178`
+- Release commit: resolve annotated tag `v0.1.0` from the public repository
+- Continuous Integration: `https://github.com/Procureallyai/flight-recorder/actions/workflows/ci.yml`
 
 The public YouTube address is verified and saved in Devpost. The private `/feedback` Session Identifier was verified and entered only in Devpost's designated private field. Its value must never enter this public document or repository.
