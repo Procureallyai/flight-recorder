@@ -1,6 +1,6 @@
 # Flight Recorder Design Quality Assurance
 
-- Source visual truth: `LOCAL_HOME/.codex/generated_images/<private-feedback-session-identifier>/exec-af0cb316-f0fc-4ae4-85af-d3cc419b9b72.png`
+- Source visual truth: approved dark verification split-view reference; private local source path intentionally omitted.
 - Implementation screenshot: `docs/design/screenshots/genuine-passport-desktop.png`
 - Combined comparison: `docs/design/screenshots/direction-3-genuine-comparison.png`
 - Mobile screenshot: `docs/design/screenshots/genuine-passport-mobile.png`

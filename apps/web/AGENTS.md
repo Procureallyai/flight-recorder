@@ -8,7 +8,7 @@ When implementing from a selected generated mock, treat that image as the source
 
 ## Flight Recorder selected direction
 
-- Source visual: `LOCAL_HOME/.codex/generated_images/<private-feedback-session-identifier>/exec-af0cb316-f0fc-4ae4-85af-d3cc419b9b72.png`.
+- Source visual: approved dark verification split-view reference; private local source path intentionally omitted.
 - Direction: option 3, refined Verification Split View, approved by Floyd Livingstone Rowe on 19 July 2026.
 - The default state is verified. The safe in-memory tamper interaction must visibly transition verification to invalid without changing a file on disk.
 - Use the real synthetic password-reset demonstration, keep Codex and GPT-5.6 roles distinct, and preserve the limitations statement.

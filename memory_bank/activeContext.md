@@ -1,7 +1,7 @@
 # Flight Recorder Active Context
 
 **Updated:** 19 July 2026, British Summer Time
-**Overall status:** End-to-end goal active; the final genuine passport, interface, public GitHub repository, green Continuous Integration run, public no-login Vercel judge route, public `v0.1.0` release, public under-three-minute video, and all ordinary Devpost fields are verified; final legal review and human submission remain open
+**Overall status:** End-to-end goal active; the genuine passport, interface, public repository, hosted judge route, annotated `v0.1.0` tag and release, public under-three-minute video, and ordinary Devpost fields are verified, but a bounded privacy, dependency, licensing, documentation, and thumbnail remediation pass is active before final legal review and human submission
 
 ## Memory context
 
@@ -9,7 +9,7 @@
 
 ## Local repository truth
 
-- Workspace: `LOCAL_HOME/Documents/Flight Recorder Codex Build Week`
+- Workspace: `<repository-root>`
 - Git repository exists on `main` with dated Build Week provenance commits.
 - Commit `2e420c6` checkpoints browser-native verification and clean-commit final-state evidence binding after the approved verification split view and ten-test lifecycle remediation at `258f23c`.
 - The four supplied handoff documents are stored under `docs/handoff/` with matching source hashes.
@@ -28,7 +28,7 @@
 - Review binding assembled a genuine-session candidate from 17 events, four artifacts, 22 findings, and five GPT-5.6 receipts. Floyd approved sealing under the narrow integrity claim and accepted the four unresolved warnings as demonstration-scope risks. The typed approval tail records 22 human decisions: 18 evidence-backed resolved findings and four accepted-risk warnings.
 - The genuine judge passport now exists at `fixtures/judge-passport/passport.json`. It contains 18 hash-linked events, four committed artifacts, five signed review receipts, 22 finding decisions, an Ed25519 signature generated with an in-memory key, and no persisted private key. Independent command-line verification passes all eight checks, and regression coverage proves covered-artifact tampering fails verification.
 - Portable-path, count, and file-size limits protect schema, command-line verification, deterministic directory bundles, and the final-state evidence envelope. The product suite passes 126 tests, plus 16 demonstration-workspace tests.
-- The public-file secret scan passed across 148 tracked public files without printing candidate values. Full production and development dependency audits reported no known vulnerabilities.
+- The final pre-submit audit identified scanner coverage gaps around the private feedback identifier and absolute local paths, plus Vite advisories. Current working-tree remediation is verified: nine scanner regression tests pass, 161 public files pass without printing candidate values, no tracked working-tree file contains the private feedback identifier, Vite is upgraded to 6.4.3, the production build and complete test suites pass, and production and full dependency audits report no known vulnerabilities. Rewriting and verifying the affected public history remains open.
 - The bridge binds only to `127.0.0.1`, uses a one-time fragment pairing link and restricted session cookie, rejects non-loopback origins, and exposes no generic command endpoint. Live executable preflight matches `codex-cli 0.145.0-alpha.18`.
 - The App Server client launches without a shell, correlates bounded requests, suppresses recognised reasoning notifications, supports explicit command and file approval responses, and fails closed on malformed output. A second normalisation boundary validates authoritative observable events, applies redaction and pseudonymisation, and fails closed on unsupported or unresolved state.
 - Direct local proof covers protocol initialisation, ephemeral thread creation, and a bounded live no-command turn. The hardened normaliser produced four sanitised observable events with zero issues and no command or file-change evidence. Approval mapping is fixture-tested; live approval exchange remains unverified, and typed permission approvals are intentionally unsupported.
@@ -40,7 +40,7 @@
 - The synthetic password-reset workspace now has uniform deferred scheduling off the response path, an injected clock and token generator, exact expiry rejection, single-process atomic reservation, consume-after-success behaviour, safe retry contracts, neutral dependency-failure responses, identifier-free telemetry, and 16 passing deterministic tests. Audit durability and cross-process persistence remain explicit production boundaries.
 - The public `v0.1.0` tag and GitHub Release resolve to commit `6675e41ad5b0fcec2f8d42ad07e4321950cbf821`. Two final 1440 by 960 pixel submission screenshots exist under `docs/submission/assets/`. A genuine billed GPT-5.6 review artifact exists at `fixtures/demo-session/review-run.json`.
 - The primary Codex task now has an active end-to-end delivery goal covering build, verification, release, deployment, and Devpost draft preparation.
-- Front-end implementation used the Product Design skill, the approved refined direction 3 source image, Radix accessibility primitives, shadcn/ui-style local components, Phosphor icons, and IBM Plex fonts. The genuine passport production build and `in-app browser proof` pass for verified, invalid, restore, proof details, accepted warnings, and 390-pixel mobile states without horizontal overflow or console warnings and errors. The design quality assurance comparison passes; browser requests remained local and hosted proof remains open.
+- Front-end implementation used the Product Design skill, the approved refined direction 3 source image, Radix accessibility primitives, shadcn/ui-style local components, Phosphor icons, and IBM Plex fonts. The genuine passport production build, local `in-app browser proof`, and two public no-login hosted runs pass verified, invalid, restore, proof details, accepted warnings, and responsive states without horizontal overflow or console warnings and errors. The design quality assurance comparison passes.
 - Selective sub-agent parallelism is authorised for bounded research, review, testing, accessibility, security, and documentation lanes. Core implementation and final truth integration remain in this primary task.
 - A reproducible 163-second 1920 by 1080 H.264 demonstration video exists locally at `output/video/flight-recorder-openai-build-week-demo.mp4`. It includes a 48-kilohertz Advanced Audio Coding track generated in five screen-aligned scenes with OpenAI's `gpt-4o-mini-tts` speech model and Cedar voice, a visible synthetic-narration disclosure, the genuine verified and invalid states, the narrow claim, Codex use, GPT-5.6 runtime use, and the public judge address. The file has Secure Hash Algorithm 256-bit digest `cf5baa5d022139453473f13322a0cce3349954d68d492f172abf8fae8e762b3f`. Measured integrated loudness is minus 17.0 loudness units relative to full scale, true peak is minus 1.4 decibels true peak, no silence longer than two seconds was detected, and sampled frames cover every scene. Floyd accepted it, and Profile 7 trusted browser proof published it at `https://youtu.be/kGo3LUvXG98` with no copyright or Community Guidelines issues.
 - Profile 7 trusted browser proof expanded the OpenAI project allowlist to `gpt-4o-mini-tts`, its dated `2025-12-15` snapshot, `gpt-realtime-2.1`, and `gpt-audio-1.5`. The project key lists all four models. The stable speech alias generated the narration, while both speech identifiers intermittently returned permission-denied responses during propagation; bounded retries completed the five local scenes without exposing the key.
@@ -49,7 +49,7 @@
 
 - Profile 7 trusted browser proof completed GitHub's device authorisation for the official GitHub command-line client as `Procureallyai` on 19 July 2026.
 - The public Apache License 2.0 repository exists at `https://github.com/Procureallyai/flight-recorder` with `main` as its default branch.
-- The immutable `v0.1.0` release resolves to commit `6675e41ad5b0fcec2f8d42ad07e4321950cbf821`. Repository metadata reports `PUBLIC`, Apache License 2.0, and the approved description. Post-release `main` includes submission documentation and video-production provenance without moving the release tag.
+- The annotated `v0.1.0` tag resolves to commit `6675e41ad5b0fcec2f8d42ad07e4321950cbf821`. Repository metadata reports `PUBLIC`, Apache License 2.0, and the approved description. Post-release `main` includes submission documentation and video-production provenance without moving the tag. GitHub release immutability is not enabled.
 - Continuous Integration run `29679310497` passed against evidence-record commit `89e10a686668aa1770cc5dfb946aa7f325271925`. The run followed the already-green submission-video run `29679019561` and preserved the same release gates. GitHub emitted one informational deprecation warning because three pinned actions still target the Node.js 20 action runtime and were forced onto Node.js 24 by the runner.
 - The public annotated tag `v0.1.0` peels to `6675e41`, and the non-draft, non-prerelease GitHub Release is published at `https://github.com/Procureallyai/flight-recorder/releases/tag/v0.1.0`.
 
@@ -69,7 +69,7 @@
 
 ## Deployment truth
 
-- Profile 7 trusted browser proof verified Vercel project `flight-recorder-web` on the Hobby plan, connected only to `Procureallyai/flight-recorder`, with production status `Ready` from inspected deployment-source commit `ef8099058efce0c651dfd847217a08a15c724531` on 19 July 2026. The immutable `v0.1.0` release remains commit `6675e41ad5b0fcec2f8d42ad07e4321950cbf821`; the later commits contain submission and evidence documentation rather than a changed product release.
+- Profile 7 trusted browser proof verified Vercel project `flight-recorder-web` on the Hobby plan, connected only to `Procureallyai/flight-recorder`, with production status `Ready` from inspected deployment-source commit `ef8099058efce0c651dfd847217a08a15c724531` on 19 July 2026. The annotated `v0.1.0` tag remains at commit `6675e41ad5b0fcec2f8d42ad07e4321950cbf821`; later commits contain submission and evidence documentation rather than a changed product release.
 - The stable production route is `https://flight-recorder-web.vercel.app/`. It is public, requires no account or Application Programming Interface key, and completed two independent hosted verification runs.
 - The dashboard displayed the project under the Hobby plan. Floyd's earlier approval of a 14-day Pro trial did not itself activate that trial, and no Pro-only runtime capability is required for this static judge route.
 
@@ -86,9 +86,11 @@
 
 ## Immediate work
 
-1. Keep Chrome Profile 7 open on the finalisation page for Floyd's review.
-2. Floyd reviews the final facts and legal declaration, accepts the applicable terms, and submits personally.
+1. Complete the approved privacy, dependency, licensing, and documentation remediation, including public-history and release-tag reconciliation.
+2. Rerun the complete build, tests, dependency audit, privacy scan, passport verification, deployment, and browser checks.
+3. Upload and save the prepared 3:2 Devpost project thumbnail through Profile 7.
+4. Return Profile 7 to the finalisation page for Floyd's factual and legal review.
 
 ## Next clean action
 
-Floyd performs the final factual and legal review in Chrome Profile 7, then submits personally.
+Finish and verify the bounded remediation pass, then return Chrome Profile 7 to the finalisation page for Floyd's factual and legal review and personal submission.

@@ -30,7 +30,8 @@
     "candidate:bind-review": "pnpm build && node packages/cli/dist/index.js bind-demo-review fixtures/demo-session/finalised-capture-post-remediation.json fixtures/demo-session/review-run-post-remediation.json fixtures/demo-session/passport-candidate-reviewed.json fixtures/demo-session/human-approval-request.json",
     "passport:seal": "pnpm build && node packages/cli/dist/index.js seal-demo-passport fixtures/demo-session/passport-candidate-reviewed.json fixtures/demo-session/finalised-capture-post-remediation.json fixtures/demo-session/review-run-post-remediation.json fixtures/demo-session/human-approval-request.json fixtures/demo-session/human-seal-decision.json fixtures/judge-passport/passport.json fixtures/judge-passport/artifacts",
     "review:genuine": "pnpm build && node scripts/run-genuine-review.mjs",
-    "security:secrets": "node scripts/scan-public-secrets.mjs",
+    "security:secrets": "pnpm run security:secrets:test && node scripts/scan-public-secrets.mjs",
+    "security:secrets:test": "node --test scripts/scan-public-secrets.test.mjs",
     "validate:truth": "bash scripts/validate-canonical-truth.sh"
   },
   "devDependencies": {

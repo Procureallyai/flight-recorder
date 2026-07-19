@@ -80,4 +80,4 @@ Open `https://flight-recorder-web.vercel.app/` in a modern browser. No account o
 - Release commit: `6675e41ad5b0fcec2f8d42ad07e4321950cbf821`
 - Green Continuous Integration run: `https://github.com/Procureallyai/flight-recorder/actions/runs/29678114178`
 
-The public YouTube address and private `/feedback` Session Identifier must be added only after direct verification. The private Session Identifier must never enter this public document or repository.
+The public YouTube address is verified and saved in Devpost. The private `/feedback` Session Identifier was verified and entered only in Devpost's designated private field. Its value must never enter this public document or repository.

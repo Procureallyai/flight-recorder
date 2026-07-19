@@ -7,14 +7,16 @@
 
 - Public repository: `https://github.com/Procureallyai/flight-recorder`
 - Licence: Apache License 2.0
-- Immutable release: `v0.1.0` at `6675e41ad5b0fcec2f8d42ad07e4321950cbf821`
+- Annotated release tag: `v0.1.0` peels to `6675e41ad5b0fcec2f8d42ad07e4321950cbf821`; GitHub release immutability is not enabled
 - Public judge route: `https://flight-recorder-web.vercel.app/`
 - Hosting: Vercel Hobby plan, no paid feature required
 - Product tests: 126 passing
 - Synthetic password-reset demonstration tests: 16 passing
 - Genuine passport: 18 hash-linked events, four artifacts, five GPT-5.6 receipts, 22 findings, and 22 human decisions
 - Independent verification: eight checks pass; covered-artifact mutation fails verification
-- Public-file secret scan: passing
+- Public-file privacy scan: nine scanner regression tests pass, and 161 public files pass without printing candidate values; no tracked working-tree file contains the private feedback identifier
+- Dependency audit: production and full dependency audits pass with no known vulnerabilities after the Vite 6.4.3 upgrade
+- Third-party notices: repository notice added; the hosted IBM Plex font notice requires deployment with the remediation commit before the public path can be claimed as live
 
 ## Video validation
 
@@ -29,6 +31,7 @@
 - Human playback acceptance: recorded from Floyd Livingstone Rowe on 19 July 2026
 - Profile 7 trusted browser proof: the accepted film was published publicly with the approved title, description, thumbnail, English (United Kingdom) language, Science and Technology category, not-made-for-children audience, and disclosed artificial-intelligence narration. YouTube reported no copyright or Community Guidelines issues.
 - Independent unauthenticated Hypertext Transfer Protocol proof: the short address redirected to the public watch page, which returned status 200.
+- Devpost thumbnail prepared: `docs/submission/assets/flight-recorder-devpost-thumbnail-3x2.jpg`, 1440 by 960 pixels; authenticated upload remains open.
 
 ## Devpost validation
 
@@ -42,6 +45,8 @@
 
 ## Remaining gates
 
-1. Floyd performs the final factual and legal review.
-2. Floyd personally accepts the applicable Official Rules and Devpost Terms of Service declaration.
-3. Floyd personally selects the final submission button.
+1. Rewrite and republish the affected public history, recreate the mutable `v0.1.0` tag and release at the final remediated commit, and verify the forbidden private and personal values are absent from every public ref.
+2. Complete the full integrated validation, publish and verify the remediated Vercel deployment, and upload the prepared Devpost thumbnail.
+3. Floyd performs the final factual and legal review.
+4. Floyd personally accepts the applicable Official Rules and Devpost Terms of Service declaration.
+5. Floyd personally selects the final submission button.

@@ -9,8 +9,8 @@ skill_dirs=(
 )
 
 for skill_dir in "${skill_dirs[@]}"; do
-  LOCAL_HOME/.agents/skills/.venv/bin/python \
-    LOCAL_HOME/.agents/skills/skill-creator/scripts/quick_validate.py \
+  "${HOME}/.agents/skills/.venv/bin/python" \
+    "${HOME}/.agents/skills/skill-creator/scripts/quick_validate.py" \
     "${skill_dir}"
 done
 

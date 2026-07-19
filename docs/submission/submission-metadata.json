@@ -82,6 +82,13 @@
     "verified": true,
     "uploaded": true
   },
+  "devpostThumbnail": {
+    "path": "docs/submission/assets/flight-recorder-devpost-thumbnail-3x2.jpg",
+    "width": 1440,
+    "height": 960,
+    "verified": true,
+    "enteredInDevpost": false
+  },
   "screenshots": [
     {
       "path": "docs/submission/assets/flight-recorder-hosted-verified-3x2.png",

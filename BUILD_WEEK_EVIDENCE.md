@@ -4,7 +4,7 @@
 
 Flight Recorder was created as a new standalone repository during OpenAI Build Week 2026. It draws on the entrant’s prior expertise in artificial intelligence assurance, evidence architecture, and cryptographic verification. No pre-existing Evidary production code was copied into this project.
 
-The repository history and this primary Codex task identify the work performed during the submission period. The private `/feedback` Session Identifier will be retained in a gitignored submission-secret file and entered into Devpost only when generated.
+The repository history and this primary Codex task identify the work performed during the submission period. The private `/feedback` Session Identifier is retained in a gitignored submission-secret file and was entered only in Devpost's designated private field. Its value is not reproduced in this public evidence record.
 
 ## Dated repository checkpoints
 
@@ -83,10 +83,12 @@ pnpm demo:generate
 pnpm verify
 pnpm candidate:generate
 pnpm security:secrets
+pnpm audit --prod --audit-level=moderate
+pnpm audit --audit-level=moderate
 bash scripts/validate-canonical-truth.sh
 node packages/cli/dist/index.js verify fixtures/judge-passport/passport.json fixtures/judge-passport/artifacts --json
 ```
 
-The submission video is generated reproducibly by `scripts/render-submission-video.sh` from the final verified and invalid hosted screenshots plus a local narration track. The resulting local draft is 160 seconds, 1920 by 1080 pixels, H.264 video with 48 kilohertz Advanced Audio Coding audio, and has Secure Hash Algorithm 256-bit digest `2175c3c92867d39522028fd733bd5274d506e6f51b50a6b1f39fabe2c6fc595c`. The first frame and metadata disclose synthetic narration. Public YouTube availability and human playback acceptance remain separate evidence gates.
+The submission video is generated reproducibly by `scripts/render-submission-video.sh` from the final verified and invalid hosted screenshots plus an OpenAI Cedar narration track. The accepted film is 163 seconds, 1920 by 1080 pixels, H.264 video with 48 kilohertz Advanced Audio Coding audio, and has Secure Hash Algorithm 256-bit digest `cf5baa5d022139453473f13322a0cce3349954d68d492f172abf8fae8e762b3f`. The first frame and metadata disclose synthetic narration. Floyd accepted the film on 19 July 2026, Profile 7 trusted browser proof published it publicly at `https://youtu.be/kGo3LUvXG98`, and an unauthenticated request reached a status-200 watch page.
 
-Live GitHub publication was verified separately on 19 July 2026 at `https://github.com/Procureallyai/flight-recorder`; the public repository reported Apache License 2.0. The public annotated `v0.1.0` tag peels to release commit `6675e41ad5b0fcec2f8d42ad07e4321950cbf821`, and the non-draft, non-prerelease GitHub Release is published. Evidence-record commit `89e10a686668aa1770cc5dfb946aa7f325271925` passed Ubuntu Continuous Integration run `29679310497` without moving the immutable release tag. Profile 7 trusted browser proof reports the Hobby-plan Vercel project connected to only `Procureallyai/flight-recorder` and its production deployment `Ready` from inspected deployment-source commit `ef80990`. A fresh unauthenticated status and security-header probe passed at `https://flight-recorder-web.vercel.app/`, and two earlier hosted browser runs completed the verified, tampered-invalid, and restored-verified sequence with clean consoles. Video eligibility, Devpost completion, and final human acceptance remain separate until directly verified.
+Live GitHub publication was verified separately on 19 July 2026 at `https://github.com/Procureallyai/flight-recorder`; the public repository reported Apache License 2.0. The public annotated `v0.1.0` tag peels to release commit `6675e41ad5b0fcec2f8d42ad07e4321950cbf821`, and the non-draft, non-prerelease GitHub Release is published. Evidence-record commit `89e10a686668aa1770cc5dfb946aa7f325271925` passed Ubuntu Continuous Integration run `29679310497` without moving the annotated tag. GitHub release immutability is not enabled, so this evidence makes no provider-enforced immutability claim. Profile 7 trusted browser proof reports the Hobby-plan Vercel project connected to only `Procureallyai/flight-recorder` and its production deployment `Ready` from inspected deployment-source commit `ef80990`. A fresh unauthenticated status and security-header probe passed at `https://flight-recorder-web.vercel.app/`, and two hosted browser runs completed the verified, tampered-invalid, and restored-verified sequence with clean consoles. All ordinary Devpost fields are saved at the four-of-five finalisation page. Final factual and legal review, acceptance of terms, and submission remain human-only actions.

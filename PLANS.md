@@ -1,6 +1,6 @@
 # Flight Recorder Build Week Execution Plan
 
-**Status:** End-to-end goal active. Gates A through D are verified, the public `v0.1.0` release is published from the green release candidate, and a validated 163-second local OpenAI Cedar video draft exists. Public video publication, `/feedback`, Devpost completion, and human acceptance remain open.
+**Status:** End-to-end goal active. Gates A through D are verified; the public annotated `v0.1.0` tag and release, accepted 163-second public OpenAI Cedar video, private feedback field, and all other ordinary Devpost fields are complete. A bounded privacy, dependency, licensing, documentation, and thumbnail remediation pass is active before final legal review and human submission.
 
 ## Objective
 
@@ -54,4 +54,4 @@ Build, test, document, deploy, and prepare Flight Recorder for the OpenAI Build 
 
 ## Next clean action
 
-Review the local 163-second OpenAI Cedar video draft at `output/video/flight-recorder-openai-build-week-demo.mp4`, publish the accepted file publicly on YouTube, then complete the `/feedback` gate.
+Complete the bounded final-audit remediation, rerun every release gate, deploy and verify the remediated hosted build, upload the prepared 3:2 Devpost thumbnail, and return Profile 7 to the finalisation page for Floyd's factual and legal review.

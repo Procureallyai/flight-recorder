@@ -16,6 +16,7 @@
 - Required elevator pitch.
 - Optional thumbnail upload, Joint Photographic Experts Group, Portable Network Graphics, or Graphics Interchange Format, maximum 5 megabytes, recommended 3:2 ratio.
 - Saved values: `Flight Recorder` and `Prove what your coding agent changed, tested and approved.`
+- Prepared thumbnail: `docs/submission/assets/flight-recorder-devpost-thumbnail-3x2.jpg`, 1440 by 960 pixels. Authenticated upload remains open.
 
 ## Project details
 
