@@ -27,6 +27,7 @@
 - Synthetic narration is visibly disclosed
 - Public YouTube address: not yet available
 - Human playback acceptance: not yet recorded
+- Profile 7 trusted browser proof: the signed-in YouTube Studio channel dashboard loaded successfully and exposed the standard video-upload control; no upload or channel setting was changed
 
 ## Devpost validation
 

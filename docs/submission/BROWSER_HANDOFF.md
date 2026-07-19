@@ -33,6 +33,10 @@ Enter and save these ordinary factual values only after Project Details has a ve
 - `/feedback` Session Identifier: obtain through `/feedback` in this primary Codex task and enter it from the gitignored local secret file without repeating it publicly.
 - Optional file upload: no file is required because the public repository, release, judge route, screenshots, and video provide the judging path.
 
+## YouTube publication handoff
+
+Profile 7 trusted browser proof confirmed that the signed-in YouTube Studio channel dashboard loads and exposes the standard video-upload control. The Studio tab is left open as a handoff. No upload, visibility setting, audience setting, thumbnail, description, or channel preference was changed. Use `YOUTUBE_DESCRIPTION.md`, `output/video/flight-recorder-openai-build-week-demo.mp4`, and `assets/flight-recorder-video-thumbnail-16x9.jpg` only after Floyd accepts the final video.
+
 ## Stop boundary
 
 Codex may save verified ordinary factual fields after action-time confirmation. Codex must not accept rules, terms, eligibility, ownership, intellectual-property, authority, or privacy declarations, and must not click the final submission control.

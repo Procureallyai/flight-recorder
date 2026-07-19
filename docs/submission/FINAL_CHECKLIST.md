@@ -14,6 +14,7 @@
 - [x] Two final 3:2 gallery screenshots uploaded to the Devpost draft
 - [x] Final 16:9 YouTube thumbnail prepared
 - [x] Under-three-minute narrated demonstration video validated locally
+- [x] Signed-in YouTube Studio upload surface verified through Profile 7 trusted browser proof
 - [ ] Floyd playback acceptance
 - [ ] Public YouTube upload
 - [ ] Private-window YouTube playback verification

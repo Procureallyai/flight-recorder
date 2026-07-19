@@ -62,6 +62,7 @@
 - `in-app browser proof` verified the public no-login route at `https://flight-recorder-web.vercel.app/` twice on 19 July 2026. Each fresh hosted run completed `VERIFIED` to `INVALID` after a safe memory-only artifact change, then returned to `VERIFIED` after restoration, with no browser console warnings or errors.
 - An independent unauthenticated Hypertext Transfer Protocol check returned status 200 and confirmed the configured Content Security Policy, Strict Transport Security, content-type protection, referrer policy, permissions policy, and cross-origin opener policy.
 - The Devpost Hackathons Plugin was installed and connected through Profile 7 trusted browser proof on 18 July 2026. No secret or repository file was transmitted during installation.
+- Profile 7 trusted browser proof confirmed the signed-in YouTube Studio channel dashboard loads and exposes the standard video-upload control. No upload or channel setting was changed; the Studio tab remains open for the accepted-video handoff.
 - Profile 7 trusted browser proof showed a US$10.00 OpenAI Application Programming Interface prepaid balance, automatic recharge off, Usage Tier 1, and US$0.00 of a US$100.00 organisation spend limit.
 - Browser fallback contract: use Chrome Profile 7 for authenticated Devpost work and real-session operator handoff. If it is unavailable, use the Codex in-app browser for local, public, or unauthenticated work, label the evidence `in-app browser proof`, and leave Profile 7-dependent actions open.
 
