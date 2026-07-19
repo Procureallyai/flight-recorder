@@ -1,6 +1,6 @@
 # Flight Recorder Build Week Execution Plan
 
-**Status:** End-to-end goal active. Gates A through D are verified; the public annotated `v0.1.0` tag and release, accepted 163-second public OpenAI Cedar video, private feedback field, and all other ordinary Devpost fields are complete. A bounded privacy, dependency, licensing, documentation, and thumbnail remediation pass is active before final legal review and human submission.
+**Status:** End-to-end Build Week delivery is complete. Gates A through F, the bounded remediation pass, final human review, acceptance of terms, and Devpost submission are verified. Ongoing judging availability and the separate orphaned-key security follow-up remain operational actions.
 
 ## Objective
 
@@ -28,7 +28,7 @@ Build, test, document, deploy, and prepare Flight Recorder for the OpenAI Build 
 - Gate C: at least one real GPT-5.6 structured review succeeds and is evidence-linked.
 - Gate D: public no-login judge route completes twice and local live mode works on the stated platform. Verified for the hosted route on 19 July 2026; live approval exchange remains a separate local limitation.
 - Gate E: release checks, secret scan, licence review, links, video, and submission metadata are verified.
-- Gate F: Devpost draft is saved at final operator review without legal acceptance or submission.
+- Gate F: Devpost submission is confirmed after Floyd personally completed the factual and legal review, accepted the applicable terms, and submitted.
 
 ## Current decision gates
 
@@ -54,4 +54,4 @@ Build, test, document, deploy, and prepare Flight Recorder for the OpenAI Build 
 
 ## Next clean action
 
-Complete the bounded final-audit remediation, rerun every release gate, deploy and verify the remediated hosted build, upload the prepared 3:2 Devpost thumbnail, and return Profile 7 to the finalisation page for Floyd's factual and legal review.
+Keep the repository, judge route, public video, and submitted Devpost page available throughout judging. Complete the separate orphaned OpenAI key revocation follow-up, then prepare post-submission communications only with Floyd's explicit approval.

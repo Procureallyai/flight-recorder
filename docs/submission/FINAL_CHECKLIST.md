@@ -17,7 +17,7 @@
 - [x] Final 3:2 Devpost project thumbnail uploaded and saved
 - [x] Under-three-minute narrated demonstration video validated locally
 - [x] Signed-in YouTube Studio upload surface verified through Profile 7 trusted browser proof
-- [ ] Floyd playback acceptance of the remediated render
+- [x] Floyd playback acceptance of the remediated render
 - [x] Public YouTube upload
 - [x] Unauthenticated public YouTube address verification
 
@@ -35,9 +35,9 @@
 - [x] Judge instructions saved
 - [x] Developer-tool installation and supported-platform instructions saved
 - [x] Private `/feedback` Session Identifier obtained and saved
-- [ ] Final factual and legal review by Floyd
-- [ ] Applicable terms and declarations accepted by Floyd
-- [ ] Final submission performed by Floyd
+- [x] Final factual and legal review by Floyd
+- [x] Applicable terms and declarations accepted by Floyd
+- [x] Final submission performed by Floyd
 
 ## Security follow-up
 

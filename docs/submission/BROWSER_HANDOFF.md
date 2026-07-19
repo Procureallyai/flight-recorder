@@ -3,8 +3,8 @@
 **Route:** Profile 7 trusted browser proof through the Codex Chrome Extension
 **Submission:** `1100007-flight-recorder`
 **Project:** `flight-recorder-jma65p`
-**Current page:** Submit project finalisation
-**Current progress:** Four of five steps saved
+**Current page:** Public submitted project page
+**Current progress:** Five of five steps complete; submitted
 
 ## Project Details state
 
@@ -33,8 +33,8 @@ The following ordinary factual values are saved in the authenticated form:
 
 ## YouTube publication proof
 
-Profile 7 trusted browser proof published the remediated film at `https://youtu.be/vOFVLWb5aM4` on 19 July 2026. The approved title, corrected description, final thumbnail, English (United Kingdom) language, Science and Technology category, not-made-for-children audience, and artificial-intelligence narration disclosure were saved. YouTube reported no copyright or Community Guidelines issues. In-app browser proof loaded the public watch page without authentication and showed the correct title, 2-minute 43-second player duration, and artificial-intelligence disclosure. Floyd's playback acceptance of this remediated render remains open.
+Profile 7 trusted browser proof published the remediated film at `https://youtu.be/vOFVLWb5aM4` on 19 July 2026. The approved title, corrected description, final thumbnail, English (United Kingdom) language, Science and Technology category, not-made-for-children audience, and artificial-intelligence narration disclosure were saved. YouTube reported no copyright or Community Guidelines issues. In-app browser proof loaded the public watch page without authentication and showed the correct title, 2-minute 43-second player duration, and artificial-intelligence disclosure. Floyd confirmed playback acceptance of the remediated render on 19 July 2026.
 
-## Stop boundary
+## Submission confirmation
 
-The authenticated browser is open on finalisation. The required Official Rules and Devpost Terms of Service checkbox is deliberately unselected, and the project remains a draft. Codex must not accept rules, terms, eligibility, ownership, intellectual-property, authority, or privacy declarations, and must not click the final submission control.
+Floyd personally completed the final factual and legal review, accepted the applicable terms, and submitted the project. The Devpost connector records submission at 19 July 2026, 16:46:09 British Summer Time. Profile 7 trusted browser proof showed Devpost's `Project submitted!` confirmation at `https://devpost.com/software/flight-recorder-jma65p`.

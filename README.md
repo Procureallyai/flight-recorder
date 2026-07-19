@@ -24,7 +24,7 @@ The cryptographic claim is deliberately narrow: a valid passport shows that the 
 - Four parallel GPT-5.6 specialist-review contracts and a synthesis contract, using strict Structured Outputs, `store: false`, no tools, bounded inputs and outputs, timeouts, and an explicit disabled-by-default runtime switch.
 - A deterministic seal-readiness policy that remains separate from model judgement.
 - Signed human finding decisions that preserve reasons, timestamps, approval evidence, and the distinction between remediation and accepted risk.
-- A review-bound genuine-session candidate containing 17 events, four committed artifacts, 22 evidence-linked findings, and five GPT-5.6 review receipts.
+- A review-bound genuine-session candidate containing 17 events, four committed artifacts, 19 evidence-linked findings, and five GPT-5.6 review receipts.
 - A browser-compatible verifier that uses Web Cryptography, validates the signed manifest, event chain, Merkle root, review provenance, and covered artifacts, and fails closed when cryptography is unavailable.
 - A responsive React verification split view bound to the signed genuine-session passport for the synthetic demonstration, with independent proof details, visible verify and loading states, and a safe memory-only tamper demonstration.
 - A final-state evidence envelope and command-line finaliser that bind committed artifact bytes, post-commit test evidence, clean scoped Git state, and one stable final commit before candidate assembly.
@@ -42,7 +42,7 @@ The cryptographic claim is deliberately narrow: a valid passport shows that the 
 | User interface | Floyd selected refined Product Design option 3. The verification split view runs the actual browser verifier against the genuine-session passport. Two public no-login hosted runs completed the verified, memory-only alteration, invalid, restore, and reverified sequence with clean browser consoles. |
 | GitHub | The public Apache License 2.0 repository is [Procureallyai/flight-recorder](https://github.com/Procureallyai/flight-recorder). Live `main` and local `main` matched when publication was verified on 19 July 2026. |
 | Deployment | The public no-login judge route is [flight-recorder-web.vercel.app](https://flight-recorder-web.vercel.app/). Two fresh hosted runs completed verified, invalid after a memory-only artifact change, and verified after restoration. |
-| Video and Devpost | The remediated 163-second film is public on YouTube, and the corrected video, project thumbnail, and final gallery screenshots are saved in Devpost. All ordinary fields are saved, including the private feedback Session Identifier in its designated field. Playback acceptance of this render, final factual and legal review, acceptance of terms, and submission remain human-only actions. |
+| Video and Devpost | Floyd accepted the remediated 163-second public YouTube film and personally completed the final factual and legal review, accepted the applicable terms, and submitted Flight Recorder. Devpost records submission at 16:46:09 British Summer Time on 19 July 2026. The public project page is [Flight Recorder on Devpost](https://devpost.com/software/flight-recorder-jma65p). |
 
 See [the validation matrix](planning/VALIDATION_MATRIX.md) and [active context](memory_bank/activeContext.md) for current details.
 

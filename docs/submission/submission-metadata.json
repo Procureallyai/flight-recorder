@@ -41,8 +41,8 @@
     "submissionId": 1100007,
     "projectId": 1348223,
     "slug": "flight-recorder-jma65p",
-    "state": "submission_draft",
-    "stepsComplete": 4,
+    "state": "submitted",
+    "stepsComplete": 5,
     "stepsTotal": 5,
     "projectStoryPreparedUnsaved": false,
     "projectStorySaved": true,
@@ -56,7 +56,9 @@
     "judgeLinkSaved": true,
     "additionalInformationSaved": true,
     "additionalInformationPreparedUnsaved": false,
-    "verifiedAt": "2026-07-19"
+    "verifiedAt": "2026-07-19",
+    "submittedAt": "2026-07-19T16:46:09+01:00",
+    "publicProjectUrl": "https://devpost.com/software/flight-recorder-jma65p"
   },
   "videoUrl": {
     "value": "https://youtu.be/vOFVLWb5aM4",
@@ -71,8 +73,8 @@
     "height": 1080,
     "sha256": "e6046b7e236088e58934acc9afec4150edf431b95a9bdfdf95f34eb773ecb446",
     "verified": true,
-    "humanAccepted": false,
-    "humanAcceptedAt": null,
+    "humanAccepted": true,
+    "humanAcceptedAt": "2026-07-19",
     "narrationModel": "gpt-4o-mini-tts-2025-12-15",
     "narrationVoice": "cedar"
   },
@@ -115,7 +117,9 @@
     "enteredInDevpost": true
   },
   "finalSubmission": {
-    "performed": false,
-    "actorRequired": "Floyd Livingstone Rowe"
+    "performed": true,
+    "actor": "Floyd Livingstone Rowe",
+    "submittedAt": "2026-07-19T16:46:09+01:00",
+    "evidence": "Devpost connector submission timestamp and Profile 7 trusted browser proof of the Project submitted confirmation."
   }
 }

@@ -2,7 +2,7 @@
 
 **Inspected:** 19 July 2026
 **Evidence route:** Profile 7 trusted browser proof through the Codex Chrome Extension
-**Draft:** Existing OpenAI Build Week submission `1100007`
+**Submission:** OpenAI Build Week submission `1100007`, submitted by Floyd Livingstone Rowe
 
 ## Manage team
 
@@ -43,16 +43,16 @@
 
 ## Finalisation
 
-- Inspected through Profile 7 trusted browser proof after four of five steps were saved.
-- The required Official Rules and Devpost Terms of Service checkbox is unselected, and the final submission button was not activated.
-- Codex must not accept declarations or perform final submission.
+- Floyd personally completed the final factual and legal review, accepted the applicable terms, and selected the final submission control.
+- Profile 7 trusted browser proof showed the `Project submitted!` confirmation and public project page.
+- The five-step submission flow is complete.
 
 ## Connector cross-check
 
 - Devpost project identifier: `1348223`.
 - Friendly slug: `flight-recorder-jma65p`.
-- Submission state: `submission_draft`.
+- Submission state: submitted; the connector's project representation remains `published`.
 - Saved project description: verified story present.
 - Saved video address: verified public YouTube address present.
-- Hackathon submission timestamp: blank.
-- Submission phase: open at the 19 July 2026 check.
+- Hackathon submission timestamp: 19 July 2026, 16:46:09 British Summer Time.
+- Editing remains available until the submission deadline, but the project is already submitted.
