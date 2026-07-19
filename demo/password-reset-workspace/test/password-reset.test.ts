@@ -397,6 +397,29 @@ test("logging and audit failures are isolated and retain the neutral response", 
   assert.equal(logBeforeAuditFailureCount, 1);
 });
 
+test("a stalled audit transport does not delay the neutral response", async () => {
+  let resolveAudit: (() => void) | undefined;
+  const auditCanFinish = new Promise<void>((resolve) => {
+    resolveAudit = resolve;
+  });
+  let auditStarted = false;
+
+  const result = await requestPasswordReset(
+    SYNTHETIC_EMAIL,
+    createDependencies({
+      async audit() {
+        auditStarted = true;
+        await auditCanFinish;
+      },
+    }),
+  );
+
+  assert.deepEqual(result, neutralResponse);
+  assert.equal(auditStarted, true);
+  resolveAudit?.();
+  await auditCanFinish;
+});
+
 test("scheduler failure retains the neutral response and safe telemetry", async () => {
   const logs: string[] = [];
   const audits: Array<{ event: string; detail: Record<string, string> }> = [];

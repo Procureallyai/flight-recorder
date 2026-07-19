@@ -160,9 +160,12 @@ export async function requestPasswordReset(email: string, dependencies: ResetDep
   }
 
   try {
-    await dependencies.audit(SAFE_AUDIT_EVENT, SAFE_AUDIT_DETAIL);
+    // Audit transport is best-effort: a stalled sink must not delay this neutral response.
+    void dependencies.audit(SAFE_AUDIT_EVENT, SAFE_AUDIT_DETAIL).catch(() => {
+      // Audit failures remain private and do not change the public response.
+    });
   } catch {
-    // Audit transport failures remain private and do not prevent the neutral response.
+    // Synchronously thrown audit failures remain private and do not prevent the response.
   }
 
   return PUBLIC_RESPONSE;
