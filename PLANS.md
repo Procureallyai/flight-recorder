@@ -41,7 +41,7 @@ Build, test, document, deploy, and prepare Flight Recorder for the OpenAI Build 
 - Front-end delivery: Product Design skill invocation and visual selection are mandatory before user-interface implementation; use shadcn/ui to compress standard component work.
 - Devpost Plugin: installed and connected as an advisory aid; it never overrides current official rules or verified release facts.
 - Secrets: use user-approved 1Password Environments injection for the OpenAI Application Programming Interface key and deployment credentials; never persist raw values.
-- Repository: `https://github.com/Procureallyai/flight-recorder` is public under Apache License 2.0; live and local `main` match at `6675e41`, Continuous Integration run `29678114178` is green, and the public `v0.1.0` release resolves to that commit.
+- Repository: `https://github.com/Procureallyai/flight-recorder` is public under Apache License 2.0; the public `v0.1.0` release resolves to `6675e41`, and post-release submission-video commit `1110bf6` passed Continuous Integration run `29679019561` without moving the release tag.
 - Parallelism: use explicitly owned sub-agent lanes when they materially accelerate research, review, testing, accessibility, security, or documentation. Preserve the primary task as the majority core-build record.
 - Browser fallback: use Chrome Profile 7 for authenticated Devpost state and operator handoff. If it is unavailable, use the Codex in-app browser for local, public, or unauthenticated checks, label the route, and leave Profile 7-dependent actions open.
 

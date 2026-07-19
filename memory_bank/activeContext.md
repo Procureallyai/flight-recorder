@@ -49,8 +49,8 @@
 
 - Profile 7 trusted browser proof completed GitHub's device authorisation for the official GitHub command-line client as `Procureallyai` on 19 July 2026.
 - The public Apache License 2.0 repository exists at `https://github.com/Procureallyai/flight-recorder` with `main` as its default branch.
-- Live GitHub `main` and local `main` both resolve to release commit `6675e41ad5b0fcec2f8d42ad07e4321950cbf821`. Repository metadata reports `PUBLIC`, Apache License 2.0, and the approved description.
-- Continuous Integration run `29678114178` passed against `6675e41`. The run built and passed 126 product tests, 16 demonstration tests, deterministic fixture regeneration, both signed passport verifiers, the secret scan, and canonical-truth validation on Ubuntu.
+- The immutable `v0.1.0` release resolves to commit `6675e41ad5b0fcec2f8d42ad07e4321950cbf821`. Repository metadata reports `PUBLIC`, Apache License 2.0, and the approved description. Post-release `main` includes submission documentation and video-production provenance without moving the release tag.
+- Continuous Integration run `29679019561` passed against post-release submission-video commit `1110bf60077b71171bf32a59d2b803ef27ec8d55`. The run built and passed 126 product tests, 16 demonstration tests, deterministic fixture regeneration, both signed passport verifiers, the secret scan, and canonical-truth validation on Ubuntu. GitHub emitted one informational deprecation warning because three pinned actions still target the Node.js 20 action runtime and were forced onto Node.js 24 by the runner.
 - The public annotated tag `v0.1.0` peels to `6675e41`, and the non-draft, non-prerelease GitHub Release is published at `https://github.com/Procureallyai/flight-recorder/releases/tag/v0.1.0`.
 
 ## Browser or hosted truth

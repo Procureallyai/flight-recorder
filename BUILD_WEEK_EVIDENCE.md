@@ -51,6 +51,7 @@ The repository history and this primary Codex task identify the work performed d
 | `d457b41` | Cross-platform path safety, Vercel configuration, and release documentation. |
 | `f858933` | Portable canonical-truth validation and first fully green Ubuntu release candidate. |
 | `6675e41` | Verified production deployment evidence, release notes, and final 3:2 submission screenshots. |
+| `1110bf6` | Reproducible under-three-minute submission-video pipeline, synthetic narration disclosure, YouTube copy, and 16:9 thumbnail. |
 
 ## Codex contribution
 
