@@ -1,10 +1,12 @@
 import { describe, expect, it } from "vitest";
+import { buildEventChain } from "@flight-recorder/crypto";
 import {
   createEvidenceChain,
   createEvidenceDigest,
   createFinalArtifactSnapshot,
   createReviewDigestFromExecCapture,
   finalStateEvidenceEnvelopeSchema,
+  getReviewedEventPrefix,
   sanitiseEvidenceValue,
   verifyFinalStateEvidenceEnvelope,
 } from "./index.js";
@@ -173,9 +175,9 @@ describe("evidence digest", () => {
     expect(() => createReviewDigestFromExecCapture({ ...base, events: duplicateFinalState })).toThrow("exactly one explicit final Git-state");
   });
 
-  it("rejects a genuine review capture with evidence after its final Git-state record", () => {
+  it("allows one typed human approval after review while rejecting an arbitrary tail", () => {
     const { envelope } = createBoundFinalStateEvents();
-    const events = createEvidenceChain([
+    const baseDrafts = [
       {
         id: "ev_post_commit_test",
         recordedAt: "2026-07-19T10:00:00.000Z",
@@ -190,6 +192,42 @@ describe("evidence digest", () => {
         summary: "Final Git state recorded",
         payload: envelope,
       },
+    ] as const;
+    const approvedEvents = createEvidenceChain([
+      ...baseDrafts,
+      {
+        id: "ev_human_seal_approval",
+        recordedAt: "2026-07-19T10:02:00.000Z",
+        type: "approval",
+        summary: "Human approved the reviewed evidence for sealing",
+        payload: {
+          recordKind: "human-seal-approval",
+          decision: "approved-for-sealing",
+          passportId: "passport-genuine-001",
+          repositoryCommit: FINAL_COMMIT,
+          evidenceDigestSha256: "b".repeat(64),
+          findingDecisionIds: [],
+          acknowledgedNarrowClaim: true,
+          acknowledgedResidualLimitations: true,
+          reason: "The bounded claim and residual limitations were reviewed.",
+        },
+      },
+    ]);
+    const reviewedPrefix = getReviewedEventPrefix(approvedEvents);
+    expect(reviewedPrefix.map((event) => event.id)).toEqual(["ev_post_commit_test", "ev_final_git_state"]);
+    const digest = createReviewDigestFromExecCapture({
+      source: "codex-exec-json",
+      testedCodexVersion: "codex-cli synthetic-version",
+      complete: true,
+      approvalCoverage: "not-observed",
+      issues: [],
+      events: approvedEvents,
+    });
+    expect(digest.eventCount).toBe(2);
+    expect(digest.transmissionCategories).not.toContain("approvals");
+
+    const arbitraryTail = createEvidenceChain([
+      ...baseDrafts,
       {
         id: "ev_late_plan",
         recordedAt: "2026-07-19T10:02:00.000Z",
@@ -205,8 +243,8 @@ describe("evidence digest", () => {
       complete: true,
       approvalCoverage: "not-observed",
       issues: [],
-      events,
-    })).toThrow("must end with its authoritative final Git-state");
+      events: arbitraryTail,
+    })).toThrow("must be a typed human seal approval");
   });
 
   it("reapplies redaction immediately before creating a remote review digest", () => {
@@ -245,6 +283,62 @@ describe("evidence digest", () => {
 
     expect(JSON.stringify(digest)).not.toContain("sk-examplevalue");
     expect(JSON.stringify(digest)).not.toContain("synthetic-secret-value");
+  });
+
+  it("preserves validated final artifact bytes while rejecting high-confidence secrets", () => {
+    const safeSource = "const token = dependencies.tokenStore.issue(account.id);\n";
+    const artifact = createFinalArtifactSnapshot("src/password-reset.ts", "text/typescript", safeSource);
+    const envelope = finalStateEvidenceEnvelopeSchema.parse({
+      schemaVersion: "0.1.0",
+      recordKind: "final-git-state",
+      finalCommit: FINAL_COMMIT,
+      scopedClean: true,
+      scopePaths: [artifact.path],
+      postCommitPassingTestEvidenceId: "ev_post_commit_test",
+      artifacts: [artifact],
+    });
+    const createCapture = (finalEnvelope: typeof envelope, preserveRawPayload = false) => ({
+      source: "codex-exec-json" as const,
+      testedCodexVersion: "codex-cli synthetic-version",
+      complete: true as const,
+      approvalCoverage: "not-observed" as const,
+      issues: [],
+      events: (preserveRawPayload ? buildEventChain : createEvidenceChain)([
+        {
+          id: "ev_post_commit_test",
+          recordedAt: "2026-07-19T10:00:00.000Z",
+          type: "test" as const,
+          summary: "Final scoped tests passed after commit",
+          payload: { exitCode: 0, phase: "post-commit", repositoryCommit: FINAL_COMMIT },
+        },
+        {
+          id: "ev_final_git_state",
+          recordedAt: "2026-07-19T10:01:00.000Z",
+          type: "completion" as const,
+          summary: "Final Git state recorded",
+          payload: finalEnvelope,
+        },
+      ]),
+    });
+
+    const digest = createReviewDigestFromExecCapture(createCapture(envelope));
+    const finalEvidence = digest.evidence.at(-1);
+    expect(finalEvidence?.payload).toEqual(envelope);
+    expect((finalEvidence?.payload.artifacts as Array<{ content: string }>)[0]?.content).toBe(safeSource);
+
+    const unsafeArtifact = createFinalArtifactSnapshot(
+      "src/password-reset.ts",
+      "text/typescript",
+      `export const key = "${["sk", "1234567890abcdef1234567890abcdef"].join("-")}";\n`,
+    );
+    const unsafeEnvelope = finalStateEvidenceEnvelopeSchema.parse({
+      ...envelope,
+      scopePaths: [unsafeArtifact.path],
+      artifacts: [unsafeArtifact],
+    });
+    expect(() => createReviewDigestFromExecCapture(createCapture(unsafeEnvelope, true))).toThrow(
+      "contains a high-confidence secret pattern",
+    );
   });
 
   it("binds bounded final artifacts, a scoped-clean commit, and a post-commit passing test", () => {

@@ -3,6 +3,7 @@ import test from "node:test";
 import {
   InMemoryPasswordResetTokenStore,
   requestPasswordReset,
+  type PasswordResetWork,
   type PasswordResetTokenIssuer,
   type ResetDependencies,
 } from "../src/password-reset.ts";
@@ -10,6 +11,27 @@ import {
 const SYNTHETIC_EMAIL = "known@example.test";
 const SYNTHETIC_ACCOUNT_ID = "account-synthetic-001";
 const SYNTHETIC_TOKEN = "token-synthetic-001";
+
+function createDeferredScheduler() {
+  const jobs: PasswordResetWork[] = [];
+
+  return {
+    scheduler: {
+      enqueue(work: PasswordResetWork) {
+        jobs.push(work);
+      },
+    },
+    get scheduledCount() {
+      return jobs.length;
+    },
+    async runAll() {
+      while (jobs.length > 0) {
+        const job = jobs.shift();
+        await job?.();
+      }
+    },
+  };
+}
 
 function createTokenStore(
   options: {
@@ -35,7 +57,9 @@ function createTokenStore(
 
 function createDependencies(overrides: Partial<ResetDependencies> = {}): ResetDependencies {
   const { store } = createTokenStore();
+  const { scheduler } = createDeferredScheduler();
   const dependencies: ResetDependencies = {
+    scheduler,
     async findAccountByEmail() {
       return { id: SYNTHETIC_ACCOUNT_ID };
     },
@@ -55,9 +79,11 @@ const neutralResponse = {
 
 test("known accounts receive reset instructions and a neutral response", async () => {
   const deliveries: Array<{ accountId: string; token: string }> = [];
+  const deferred = createDeferredScheduler();
   const result = await requestPasswordReset(
     SYNTHETIC_EMAIL,
     createDependencies({
+      scheduler: deferred.scheduler,
       async sendResetInstructions(accountId, token) {
         deliveries.push({ accountId, token });
       },
@@ -65,6 +91,9 @@ test("known accounts receive reset instructions and a neutral response", async (
   );
 
   assert.deepEqual(result, neutralResponse);
+  assert.deepEqual(deliveries, []);
+  assert.equal(deferred.scheduledCount, 1);
+  await deferred.runAll();
   assert.deepEqual(deliveries, [{ accountId: SYNTHETIC_ACCOUNT_ID, token: SYNTHETIC_TOKEN }]);
 });
 
@@ -77,10 +106,13 @@ test("unknown accounts receive the same neutral response without issuing or deli
       return "token-synthetic-unexpected";
     },
   };
+  const unknownDeferred = createDeferredScheduler();
+  const knownDeferred = createDeferredScheduler();
 
   const unknownResult = await requestPasswordReset(
     "unknown@example.test",
     createDependencies({
+      scheduler: unknownDeferred.scheduler,
       async findAccountByEmail() {
         return undefined;
       },
@@ -90,22 +122,62 @@ test("unknown accounts receive the same neutral response without issuing or deli
       },
     }),
   );
-  const knownResult = await requestPasswordReset(SYNTHETIC_EMAIL, createDependencies());
+  const knownResult = await requestPasswordReset(
+    SYNTHETIC_EMAIL,
+    createDependencies({ scheduler: knownDeferred.scheduler }),
+  );
 
   assert.deepEqual(unknownResult, neutralResponse);
   assert.deepEqual(unknownResult, knownResult);
+  assert.equal(unknownDeferred.scheduledCount, 1);
+  assert.equal(knownDeferred.scheduledCount, 1);
   assert.equal(issueCount, 0);
   assert.equal(deliveryCount, 0);
+  await unknownDeferred.runAll();
+  await knownDeferred.runAll();
+  assert.equal(issueCount, 0);
+  assert.equal(deliveryCount, 0);
+});
+
+test("lookup and delivery never run on the response path", async () => {
+  const deferred = createDeferredScheduler();
+  let lookupCount = 0;
+  let deliveryCount = 0;
+
+  const result = await requestPasswordReset(
+    SYNTHETIC_EMAIL,
+    createDependencies({
+      scheduler: deferred.scheduler,
+      async findAccountByEmail() {
+        lookupCount += 1;
+        return { id: SYNTHETIC_ACCOUNT_ID };
+      },
+      async sendResetInstructions() {
+        deliveryCount += 1;
+      },
+    }),
+  );
+
+  assert.deepEqual(result, neutralResponse);
+  assert.equal(deferred.scheduledCount, 1);
+  assert.equal(lookupCount, 0);
+  assert.equal(deliveryCount, 0);
+
+  await deferred.runAll();
+  assert.equal(lookupCount, 1);
+  assert.equal(deliveryCount, 1);
 });
 
 test("complete telemetry is identifier-free and identical for known and unknown accounts", async () => {
   async function captureTelemetry(email: string, accountExists: boolean) {
     const logs: string[] = [];
     const audits: Array<{ event: string; detail: Record<string, string> }> = [];
+    const deferred = createDeferredScheduler();
 
     await requestPasswordReset(
       email,
       createDependencies({
+        scheduler: deferred.scheduler,
         async findAccountByEmail() {
           return accountExists ? { id: SYNTHETIC_ACCOUNT_ID } : undefined;
         },
@@ -117,6 +189,7 @@ test("complete telemetry is identifier-free and identical for known and unknown 
         },
       }),
     );
+    await deferred.runAll();
 
     return { logs, audits };
   }
@@ -260,10 +333,12 @@ test("lookup, issuance, and delivery failures retain the neutral response and sa
   for (const failureCase of failureCases) {
     const logs: string[] = [];
     const audits: Array<{ event: string; detail: Record<string, string> }> = [];
+    const deferred = createDeferredScheduler();
     const result = await requestPasswordReset(
       SYNTHETIC_EMAIL,
       createDependencies({
         ...failureCase.overrides,
+        scheduler: deferred.scheduler,
         log(message) {
           logs.push(message);
         },
@@ -272,6 +347,7 @@ test("lookup, issuance, and delivery failures retain the neutral response and sa
         },
       }),
     );
+    await deferred.runAll();
 
     assert.deepEqual(result, neutralResponse, failureCase.name);
     assert.deepEqual(logs, ["Password reset request accepted."], failureCase.name);
@@ -321,6 +397,34 @@ test("logging and audit failures are isolated and retain the neutral response", 
   assert.equal(logBeforeAuditFailureCount, 1);
 });
 
+test("scheduler failure retains the neutral response and safe telemetry", async () => {
+  const logs: string[] = [];
+  const audits: Array<{ event: string; detail: Record<string, string> }> = [];
+  const result = await requestPasswordReset(
+    SYNTHETIC_EMAIL,
+    createDependencies({
+      scheduler: {
+        enqueue() {
+          throw new Error("Synthetic queue failure containing known@example.test");
+        },
+      },
+      log(message) {
+        logs.push(message);
+      },
+      async audit(event, detail) {
+        audits.push({ event, detail });
+      },
+    }),
+  );
+
+  assert.deepEqual(result, neutralResponse);
+  assert.deepEqual(logs, ["Password reset request accepted."]);
+  assert.deepEqual(audits, [
+    { event: "password_reset_request_accepted", detail: { result: "accepted" } },
+  ]);
+  assert.doesNotMatch(JSON.stringify({ logs, audits }), /known@example\.test/i);
+});
+
 test("the default token lifetime is fifteen minutes", async () => {
   const issuedAt = 10_000;
   const { store, setNow } = createTokenStore({ now: issuedAt });
@@ -328,4 +432,41 @@ test("the default token lifetime is fifteen minutes", async () => {
   setNow(issuedAt + 15 * 60 * 1_000);
 
   assert.equal(await store.redeem(token, async () => {}), false);
+});
+
+test("token lifetime rejects zero, negative, non-finite, and not-a-number values", () => {
+  for (const invalidLifetime of [
+    0,
+    -1,
+    Number.POSITIVE_INFINITY,
+    Number.NEGATIVE_INFINITY,
+    Number.NaN,
+  ]) {
+    assert.throws(
+      () => createTokenStore({ expiresInMilliseconds: invalidLifetime }),
+      /positive finite number/,
+    );
+  }
+});
+
+test("token issuance rejects empty and duplicate generated values", () => {
+  const empty = createTokenStore({ token: "" });
+  assert.throws(() => empty.store.issue(SYNTHETIC_ACCOUNT_ID), /empty token/);
+
+  const duplicate = createTokenStore({ token: SYNTHETIC_TOKEN });
+  assert.equal(duplicate.store.issue(SYNTHETIC_ACCOUNT_ID), SYNTHETIC_TOKEN);
+  assert.throws(() => duplicate.store.issue("account-synthetic-002"), /duplicate token/);
+});
+
+test("unknown tokens do not invoke the reset callback", async () => {
+  const { store } = createTokenStore();
+  let actionCount = 0;
+
+  assert.equal(
+    await store.redeem("token-synthetic-unknown", async () => {
+      actionCount += 1;
+    }),
+    false,
+  );
+  assert.equal(actionCount, 0);
 });

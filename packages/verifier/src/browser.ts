@@ -234,6 +234,66 @@ async function validateFinalStateEnvelope(
     inferTestStatus(test.payload) === "passed" && test.payload.phase === "post-commit" && test.payload.repositoryCommit === payload.finalCommit;
 }
 
+function isHumanSealApprovalPayload(payload: Record<string, unknown>): boolean {
+  if (!hasExactKeys(payload, [
+    "recordKind",
+    "decision",
+    "passportId",
+    "repositoryCommit",
+    "evidenceDigestSha256",
+    "findingDecisionIds",
+    "acknowledgedNarrowClaim",
+    "acknowledgedResidualLimitations",
+    "reason",
+  ])) return false;
+  if (payload.recordKind !== "human-seal-approval" || payload.decision !== "approved-for-sealing" ||
+      typeof payload.passportId !== "string" || payload.passportId.trim().length < 1 || payload.passportId.length > 200 ||
+      typeof payload.repositoryCommit !== "string" || !/^(?:[a-f0-9]{40}|[a-f0-9]{64})$/u.test(payload.repositoryCommit) ||
+      typeof payload.evidenceDigestSha256 !== "string" || !/^[a-f0-9]{64}$/u.test(payload.evidenceDigestSha256) ||
+      !Array.isArray(payload.findingDecisionIds) || payload.findingDecisionIds.length > 1_000 ||
+      !payload.findingDecisionIds.every((identifier) => typeof identifier === "string" && identifier.trim().length > 0 && identifier.length <= 200) ||
+      new Set(payload.findingDecisionIds).size !== payload.findingDecisionIds.length ||
+      payload.acknowledgedNarrowClaim !== true || payload.acknowledgedResidualLimitations !== true ||
+      typeof payload.reason !== "string" || payload.reason.trim().length < 1 || payload.reason.length > 4_000) return false;
+  return true;
+}
+
+async function getReviewedEventPrefix(
+  provider: WebCryptoProvider,
+  events: readonly EvidenceEvent[],
+): Promise<readonly EvidenceEvent[]> {
+  if (!await verifyEventChain(provider, events)) {
+    throw new Error("Reviewed evidence must contain a complete, valid event hash chain.");
+  }
+  if (new Set(events.map((event) => event.id)).size !== events.length) {
+    throw new Error("Reviewed evidence event identifiers must be unique.");
+  }
+  const finalStateRecords = events.filter(
+    (event) => event.type === "completion" && event.payload.recordKind === "final-git-state",
+  );
+  const finalStateRecord = finalStateRecords[0];
+  if (finalStateRecords.length !== 1 || finalStateRecord === undefined) {
+    throw new Error("Reviewed evidence must contain exactly one explicit final Git-state evidence record.");
+  }
+  if (!await validateFinalStateEnvelope(provider, finalStateRecord.payload, events, finalStateRecord.index)) {
+    throw new Error("Final-state review evidence is invalid.");
+  }
+
+  const tail = events.slice(finalStateRecord.index + 1);
+  if (tail.length > 1) {
+    throw new Error("Reviewed evidence may contain only one typed human seal approval after its final Git-state record.");
+  }
+  const approvalEvent = tail[0];
+  if (approvalEvent !== undefined && (
+    approvalEvent.type !== "approval" ||
+    !isHumanSealApprovalPayload(approvalEvent.payload) ||
+    approvalEvent.payload.repositoryCommit !== finalStateRecord.payload.finalCommit
+  )) {
+    throw new Error("Evidence after the final Git-state record must be a typed human seal approval.");
+  }
+  return events.slice(0, finalStateRecord.index + 1);
+}
+
 async function createEvidenceDigest(
   provider: WebCryptoProvider,
   source: NonNullable<PassportManifest["reviewProvenance"]>["evidenceSource"],
@@ -282,11 +342,24 @@ async function verifyReviewProvenance(provider: WebCryptoProvider, passport: Pas
   if (provenance === undefined) return passport.manifest.evidenceClassification === "synthetic-test-fixture";
   const reviewers = new Set(provenance.calls.map((call) => call.reviewer));
   const responseIdentifiers = provenance.calls.map((call) => call.responseId);
-  const recomputedDigest = await createEvidenceDigest(provider, provenance.evidenceSource, passport.manifest.events);
+  const reviewedEvents = await getReviewedEventPrefix(provider, passport.manifest.events);
+  const recomputedDigest = await createEvidenceDigest(provider, provenance.evidenceSource, reviewedEvents);
+  const approvalEvent = passport.manifest.events[reviewedEvents.length];
+  const finalStateCommit = reviewedEvents.at(-1)?.payload.finalCommit;
+  const findingDecisionIds = passport.manifest.findingDecisions.map((decision) => decision.id);
+  const approvalBound = approvalEvent === undefined || (
+    isHumanSealApprovalPayload(approvalEvent.payload) &&
+    approvalEvent.payload.passportId === passport.manifest.passportId &&
+    approvalEvent.payload.repositoryCommit === finalStateCommit &&
+    approvalEvent.payload.repositoryCommit === passport.manifest.project.repositoryCommit &&
+    approvalEvent.payload.evidenceDigestSha256 === provenance.evidenceDigestSha256 &&
+    (approvalEvent.payload.findingDecisionIds as string[]).length === findingDecisionIds.length &&
+    findingDecisionIds.every((identifier) => (approvalEvent.payload.findingDecisionIds as string[]).includes(identifier))
+  );
   return reviewers.size === expectedReviewers.size && [...expectedReviewers].every((reviewer) => reviewers.has(reviewer as typeof provenance.calls[number]["reviewer"])) &&
     new Set(responseIdentifiers).size === responseIdentifiers.length &&
     provenance.calls.every((call) => call.inputDigestSha256 === provenance.evidenceDigestSha256) &&
-    provenance.evidenceDigestSha256 === recomputedDigest;
+    provenance.evidenceDigestSha256 === recomputedDigest && approvalBound;
 }
 
 async function verifySignature(provider: WebCryptoProvider, passport: Passport): Promise<boolean> {

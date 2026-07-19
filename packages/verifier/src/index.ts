@@ -5,7 +5,11 @@ import {
   verifyEventChain,
   verifyManifestSignature,
 } from "@flight-recorder/crypto";
-import { createEvidenceDigest } from "@flight-recorder/evidence";
+import {
+  createEvidenceDigest,
+  getReviewedEventPrefix,
+  humanSealApprovalPayloadSchema,
+} from "@flight-recorder/evidence";
 import { passportSchema, type Passport } from "@flight-recorder/schema";
 
 export type VerificationCheckName =
@@ -63,16 +67,34 @@ export function verifyPassport(input: unknown, artifactContents: VerificationArt
     let provenanceValid = passport.manifest.evidenceClassification === "synthetic-test-fixture" && provenance === undefined;
     let provenanceDetail = "Review provenance is not required for a synthetic cryptographic test fixture.";
     if (provenance !== undefined) {
-      const expectedReviewers = new Set(["requirements", "security", "tests", "evidence", "synthesis"]);
-      const actualReviewers = new Set(provenance.calls.map((call) => call.reviewer));
-      const responseIdentifiers = provenance.calls.map((call) => call.responseId);
-      const recomputedDigest = createEvidenceDigest(provenance.evidenceSource, passport.manifest.events).inputDigestSha256;
-      provenanceValid =
-        actualReviewers.size === expectedReviewers.size &&
-        [...expectedReviewers].every((reviewer) => actualReviewers.has(reviewer as typeof provenance.calls[number]["reviewer"])) &&
-        new Set(responseIdentifiers).size === responseIdentifiers.length &&
-        provenance.calls.every((call) => call.inputDigestSha256 === provenance.evidenceDigestSha256) &&
-        provenance.evidenceDigestSha256 === recomputedDigest;
+      try {
+        const expectedReviewers = new Set(["requirements", "security", "tests", "evidence", "synthesis"]);
+        const actualReviewers = new Set(provenance.calls.map((call) => call.reviewer));
+        const responseIdentifiers = provenance.calls.map((call) => call.responseId);
+        const reviewedEvents = getReviewedEventPrefix(passport.manifest.events);
+        const recomputedDigest = createEvidenceDigest(provenance.evidenceSource, reviewedEvents).inputDigestSha256;
+        const approvalEvent = passport.manifest.events[reviewedEvents.length];
+        const approval = approvalEvent === undefined ? undefined : humanSealApprovalPayloadSchema.parse(approvalEvent.payload);
+        const finalStateCommit = reviewedEvents.at(-1)?.payload.finalCommit;
+        const findingDecisionIds = passport.manifest.findingDecisions.map((decision) => decision.id);
+        const approvalBound = approval === undefined || (
+          approval.passportId === passport.manifest.passportId &&
+          approval.repositoryCommit === finalStateCommit &&
+          approval.repositoryCommit === passport.manifest.project.repositoryCommit &&
+          approval.evidenceDigestSha256 === provenance.evidenceDigestSha256 &&
+          approval.findingDecisionIds.length === findingDecisionIds.length &&
+          findingDecisionIds.every((identifier) => approval.findingDecisionIds.includes(identifier))
+        );
+        provenanceValid =
+          actualReviewers.size === expectedReviewers.size &&
+          [...expectedReviewers].every((reviewer) => actualReviewers.has(reviewer as typeof provenance.calls[number]["reviewer"])) &&
+          new Set(responseIdentifiers).size === responseIdentifiers.length &&
+          provenance.calls.every((call) => call.inputDigestSha256 === provenance.evidenceDigestSha256) &&
+          provenance.evidenceDigestSha256 === recomputedDigest &&
+          approvalBound;
+      } catch {
+        provenanceValid = false;
+      }
       provenanceDetail = provenanceValid
         ? "All five review receipts are uniquely bound to the recorded evidence digest."
         : "Review receipts are incomplete, duplicated, stale, or do not match the recorded evidence digest.";

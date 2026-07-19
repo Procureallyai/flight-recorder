@@ -1,6 +1,6 @@
 import type { EvidenceDigest } from "@flight-recorder/evidence";
 import { describe, expect, it, vi } from "vitest";
-import { ReviewClient, createReviewProvenance, evaluateSealGate, type ReviewRun } from "./index.js";
+import { ReviewClient, createReviewProvenance, evaluateSealGate, toPassportReviewFindings, type ReviewRun } from "./index.js";
 
 const digest: EvidenceDigest = {
   schemaVersion: "0.1.0",
@@ -107,6 +107,33 @@ describe("evaluateSealGate", () => {
     }).ready).toBe(false);
   });
 
+  it("keeps scoped medium warnings visible without letting a model verdict replace the deterministic gate", () => {
+    const reviews = structuredClone(readyReviews);
+    reviews.specialists[1]!.output.verdict = "warn";
+    reviews.specialists[1]!.output.findings.push({
+      id: "finding_warning",
+      title: "Production boundary remains",
+      severity: "medium",
+      status: "open",
+      claim: "The demonstration is intentionally single-process.",
+      rationale: "The supplied evidence states this limitation.",
+      evidenceRefs: ["ev_1"],
+      affectedCriteria: [],
+      remediation: "Use a shared transactional store before production deployment.",
+    });
+    reviews.synthesis.output.verdict = "not-ready";
+
+    expect(evaluateSealGate({
+      reviews,
+      evidenceDigestSha256: "a".repeat(64),
+      acceptanceCriteria: [{ id: "ac_1", status: "supported" }],
+      requiredTests: [{ evidenceId: "ev_test", passed: true }],
+      finalGitStateCaptured: true,
+      secretScanBlocked: false,
+      humanApproved: true,
+    })).toEqual({ ready: true, humanApproved: true, blockingReasons: [] });
+  });
+
   it.each([
     {
       name: "unsupported acceptance evidence",
@@ -185,5 +212,36 @@ describe("evaluateSealGate", () => {
     expect(provenance.evidenceDigestSha256).toBe("a".repeat(64));
     expect(provenance.calls.map((call) => call.reviewer)).toEqual(["requirements", "security", "tests", "evidence", "synthesis"]);
     expect(new Set(provenance.calls.map((call) => call.responseId)).size).toBe(5);
+  });
+
+  it("projects model findings into unique passport findings without weakening severity", () => {
+    const reviews = structuredClone(readyReviews);
+    reviews.specialists[1]!.output.findings.push({
+      id: "shared-id",
+      title: "Security warning",
+      severity: "medium",
+      status: "open",
+      claim: "A scoped warning remains.",
+      rationale: "The cited evidence supports the warning.",
+      evidenceRefs: ["ev_1", "ev_1"],
+      affectedCriteria: [],
+      remediation: "Retain the boundary and address it before production.",
+    });
+    reviews.synthesis.output.findings.push({
+      id: "shared-id",
+      title: "Synthesis blocker",
+      severity: "high",
+      status: "open",
+      claim: "A high finding remains.",
+      rationale: "The cited evidence supports the blocker.",
+      evidenceRefs: ["ev_1"],
+      affectedCriteria: [],
+      remediation: "Resolve before sealing.",
+    });
+
+    const findings = toPassportReviewFindings(reviews);
+    expect(findings.map((finding) => finding.id)).toEqual(["security-shared-id", "synthesis-shared-id"]);
+    expect(findings.map((finding) => finding.severity)).toEqual(["warning", "blocking"]);
+    expect(findings[0]?.evidenceIds).toEqual(["ev_1"]);
   });
 });

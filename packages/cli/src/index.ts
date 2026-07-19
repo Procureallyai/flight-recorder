@@ -15,11 +15,13 @@ import {
 import { importExecJsonLines } from "@flight-recorder/codex-adapter";
 import {
   assertFinalStateEvidenceEnvelope,
+  createReviewDigestFromExecCapture,
   createFinalArtifactSnapshot,
   finalStateEvidenceEnvelopeSchema,
   reviewableExecCaptureSchema,
 } from "@flight-recorder/evidence";
 import { assembleManifest } from "@flight-recorder/passport";
+import { evaluateSealGate, genuineReviewArtifactSchema, toPassportReviewFindings } from "@flight-recorder/review";
 import { evidenceEventSchema, type PassportManifest } from "@flight-recorder/schema";
 import { createLocalSession } from "@flight-recorder/session";
 import { verifyPassport } from "@flight-recorder/verifier";
@@ -284,7 +286,23 @@ async function finaliseDemoCapture(captureFile: string, workspaceRoot: string, o
   process.stdout.write(`Finalised ${events.length} sanitised events at committed Git state ${finalCommit.slice(0, 12)}.\n`);
 }
 
-async function assembleDemoCandidate(captureFile: string, outputFile: string): Promise<void> {
+const genuineAcceptanceCriteria = [
+  "Password-reset tokens expire and are single use.",
+  "Known and unknown accounts receive the same neutral public response.",
+  "Raw reset tokens never enter logs or audit events.",
+  "A safe audit event contains no direct account or token identifier.",
+  "Concurrent attempts produce exactly one successful redemption.",
+  "A safely failed reset action permits retry while the token remains valid.",
+  "Dependency failures preserve the neutral response and safe telemetry.",
+  "Deterministic automated tests cover every stated acceptance criterion.",
+] as const;
+
+async function assembleDemoCandidate(
+  captureFile: string,
+  outputFile: string,
+  reviewFile?: string,
+  approvalRequestFile?: string,
+): Promise<void> {
   const capture = reviewableExecCaptureSchema.parse(JSON.parse(await readFile(resolve(captureFile), "utf8")));
   if (!verifyEventChain(capture.events)) throw new Error("The finalised capture does not contain a valid event chain.");
   const events = z.array(evidenceEventSchema).parse(capture.events);
@@ -309,6 +327,41 @@ async function assembleDemoCandidate(captureFile: string, outputFile: string): P
     throw new Error("The finalised demonstration capture must bind all expected public demonstration artifacts.");
   }
   const createdAt = finalEvent.recordedAt;
+  const digest = createReviewDigestFromExecCapture(capture);
+  const reviewArtifact = reviewFile === undefined
+    ? undefined
+    : genuineReviewArtifactSchema.parse(JSON.parse(await readFile(resolve(reviewFile), "utf8")));
+  if (
+    reviewArtifact !== undefined &&
+    (reviewArtifact.eventCount !== events.length || reviewArtifact.evidenceDigestSha256 !== digest.inputDigestSha256)
+  ) {
+    throw new Error("The genuine review artifact is not bound to this finalised capture.");
+  }
+  const findings = reviewArtifact === undefined ? [] : toPassportReviewFindings(reviewArtifact.run);
+  const requiredCriterionFindingIds = ["AC-1", "AC-2", "AC-3-4", "AC-5", "AC-6", "AC-7", "AC-8"];
+  const requirementFindings = new Map(
+    reviewArtifact?.run.specialists
+      .find((review) => review.output.reviewer === "requirements")
+      ?.output.findings.map((finding) => [finding.id, finding]) ?? [],
+  );
+  const sealDecision = reviewArtifact === undefined
+    ? {
+        ready: false,
+        humanApproved: false,
+        blockingReasons: ["A genuine GPT-5.6 runtime review and explicit human approval are pending."],
+      }
+    : evaluateSealGate({
+        reviews: reviewArtifact.run,
+        evidenceDigestSha256: digest.inputDigestSha256,
+        acceptanceCriteria: requiredCriterionFindingIds.map((id) => ({
+          id,
+          status: requirementFindings.get(id)?.status === "resolved" ? "supported" as const : "unsupported" as const,
+        })),
+        requiredTests: digest.testResults.map((test) => ({ evidenceId: test.evidenceId, passed: test.status === "passed" })),
+        finalGitStateCaptured: true,
+        secretScanBlocked: false,
+        humanApproved: false,
+      });
   const manifest = assembleManifest({
     passportId: `frp_${sha256(`${finalEvent.hash}:${envelope.finalCommit}`).slice(0, 24)}`,
     createdAt,
@@ -316,13 +369,7 @@ async function assembleDemoCandidate(captureFile: string, outputFile: string): P
     project: { name: "Synthetic password-reset remediation", repositoryCommit: envelope.finalCommit },
     session: {
       task: "Repair the synthetic password-reset implementation using expiring, single-use tokens without account enumeration or unsafe token logging.",
-      acceptanceCriteria: [
-        "Password-reset tokens expire and are single use.",
-        "Known and unknown accounts receive the same neutral public response.",
-        "Raw reset tokens never enter logs or audit events.",
-        "A safe audit event contains no direct account or token identifier.",
-        "Automated tests cover both account states and the token contract.",
-      ],
+      acceptanceCriteria: [...genuineAcceptanceCriteria],
     },
     artifacts: envelope.artifacts.map((artifact) => {
       const expected = expectedPaths.get(artifact.path);
@@ -332,16 +379,40 @@ async function assembleDemoCandidate(captureFile: string, outputFile: string): P
       return { id: expected.id, path: artifact.path, mediaType: artifact.mediaType, content: artifact.content };
     }),
     events,
-    findings: [],
+    findings,
     findingDecisions: [],
-    sealDecision: {
-      ready: false,
-      humanApproved: false,
-      blockingReasons: ["A genuine GPT-5.6 runtime review and explicit human approval are pending."],
-    },
+    ...(reviewArtifact === undefined ? {} : { reviewProvenance: reviewArtifact.provenance }),
+    sealDecision,
   });
   await writeJsonAtomically(outputFile, manifest);
-  process.stdout.write(`Assembled unsealed genuine-session candidate ${manifest.passportId}.\n`);
+  if (reviewArtifact !== undefined) {
+    if (approvalRequestFile === undefined) throw new Error("A reviewed candidate requires a human approval request output path.");
+    const decisionFindings = findings.filter((finding) => finding.severity !== "informational");
+    await writeJsonAtomically(approvalRequestFile, {
+      schemaVersion: "0.1.0",
+      recordKind: "human-seal-approval-request",
+      status: "awaiting-human",
+      passportId: manifest.passportId,
+      repositoryCommit: envelope.finalCommit,
+      evidenceDigestSha256: digest.inputDigestSha256,
+      model: reviewArtifact.run.synthesis.model,
+      modelVerdict: reviewArtifact.run.synthesis.output.verdict,
+      reviewSummary: reviewArtifact.run.synthesis.output.summary,
+      narrowClaim: manifest.claim,
+      requiredFindingDecisionIds: decisionFindings.map((finding) => finding.id),
+      residualFindings: decisionFindings.map((finding) => ({
+        findingId: finding.id,
+        severity: finding.severity,
+        title: finding.title,
+        resolvedByReviewer: finding.resolved,
+      })),
+      limitations: [...new Set([
+        ...reviewArtifact.run.specialists.flatMap((review) => review.output.limitations),
+        ...reviewArtifact.run.synthesis.output.limitations,
+      ])],
+    });
+  }
+  process.stdout.write(`Assembled ${reviewArtifact === undefined ? "unreviewed" : "review-bound"} unsealed genuine-session candidate ${manifest.passportId}.\n`);
 }
 
 async function exportBundle(passportFile: string, artifactRoot: string, outputParent: string): Promise<void> {
@@ -421,6 +492,8 @@ async function main(argumentsAfterExecutable: string[]): Promise<void> {
     await finaliseDemoCapture(first, second, third);
   } else if (command === "assemble-demo-candidate" && first !== undefined && second !== undefined) {
     await assembleDemoCandidate(first, second);
+  } else if (command === "bind-demo-review" && first !== undefined && second !== undefined && third !== undefined && fourth !== undefined) {
+    await assembleDemoCandidate(first, third, second, fourth);
   } else if (command === "export-bundle" && first !== undefined && second !== undefined && third !== undefined) {
     await exportBundle(first, second, third);
   } else if (command === "verify-bundle" && first !== undefined) {
@@ -428,7 +501,7 @@ async function main(argumentsAfterExecutable: string[]): Promise<void> {
   } else if (command === "init-session" && first !== undefined) {
     await initialiseSession(first, argumentsAfterExecutable.includes("--json"));
   } else {
-    process.stderr.write("Usage: flight-recorder init-session <request.json> [--json] | generate-demo | verify <passport.json> <artifact-directory> [--json] | export-bundle <passport.json> <artifact-directory> <output-parent> | verify-bundle <passport-directory> [--json] | import-exec-json <raw.jsonl> <sanitised.json> [codex-version] [repository-root] | finalise-demo-capture <capture.json> <workspace-root> <finalised-capture.json> | assemble-demo-candidate <finalised-capture.json> <candidate.json>\n");
+    process.stderr.write("Usage: flight-recorder init-session <request.json> [--json] | generate-demo | verify <passport.json> <artifact-directory> [--json] | export-bundle <passport.json> <artifact-directory> <output-parent> | verify-bundle <passport-directory> [--json] | import-exec-json <raw.jsonl> <sanitised.json> [codex-version] [repository-root] | finalise-demo-capture <capture.json> <workspace-root> <finalised-capture.json> | assemble-demo-candidate <finalised-capture.json> <candidate.json> | bind-demo-review <finalised-capture.json> <review.json> <candidate.json> <approval-request.json>\n");
     process.exitCode = 2;
   }
 }

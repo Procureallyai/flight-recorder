@@ -1,5 +1,10 @@
 import type { EvidenceDigest } from "@flight-recorder/evidence";
-import { reviewProvenanceSchema, type ReviewProvenance } from "@flight-recorder/schema";
+import {
+  reviewFindingSchema as passportReviewFindingSchema,
+  reviewProvenanceSchema,
+  type ReviewFinding as PassportReviewFinding,
+  type ReviewProvenance,
+} from "@flight-recorder/schema";
 import { z } from "zod";
 
 const specialistNames = ["requirements", "security", "tests", "evidence"] as const;
@@ -51,6 +56,64 @@ export interface ReviewCall<T> {
 export interface ReviewRun {
   specialists: ReviewCall<SpecialistReview>[];
   synthesis: ReviewCall<SynthesisReview>;
+}
+
+function reviewCallSchema<T extends z.ZodTypeAny>(output: T) {
+  return z.object({
+    responseId: z.string().min(1).max(200),
+    createdAt: z.string().datetime({ offset: true }),
+    model: z.string().min(1).max(200),
+    inputDigestSha256: z.string().regex(/^[a-f0-9]{64}$/u),
+    output,
+  }).strict();
+}
+
+export const reviewRunSchema = z.object({
+  specialists: z.array(reviewCallSchema(specialistReviewSchema)).length(4),
+  synthesis: reviewCallSchema(synthesisReviewSchema),
+}).strict();
+
+export const genuineReviewArtifactSchema = z.object({
+  schemaVersion: z.literal("0.1.0"),
+  evidenceSource: z.literal("codex-exec-json"),
+  evidenceDigestSha256: z.string().regex(/^[a-f0-9]{64}$/u),
+  eventCount: z.number().int().positive(),
+  provenance: reviewProvenanceSchema,
+  run: reviewRunSchema,
+}).strict().superRefine((artifact, context) => {
+  const calls = [...artifact.run.specialists, artifact.run.synthesis];
+  if (
+    artifact.provenance.evidenceDigestSha256 !== artifact.evidenceDigestSha256 ||
+    calls.some((call) => call.inputDigestSha256 !== artifact.evidenceDigestSha256)
+  ) {
+    context.addIssue({ code: z.ZodIssueCode.custom, path: ["evidenceDigestSha256"], message: "Review artifact digests must bind one evidence digest." });
+  }
+});
+
+export type GenuineReviewArtifact = z.infer<typeof genuineReviewArtifactSchema>;
+
+export function toPassportReviewFindings(run: ReviewRun): PassportReviewFinding[] {
+  const reviews = [
+    ...run.specialists.map((call) => call.output),
+    run.synthesis.output,
+  ];
+  return reviews.flatMap((review) => review.findings.map((finding) => passportReviewFindingSchema.parse({
+    id: `${review.reviewer}-${finding.id}`,
+    reviewer: review.reviewer,
+    severity: finding.severity === "critical" || finding.severity === "high"
+      ? "blocking"
+      : finding.severity === "medium" || finding.severity === "low"
+        ? "warning"
+        : "informational",
+    title: finding.title,
+    detail: [
+      finding.claim,
+      finding.rationale,
+      finding.remediation.length > 0 ? `Recommended remediation: ${finding.remediation}` : "",
+    ].filter((value) => value.length > 0).join("\n\n"),
+    evidenceIds: [...new Set(finding.evidenceRefs)],
+    resolved: finding.status === "resolved",
+  })));
 }
 
 export function createReviewProvenance(evidenceSource: ReviewProvenance["evidenceSource"], run: ReviewRun): ReviewProvenance {
@@ -156,6 +219,13 @@ interface ResponsesApiOutput {
   output?: unknown;
 }
 
+function describeApiError(error: unknown): string {
+  if (typeof error !== "object" || error === null) return "unclassified";
+  const record = error as { type?: unknown; code?: unknown };
+  const parts = [record.type, record.code].filter((value): value is string => typeof value === "string" && value.length > 0);
+  return parts.length > 0 ? parts.join("/") : "unclassified";
+}
+
 function extractOutputText(response: ResponsesApiOutput): string {
   if (!Array.isArray(response.output)) {
     throw new Error("The Responses API result did not contain an output array.");
@@ -195,7 +265,7 @@ export class ReviewClient {
       throw new Error("An injected OpenAI API key is required.");
     }
     this.#apiKey = options.apiKey;
-    this.#model = options.model ?? "gpt-5.6";
+    this.#model = options.model ?? "gpt-5.6-sol";
     this.#endpoint = options.endpoint ?? "https://api.openai.com/v1/responses";
     this.#fetch = options.fetchImplementation ?? fetch;
     this.#maxOutputTokens = options.maxOutputTokens ?? 2_000;
@@ -258,7 +328,8 @@ export class ReviewClient {
 
       const raw = await response.json() as ResponsesApiOutput;
       if (!response.ok || raw.status !== "completed") {
-        throw new Error(`OpenAI review call did not complete successfully (HTTP ${response.status}).`);
+        // Error type and code are safe diagnostics; response messages are intentionally excluded from logs.
+        throw new Error(`OpenAI review call did not complete successfully (HTTP ${response.status}, ${describeApiError(raw.error)}).`);
       }
       if (typeof raw.id !== "string" || typeof raw.model !== "string") {
         throw new Error("OpenAI review call returned incomplete metadata.");
@@ -344,7 +415,9 @@ export function evaluateSealGate(input: SealGateInput): SealGateDecision {
     const openBlockers = [...input.reviews.specialists.flatMap((review) => review.output.findings), ...input.reviews.synthesis.output.findings]
       .filter((finding) => finding.status === "open" && (finding.severity === "high" || finding.severity === "critical"));
     if (openBlockers.length > 0) blockingReasons.push("High or critical review findings remain open.");
-    if (input.reviews.synthesis.output.verdict !== "ready") blockingReasons.push("The synthesis review is not ready.");
+    // Model judgement informs the deterministic gate but does not replace it. Only unsupported synthesis
+    // or open high/critical findings block sealing; scoped medium/low warnings remain visible in the passport.
+    if (input.reviews.synthesis.output.verdict === "unsupported") blockingReasons.push("The synthesis review is unsupported.");
   }
   if (input.acceptanceCriteria.length === 0) blockingReasons.push("At least one acceptance criterion is required.");
   else if (input.acceptanceCriteria.some((criterion) => criterion.status !== "supported")) blockingReasons.push("Every acceptance criterion must have supported evidence.");

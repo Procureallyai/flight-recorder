@@ -22,6 +22,17 @@ const inlineSecretPatterns: readonly RegExp[] = [
   /\b(?:api[-_]?key|authorization|password|private[-_]?key|secret|token)\s*[:=]\s*(?:"[^"]{12,}"|'[^']{12,}'|(?=[A-Za-z0-9._~+\/-]{12,}(?=$|[\s,;}\]]))(?=[A-Za-z0-9._~+\/-]*[0-9.~+\/-])[A-Za-z0-9._~+\/-]+)/gimu,
 ];
 
+// Final artifact bytes are cryptographically bound and cannot be redacted without invalidating the snapshot.
+// These deliberately high-confidence patterns therefore reject unsafe content before remote transmission.
+const finalArtifactSecretPatterns: readonly RegExp[] = [
+  /\bsk-[A-Za-z0-9_-]{16,}\b/u,
+  /\b(?:gh[opusr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,})\b/u,
+  /\bAKIA[0-9A-Z]{16}\b/u,
+  /-----BEGIN (?:OPENSSH |RSA |EC |DSA )?PRIVATE KEY-----[\s\S]*?-----END (?:OPENSSH |RSA |EC |DSA )?PRIVATE KEY-----/u,
+  /\bBearer\s+[A-Za-z0-9._~+\/-]{16,}=*/iu,
+  /\b(?:OPENAI_API_KEY|GITHUB_TOKEN|NPM_TOKEN|VERCEL_TOKEN)\s*=\s*["']?[^\s"']{12,}/iu,
+];
+
 export const captureSourceSchema = z.enum(["codex-app-server", "codex-exec-json", "fixture"]);
 
 export const evidenceDraftSchema = z.object({
@@ -158,11 +169,32 @@ export const finalStateEvidenceEnvelopeSchema = z.object({
   }
 });
 
+export const humanSealApprovalPayloadSchema = z.object({
+  recordKind: z.literal("human-seal-approval"),
+  decision: z.literal("approved-for-sealing"),
+  passportId: z.string().trim().min(1).max(200),
+  repositoryCommit: z.string().regex(/^(?:[a-f0-9]{40}|[a-f0-9]{64})$/u),
+  evidenceDigestSha256: z.string().regex(/^[a-f0-9]{64}$/u),
+  findingDecisionIds: z.array(z.string().trim().min(1).max(200)).max(1_000),
+  acknowledgedNarrowClaim: z.literal(true),
+  acknowledgedResidualLimitations: z.literal(true),
+  reason: z.string().trim().min(1).max(4_000),
+}).strict().superRefine((approval, context) => {
+  if (new Set(approval.findingDecisionIds).size !== approval.findingDecisionIds.length) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["findingDecisionIds"],
+      message: "Human seal approval finding decision identifiers must be unique.",
+    });
+  }
+});
+
 export type EvidenceDraft = z.infer<typeof evidenceDraftSchema>;
 export type EvidenceDigest = z.infer<typeof evidenceDigestSchema>;
 export type CaptureSource = z.infer<typeof captureSourceSchema>;
 export type FinalArtifactSnapshot = z.infer<typeof finalArtifactSnapshotSchema>;
 export type FinalStateEvidenceEnvelope = z.infer<typeof finalStateEvidenceEnvelopeSchema>;
+export type HumanSealApprovalPayload = z.infer<typeof humanSealApprovalPayloadSchema>;
 
 export interface SanitiseOptions {
   maxStringLength?: number;
@@ -255,6 +287,14 @@ export function createFinalArtifactSnapshot(path: string, mediaType: string, con
   });
 }
 
+function assertFinalArtifactsSafeForRemoteReview(envelope: FinalStateEvidenceEnvelope): void {
+  for (const artifact of envelope.artifacts) {
+    if (finalArtifactSecretPatterns.some((pattern) => pattern.test(artifact.content))) {
+      throw new Error(`Final artifact ${artifact.path} contains a high-confidence secret pattern and cannot be transmitted for remote review.`);
+    }
+  }
+}
+
 export function assertFinalStateEvidenceEnvelope(input: unknown, events: readonly EvidenceEvent[]): FinalStateEvidenceEnvelope {
   const envelope = finalStateEvidenceEnvelopeSchema.parse(input);
   const safeEvents = events.map((event) => evidenceEventSchema.parse(event));
@@ -286,6 +326,55 @@ export function verifyFinalStateEvidenceEnvelope(input: unknown, events: readonl
   } catch {
     return false;
   }
+}
+
+/**
+ * Returns the only evidence prefix that GPT-5.6 is allowed to have reviewed.
+ * A later human seal approval is independently hash-linked and signed, but is not
+ * retroactively included in the model review digest that it acknowledges.
+ */
+export function getReviewedEventPrefix(events: readonly EvidenceEvent[]): EvidenceEvent[] {
+  const safeEvents = events.map((event) => evidenceEventSchema.parse(event));
+  if (!verifyEventChain(safeEvents)) {
+    throw new Error("Reviewed evidence must contain a complete, valid event hash chain.");
+  }
+  if (new Set(safeEvents.map((event) => event.id)).size !== safeEvents.length) {
+    throw new Error("Reviewed evidence event identifiers must be unique.");
+  }
+
+  const finalStateRecords = safeEvents.filter(
+    (event) => event.type === "completion" && event.payload.recordKind === "final-git-state",
+  );
+  if (finalStateRecords.length !== 1) {
+    throw new Error("Reviewed evidence must contain exactly one explicit final Git-state evidence record.");
+  }
+  const finalStateRecord = finalStateRecords[0];
+  if (finalStateRecord === undefined) {
+    throw new Error("Reviewed evidence is missing its final Git-state evidence record.");
+  }
+
+  const finalStateEnvelope = assertFinalStateEvidenceEnvelope(finalStateRecord.payload, safeEvents);
+  const boundTest = safeEvents.find((event) => event.id === finalStateEnvelope.postCommitPassingTestEvidenceId);
+  if (boundTest === undefined || boundTest.index >= finalStateRecord.index) {
+    throw new Error("Reviewed evidence must record its bound post-commit passing test before its final Git-state evidence record.");
+  }
+
+  const tail = safeEvents.slice(finalStateRecord.index + 1);
+  if (tail.length > 1) {
+    throw new Error("Reviewed evidence may contain only one typed human seal approval after its final Git-state record.");
+  }
+  const approvalEvent = tail[0];
+  if (approvalEvent !== undefined) {
+    if (approvalEvent.type !== "approval") {
+      throw new Error("Evidence after the final Git-state record must be a typed human seal approval.");
+    }
+    const approval = humanSealApprovalPayloadSchema.parse(approvalEvent.payload);
+    if (approval.repositoryCommit !== finalStateEnvelope.finalCommit) {
+      throw new Error("Human seal approval must reference the final Git-state repository commit.");
+    }
+  }
+
+  return safeEvents.slice(0, finalStateRecord.index + 1);
 }
 
 function categoryFor(event: EvidenceEvent, events: readonly EvidenceEvent[]): EvidenceDigest["transmissionCategories"][number] | undefined {
@@ -355,30 +444,24 @@ export function createReviewDigestFromExecCapture(input: unknown): EvidenceDiges
     throw new Error("A reviewable Codex capture must contain a complete, valid event hash chain.");
   }
 
-  const finalStateRecords = capture.events.filter(
-    (event) => event.type === "completion" && event.payload.recordKind === "final-git-state",
-  );
-  if (finalStateRecords.length !== 1) {
-    throw new Error("A reviewable Codex capture must contain exactly one explicit final Git-state evidence record.");
+  const reviewedEvents = getReviewedEventPrefix(capture.events);
+  const finalStateRecord = reviewedEvents.at(-1);
+  if (finalStateRecord === undefined || finalStateRecord.payload.recordKind !== "final-git-state") {
+    throw new Error("A reviewable Codex capture is missing its authoritative final Git-state evidence record.");
   }
-  const finalStateRecord = finalStateRecords[0];
-  if (finalStateRecord === undefined) {
-    throw new Error("A reviewable Codex capture is missing its final Git-state evidence record.");
-  }
-  if (capture.events.at(-1)?.id !== finalStateRecord.id) {
-    throw new Error("A reviewable Codex capture must end with its authoritative final Git-state evidence record.");
-  }
-  const finalStateEnvelope = assertFinalStateEvidenceEnvelope(finalStateRecord.payload, capture.events);
-  const boundTest = capture.events.find((event) => event.id === finalStateEnvelope.postCommitPassingTestEvidenceId);
+  const finalStateEnvelope = assertFinalStateEvidenceEnvelope(finalStateRecord.payload, reviewedEvents);
+  assertFinalArtifactsSafeForRemoteReview(finalStateEnvelope);
+  const boundTest = reviewedEvents.find((event) => event.id === finalStateEnvelope.postCommitPassingTestEvidenceId);
   if (boundTest === undefined || boundTest.index >= finalStateRecord.index) {
     throw new Error("A reviewable Codex capture must record its bound post-commit passing test before its final Git-state evidence record.");
   }
 
-  const safeEvents = capture.events.map((event) => evidenceEventSchema.parse({
+  const safeEvents = reviewedEvents.map((event) => evidenceEventSchema.parse({
     ...event,
     // Apply a second mandatory redaction boundary immediately before remote transmission.
     summary: sanitiseEvidenceValue(event.summary),
-    payload: sanitiseEvidenceValue(event.payload),
+    // The validated final snapshot must remain byte-for-byte identical to its bound size and digest.
+    payload: event.id === finalStateRecord.id ? finalStateEnvelope : sanitiseEvidenceValue(event.payload),
   }));
   return createEvidenceDigest(capture.source, safeEvents);
 }
