@@ -34,7 +34,7 @@ The cryptographic claim is deliberately narrow: a valid passport shows that the 
 
 | Surface | Evidence-backed status |
 |---|---|
-| Local repository | Core build, 113 product tests, 10 demonstration tests, canonical-truth validation, production web build, and public-file secret scan pass. |
+| Local repository | Core build, 114 product tests, 10 demonstration tests, canonical-truth validation, production web build, and public-file secret scan pass. |
 | Local session | Command-line initialisation, the authenticated loopback bridge boundary, Codex App Server initialisation, ephemeral thread creation, and a bounded live turn with sanitised observable-event capture are verified against desktop-bundled `codex-cli 0.145.0-alpha.18`. No command or file change occurred in the live probe. Live approval exchange remains unverified. |
 | Genuine Codex capture | Verified through the JavaScript Object Notation fallback. Raw capture is private; the public fixture is sanitised. |
 | GPT-5.6 runtime | Four real specialist calls and one synthesis call completed with `gpt-5.6-sol`. The hardened evidence-bound review returned `not-ready` with 26 findings; a post-remediation rerun remains required. |

@@ -11,21 +11,23 @@
 
 - Workspace: `LOCAL_HOME/Documents/Flight Recorder Codex Build Week`
 - Git repository exists on `main` with dated Build Week provenance commits.
-- Commit `258f23c` checkpoints the approved verification split view and ten-test password-reset lifecycle remediation after the App Server, bridge, signed-human-decision, and evidence-normalisation checkpoints.
+- Commit `2e420c6` checkpoints browser-native verification and clean-commit final-state evidence binding after the approved verification split view and ten-test lifecycle remediation at `258f23c`.
 - The four supplied handoff documents are stored under `docs/handoff/` with matching source hashes.
 - Canonical project and skill scaffolding is being created.
 - The TypeScript workspace now contains schema, cryptography, evidence, verifier, and command-line packages.
 - A deterministic public demonstration passport and synthetic password-reset artifacts exist under `fixtures/demo-passport/`.
-- `pnpm test` passes 113 product tests with loopback permission. The new coverage includes browser-native verification, final-state envelope validation, and finalisation and candidate-binding regressions in addition to the existing cryptographic, evidence, review, capture, bridge, session, bundle, and command-line checks.
+- `pnpm test` passes 114 product tests with loopback permission. The new coverage includes browser-native verification, final-state envelope validation, finalisation and candidate-binding regressions, and source-aware literal-secret redaction in addition to the existing cryptographic, evidence, review, capture, bridge, session, bundle, and command-line checks.
 - `pnpm verify` passes all eight command-line checks against the generated demonstration fixture.
 - The evidence layer now creates redacted hash-linked events and a deterministic review digest with explicit transmission categories.
 - The Responses Application Programming Interface client completed four strict specialist reviews followed by synthesis with `gpt-5.6-sol`, `store: false`, bounded output, no tools, explicit untrusted-data boundaries, and securely injected credentials. The hardened genuine evidence-bound rerun returned `not-ready` with 26 findings.
 - A version-pinned `codex exec --json` importer now drops reasoning, retains completed observable events, pseudonymises identifiers, redacts and bounds payloads, and fails visibly on malformed or incomplete captures.
 - A genuine `codex-cli 0.145.0-alpha.18` remediation capture completed with exit code 0. Nineteen sanitised events imported with no issues, and the synthetic password-reset tests expanded from 1 to 6 passing tests.
+- A second genuine `gpt-5.6-terra` Codex run inspected the post-remediation workspace, executed all 10 tests, and reported scoped clean Git and final file digests without modifying the demonstration. Twelve sanitised observable events imported to `fixtures/demo-session/capture-post-remediation.json` with zero issues; its raw JavaScript Object Notation Lines capture remains private and gitignored.
+- A redaction regression discovered during import was fixed: source-code expressions such as `token = dependencies.tokenStore.issue(...)` and synthetic identifier constants are preserved, while literal secret assignments remain redacted. Focused evidence tests cover both cases.
 - The raw capture remains private and gitignored. The public fixture records approval coverage as `not-observed` and contains no raw reasoning or absolute local path.
 - `pnpm candidate:generate` assembles a genuine-session passport candidate from the 19 events and two final artifacts at commit `75c0e45`. It is intentionally unsealed with no model findings, `ready: false`, and `humanApproved: false`.
-- Portable-path, count, and file-size limits now protect schema, command-line verification, deterministic directory bundles, and the final-state evidence envelope. The product suite passes 113 tests, plus 10 demonstration-workspace tests.
-- The public-file secret scan passed across 126 tracked files without printing candidate values. Full production and development dependency audits reported no known vulnerabilities.
+- Portable-path, count, and file-size limits now protect schema, command-line verification, deterministic directory bundles, and the final-state evidence envelope. The product suite passes 114 tests, plus 10 demonstration-workspace tests.
+- The public-file secret scan passed across 127 tracked and untracked public files without printing candidate values. Full production and development dependency audits reported no known vulnerabilities.
 - The bridge binds only to `127.0.0.1`, uses a one-time fragment pairing link and restricted session cookie, rejects non-loopback origins, and exposes no generic command endpoint. Live executable preflight matches `codex-cli 0.145.0-alpha.18`.
 - The App Server client launches without a shell, correlates bounded requests, suppresses recognised reasoning notifications, supports explicit command and file approval responses, and fails closed on malformed output. A second normalisation boundary validates authoritative observable events, applies redaction and pseudonymisation, and fails closed on unsupported or unresolved state.
 - Direct local proof covers protocol initialisation, ephemeral thread creation, and a bounded live no-command turn. The hardened normaliser produced four sanitised observable events with zero issues and no command or file-change evidence. Approval mapping is fixture-tested; live approval exchange remains unverified, and typed permission approvals are intentionally unsupported.
@@ -72,11 +74,11 @@
 
 ## Immediate work
 
-1. Generate a new genuine Codex capture of the remediated state, commit its public sanitised form, and run the implemented final-state finaliser against the clean committed demonstration scope.
+1. Commit the sanitised post-remediation capture and redaction regression, then run the implemented final-state finaliser against the clean committed demonstration scope.
 2. Rerun the bounded review after remediation, bind the result to Git state and human decisions, and generate the signed judge passport.
 3. Create the public personal GitHub repository, activate the approved Vercel Pro trial, deploy, and verify the no-login route twice.
 4. Produce the final video, screenshots, release documentation, `/feedback` Session ID, and remaining factual Devpost fields.
 
 ## Next clean action
 
-Generate and finalise the genuine post-remediation capture, then rerun the review without exposing the key.
+Commit and finalise the genuine post-remediation capture, then rerun the review without exposing the key.

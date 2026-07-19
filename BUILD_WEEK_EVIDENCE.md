@@ -38,12 +38,13 @@ The repository history and this primary Codex task identify the work performed d
 | `3b2cc70` | Bounded Codex App Server transport with live protocol initialisation and ephemeral-thread proof against the desktop-bundled binary. |
 | `04f4400` | Fail-closed observable App Server event normalisation, exact test classification reuse, and a successful bounded live-turn probe. |
 | `258f23c` | Approved Product Design option 3 verification split view, ten-test password-reset lifecycle remediation, and local design-quality evidence. |
+| `2e420c6` | Browser-native passport verification, clean-commit final-state evidence binding, and tested capture finalisation and immutable candidate assembly. |
 
 ## Codex contribution
 
 Codex has been used in this primary task for protocol research, architecture, schema design, cryptographic implementation, evidence processing, command-line tooling, tests, security remediation, documentation, browser-assisted Devpost preparation, and Product Design exploration.
 
-A separate genuine `codex exec --json` run remediated the synthetic password-reset workspace. The public fixture retains 19 observable events while excluding raw reasoning and private identifiers.
+The first genuine `codex exec --json` run remediated the synthetic password-reset workspace. Its public fixture retains 19 observable events while excluding raw reasoning and private identifiers. A second genuine post-remediation run inspected the committed implementation, executed all 10 deterministic tests, collected scoped Git and digest evidence, and imported 12 sanitised observable events with zero issues. The raw capture remains private and gitignored.
 
 ## Human decisions
 

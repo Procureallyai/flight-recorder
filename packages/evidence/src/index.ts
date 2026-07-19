@@ -19,7 +19,7 @@ const inlineSecretPatterns: readonly RegExp[] = [
   /\b(?:gh[opusr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,})\b/gu,
   /-----BEGIN (?:OPENSSH |RSA |EC |DSA )?PRIVATE KEY-----[\s\S]*?-----END (?:OPENSSH |RSA |EC |DSA )?PRIVATE KEY-----/gu,
   /\b(?:OPENAI_API_KEY|GITHUB_TOKEN|NPM_TOKEN|VERCEL_TOKEN)\s*=\s*[^\s]+/giu,
-  /\b(?:api[-_]?key|authorization|password|private[-_]?key|secret|token)\s*[:=]\s*(?:"[^"]{12,}"|'[^']{12,}'|[A-Za-z0-9._~+\/-]{12,})/giu,
+  /\b(?:api[-_]?key|authorization|password|private[-_]?key|secret|token)\s*[:=]\s*(?:"[^"]{12,}"|'[^']{12,}'|(?=[A-Za-z0-9._~+\/-]{12,}(?=$|[\s,;}\]]))(?=[A-Za-z0-9._~+\/-]*[0-9.~+\/-])[A-Za-z0-9._~+\/-]+)/gimu,
 ];
 
 export const captureSourceSchema = z.enum(["codex-app-server", "codex-exec-json", "fixture"]);

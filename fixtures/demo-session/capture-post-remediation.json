@@ -1,0 +1,197 @@
+{
+  "source": "codex-exec-json",
+  "testedCodexVersion": "codex-cli 0.145.0-alpha.18",
+  "complete": true,
+  "approvalCoverage": "not-observed",
+  "issues": [],
+  "events": [
+    {
+      "id": "ev_000001",
+      "recordedAt": "2026-07-19T03:05:59.238Z",
+      "type": "task",
+      "summary": "A non-interactive Codex capture thread started.",
+      "payload": {
+        "threadReference": "sha256:98533dda2e7f8119f0cff1a02dd6ffcfc7377c48bc1bc9d3f263de7e3c9e4769"
+      },
+      "index": 0,
+      "previousHash": null,
+      "hash": "7b0d21a63f49ded1bf574115498e2235991038fef95a675c15230d6962f6466f"
+    },
+    {
+      "id": "ev_000002",
+      "recordedAt": "2026-07-19T03:05:59.240Z",
+      "type": "completion",
+      "summary": "An unknown completed item was retained as envelope metadata only.",
+      "payload": {
+        "itemType": "error",
+        "sourceReference": "sha256:2f58b7d7725eac66c32ab446bb53a188688dc1d76fcc40cf31f5cf6509181ce8",
+        "topLevelKeys": [
+          "id",
+          "message",
+          "type"
+        ]
+      },
+      "index": 1,
+      "previousHash": "7b0d21a63f49ded1bf574115498e2235991038fef95a675c15230d6962f6466f",
+      "hash": "bd4f14f299942dad7e12964011119eec3b66de92ade49eb5799ee7d9a03ad881"
+    },
+    {
+      "id": "ev_000003",
+      "recordedAt": "2026-07-19T03:05:59.240Z",
+      "type": "task",
+      "summary": "A Codex turn started.",
+      "payload": {},
+      "index": 2,
+      "previousHash": "bd4f14f299942dad7e12964011119eec3b66de92ade49eb5799ee7d9a03ad881",
+      "hash": "2ffd009982c60716fc2231b68c2219b93055af202b7a0f731dec52d1d3e23fe4"
+    },
+    {
+      "id": "ev_000004",
+      "recordedAt": "2026-07-19T03:05:59.240Z",
+      "type": "completion",
+      "summary": "An unknown completed item was retained as envelope metadata only.",
+      "payload": {
+        "itemType": "error",
+        "sourceReference": "sha256:32012c4c32888ee2c4ba4331e3c77ece9acd811a4b3abb708363123591abfea2",
+        "topLevelKeys": [
+          "id",
+          "message",
+          "type"
+        ]
+      },
+      "index": 3,
+      "previousHash": "2ffd009982c60716fc2231b68c2219b93055af202b7a0f731dec52d1d3e23fe4",
+      "hash": "f2b3ce4e99a396d672524ac122a1732619abf1551439921dbe14a998e111b3f0"
+    },
+    {
+      "id": "ev_000005",
+      "recordedAt": "2026-07-19T03:05:59.240Z",
+      "type": "completion",
+      "summary": "Codex completed an observable agent message.",
+      "payload": {
+        "text": "I’ll repair the isolated password-reset implementation and its tests only, then run the full workspace test suite and provide the requested file, Git, and digest evidence.",
+        "sourceReference": "sha256:6a9722cdf589a2a068832c955a8253b9df87983501c03dd92e95debae1f409da"
+      },
+      "index": 4,
+      "previousHash": "f2b3ce4e99a396d672524ac122a1732619abf1551439921dbe14a998e111b3f0",
+      "hash": "8c99444a407cdc3c602f2db84c6932f0e0a72172439106af6d57c58025803a83"
+    },
+    {
+      "id": "ev_000006",
+      "recordedAt": "2026-07-19T03:05:59.241Z",
+      "type": "command",
+      "summary": "A command execution completed.",
+      "payload": {
+        "command": "/bin/zsh -lc \"pwd && rg --files -g '\"'!*node_modules*'\"' -g '\"'!*.lock'\"' | sed -n '1,160p'\"",
+        "cwd": ".",
+        "status": "completed",
+        "exitCode": 0,
+        "output": "<repository>\nsrc/password-reset.ts\npackage.json\nREADME.md\ntest/password-reset.test.ts\nCODEX_TASK.md\n",
+        "manuallyConfirmedTest": false,
+        "sourceReference": "sha256:4a317b6972e2f1834050485420bd71fe6fc2d87cd25d572cb4b8b327b37bc030"
+      },
+      "index": 5,
+      "previousHash": "8c99444a407cdc3c602f2db84c6932f0e0a72172439106af6d57c58025803a83",
+      "hash": "56dcb03cc71f4a1bf2ab6ab14cb76c9262b47fdadefec765f277f53d783e3dd5"
+    },
+    {
+      "id": "ev_000007",
+      "recordedAt": "2026-07-19T03:05:59.241Z",
+      "type": "command",
+      "summary": "A command execution completed.",
+      "payload": {
+        "command": "/bin/zsh -lc \"sed -n '1,260p' src/password-reset.ts && sed -n '1,320p' test/password-reset.test.ts && sed -n '1,160p' package.json && sed -n '1,240p' CODEX_TASK.md\"",
+        "cwd": ".",
+        "status": "completed",
+        "exitCode": 0,
+        "output": "export interface PasswordResetTokenIssuer {\n  issue(accountId: string): string;\n}\n\nexport interface ResetDependencies {\n  findAccountByEmail(email: string): Promise<{ id: string } | undefined>;\n  tokenStore: PasswordResetTokenIssuer;\n  sendResetInstructions(accountId: string, token: string): Promise<void>;\n  audit(event: string, detail: Record<string, string>): Promise<void>;\n  log(message: string): void;\n}\n\nexport interface PasswordResetTokenStoreOptions {\n  clock: () => number;\n  generateToken: () => string;\n  expiresInMilliseconds?: number;\n}\n\ntype TokenState = \"active\" | \"redeeming\" | \"consumed\";\n\ninterface TokenRecord {\n  accountId: string;\n  expiresAt: number;\n  state: TokenState;\n}\n\nconst FIFTEEN_MINUTES_IN_MILLISECONDS = 15 * 60 * 1_000;\n\n/**\n * An expiring token store for this single-process demonstration workspace.\n *\n * The state transition that reserves a token is synchronous and therefore\n * atomic only within one JavaScript process. A production deployment with\n * multiple processes or hosts needs a persistent shared store with a\n * transaction or atomic compare-and-set operation.\n */\nexport class InMemoryPasswordResetTokenStore implements PasswordResetTokenIssuer {\n  readonly #clock: () => number;\n  readonly #generateToken: () => string;\n  readonly #expiresInMilliseconds: number;\n  readonly #records = new Map<string, TokenRecord>();\n\n  constructor(options: PasswordResetTokenStoreOptions) {\n    if (\n      options.expiresInMilliseconds !== undefined &&\n      (!Number.isFinite(options.expiresInMilliseconds) || options.expiresInMilliseconds <= 0)\n    ) {\n      throw new RangeError(\"Token lifetime must be a positive finite number.\");\n    }\n\n    this.#clock = options.clock;\n    this.#generateToken = options.generateToken;\n    this.#expiresInMilliseconds =\n      options.expiresInMilliseconds ?? FIFTEEN_MINUTES_IN_MILLISECONDS;\n  }\n\n  issue(accountId: string): string {\n    const token = this.#generateToken();\n\n    if (token.length === 0) {\n      throw new Error(\"Token generator returned an empty token.\");\n    }\n    if (this.#records.has(token)) {\n      throw new Error(\"Token generator returned a duplicate token.\");\n    }\n\n    this.#records.set(token, {\n      accountId,\n      expiresAt: this.#clock() + this.#expiresInMilliseconds,\n      state: \"active\",\n    });\n\n    return token;\n  }\n\n  async redeem(token: string, resetAction: (accountId: string) => Promise<void>): Promise<boolean> {\n    const record = this.#records.get(token);\n\n    if (record === undefined) {\n      return false;\n    }\n\n    if (this.#clock() >= record.expiresAt) {\n      this.#records.delete(token);\n      return false;\n    }\n\n    if (record.state !== \"active\") {\n      return false;\n    }\n\n    // Shape: active -> redeeming before the first await, reserving one attempt in this process.\n    record.state = \"redeeming\";\n\n    try {\n      await resetAction(record.accountId);\n      record.state = \"consumed\";\n      return true;\n    } catch (error) {\n      // A failed reset has made no durable change, so a still-valid token may be retried.\n      record.state = \"active\";\n      throw error;\n    }\n  }\n}\n\nconst PUBLIC_RESPONSE = Object.freeze({\n  accepted: true,\n  message: \"If an account matches that email address, reset instructions will be sent.\",\n});\n\nconst SAFE_LOG_MESSAGE = \"Password reset request accepted.\";\nconst SAFE_AUDIT_EVENT = \"password_reset_request_accepted\";\nconst SAFE_AUDIT_DETAIL = Object.freeze({ result: \"accepted\" });\n\nexport async function requestPasswordReset(email: string, dependencies: ResetDependencies) {\n  try {\n    const account = await dependencies.findAccountByEmail(email);\n\n    if (account !== undefined) {\n      const token = dependencies.tokenStore.issue(account.id);\n      await dependencies.sendResetInstructions(account.id, token);\n    }\n  } catch {\n    // Lookup, issuance, and delivery failures must not create an enumeration signal.\n  }\n\n  try {\n    dependencies.log(SAFE_LOG_MESSAGE);\n  } catch {\n    // Observability failures do not change the public response or expose private context.\n  }\n\n  try {\n    await dependencies.audit(SAFE_AUDIT_EVENT, SAFE_AUDIT_DETAIL);\n  } catch {\n    // Audit transport failures remain private and do not prevent the neutral response.\n  }\n\n  return PUBLIC_RESPONSE;\n}\nimport assert from \"node:assert/strict\";\nimport test from \"node:test\";\nimport {\n  InMemoryPasswordResetTokenStore,\n  requestPasswordReset,\n  type PasswordResetTokenIssuer,\n  type ResetDependencies,\n} from \"../src/password-reset.ts\";\n\nconst SYNTHETIC_EMAIL = \"known@example.test\";\nconst SYNTHETIC_ACCOUNT_ID = \"account-synthetic-001\";\nconst SYNTHETIC_TOKEN = \"token-synthetic-001\";\n\nfunction createTokenStore(\n  options: {\n    now?: number;\n    token?: string;\n    expiresInMilliseconds?: number;\n  } = {},\n) {\n  let now = options.now ?? 1_000_000;\n  const store = new InMemoryPasswordResetTokenStore({\n    clock: () => now,\n    generateToken: () => options.token ?? SYNTHETIC_TOKEN,\n    expiresInMilliseconds: options.expiresInMilliseconds,\n  });\n\n  return {\n    store,\n    setNow(value: number) {\n      now = value;\n    },\n  };\n}\n\nfunction createDependencies(overrides: Partial<ResetDependencies> = {}): ResetDependencies {\n  const { store } = createTokenStore();\n  const dependencies: ResetDependencies = {\n    async findAccountByEmail() {\n      return { id: SYNTHETIC_ACCOUNT_ID };\n    },\n    tokenStore: store,\n    async sendResetInstructions() {},\n    async audit() {},\n    log() {},\n  };\n\n  return { ...dependencies, ...overrides };\n}\n\nconst neutralResponse = {\n  accepted: true,\n  message: \"If an account matches that email address, reset instructions will be sent.\",\n};\n\ntest(\"known accounts receive reset instructions and a neutral response\", async () => {\n  const deliveries: Array<{ accountId: string; token: string }> = [];\n  const result = await requestPasswordReset(\n    SYNTHETIC_EMAIL,\n    createDependencies({\n      async sendResetInstructions(accountId, token) {\n        deliveries.push({ accountId, token });\n      },\n    }),\n  );\n\n  assert.deepEqual(result, neutralResponse);\n  assert.deepEqual(deliveries, [{ accountId: SYNTHETIC_ACCOUNT_ID, token: SYNTHETIC_TOKEN }]);\n});\n\ntest(\"unknown accounts receive the same neutral response without issuing or delivering\", async () => {\n  let issueCount = 0;\n  let deliveryCount = 0;\n  const tokenStore: PasswordResetTokenIssuer = {\n    issue() {\n      issueCount += 1;\n      return \"token-synthetic-unexpected\";\n    },\n  };\n\n  const unknownResult = await requestPasswordReset(\n    \"unknown@example.test\",\n    createDependencies({\n      async findAccountByEmail() {\n        return undefined;\n      },\n      tokenStore,\n      async sendResetInstructions() {\n        deliveryCount += 1;\n      },\n    }),\n  );\n  const knownResult = await requestPasswordReset(SYNTHETIC_EMAIL, createDependencies());\n\n  assert.deepEqual(unknownResult, neutralResponse);\n  assert.deepEqual(unknownResult, knownResult);\n  assert.equal(issueCount, 0);\n  assert.equal(deliveryCount, 0);\n});\n\ntest(\"complete telemetry is identifier-free and identical for known and unknown accounts\", async () => {\n  async function captureTelemetry(email: string, accountExists: boolean) {\n    const logs: string[] = [];\n    const audits: Array<{ event: string; detail: Record<string, string> }> = [];\n\n    await requestPasswordReset(\n      email,\n      createDependencies({\n        async findAccountByEmail() {\n          return accountExists ? { id: SYNTHETIC_ACCOUNT_ID } : undefined;\n        },\n        log(message) {\n          logs.push(message);\n        },\n        async audit(event, detail) {\n          audits.push({ event, detail });\n        },\n      }),\n    );\n\n    return { logs, audits };\n  }\n\n  const knownTelemetry = await captureTelemetry(SYNTHETIC_EMAIL, true);\n  const unknownTelemetry = await captureTelemetry(\"unknown@example.test\", false);\n\n  assert.deepEqual(knownTelemetry, {\n    logs: [\"Password reset request accepted.\"],\n    audits: [{ event: \"password_reset_request_accepted\", detail: { result:\n[TRUNCATED]",
+        "manuallyConfirmedTest": false,
+        "sourceReference": "sha256:57dbfc296665f072254d15345fb3a2bbf457ae03cbb6ee8f6020e8f11d4b056b"
+      },
+      "index": 6,
+      "previousHash": "56dcb03cc71f4a1bf2ab6ab14cb76c9262b47fdadefec765f277f53d783e3dd5",
+      "hash": "14baf686650632c7a5c5995270242c9ec07fd0eb2f4fe9a20d3a086ab8efd2cb"
+    },
+    {
+      "id": "ev_000008",
+      "recordedAt": "2026-07-19T03:05:59.242Z",
+      "type": "command",
+      "summary": "A command execution completed.",
+      "payload": {
+        "command": "/bin/zsh -lc \"sed -n '300,520p' test/password-reset.test.ts && git status --short -- src/password-reset.ts test/password-reset.test.ts CODEX_TASK.md && npm test\"",
+        "cwd": ".",
+        "status": "completed",
+        "exitCode": 0,
+        "output": "\n> flight-recorder-synthetic-password-reset@0.0.0 test\n> node --experimental-strip-types --test test/*.test.ts\n\n✔ known accounts receive reset instructions and a neutral response (1.820833ms)\n✔ unknown accounts receive the same neutral response without issuing or delivering (0.160125ms)\n✔ complete telemetry is identifier-free and identical for known and unknown accounts (8.126458ms)\n✔ tokens work before expiry and are rejected exactly at the expiry boundary (0.152334ms)\n✔ a successfully redeemed token rejects every repeated redemption (0.100042ms)\n✔ concurrent redemption reserves the token before awaiting the reset action (0.130916ms)\n✔ a failed reset action does not consume the token and permits a later retry (0.447958ms)\n✔ lookup, issuance, and delivery failures retain the neutral response and safe telemetry (0.291584ms)\n✔ logging and audit failures are isolated and retain the neutral response (0.169625ms)\n✔ the default token lifetime is fifteen minutes (0.124333ms)\nℹ tests 10\nℹ suites 0\nℹ pass 10\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 166.106584\n",
+        "manuallyConfirmedTest": false,
+        "sourceReference": "sha256:9462965f2002ffb6e5ebf84d633936910b584441932a9dee26f8497eb9d82c75"
+      },
+      "index": 7,
+      "previousHash": "14baf686650632c7a5c5995270242c9ec07fd0eb2f4fe9a20d3a086ab8efd2cb",
+      "hash": "170b5a26288517b4586b600d51b3c0833559d3f6bbe92ec884a30b4035187c43"
+    },
+    {
+      "id": "ev_000009",
+      "recordedAt": "2026-07-19T03:05:59.242Z",
+      "type": "completion",
+      "summary": "Codex completed an observable agent message.",
+      "payload": {
+        "text": "The workspace already contains the required injected token store, neutral response handling, safe telemetry, and deterministic tests. The complete suite is passing; I’m collecting the requested scoped Git and digest evidence without changing files.",
+        "sourceReference": "sha256:919299b8b8860441036a08b8ce4a6486ee1712366afaec2286c8579387359f27"
+      },
+      "index": 8,
+      "previousHash": "170b5a26288517b4586b600d51b3c0833559d3f6bbe92ec884a30b4035187c43",
+      "hash": "4b05fd7ad3db8f9fee323659412030c0a880c2f1785ae0c30314e222edd68a5d"
+    },
+    {
+      "id": "ev_000010",
+      "recordedAt": "2026-07-19T03:05:59.242Z",
+      "type": "command",
+      "summary": "A command execution completed.",
+      "payload": {
+        "command": "/bin/zsh -lc \"git status --short -- src/password-reset.ts test/password-reset.test.ts CODEX_TASK.md\nshasum -a 256 src/password-reset.ts test/password-reset.test.ts\nprintf 'source_lines='; wc -l < src/password-reset.ts\nprintf 'test_lines='; wc -l < test/password-reset.test.ts\"",
+        "cwd": ".",
+        "status": "completed",
+        "exitCode": 0,
+        "output": "661a018e0aadfce268fe7d864554c36e0313e084359cb0b4f8b313eea3589590  src/password-reset.ts\n13544b2822762a86cc2d02398420a9b5155a0813ebecdfe3e44eee1bb880ac13  test/password-reset.test.ts\nsource_lines=     141\ntest_lines=     331\n",
+        "manuallyConfirmedTest": false,
+        "sourceReference": "sha256:3f21b4ea2fbe67cd553dbcfae108e6632bdb6c655218a1e4ad5a543cc24800f4"
+      },
+      "index": 9,
+      "previousHash": "4b05fd7ad3db8f9fee323659412030c0a880c2f1785ae0c30314e222edd68a5d",
+      "hash": "cdb23224d96ca2eda03f46f55a51f79402a1113327f2754b33ce9797fecff72a"
+    },
+    {
+      "id": "ev_000011",
+      "recordedAt": "2026-07-19T03:05:59.242Z",
+      "type": "completion",
+      "summary": "Codex completed an observable agent message.",
+      "payload": {
+        "text": "The implementation already satisfies the requested remediation criteria; no files required changes.\n\n- Test command: `npm test`\n- Result: 10 passed, 0 failed\n\nFinal files:\n\n- `src/password-reset.ts`\n  - Secure Hash Algorithm 256-bit: `661a018e0aadfce268fe7d864554c36e0313e084359cb0b4f8b313eea3589590`\n- `test/password-reset.test.ts`\n  - Secure Hash Algorithm 256-bit: `13544b2822762a86cc2d02398420a9b5155a0813ebecdfe3e44eee1bb880ac13`\n\nScoped Git status for `src/password-reset.ts`, `test/password-reset.test.ts`, and `CODEX_TASK.md`: clean, with no status output.\n\nCompleted: expiry-boundary rejection, single use, synchronous in-process reservation, retry after failed action, neutral responses, safe telemetry, dependency-failure isolation, and deterministic coverage.\n\nUnactioned: none within this isolated workspace.\n\nUnverified: repository-wide canonical validation, release checks, hosted/browser verification, deployment proof, and human acceptance were not run and remain unavailable by scope.\n\nBlind spot: token reservation is atomic only among asynchronous attempts in one JavaScript process, as documented. A production system needs a shared persistent store with transactional or compare-and-set semantics.",
+        "sourceReference": "sha256:f4fdd034b54297294baf2c6977028dba2f4e8949c52e921b04118670cad8192e"
+      },
+      "index": 10,
+      "previousHash": "cdb23224d96ca2eda03f46f55a51f79402a1113327f2754b33ce9797fecff72a",
+      "hash": "1124a56966fa30c4dcb5c0990ebcc90a668ec5e0ba3610943ee6d6e24fb4ae5a"
+    },
+    {
+      "id": "ev_000012",
+      "recordedAt": "2026-07-19T03:05:59.242Z",
+      "type": "completion",
+      "summary": "The Codex turn completed.",
+      "payload": {
+        "usage": {
+          "input_tokens": "[REDACTED]",
+          "cached_input_tokens": "[REDACTED]",
+          "cache_write_input_tokens": "[REDACTED]",
+          "output_tokens": "[REDACTED]",
+          "reasoning_output_tokens": "[REDACTED]"
+        },
+        "status": "completed"
+      },
+      "index": 11,
+      "previousHash": "1124a56966fa30c4dcb5c0990ebcc90a668ec5e0ba3610943ee6d6e24fb4ae5a",
+      "hash": "e9f78a331703d8449dd5a6d7a3d8874e62fe45a7c6eaa7d91809931c76b5f6f0"
+    }
+  ]
+}

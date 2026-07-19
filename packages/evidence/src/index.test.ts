@@ -65,6 +65,15 @@ describe("evidence sanitisation", () => {
     });
     expect(safe).toEqual({ output: "aaaaaaaaaa\n[TRUNCATED]", values: [1, 2, "[TRUNCATED]"] });
   });
+
+  it("preserves source expressions while redacting literal secret assignments", () => {
+    const source = "const token = dependencies.tokenStore.issue(account.id);";
+    expect(sanitiseEvidenceValue(source)).toBe(source);
+    expect(sanitiseEvidenceValue("deliveries.push({ accountId, token: SYNTHETIC_TOKEN });")).toBe(
+      "deliveries.push({ accountId, token: SYNTHETIC_TOKEN });",
+    );
+    expect(sanitiseEvidenceValue("token=unsafe-example-token-value")).toBe("[REDACTED]");
+  });
 });
 
 describe("evidence digest", () => {
