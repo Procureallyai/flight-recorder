@@ -305,10 +305,10 @@ describe("flight-recorder command-line interface", () => {
     };
     expect(passport.manifest.sealDecision).toEqual({ ready: true, humanApproved: true, blockingReasons: [] });
     expect(passport.manifest.events).toHaveLength(18);
-    expect(passport.manifest.findingDecisions).toHaveLength(22);
+    expect(passport.manifest.findingDecisions).toHaveLength(19);
     expect(passport.manifest.findingDecisions.filter((decision) => decision.decision === "accepted-risk").map((decision) => decision.findingId)).toEqual([
+      "tests-TST-003",
       "evidence-F-003",
-      "evidence-F-004",
       "synthesis-SYN-003",
       "synthesis-SYN-004",
     ]);

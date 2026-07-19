@@ -1,12 +1,12 @@
 {
   "schemaVersion": "0.1.0",
-  "passportId": "frp_f36024b2a0d9b46ac33a4134",
-  "createdAt": "2026-07-19T03:41:30.174Z",
+  "passportId": "frp_fac20ece8244870fa95881f0",
+  "createdAt": "2026-07-19T10:25:13.933Z",
   "timestampType": "local-recorded-time",
   "evidenceClassification": "genuine-session",
   "project": {
     "name": "Synthetic password-reset remediation",
-    "repositoryCommit": "a5d1093d7e1b65bd8d874b16ce832ba0840d6452"
+    "repositoryCommit": "c06fcf33d345747eb2b1df820ec274619cf25ec4"
   },
   "session": {
     "task": "Repair the synthetic password-reset implementation using expiring, single-use tokens without account enumeration or unsafe token logging.",
@@ -295,9 +295,9 @@
       "hash": "450fc157bd3f5c996c505e24069a29c3c6673ca49152e92374ee67e82afeccc6"
     },
     {
-      "id": "ev_post_commit_test_a5d1093d7e1b",
+      "id": "ev_post_commit_test_c06fcf33d345",
       "index": 15,
-      "recordedAt": "2026-07-19T03:41:30.172Z",
+      "recordedAt": "2026-07-19T10:25:13.932Z",
       "type": "test",
       "summary": "The committed password-reset demonstration passed its post-commit test suite.",
       "payload": {
@@ -305,22 +305,22 @@
         "status": "passed",
         "exitCode": 0,
         "phase": "post-commit",
-        "repositoryCommit": "a5d1093d7e1b65bd8d874b16ce832ba0840d6452",
-        "durationMilliseconds": 646
+        "repositoryCommit": "c06fcf33d345747eb2b1df820ec274619cf25ec4",
+        "durationMilliseconds": 648
       },
       "previousHash": "450fc157bd3f5c996c505e24069a29c3c6673ca49152e92374ee67e82afeccc6",
-      "hash": "2d910827fefac8e02e0567fee4fb9dcf992d454a1b6261679af0fcc8e3e0b34e"
+      "hash": "a56a6cc25378e5ea6acf05efc0a444a2e2f5c2182ddd1dbce2a4b6a5ef300fd2"
     },
     {
-      "id": "ev_final_git_state_a5d1093d7e1b",
+      "id": "ev_final_git_state_c06fcf33d345",
       "index": 16,
-      "recordedAt": "2026-07-19T03:41:30.174Z",
+      "recordedAt": "2026-07-19T10:25:13.933Z",
       "type": "completion",
       "summary": "The final committed Git state and covered artifacts were bound to the capture.",
       "payload": {
         "schemaVersion": "0.1.0",
         "recordKind": "final-git-state",
-        "finalCommit": "a5d1093d7e1b65bd8d874b16ce832ba0840d6452",
+        "finalCommit": "c06fcf33d345747eb2b1df820ec274619cf25ec4",
         "scopedClean": true,
         "scopePaths": [
           "demo/password-reset-workspace/src/password-reset.ts",
@@ -328,7 +328,7 @@
           "demo/password-reset-workspace/CODEX_TASK.md",
           "demo/password-reset-workspace/package.json"
         ],
-        "postCommitPassingTestEvidenceId": "ev_post_commit_test_a5d1093d7e1b",
+        "postCommitPassingTestEvidenceId": "ev_post_commit_test_c06fcf33d345",
         "artifacts": [
           {
             "path": "demo/password-reset-workspace/src/password-reset.ts",
@@ -360,8 +360,8 @@
           }
         ]
       },
-      "previousHash": "2d910827fefac8e02e0567fee4fb9dcf992d454a1b6261679af0fcc8e3e0b34e",
-      "hash": "2802200a658dae745aee3e7437eb01181c46aa35784a249de70f3c430e3cc6c9"
+      "previousHash": "a56a6cc25378e5ea6acf05efc0a444a2e2f5c2182ddd1dbce2a4b6a5ef300fd2",
+      "hash": "218421c737df78b4e0906f29aa1b418212bc05f5d091793a2e302e0b7fd8c4da"
     }
   ],
   "findings": [
@@ -369,12 +369,11 @@
       "id": "requirements-REQ-001",
       "reviewer": "requirements",
       "severity": "informational",
-      "title": "Token expiry and single-use redemption are implemented and tested",
-      "detail": "AC1 is satisfied: the injected-clock/token-generator store rejects tokens at or after expiry and permits only one successful redemption.\n\nThe committed implementation stores an expiry and state for each token, rejects when the clock is at or beyond expiry, and transitions successfully redeemed tokens to consumed. Tests cover the exact expiry boundary, default lifetime, repeated redemption, invalid lifetimes, and invalid generated tokens.\n\nRecommended remediation: None for the declared single-process demonstration scope.",
+      "title": "Token expiry, single-use redemption, and generator validation satisfy criterion 1",
+      "detail": "The committed in-memory token store uses an injected clock and token generator, rejects redemption at or after expiry, prevents reuse, and rejects empty or duplicate generated tokens.\n\nThe supplied final artifact implements expiry and explicit active/redeeming/consumed states. Deterministic tests cover the exact expiry boundary, default lifetime, successful single use, repeated redemption, invalid lifetimes, and invalid generated tokens. The committed suite passed.\n\nRecommended remediation: None for the declared single-process demonstration scope.",
       "evidenceIds": [
-        "ev_final_git_state_a5d1093d7e1b",
-        "ev_post_commit_test_a5d1093d7e1b",
-        "ev_000013"
+        "ev_final_git_state_c06fcf33d345",
+        "ev_post_commit_test_c06fcf33d345"
       ],
       "resolved": true
     },
@@ -382,12 +381,11 @@
       "id": "requirements-REQ-002",
       "reviewer": "requirements",
       "severity": "informational",
-      "title": "Neutral responses and equal deferred scheduling are implemented and tested",
-      "detail": "AC2 is satisfied: known and unknown accounts receive the same response, and each request enqueues exactly one account-dependent job before returning.\n\nThe handler always invokes the injected scheduler once with lookup, issuance, and delivery inside the deferred job. Deterministic tests establish response equality, equal scheduling, and absence of lookup or delivery on the response path.\n\nRecommended remediation: None for the declared demonstration scope.",
+      "title": "Neutral response and deferred account-dependent work satisfy criterion 2",
+      "detail": "Known and unknown requests return the same neutral response and enqueue exactly one job before any lookup, issuance, or delivery occurs.\n\nThe committed handler always calls the injected scheduler once and places account lookup, issuance, and delivery inside the scheduled callback. Tests compare known and unknown responses and scheduled counts and verify that lookup and delivery have not run on the response path.\n\nRecommended remediation: None for the deterministic injected-scheduler demonstration.",
       "evidenceIds": [
-        "ev_final_git_state_a5d1093d7e1b",
-        "ev_post_commit_test_a5d1093d7e1b",
-        "ev_000013"
+        "ev_final_git_state_c06fcf33d345",
+        "ev_post_commit_test_c06fcf33d345"
       ],
       "resolved": true
     },
@@ -395,12 +393,11 @@
       "id": "requirements-REQ-003",
       "reviewer": "requirements",
       "severity": "informational",
-      "title": "Telemetry is identifier-free and audit invocation is safe",
-      "detail": "AC3 and AC4 are satisfied: raw tokens and direct account identifiers are excluded from logs and audit details, while a fixed safe audit event is invoked.\n\nThe implementation emits only a constant log message and a constant audit event/detail. Tests compare complete telemetry for known and unknown accounts and assert that synthetic email, account, token, and long hexadecimal identifier patterns are absent.\n\nRecommended remediation: None. Audit delivery remains intentionally best-effort so a stalled transport cannot delay the neutral response.",
+      "title": "Identifier-safe telemetry satisfies criteria 3 and 4",
+      "detail": "Reset tokens, email addresses, and account identifiers are excluded from application logs and audit payloads, while a constant safe audit event is submitted.\n\nThe handler emits only a constant log message and the constant audit event password_reset_request_accepted with result accepted. Tests compare complete telemetry for known and unknown accounts and assert that synthetic tokens, emails, account IDs, and long hexadecimal values are absent.\n\nRecommended remediation: None within scope. A production audit sink would need independent durability and delivery monitoring.",
       "evidenceIds": [
-        "ev_final_git_state_a5d1093d7e1b",
-        "ev_post_commit_test_a5d1093d7e1b",
-        "ev_000013"
+        "ev_final_git_state_c06fcf33d345",
+        "ev_post_commit_test_c06fcf33d345"
       ],
       "resolved": true
     },
@@ -408,12 +405,11 @@
       "id": "requirements-REQ-004",
       "reviewer": "requirements",
       "severity": "informational",
-      "title": "Concurrent redemption and retry semantics are deterministic",
-      "detail": "AC5 and AC6 are satisfied within the declared single-process atomicity boundary.\n\nThe token state changes synchronously from active to redeeming before the reset action is awaited, causing a concurrent attempt to fail. Consumption occurs only after successful completion; rejection restores active state so a still-valid token may be retried. The callback idempotency or rollback requirement is explicitly documented and tested for rejection followed by retry.\n\nRecommended remediation: None for this demonstration. A production multi-worker implementation would require shared persistent atomic storage.",
+      "title": "Deterministic redemption state transition satisfies criteria 5 and 6",
+      "detail": "Concurrent redemption attempts yield exactly one success, and consumption occurs only after a successful reset action; rejection reactivates a still-valid token for retry.\n\nThe store changes active to redeeming synchronously before its first await, rejects another attempt while reserved, and changes to consumed only after callback success. On callback rejection it returns to active. Tests deterministically hold the first action open, reject the second attempt, and verify retry after a failed action.\n\nRecommended remediation: Callers must retain the documented rollback-or-idempotency contract for reset actions.",
       "evidenceIds": [
-        "ev_final_git_state_a5d1093d7e1b",
-        "ev_post_commit_test_a5d1093d7e1b",
-        "ev_000013"
+        "ev_final_git_state_c06fcf33d345",
+        "ev_post_commit_test_c06fcf33d345"
       ],
       "resolved": true
     },
@@ -421,12 +417,12 @@
       "id": "requirements-REQ-005",
       "reviewer": "requirements",
       "severity": "informational",
-      "title": "Dependency failures retain the neutral response",
-      "detail": "AC7 is satisfied for scheduling, lookup, issuance, delivery, logging, and audit failures.\n\nEach dependency boundary is isolated from the public response. Account-dependent exceptions are contained in the worker, scheduler and logging exceptions are caught, and audit rejection or synchronous failure is contained. Tests cover every listed failure and additionally verify that a stalled audit transport does not delay the response.\n\nRecommended remediation: None for the stated criteria.",
+      "title": "Dependency-failure isolation satisfies criterion 7",
+      "detail": "Scheduling, lookup, issuance, delivery, logging, and audit failures preserve the neutral response without leaking failure details into telemetry; a stalled audit transport also does not delay the response.\n\nEach dependency boundary is isolated. Account-dependent failures are contained in scheduled work, scheduler and logging exceptions are caught, and audit submission is best-effort with synchronous and asynchronous failures contained. Tests exercise every listed dependency failure and the stalled-audit regression.\n\nRecommended remediation: None for response-path behavior. Production systems should monitor failed asynchronous work through a non-identifying channel.",
       "evidenceIds": [
-        "ev_final_git_state_a5d1093d7e1b",
-        "ev_post_commit_test_a5d1093d7e1b",
-        "ev_000013"
+        "ev_000013",
+        "ev_final_git_state_c06fcf33d345",
+        "ev_post_commit_test_c06fcf33d345"
       ],
       "resolved": true
     },
@@ -434,12 +430,12 @@
       "id": "requirements-REQ-006",
       "reviewer": "requirements",
       "severity": "informational",
-      "title": "Required deterministic automated coverage passes post-commit",
-      "detail": "AC8 is satisfied by 16 passing tests bound to final commit a5d1093d7e1b65bd8d874b16ce832ba0840d6452.\n\nThe supplied final artifacts contain tests for known and unknown accounts, equal scheduling, deferred lookup and delivery, response equality, safe telemetry, lifetime validation, generated-token validation, unknown tokens, exact expiry, repeated and concurrent redemption, retry after failure, all listed dependency failures, and stalled audit behavior. The post-commit npm test result passed with exit code 0.\n\nRecommended remediation: None.",
+      "title": "Deterministic automated coverage satisfies criterion 8",
+      "detail": "The committed suite contains the required deterministic cases and passes 16 tests with no failures.\n\nThe supplied test artifact covers known and unknown accounts, equal scheduling, deferred lookup and delivery, response equality, safe telemetry, invalid lifetimes, empty and duplicate tokens, unknown tokens, exact expiry, repeated and concurrent redemption, retry after action failure, all enumerated dependency failures, and stalled audit delivery. The post-commit npm test passed at commit c06fcf33d345747eb2b1df820ec274619cf25ec4.\n\nRecommended remediation: None.",
       "evidenceIds": [
-        "ev_final_git_state_a5d1093d7e1b",
-        "ev_post_commit_test_a5d1093d7e1b",
-        "ev_000013"
+        "ev_000013",
+        "ev_post_commit_test_c06fcf33d345",
+        "ev_final_git_state_c06fcf33d345"
       ],
       "resolved": true
     },
@@ -447,13 +443,13 @@
       "id": "requirements-REQ-007",
       "reviewer": "requirements",
       "severity": "informational",
-      "title": "Final evidence handoff is integrity-bound and scoped clean",
-      "detail": "The supplied final state binds the source, tests, task, and package manifest to a specific commit and passing post-commit test.\n\nThe final-git-state record identifies commit a5d1093d7e1b65bd8d874b16ce832ba0840d6452, reports the scoped paths clean, includes artifact content and SHA-256 digests, and references the passing post-commit test. Earlier working-tree modifications are superseded by this final committed state.\n\nRecommended remediation: None.",
+      "title": "Final evidence handoff is integrity-bound and complete",
+      "detail": "The final source, tests, task, and package manifest are bound to a clean scoped commit with artifact hashes and a passing post-commit test.\n\nThe final-git-state record identifies commit c06fcf33d345747eb2b1df820ec274619cf25ec4, reports scopedClean true, embeds the covered artifacts and SHA-256 digests, and references the passing post-commit test. This supersedes the earlier pre-commit status showing two modified files and removes any apparent status contradiction.\n\nRecommended remediation: None.",
       "evidenceIds": [
-        "ev_final_git_state_a5d1093d7e1b",
-        "ev_post_commit_test_a5d1093d7e1b",
         "ev_000013",
-        "ev_000014"
+        "ev_000014",
+        "ev_post_commit_test_c06fcf33d345",
+        "ev_final_git_state_c06fcf33d345"
       ],
       "resolved": true
     },
@@ -461,11 +457,12 @@
       "id": "security-SEC-001",
       "reviewer": "security",
       "severity": "informational",
-      "title": "Password-reset enumeration controls are implemented and tested",
-      "detail": "Known and unknown accounts receive the same neutral response, while account lookup, token issuance, and delivery are deferred behind one scheduler job per request. Telemetry excludes email addresses, account identifiers, tokens, and dependency failure details.\n\nThe committed implementation schedules account-dependent work before returning a constant response and uses fixed log and audit payloads. Tests cover response equality, equal scheduling, deferred lookup and delivery, safe telemetry, and dependency failures. The post-commit suite passed.\n\nRecommended remediation: None within the demonstration scope.",
+      "title": "Password-reset controls satisfy the supplied demonstration criteria",
+      "detail": "The committed implementation provides expiring, single-use tokens; deterministic single-process concurrent redemption; neutral account-independent responses; deferred account-dependent work; identifier-free telemetry; and failure isolation within the declared synthetic scope.\n\nThe final artifact reserves tokens synchronously before awaiting the reset action, rejects tokens at or after expiry, consumes them only after success, and reactivates valid tokens after callback rejection. Each request enqueues one worker before returning the same frozen public response. Logs and audit details are constant and exclude email addresses, account identifiers, tokens, and dependency error details. The committed 16-test suite covers these behaviors and passed post-commit.\n\nRecommended remediation: No remediation is required for the supplied demonstration scope.",
       "evidenceIds": [
-        "ev_final_git_state_a5d1093d7e1b",
-        "ev_post_commit_test_a5d1093d7e1b"
+        "ev_final_git_state_c06fcf33d345",
+        "ev_post_commit_test_c06fcf33d345",
+        "ev_000013"
       ],
       "resolved": true
     },
@@ -473,38 +470,12 @@
       "id": "security-SEC-002",
       "reviewer": "security",
       "severity": "informational",
-      "title": "Token expiry, single use, and deterministic concurrent reservation are implemented",
-      "detail": "The in-memory token store rejects tokens at or after expiry, reserves a token synchronously before awaiting reset work, permits only one concurrent redemption, and consumes the token only after successful reset action completion.\n\nThe implementation contains explicit active, redeeming, and consumed states with an injected clock and generator. Deterministic tests cover the expiry boundary, repeated redemption, concurrent redemption, failed-action retry, invalid lifetimes, duplicate and empty tokens, and unknown tokens.\n\nRecommended remediation: None within the single-process demonstration scope.",
-      "evidenceIds": [
-        "ev_final_git_state_a5d1093d7e1b",
-        "ev_post_commit_test_a5d1093d7e1b"
-      ],
-      "resolved": true
-    },
-    {
-      "id": "security-SEC-003",
-      "reviewer": "security",
-      "severity": "informational",
-      "title": "Stalled audit transport no longer delays the neutral response",
-      "detail": "Audit dispatch is best-effort and is not awaited on the response path; synchronous throws and asynchronous rejections are isolated.\n\nThe final source invokes audit with a fixed identifier-free event and attaches rejection handling without awaiting completion. A regression test verifies that a pending audit promise does not block the response, and the committed test suite passed.\n\nRecommended remediation: None for this demonstration. A production system should deliver audit events through a reliable, bounded, privacy-preserving mechanism.",
-      "evidenceIds": [
-        "ev_000011",
-        "ev_000013",
-        "ev_final_git_state_a5d1093d7e1b",
-        "ev_post_commit_test_a5d1093d7e1b"
-      ],
-      "resolved": true
-    },
-    {
-      "id": "security-SEC-004",
-      "reviewer": "security",
-      "severity": "informational",
       "title": "Final evidence is bound to a clean committed state",
-      "detail": "The supplied final artifacts are associated with commit a5d1093d7e1b65bd8d874b16ce832ba0840d6452, have recorded SHA-256 digests, are scoped clean, and passed the post-commit test command.\n\nThe final-git-state record binds the source, tests, task, and package manifest to the commit and references a passing post-commit test. The source, test, and task hashes also agree with the pre-commit validation output.\n\nRecommended remediation: None for the supplied evidence-integrity claim.",
+      "detail": "The reviewed source, tests, task definition, and package manifest are hash-bound to commit c06fcf33d345747eb2b1df820ec274619cf25ec4, with a passing post-commit test and clean scoped state.\n\nThe final-git-state record identifies the commit, artifact paths and SHA-256 digests, reports scopedClean=true, and references the successful post-commit test. The source and test hashes match the earlier validation output.\n\nRecommended remediation: No remediation is required for the supplied evidence-integrity claim.",
       "evidenceIds": [
-        "ev_000013",
-        "ev_post_commit_test_a5d1093d7e1b",
-        "ev_final_git_state_a5d1093d7e1b"
+        "ev_final_git_state_c06fcf33d345",
+        "ev_post_commit_test_c06fcf33d345",
+        "ev_000013"
       ],
       "resolved": true
     },
@@ -512,12 +483,11 @@
       "id": "tests-TST-001",
       "reviewer": "tests",
       "severity": "informational",
-      "title": "Acceptance criteria have broad deterministic automated coverage",
-      "detail": "The committed suite covers the required positive, negative, boundary, concurrency, failure-isolation, and regression scenarios within the synthetic workspace.\n\nThe 16 tests cover known and unknown accounts, equal scheduling, deferred lookup and delivery, neutral response equality, identifier-free telemetry, exact expiry, repeated and concurrent redemption, retry after callback failure, invalid lifetimes, invalid generated tokens, unknown tokens, and failures across scheduler, lookup, issuance, delivery, logging, and audit dependencies. The post-commit test run passed at the artifact-bound commit.\n\nRecommended remediation: None required for the declared demonstration scope.",
+      "title": "Acceptance criteria have direct deterministic test coverage",
+      "detail": "The committed suite covers the required positive, negative, boundary, concurrency, failure-isolation, and regression scenarios for the synthetic password-reset demonstration.\n\nThe 16 tests exercise known and unknown accounts, equal scheduling, off-response-path lookup and delivery, neutral response equality, identifier-free telemetry, exact expiry, repeated and concurrent redemption, retry after callback failure, invalid lifetimes, invalid generated tokens, unknown tokens, and all listed dependency failures. The added stalled-audit regression specifically verifies that audit transport cannot delay the response.\n\nRecommended remediation: None required for the declared synthetic scope.",
       "evidenceIds": [
-        "ev_final_git_state_a5d1093d7e1b",
-        "ev_post_commit_test_a5d1093d7e1b",
-        "ev_000013"
+        "ev_000013",
+        "ev_final_git_state_c06fcf33d345"
       ],
       "resolved": true
     },
@@ -525,38 +495,35 @@
       "id": "tests-TST-002",
       "reviewer": "tests",
       "severity": "informational",
-      "title": "Stalled-audit response-path regression is covered",
-      "detail": "A deterministic regression test verifies that an audit promise which remains unsettled does not delay the neutral public response.\n\nThe final implementation invokes audit best-effort without awaiting transport completion, while handling synchronous throws and promise rejection. The added test holds the audit promise open, awaits the request result, and verifies the neutral response before releasing the audit.\n\nRecommended remediation: None required.",
+      "title": "Tests pass against the final committed artifacts",
+      "detail": "The complete workspace test command passed after commit, and the tested artifacts are bound to a clean scoped Git state.\n\nThe capture records a post-commit npm test result at commit c06fcf33d345747eb2b1df820ec274619cf25ec4 with exit code 0. The final Git-state record marks the declared paths clean and binds source, tests, task, and package manifest by SHA-256 digest. The preceding detailed run reports 16 passing tests and no failures.\n\nRecommended remediation: None required.",
       "evidenceIds": [
-        "ev_000011",
-        "ev_000012",
         "ev_000013",
-        "ev_final_git_state_a5d1093d7e1b"
+        "ev_post_commit_test_c06fcf33d345",
+        "ev_final_git_state_c06fcf33d345"
       ],
       "resolved": true
     },
     {
       "id": "tests-TST-003",
       "reviewer": "tests",
-      "severity": "informational",
-      "title": "Evidence integrity is bound to a clean committed state",
-      "detail": "The supplied final artifacts, hashes, scoped Git state, commit, and post-commit passing test are coherently linked.\n\nThe final-git-state record reports scopedClean=true at commit a5d1093d7e1b65bd8d874b16ce832ba0840d6452, includes the artifact contents and SHA-256 digests, and references a successful post-commit npm test run. The source and test hashes match the earlier validation output.\n\nRecommended remediation: None required.",
+      "severity": "warning",
+      "title": "Production queue and multi-process atomicity remain outside demonstrated coverage",
+      "detail": "The tests establish behavior only with a deterministic in-process scheduler and token store; they do not establish durable queue behavior, restart recovery, or atomic redemption across processes.\n\nThe task explicitly defines these as production boundaries rather than acceptance requirements for this synthetic workspace. Both implementation documentation and the task state that production requires a durable queue and persistent shared transactional or compare-and-set storage.\n\nRecommended remediation: If this demonstration is promoted toward production, add integration tests against the selected durable queue and shared token store, including retries, process restarts, duplicate delivery, and cross-worker redemption races.",
       "evidenceIds": [
-        "ev_000013",
-        "ev_post_commit_test_a5d1093d7e1b",
-        "ev_final_git_state_a5d1093d7e1b"
+        "ev_final_git_state_c06fcf33d345"
       ],
-      "resolved": true
+      "resolved": false
     },
     {
       "id": "evidence-F-001",
       "reviewer": "evidence",
       "severity": "informational",
-      "title": "Acceptance criteria are implemented and covered by the committed test suite",
-      "detail": "The scoped password-reset demonstration implements expiring single-use tokens, neutral responses, deferred account-dependent work, identifier-free telemetry, deterministic single-process redemption, retry after failed reset action, and dependency-failure isolation.\n\nThe final bound source implements the required token state transitions and scheduler boundary. The final test artifact contains deterministic coverage corresponding to all eight acceptance criteria, and the linked post-commit test completed successfully at the final commit.\n\nRecommended remediation: None for the declared demonstration scope.",
+      "title": "Acceptance criteria are covered by the committed implementation and tests",
+      "detail": "The scoped password-reset demonstration implements token expiry and single use, neutral responses, deferred account-dependent work, identifier-safe telemetry, deterministic single-process concurrent redemption, retry after failed reset action, and dependency-failure isolation.\n\nThe final-state source and complete test artifact directly implement the stated criteria. The suite includes 16 focused tests covering the required success, boundary, concurrency, telemetry, scheduling, and failure cases. The committed state is bound to a post-commit passing test.",
       "evidenceIds": [
-        "ev_final_git_state_a5d1093d7e1b",
-        "ev_post_commit_test_a5d1093d7e1b",
+        "ev_final_git_state_c06fcf33d345",
+        "ev_post_commit_test_c06fcf33d345",
         "ev_000013"
       ],
       "resolved": true
@@ -565,12 +532,13 @@
       "id": "evidence-F-002",
       "reviewer": "evidence",
       "severity": "informational",
-      "title": "Final-state evidence has commit, artifact, hash, cleanliness, and post-commit test binding",
-      "detail": "The supplied evidence establishes a clean scoped final state at commit a5d1093d7e1b65bd8d874b16ce832ba0840d6452 and binds the covered artifacts to a passing post-commit test.\n\nThe final-git-state record names the final commit, reports scopedClean=true, embeds the four scoped artifacts with SHA-256 digests, and references the passing post-commit test. The source, test, and task-file hashes also match the earlier validation output, supporting continuity between validation and the committed state.\n\nRecommended remediation: None.",
+      "title": "Final-state provenance and scoped cleanliness are established",
+      "detail": "The reviewed artifacts are tied to commit c06fcf33d345747eb2b1df820ec274619cf25ec4, have recorded SHA-256 digests, are scoped clean, and passed the post-commit test command.\n\nThe final-git-state record names the final commit, scope paths, artifact contents and hashes, reports scopedClean=true, and references the passing post-commit test. The source and test hashes also match the earlier validation handoff.",
       "evidenceIds": [
-        "ev_final_git_state_a5d1093d7e1b",
-        "ev_post_commit_test_a5d1093d7e1b",
-        "ev_000013"
+        "ev_final_git_state_c06fcf33d345",
+        "ev_post_commit_test_c06fcf33d345",
+        "ev_000013",
+        "ev_000014"
       ],
       "resolved": true
     },
@@ -578,23 +546,11 @@
       "id": "evidence-F-003",
       "reviewer": "evidence",
       "severity": "warning",
-      "title": "Audit delivery is intentionally best-effort rather than durably guaranteed",
-      "detail": "The handler initiates a safe audit event without awaiting transport completion, so a stalled or failed audit sink cannot delay the neutral response; this does not prove durable audit recording.\n\nThe final implementation calls audit with fixed identifier-free data and suppresses synchronous and asynchronous failures. The regression test proves a stalled audit does not block the response. This satisfies response isolation and demonstrates safe audit invocation, but durable persistence is outside the injected interface and evidence.\n\nRecommended remediation: If durable recording is required beyond this demonstration, enqueue the audit event to a durable outbox or queue while preserving the neutral response path.",
+      "title": "Audit delivery is best-effort rather than durable",
+      "detail": "The handler invokes a safe, identifier-free audit event without delaying or changing the neutral response, but this demonstration does not guarantee that an unavailable audit sink durably records it.\n\nThe final implementation starts the audit promise and suppresses synchronous and asynchronous transport failures. This satisfies the demonstrated response-isolation behavior and tests prove invocation and safe contents, including a stalled transport, but durable recording cannot be inferred when the audit dependency fails. The task itself excludes production infrastructure, so this is advisory rather than a readiness failure for the supplied demonstration scope.\n\nRecommended remediation: For production, send the safe event through a durable, monitored outbox or queue while preserving the neutral response path.",
       "evidenceIds": [
-        "ev_final_git_state_a5d1093d7e1b",
+        "ev_final_git_state_c06fcf33d345",
         "ev_000013"
-      ],
-      "resolved": false
-    },
-    {
-      "id": "evidence-F-004",
-      "reviewer": "evidence",
-      "severity": "warning",
-      "title": "Atomicity and scheduling guarantees are scoped to one process and injected test boundaries",
-      "detail": "The demonstration does not establish multi-process token atomicity, restart survival, or durable background scheduling.\n\nThe implementation and task contract explicitly limit the token store to one JavaScript process and identify the production need for a persistent compare-and-set or transaction. The scheduler contract likewise recommends a durable production queue. These are declared out-of-scope production limitations and do not contradict the synthetic acceptance criteria.\n\nRecommended remediation: For production use, replace the in-memory store with shared persistent transactional storage and use a durable monitored queue with bounded retries.",
-      "evidenceIds": [
-        "ev_final_git_state_a5d1093d7e1b",
-        "ev_000014"
       ],
       "resolved": false
     },
@@ -602,12 +558,12 @@
       "id": "synthesis-SYN-001",
       "reviewer": "synthesis",
       "severity": "informational",
-      "title": "Acceptance criteria are satisfied within the declared demonstration scope",
-      "detail": "The supplied evidence supports AC1–AC8 for the scoped single-process password-reset demonstration.\n\nThe specialist reviews consistently report deterministic coverage of token expiry and single use, neutral responses, equal deferred scheduling, safe telemetry and audit invocation, concurrent redemption, retry after reset failure, dependency-failure isolation, and positive, negative, boundary, and regression cases. The artifact-bound post-commit test reports success.\n\nRecommended remediation: None for the declared demonstration scope.",
+      "title": "Demonstration acceptance criteria are satisfied",
+      "detail": "The committed password-reset demonstration satisfies acceptance criteria AC1 through AC8 within its declared deterministic, single-process scope.\n\nThe specialist reviews consistently report coverage of expiry and single use, neutral responses, deferred account-dependent processing, identifier-safe telemetry, deterministic concurrent redemption, retry following reset-action failure, dependency-failure isolation, and the required automated scenarios. The detailed scoped validation reports 16 passing tests, and the final commit has a passing post-commit test result.\n\nRecommended remediation: None for the supplied demonstration scope.",
       "evidenceIds": [
-        "ev_final_git_state_a5d1093d7e1b",
-        "ev_post_commit_test_a5d1093d7e1b",
-        "ev_000013"
+        "ev_000013",
+        "ev_final_git_state_c06fcf33d345",
+        "ev_post_commit_test_c06fcf33d345"
       ],
       "resolved": true
     },
@@ -615,13 +571,13 @@
       "id": "synthesis-SYN-002",
       "reviewer": "synthesis",
       "severity": "informational",
-      "title": "Final evidence is bound to a clean committed state",
-      "detail": "The final source, tests, task, and package manifest are reported as bound by hashes and scoped cleanliness to commit a5d1093d7e1b65bd8d874b16ce832ba0840d6452 and a passing post-commit test.\n\nThe final-state record identifies the commit, reports scopedClean=true, embeds artifact digests, and references the successful post-commit test. The reviews also report continuity with earlier validation hashes.\n\nRecommended remediation: None for the narrow supplied evidence-integrity claim.",
+      "title": "Final evidence handoff has adequate scoped integrity",
+      "detail": "The reviewed source, tests, task definition, and package manifest are bound by recorded hashes to a clean scoped commit and a successful post-commit test.\n\nThe final-state record identifies commit c06fcf33d345747eb2b1df820ec274619cf25ec4, records artifact SHA-256 digests, reports scopedClean=true, and links the final state to the successful post-commit test. It supersedes the earlier pre-commit modified-file status, so there is no unresolved state contradiction in the supplied handoff.\n\nRecommended remediation: None for the narrow evidence-integrity claim.",
       "evidenceIds": [
-        "ev_final_git_state_a5d1093d7e1b",
-        "ev_post_commit_test_a5d1093d7e1b",
         "ev_000013",
-        "ev_000014"
+        "ev_000014",
+        "ev_final_git_state_c06fcf33d345",
+        "ev_post_commit_test_c06fcf33d345"
       ],
       "resolved": true
     },
@@ -629,13 +585,10 @@
       "id": "synthesis-SYN-003",
       "reviewer": "synthesis",
       "severity": "warning",
-      "title": "Audit invocation is response-safe but not durably persisted",
-      "detail": "Audit dispatch uses fixed identifier-free data and does not block the neutral response, but the evidence does not establish durable audit receipt.\n\nThe implementation reportedly contains synchronous throws and asynchronous rejections and includes a regression test showing that a pending audit promise does not delay the response. Best-effort invocation satisfies the stated scope but is not a durable recording guarantee.\n\nRecommended remediation: If durable audit recording becomes a requirement, use a privacy-preserving transactional outbox or durable queue without placing transport completion on the public response path.",
+      "title": "Multi-process durability and atomicity are not demonstrated",
+      "detail": "The demonstrated scheduler and token store do not establish durable job processing, restart recovery, persistent token state, or atomic redemption across multiple processes.\n\nThe supplied artifacts and specialist reviews explicitly limit the implementation to an injected scheduler and in-memory, single-JavaScript-process coordination. This is consistent with the declared scope and therefore does not block readiness, but it prevents extrapolation to production workers or restart-safe operation.\n\nRecommended remediation: Before production use, adopt a durable monitored queue and persistent shared token store with transactional compare-and-set semantics; test retries, duplicate delivery, restarts, and cross-worker redemption races.",
       "evidenceIds": [
-        "ev_000011",
-        "ev_000012",
-        "ev_000013",
-        "ev_final_git_state_a5d1093d7e1b"
+        "ev_final_git_state_c06fcf33d345"
       ],
       "resolved": false
     },
@@ -643,11 +596,11 @@
       "id": "synthesis-SYN-004",
       "reviewer": "synthesis",
       "severity": "warning",
-      "title": "Atomicity and scheduling guarantees do not extend beyond one process",
-      "detail": "The demonstration does not establish cross-process token atomicity, restart persistence, or durable background-job execution.\n\nThe supplied artifacts and reviews explicitly scope atomic state transitions to one JavaScript process and use an injected demonstration scheduler. These limitations do not contradict the current acceptance criteria but prevent extrapolation to a multi-worker production system.\n\nRecommended remediation: For production use, adopt shared persistent storage with transactional or compare-and-set redemption and a durable monitored queue with bounded retries.",
+      "title": "Audit delivery is safe but best-effort",
+      "detail": "The demonstration supports identifier-free audit invocation without delaying or changing the neutral response, but does not guarantee durable recording when the audit transport stalls or fails.\n\nThe audit operation is intentionally not awaited, and synchronous and asynchronous transport failures are suppressed to preserve response isolation. Tests cover safe payloads and stalled transport behavior, but these properties cannot establish persistence at an unavailable sink. Durable audit infrastructure is outside the declared scope.\n\nRecommended remediation: For production, use a durable monitored outbox or queue for the safe audit event while keeping it off the public response path.",
       "evidenceIds": [
-        "ev_final_git_state_a5d1093d7e1b",
-        "ev_000014"
+        "ev_000013",
+        "ev_final_git_state_c06fcf33d345"
       ],
       "resolved": false
     }
@@ -655,47 +608,47 @@
   "findingDecisions": [],
   "reviewProvenance": {
     "evidenceSource": "codex-exec-json",
-    "evidenceDigestSha256": "13af368970c111ce5a455f739318517eba774d0a95851b9504b0bfee395641a4",
+    "evidenceDigestSha256": "de892b8c2b2d09e57d9299dc630725457733db5da3f0f73a7b58b29040631dfd",
     "calls": [
       {
         "reviewer": "requirements",
-        "responseId": "resp_03a88ce12fc16f85016a5c483eb8a081a191638963c3eec28f",
-        "createdAt": "2026-07-19T03:45:02.000Z",
+        "responseId": "resp_0895611e5a6b9b5a016a5ca648642481a0b956c04a60d16a95",
+        "createdAt": "2026-07-19T10:26:16.000Z",
         "model": "gpt-5.6-sol",
-        "inputDigestSha256": "13af368970c111ce5a455f739318517eba774d0a95851b9504b0bfee395641a4"
+        "inputDigestSha256": "de892b8c2b2d09e57d9299dc630725457733db5da3f0f73a7b58b29040631dfd"
       },
       {
         "reviewer": "security",
-        "responseId": "resp_09c8f617c883af16016a5c483e915481a3a0d53eaaeb7549c4",
-        "createdAt": "2026-07-19T03:45:02.000Z",
+        "responseId": "resp_006a810eabebbc89016a5ca6486b04819eaad537fd9cc25b8b",
+        "createdAt": "2026-07-19T10:26:16.000Z",
         "model": "gpt-5.6-sol",
-        "inputDigestSha256": "13af368970c111ce5a455f739318517eba774d0a95851b9504b0bfee395641a4"
+        "inputDigestSha256": "de892b8c2b2d09e57d9299dc630725457733db5da3f0f73a7b58b29040631dfd"
       },
       {
         "reviewer": "tests",
-        "responseId": "resp_0caaa19d25ba1754016a5c483e8e6c81a2b65a2bf69d276050",
-        "createdAt": "2026-07-19T03:45:02.000Z",
+        "responseId": "resp_07c6401b5461902f016a5ca648658081a28976587454b8897a",
+        "createdAt": "2026-07-19T10:26:16.000Z",
         "model": "gpt-5.6-sol",
-        "inputDigestSha256": "13af368970c111ce5a455f739318517eba774d0a95851b9504b0bfee395641a4"
+        "inputDigestSha256": "de892b8c2b2d09e57d9299dc630725457733db5da3f0f73a7b58b29040631dfd"
       },
       {
         "reviewer": "evidence",
-        "responseId": "resp_0df377f1a8339f78016a5c483e8e20819c834a157fb7f22c29",
-        "createdAt": "2026-07-19T03:45:02.000Z",
+        "responseId": "resp_05191f8c1d801416016a5ca64860e4819cab3fd1dec6551846",
+        "createdAt": "2026-07-19T10:26:16.000Z",
         "model": "gpt-5.6-sol",
-        "inputDigestSha256": "13af368970c111ce5a455f739318517eba774d0a95851b9504b0bfee395641a4"
+        "inputDigestSha256": "de892b8c2b2d09e57d9299dc630725457733db5da3f0f73a7b58b29040631dfd"
       },
       {
         "reviewer": "synthesis",
-        "responseId": "resp_01ba93260500f7ad016a5c4854e5e4819e91e84d495ff0477e",
-        "createdAt": "2026-07-19T03:45:24.000Z",
+        "responseId": "resp_0bac8fc4cca1204b016a5ca65e826c8192a1f545562298c3c5",
+        "createdAt": "2026-07-19T10:26:38.000Z",
         "model": "gpt-5.6-sol",
-        "inputDigestSha256": "13af368970c111ce5a455f739318517eba774d0a95851b9504b0bfee395641a4"
+        "inputDigestSha256": "de892b8c2b2d09e57d9299dc630725457733db5da3f0f73a7b58b29040631dfd"
       }
     ]
   },
-  "eventChainHead": "2802200a658dae745aee3e7437eb01181c46aa35784a249de70f3c430e3cc6c9",
-  "merkleRoot": "ac7674e223aa89e455241803d5b3c326b5de36c968230e9aacbde096d67c6bc4",
+  "eventChainHead": "218421c737df78b4e0906f29aa1b418212bc05f5d091793a2e302e0b7fd8c4da",
+  "merkleRoot": "a448d80a3796a864a371a0a99c2e34de1d449758bf733ae6271159053bff6a82",
   "sealDecision": {
     "ready": false,
     "blockingReasons": [

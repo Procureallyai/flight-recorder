@@ -56,6 +56,14 @@ const sessionSteps = manifest.events.map((event, index) => ({
   ...(eventPresentation[event.type] ?? eventPresentation.task),
 }));
 
+// The expanded timeline follows event meaning, so resealing never leaves stale generated identifiers in the interface.
+const defaultExpandedEventIds = [
+  manifest.events.at(0)?.id,
+  manifest.events.find((event) => event.id === "ev_000012")?.id,
+  manifest.events.find((event) => event.type === "test" && event.payload?.phase === "post-commit")?.id,
+  manifest.events.find((event) => event.type === "approval")?.id,
+].filter(Boolean);
+
 function check(result, name) {
   return result?.checks.find((candidate) => candidate.name === name);
 }
@@ -359,7 +367,7 @@ export function App() {
               </div>
             </div>
 
-            <Accordion.Root type="multiple" defaultValue={["ev_000001", "ev_000012", "ev_post_commit_test_a5d1093d7e1b", "ev_human_seal_approval_725d79887171e1d9"]} className="timeline">
+            <Accordion.Root type="multiple" defaultValue={defaultExpandedEventIds} className="timeline">
               {sessionSteps.map((step) => <SessionStep key={step.id} step={step} />)}
             </Accordion.Root>
 

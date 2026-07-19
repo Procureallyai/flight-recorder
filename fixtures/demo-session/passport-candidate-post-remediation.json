@@ -1,12 +1,12 @@
 {
   "schemaVersion": "0.1.0",
-  "passportId": "frp_f36024b2a0d9b46ac33a4134",
-  "createdAt": "2026-07-19T03:41:30.174Z",
+  "passportId": "frp_fac20ece8244870fa95881f0",
+  "createdAt": "2026-07-19T10:25:13.933Z",
   "timestampType": "local-recorded-time",
   "evidenceClassification": "genuine-session",
   "project": {
     "name": "Synthetic password-reset remediation",
-    "repositoryCommit": "a5d1093d7e1b65bd8d874b16ce832ba0840d6452"
+    "repositoryCommit": "c06fcf33d345747eb2b1df820ec274619cf25ec4"
   },
   "session": {
     "task": "Repair the synthetic password-reset implementation using expiring, single-use tokens without account enumeration or unsafe token logging.",
@@ -295,9 +295,9 @@
       "hash": "450fc157bd3f5c996c505e24069a29c3c6673ca49152e92374ee67e82afeccc6"
     },
     {
-      "id": "ev_post_commit_test_a5d1093d7e1b",
+      "id": "ev_post_commit_test_c06fcf33d345",
       "index": 15,
-      "recordedAt": "2026-07-19T03:41:30.172Z",
+      "recordedAt": "2026-07-19T10:25:13.932Z",
       "type": "test",
       "summary": "The committed password-reset demonstration passed its post-commit test suite.",
       "payload": {
@@ -305,22 +305,22 @@
         "status": "passed",
         "exitCode": 0,
         "phase": "post-commit",
-        "repositoryCommit": "a5d1093d7e1b65bd8d874b16ce832ba0840d6452",
-        "durationMilliseconds": 646
+        "repositoryCommit": "c06fcf33d345747eb2b1df820ec274619cf25ec4",
+        "durationMilliseconds": 648
       },
       "previousHash": "450fc157bd3f5c996c505e24069a29c3c6673ca49152e92374ee67e82afeccc6",
-      "hash": "2d910827fefac8e02e0567fee4fb9dcf992d454a1b6261679af0fcc8e3e0b34e"
+      "hash": "a56a6cc25378e5ea6acf05efc0a444a2e2f5c2182ddd1dbce2a4b6a5ef300fd2"
     },
     {
-      "id": "ev_final_git_state_a5d1093d7e1b",
+      "id": "ev_final_git_state_c06fcf33d345",
       "index": 16,
-      "recordedAt": "2026-07-19T03:41:30.174Z",
+      "recordedAt": "2026-07-19T10:25:13.933Z",
       "type": "completion",
       "summary": "The final committed Git state and covered artifacts were bound to the capture.",
       "payload": {
         "schemaVersion": "0.1.0",
         "recordKind": "final-git-state",
-        "finalCommit": "a5d1093d7e1b65bd8d874b16ce832ba0840d6452",
+        "finalCommit": "c06fcf33d345747eb2b1df820ec274619cf25ec4",
         "scopedClean": true,
         "scopePaths": [
           "demo/password-reset-workspace/src/password-reset.ts",
@@ -328,7 +328,7 @@
           "demo/password-reset-workspace/CODEX_TASK.md",
           "demo/password-reset-workspace/package.json"
         ],
-        "postCommitPassingTestEvidenceId": "ev_post_commit_test_a5d1093d7e1b",
+        "postCommitPassingTestEvidenceId": "ev_post_commit_test_c06fcf33d345",
         "artifacts": [
           {
             "path": "demo/password-reset-workspace/src/password-reset.ts",
@@ -360,14 +360,14 @@
           }
         ]
       },
-      "previousHash": "2d910827fefac8e02e0567fee4fb9dcf992d454a1b6261679af0fcc8e3e0b34e",
-      "hash": "2802200a658dae745aee3e7437eb01181c46aa35784a249de70f3c430e3cc6c9"
+      "previousHash": "a56a6cc25378e5ea6acf05efc0a444a2e2f5c2182ddd1dbce2a4b6a5ef300fd2",
+      "hash": "218421c737df78b4e0906f29aa1b418212bc05f5d091793a2e302e0b7fd8c4da"
     }
   ],
   "findings": [],
   "findingDecisions": [],
-  "eventChainHead": "2802200a658dae745aee3e7437eb01181c46aa35784a249de70f3c430e3cc6c9",
-  "merkleRoot": "ac7674e223aa89e455241803d5b3c326b5de36c968230e9aacbde096d67c6bc4",
+  "eventChainHead": "218421c737df78b4e0906f29aa1b418212bc05f5d091793a2e302e0b7fd8c4da",
+  "merkleRoot": "a448d80a3796a864a371a0a99c2e34de1d449758bf733ae6271159053bff6a82",
   "sealDecision": {
     "ready": false,
     "blockingReasons": [

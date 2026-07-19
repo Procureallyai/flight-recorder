@@ -6,7 +6,7 @@ The demonstration task is a password-reset flow. Codex used G P T five point six
 
 G P T five point six is not only how we built it. It runs inside the product. Four structured reviewers examine requirements, security, tests, and evidence completeness. A fifth synthesises their findings. Every finding points to stable evidence. The model advises. Deterministic logic alone decides whether the passport is ready to seal.
 
-This passport contains five signed review receipts and twenty-two findings. Eighteen were resolved. Four low-severity warnings remain visible as explicitly accepted demonstration-scope risks, not hidden production capabilities.
+This passport contains five signed review receipts and nineteen findings. Fifteen were resolved. Four low-severity warnings remain visible as explicitly accepted demonstration-scope risks, not hidden production capabilities.
 
 The browser verifier recomputes every Secure Hash Algorithm 256-bit artifact hash, the hash-linked event chain, the deterministic Merkle root, and the E D two five five one nine signature. It needs no Flight Recorder server, Codex account, or OpenAI Application Programming Interface key.
 

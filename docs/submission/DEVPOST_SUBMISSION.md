@@ -24,7 +24,7 @@ Codex was the primary engineering partner throughout Build Week. The final genui
 
 GPT-5.6 Sol is also integrated into the product's assurance workflow through the OpenAI Responses Application Programming Interface. Four structured specialists review requirements traceability, security, test adequacy, and evidence completeness. A fifth call synthesises the result. Review findings cite stable evidence identifiers, but deterministic application logic controls seal readiness.
 
-The signed passport contains 18 hash-linked events, four covered artifacts, five GPT-5.6 review receipts, 22 findings, and 22 human decisions. Eighteen findings are recorded as resolved. Four warning records remain accepted demonstration-scope risks covering durable audit delivery and distributed token atomicity. They remain visible and are not presented as resolved production capabilities.
+The signed passport contains 18 hash-linked events, four covered artifacts, five GPT-5.6 review receipts, 19 findings, and 19 human decisions. Fifteen findings are recorded as resolved. Four warning records remain accepted demonstration-scope risks covering durable audit delivery and distributed token atomicity. They remain visible and are not presented as resolved production capabilities.
 
 The implementation uses TypeScript, Node.js, React, Vite, Vitest, Web Cryptography, Secure Hash Algorithm 256-bit, deterministic Merkle trees, and Ed25519 signatures. The public repository is licensed under Apache License 2.0.
 

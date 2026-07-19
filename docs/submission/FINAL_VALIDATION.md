@@ -12,7 +12,7 @@
 - Hosting: Vercel Hobby plan, no paid feature required
 - Product tests: 126 passing
 - Synthetic password-reset demonstration tests: 16 passing
-- Genuine passport: 18 hash-linked events, four artifacts, five GPT-5.6 receipts, 22 findings, and 22 human decisions
+- Genuine passport: 18 hash-linked events, four artifacts, five GPT-5.6 receipts, 19 findings, and 19 human decisions
 - Independent verification: eight checks pass; covered-artifact mutation fails verification
 - Public-file privacy scan: nine scanner regression tests pass, and 161 public files pass without printing candidate values; no tracked working-tree file contains the private feedback identifier
 - Dependency audit: production and full dependency audits pass with no known vulnerabilities after the Vite 6.4.3 upgrade
@@ -25,12 +25,12 @@
 - Dimensions: 1920 by 1080 pixels
 - Video: H.264 at 30 frames per second
 - Audio: Advanced Audio Coding, mono, 48 kilohertz
-- Secure Hash Algorithm 256-bit digest: `cf5baa5d022139453473f13322a0cce3349954d68d492f172abf8fae8e762b3f`
+- Secure Hash Algorithm 256-bit digest: `0b44120ea4d42bf9120c23669bda1e59ce13279b41fc6a5424d89838f2690728`
 - Synthetic narration is visibly disclosed
 - Public YouTube address: `https://youtu.be/kGo3LUvXG98`
-- Human playback acceptance: recorded from Floyd Livingstone Rowe on 19 July 2026
-- Profile 7 trusted browser proof: the accepted film was published publicly with the approved title, description, thumbnail, English (United Kingdom) language, Science and Technology category, not-made-for-children audience, and disclosed artificial-intelligence narration. YouTube reported no copyright or Community Guidelines issues.
-- Independent unauthenticated Hypertext Transfer Protocol proof: the short address redirected to the public watch page, which returned status 200.
+- Human playback acceptance: open for the remediated film; Floyd accepted the prior film on 19 July 2026
+- Profile 7 trusted browser proof: the prior accepted film was published publicly with the approved title, description, thumbnail, English (United Kingdom) language, Science and Technology category, not-made-for-children audience, and disclosed artificial-intelligence narration. Replacement upload remains open.
+- Independent unauthenticated Hypertext Transfer Protocol proof: verified for the prior film; the replacement public address remains open.
 - Devpost thumbnail prepared: `docs/submission/assets/flight-recorder-devpost-thumbnail-3x2.jpg`, 1440 by 960 pixels; authenticated upload remains open.
 
 ## Devpost validation

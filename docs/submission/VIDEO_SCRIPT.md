@@ -16,7 +16,7 @@ Explain the synthetic password-reset task. Codex used GPT-5.6 Terra to find and 
 
 Explain that GPT-5.6 is part of the runtime product, not only the build process. Four structured reviewers assess requirements traceability, security, test adequacy, and evidence completeness. A fifth call synthesises the findings. The model remains advisory, while deterministic application logic controls seal readiness.
 
-Show the five signed review receipts, twenty-two findings, eighteen resolved findings, and four visible accepted demonstration-scope warnings.
+Show the five signed review receipts, nineteen findings, fifteen resolved findings, and four visible accepted demonstration-scope warnings.
 
 Explain that the browser verifier independently recomputes the Secure Hash Algorithm 256-bit artifact hashes, hash-linked event chain, deterministic Merkle root, and Ed25519 signature without relying on a Flight Recorder server, Codex account, or OpenAI Application Programming Interface key.
 
