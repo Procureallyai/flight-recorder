@@ -14,10 +14,10 @@
 - [x] Two final 3:2 gallery screenshots uploaded to the Devpost draft
 - [x] Final 16:9 YouTube thumbnail prepared
 - [x] Final 3:2 Devpost project thumbnail prepared
-- [ ] Final 3:2 Devpost project thumbnail uploaded and saved
+- [x] Final 3:2 Devpost project thumbnail uploaded and saved
 - [x] Under-three-minute narrated demonstration video validated locally
 - [x] Signed-in YouTube Studio upload surface verified through Profile 7 trusted browser proof
-- [x] Floyd playback acceptance
+- [ ] Floyd playback acceptance of the remediated render
 - [x] Public YouTube upload
 - [x] Unauthenticated public YouTube address verification
 
@@ -43,4 +43,4 @@
 
 - [ ] Floyd confirms the replacement OpenAI key is active and revokes the orphaned key named `Codex`
 - [x] Strengthened privacy scanner regression tests and current working-tree scan pass
-- [ ] Rewritten public branches and tags verified free of the private feedback identifier and personal local paths
+- [x] Rewritten public branches and tags verified free of the private feedback identifier and personal local paths

@@ -59,17 +59,17 @@
     "verifiedAt": "2026-07-19"
   },
   "videoUrl": {
-    "value": "https://youtu.be/kGo3LUvXG98",
-    "verified": false,
+    "value": "https://youtu.be/vOFVLWb5aM4",
+    "verified": true,
     "enteredInDevpost": true,
-    "replacementPending": true
+    "replacementPending": false
   },
   "localVideoDraft": {
     "path": "output/video/flight-recorder-openai-build-week-demo.mp4",
     "durationSeconds": 163,
     "width": 1920,
     "height": 1080,
-    "sha256": "0b44120ea4d42bf9120c23669bda1e59ce13279b41fc6a5424d89838f2690728",
+    "sha256": "e6046b7e236088e58934acc9afec4150edf431b95a9bdfdf95f34eb773ecb446",
     "verified": true,
     "humanAccepted": false,
     "humanAcceptedAt": null,
@@ -81,14 +81,15 @@
     "width": 1920,
     "height": 1080,
     "verified": true,
-    "uploaded": false
+    "uploaded": true
   },
   "devpostThumbnail": {
     "path": "docs/submission/assets/flight-recorder-devpost-thumbnail-3x2.jpg",
     "width": 1440,
     "height": 960,
     "verified": true,
-    "enteredInDevpost": false
+    "enteredInDevpost": true,
+    "thumbnailUrl": "https://d112y698adiu2z.cloudfront.net/photos/production/software_thumbnail_photos/004/937/458/datas/medium.jpg"
   },
   "screenshots": [
     {
@@ -96,16 +97,16 @@
       "width": 1440,
       "height": 960,
       "verified": true,
-      "enteredInDevpost": false,
-      "replacesDevpostPhotoId": 4935504
+      "enteredInDevpost": true,
+      "devpostPhotoId": 4937464
     },
     {
       "path": "docs/submission/assets/flight-recorder-hosted-invalid-3x2.png",
       "width": 1440,
       "height": 960,
       "verified": true,
-      "enteredInDevpost": false,
-      "replacesDevpostPhotoId": 4935505
+      "enteredInDevpost": true,
+      "devpostPhotoId": 4937465
     }
   ],
   "feedbackSessionId": {

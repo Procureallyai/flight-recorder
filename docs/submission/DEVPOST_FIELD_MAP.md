@@ -16,7 +16,7 @@
 - Required elevator pitch.
 - Optional thumbnail upload, Joint Photographic Experts Group, Portable Network Graphics, or Graphics Interchange Format, maximum 5 megabytes, recommended 3:2 ratio.
 - Saved values: `Flight Recorder` and `Prove what your coding agent changed, tested and approved.`
-- Prepared thumbnail: `docs/submission/assets/flight-recorder-devpost-thumbnail-3x2.jpg`, 1440 by 960 pixels. Authenticated upload remains open.
+- Saved thumbnail: `docs/submission/assets/flight-recorder-devpost-thumbnail-3x2.jpg`, 1440 by 960 pixels.
 
 ## Project details
 
@@ -26,8 +26,8 @@
 - Image gallery, maximum 15 images, maximum 5 megabytes each, recommended 3:2 ratio.
 - Required public video link.
 - Saved: the verified project story, `OpenAI`, `Responses`, `Web`, and `Cryptography` tags, judge route, repository link, and public video.
-- Uploaded immediately: verified and invalid gallery screenshots, Devpost photo records `4935504` and `4935505`.
-- Public video: `https://youtu.be/kGo3LUvXG98`.
+- Uploaded remediated verified and invalid gallery screenshots, Devpost photo records `4937464` and `4937465`; the stale photo records were removed.
+- Public video: `https://youtu.be/vOFVLWb5aM4`.
 
 ## Additional info
 

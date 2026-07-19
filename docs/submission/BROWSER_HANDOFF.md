@@ -8,7 +8,7 @@
 
 ## Project Details state
 
-The verified project story from `DEVPOST_SUBMISSION.md`, the four accepted technology tags `OpenAI`, `Responses`, `Web`, and `Cryptography`, the public judge link, public repository link, two uploaded gallery screenshots, and verified public video address are saved. The screenshots exist as Devpost photo records `4935504` and `4935505`.
+The verified project story from `DEVPOST_SUBMISSION.md`, the four accepted technology tags `OpenAI`, `Responses`, `Web`, and `Cryptography`, the public judge link, public repository link, final project thumbnail, two remediated gallery screenshots, and remediated public video address are saved. The screenshots exist as Devpost photo records `4937464` and `4937465`.
 
 ## Additional Information values
 
@@ -33,7 +33,7 @@ The following ordinary factual values are saved in the authenticated form:
 
 ## YouTube publication proof
 
-Profile 7 trusted browser proof published the Floyd-approved film at `https://youtu.be/kGo3LUvXG98` on 19 July 2026. The approved title, description, thumbnail, English (United Kingdom) language, Science and Technology category, not-made-for-children audience, and artificial-intelligence narration disclosure were saved. YouTube reported no copyright or Community Guidelines issues. An unauthenticated Hypertext Transfer Protocol request followed the public short link to a status-200 watch page.
+Profile 7 trusted browser proof published the remediated film at `https://youtu.be/vOFVLWb5aM4` on 19 July 2026. The approved title, corrected description, final thumbnail, English (United Kingdom) language, Science and Technology category, not-made-for-children audience, and artificial-intelligence narration disclosure were saved. YouTube reported no copyright or Community Guidelines issues. In-app browser proof loaded the public watch page without authentication and showed the correct title, 2-minute 43-second player duration, and artificial-intelligence disclosure. Floyd's playback acceptance of this remediated render remains open.
 
 ## Stop boundary
 
