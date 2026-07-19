@@ -1,7 +1,7 @@
 # Flight Recorder Active Context
 
-**Updated:** 18 July 2026, British Summer Time
-**Overall status:** End-to-end goal active; hardened Gate A, genuine fallback Gate B, and GPT-5.6 runtime execution verified; Gate C seal readiness remains `not-ready`
+**Updated:** 19 July 2026, British Summer Time
+**Overall status:** End-to-end goal active; hardened Gate A, genuine fallback Gate B, and GPT-5.6 runtime Gate C are verified; the local interface and lifecycle remediation are implemented, while seal readiness remains `not-ready`
 
 ## Memory context
 
@@ -32,9 +32,11 @@
 - Local session initialisation now enforces an explicit allowed Git root, policy acknowledgement, and a pre-existing `.flight-recorder/` Git-ignore rule; it captures the baseline commit and dirty-state digest, writes mode `0700` and `0600` private state, and rejects symbolic-link storage.
 - A synthetic 20-file portable passport bundle exported and independently reverified from `/private/tmp`; it is proof of bundle mechanics, not genuine final provenance.
 - A read-only security review found six material Gate A issues. The cryptographic and verifier flaws were repaired and regression-tested; the synthetic fixture is explicitly barred from being represented as genuine evidence.
-- No hosted or local user interface, release tag, or final submission assets exist yet. A genuine billed GPT-5.6 review artifact now exists at `fixtures/demo-session/review-run.json`.
+- A local React verification split-view interface now exists under `apps/web/`, based on Floyd's approved refined direction 3. It provides the replay, independent verifier, proof disclosure, verified-to-invalid in-memory tamper transition, restore action, loading state, and responsive layout. It is an integration preview, not yet a public hosted route or final genuine-session binding.
+- The synthetic password-reset workspace now has an injected clock and token generator, exact expiry rejection, single-process atomic reservation, consume-after-success behaviour, retry after action failure, neutral dependency-failure responses, identifier-free telemetry, and 10 passing deterministic tests. Its documented atomicity boundary does not extend across processes, hosts, or restarts.
+- No release tag or final submission assets exist yet. A genuine billed GPT-5.6 review artifact exists at `fixtures/demo-session/review-run.json`.
 - The primary Codex task now has an active end-to-end delivery goal covering build, verification, release, deployment, and Devpost draft preparation.
-- Front-end implementation is gated on the Product Design skill and a selected visual target. Accessible shadcn/ui components are the preferred standard primitives.
+- Front-end implementation used the Product Design skill, the approved refined direction 3 source image, Radix accessibility primitives, shadcn/ui-style local components, Phosphor icons, and IBM Plex fonts. Local build and in-app browser quality checks pass; hosted proof remains open.
 - Selective sub-agent parallelism is authorised for bounded research, review, testing, accessibility, security, and documentation lanes. Core implementation and final truth integration remain in this primary task.
 
 ## Live GitHub truth
@@ -68,11 +70,11 @@
 
 ## Immediate work
 
-1. Repair the genuine demonstration evidence capture and implement the expiry, repeated-redemption, concurrent-redemption, and dependency-failure tests identified by GPT-5.6.
-2. Regenerate a visible dark `Integrity Control Room` reference, complete the Product Design checkpoint, and implement the front end with accessible shadcn/ui components.
-3. Rerun the bounded review after remediation, bind the final evidence to Git state and human decisions, and generate the signed judge passport.
-4. Create the public personal GitHub repository, activate the approved Vercel Pro trial, deploy, verify, and return to the Devpost draft only as release facts and assets become available.
+1. Bind the remediated final source and 10-test validation output to a new genuine Codex capture and final-state evidence envelope.
+2. Rerun the bounded review after remediation, bind the result to Git state and human decisions, and generate the signed judge passport.
+3. Create the public personal GitHub repository, activate the approved Vercel Pro trial, deploy, and verify the no-login route twice.
+4. Produce the final video, screenshots, release documentation, `/feedback` Session ID, and remaining factual Devpost fields.
 
 ## Next clean action
 
-Use the genuine `not-ready` findings to repair the demonstration evidence and behavioural coverage, then rerun the review without exposing the key.
+Create the final-state evidence envelope and genuine post-remediation capture, then rerun the review without exposing the key.

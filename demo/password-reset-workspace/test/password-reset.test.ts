@@ -1,15 +1,45 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { requestPasswordReset, type ResetDependencies } from "../src/password-reset.ts";
+import {
+  InMemoryPasswordResetTokenStore,
+  requestPasswordReset,
+  type PasswordResetTokenIssuer,
+  type ResetDependencies,
+} from "../src/password-reset.ts";
+
+const SYNTHETIC_EMAIL = "known@example.test";
+const SYNTHETIC_ACCOUNT_ID = "account-synthetic-001";
+const SYNTHETIC_TOKEN = "token-synthetic-001";
+
+function createTokenStore(
+  options: {
+    now?: number;
+    token?: string;
+    expiresInMilliseconds?: number;
+  } = {},
+) {
+  let now = options.now ?? 1_000_000;
+  const store = new InMemoryPasswordResetTokenStore({
+    clock: () => now,
+    generateToken: () => options.token ?? SYNTHETIC_TOKEN,
+    expiresInMilliseconds: options.expiresInMilliseconds,
+  });
+
+  return {
+    store,
+    setNow(value: number) {
+      now = value;
+    },
+  };
+}
 
 function createDependencies(overrides: Partial<ResetDependencies> = {}): ResetDependencies {
+  const { store } = createTokenStore();
   const dependencies: ResetDependencies = {
     async findAccountByEmail() {
-      return { id: "account-synthetic-001" };
+      return { id: SYNTHETIC_ACCOUNT_ID };
     },
-    async issueSingleUseToken() {
-      return "token-synthetic-001";
-    },
+    tokenStore: store,
     async sendResetInstructions() {},
     async audit() {},
     log() {},
@@ -25,129 +55,277 @@ const neutralResponse = {
 
 test("known accounts receive reset instructions and a neutral response", async () => {
   const deliveries: Array<{ accountId: string; token: string }> = [];
-  const dependencies = createDependencies({
-    async sendResetInstructions(accountId, token) {
-      deliveries.push({ accountId, token });
-    },
-  });
-
-  const result = await requestPasswordReset("known@example.test", dependencies);
+  const result = await requestPasswordReset(
+    SYNTHETIC_EMAIL,
+    createDependencies({
+      async sendResetInstructions(accountId, token) {
+        deliveries.push({ accountId, token });
+      },
+    }),
+  );
 
   assert.deepEqual(result, neutralResponse);
-  assert.deepEqual(deliveries, [
-    { accountId: "account-synthetic-001", token: "token-synthetic-001" },
-  ]);
+  assert.deepEqual(deliveries, [{ accountId: SYNTHETIC_ACCOUNT_ID, token: SYNTHETIC_TOKEN }]);
 });
 
-test("unknown accounts receive the neutral response without issuing a token", async () => {
+test("unknown accounts receive the same neutral response without issuing or delivering", async () => {
   let issueCount = 0;
   let deliveryCount = 0;
-  const dependencies = createDependencies({
-    async findAccountByEmail() {
-      return undefined;
-    },
-    async issueSingleUseToken() {
+  const tokenStore: PasswordResetTokenIssuer = {
+    issue() {
       issueCount += 1;
       return "token-synthetic-unexpected";
     },
-    async sendResetInstructions() {
-      deliveryCount += 1;
-    },
-  });
+  };
 
-  const result = await requestPasswordReset("unknown@example.test", dependencies);
-
-  assert.deepEqual(result, neutralResponse);
-  assert.equal(issueCount, 0);
-  assert.equal(deliveryCount, 0);
-});
-
-test("known and unknown accounts receive exactly equal public responses", async () => {
-  const knownResult = await requestPasswordReset("known@example.test", createDependencies());
   const unknownResult = await requestPasswordReset(
     "unknown@example.test",
     createDependencies({
       async findAccountByEmail() {
         return undefined;
       },
+      tokenStore,
+      async sendResetInstructions() {
+        deliveryCount += 1;
+      },
     }),
   );
+  const knownResult = await requestPasswordReset(SYNTHETIC_EMAIL, createDependencies());
 
-  assert.deepEqual(knownResult, unknownResult);
+  assert.deepEqual(unknownResult, neutralResponse);
+  assert.deepEqual(unknownResult, knownResult);
+  assert.equal(issueCount, 0);
+  assert.equal(deliveryCount, 0);
 });
 
-test("logs and audit events are safe and identical for known and unknown accounts", async () => {
-  const knownLogs: string[] = [];
-  const unknownLogs: string[] = [];
-  const knownAudits: Array<{ event: string; detail: Record<string, string> }> = [];
-  const unknownAudits: Array<{ event: string; detail: Record<string, string> }> = [];
+test("complete telemetry is identifier-free and identical for known and unknown accounts", async () => {
+  async function captureTelemetry(email: string, accountExists: boolean) {
+    const logs: string[] = [];
+    const audits: Array<{ event: string; detail: Record<string, string> }> = [];
 
-  await requestPasswordReset(
-    "known@example.test",
-    createDependencies({
-      log(message) {
-        knownLogs.push(message);
-      },
-      async audit(event, detail) {
-        knownAudits.push({ event, detail });
-      },
+    await requestPasswordReset(
+      email,
+      createDependencies({
+        async findAccountByEmail() {
+          return accountExists ? { id: SYNTHETIC_ACCOUNT_ID } : undefined;
+        },
+        log(message) {
+          logs.push(message);
+        },
+        async audit(event, detail) {
+          audits.push({ event, detail });
+        },
+      }),
+    );
+
+    return { logs, audits };
+  }
+
+  const knownTelemetry = await captureTelemetry(SYNTHETIC_EMAIL, true);
+  const unknownTelemetry = await captureTelemetry("unknown@example.test", false);
+
+  assert.deepEqual(knownTelemetry, {
+    logs: ["Password reset request accepted."],
+    audits: [{ event: "password_reset_request_accepted", detail: { result: "accepted" } }],
+  });
+  assert.deepEqual(unknownTelemetry, knownTelemetry);
+
+  const completeTelemetry = JSON.stringify({ knownTelemetry, unknownTelemetry });
+  assert.doesNotMatch(completeTelemetry, /token-synthetic/i);
+  assert.doesNotMatch(completeTelemetry, /known@example\.test|unknown@example\.test/i);
+  assert.doesNotMatch(completeTelemetry, /account-synthetic/i);
+  assert.doesNotMatch(completeTelemetry, /[a-f0-9]{32,}/i);
+});
+
+test("tokens work before expiry and are rejected exactly at the expiry boundary", async () => {
+  const issuedAt = 5_000;
+  const lifetime = 900_000;
+  const beforeExpiry = createTokenStore({ now: issuedAt, expiresInMilliseconds: lifetime });
+  const beforeToken = beforeExpiry.store.issue(SYNTHETIC_ACCOUNT_ID);
+  beforeExpiry.setNow(issuedAt + lifetime - 1);
+
+  assert.equal(beforeToken, SYNTHETIC_TOKEN);
+  assert.equal(await beforeExpiry.store.redeem(beforeToken, async () => {}), true);
+
+  const atExpiry = createTokenStore({
+    now: issuedAt,
+    token: "token-synthetic-expiry-boundary",
+    expiresInMilliseconds: lifetime,
+  });
+  const atExpiryToken = atExpiry.store.issue(SYNTHETIC_ACCOUNT_ID);
+  atExpiry.setNow(issuedAt + lifetime);
+  let actionCount = 0;
+
+  assert.equal(
+    await atExpiry.store.redeem(atExpiryToken, async () => {
+      actionCount += 1;
     }),
+    false,
+  );
+  assert.equal(actionCount, 0);
+});
+
+test("a successfully redeemed token rejects every repeated redemption", async () => {
+  const { store } = createTokenStore();
+  const token = store.issue(SYNTHETIC_ACCOUNT_ID);
+  let actionCount = 0;
+  const resetAction = async () => {
+    actionCount += 1;
+  };
+
+  assert.equal(await store.redeem(token, resetAction), true);
+  assert.equal(await store.redeem(token, resetAction), false);
+  assert.equal(await store.redeem(token, resetAction), false);
+  assert.equal(actionCount, 1);
+});
+
+test("concurrent redemption reserves the token before awaiting the reset action", async () => {
+  const { store } = createTokenStore();
+  const token = store.issue(SYNTHETIC_ACCOUNT_ID);
+  let releaseFirstAction: (() => void) | undefined;
+  const firstActionCanFinish = new Promise<void>((resolve) => {
+    releaseFirstAction = resolve;
+  });
+  let actionCount = 0;
+
+  const firstAttempt = store.redeem(token, async () => {
+    actionCount += 1;
+    await firstActionCanFinish;
+  });
+  const secondAttempt = store.redeem(token, async () => {
+    actionCount += 1;
+  });
+
+  assert.equal(await secondAttempt, false);
+  releaseFirstAction?.();
+  assert.equal(await firstAttempt, true);
+  assert.equal(actionCount, 1);
+});
+
+test("a failed reset action does not consume the token and permits a later retry", async () => {
+  const { store } = createTokenStore();
+  const token = store.issue(SYNTHETIC_ACCOUNT_ID);
+  const syntheticFailure = new Error("Synthetic reset action failure.");
+  let actionCount = 0;
+
+  await assert.rejects(
+    store.redeem(token, async () => {
+      actionCount += 1;
+      throw syntheticFailure;
+    }),
+    syntheticFailure,
   );
 
-  await requestPasswordReset(
-    "unknown@example.test",
-    createDependencies({
-      async findAccountByEmail() {
-        return undefined;
-      },
-      log(message) {
-        unknownLogs.push(message);
-      },
-      async audit(event, detail) {
-        unknownAudits.push({ event, detail });
-      },
+  assert.equal(
+    await store.redeem(token, async (accountId) => {
+      actionCount += 1;
+      assert.equal(accountId, SYNTHETIC_ACCOUNT_ID);
     }),
+    true,
   );
+  assert.equal(actionCount, 2);
+  assert.equal(await store.redeem(token, async () => {}), false);
+});
 
-  const expectedAudits = [
-    { event: "password_reset_request_accepted", detail: { result: "accepted" } },
+test("lookup, issuance, and delivery failures retain the neutral response and safe telemetry", async () => {
+  const failureCases: Array<{ name: string; overrides: Partial<ResetDependencies> }> = [
+    {
+      name: "lookup",
+      overrides: {
+        async findAccountByEmail() {
+          throw new Error("Synthetic lookup failure containing known@example.test");
+        },
+      },
+    },
+    {
+      name: "issuance",
+      overrides: {
+        tokenStore: {
+          issue() {
+            throw new Error("Synthetic issuance failure containing account-synthetic-001");
+          },
+        },
+      },
+    },
+    {
+      name: "delivery",
+      overrides: {
+        async sendResetInstructions() {
+          throw new Error("Synthetic delivery failure containing token-synthetic-001");
+        },
+      },
+    },
   ];
-  assert.deepEqual(knownLogs, ["Password reset request accepted."]);
-  assert.deepEqual(unknownLogs, knownLogs);
-  assert.deepEqual(knownAudits, expectedAudits);
-  assert.deepEqual(unknownAudits, knownAudits);
 
-  const telemetry = JSON.stringify({ logs: knownLogs, audits: knownAudits });
-  assert.doesNotMatch(telemetry, /token-synthetic-001/);
-  assert.doesNotMatch(telemetry, /account-synthetic-001/);
-  assert.doesNotMatch(telemetry, /known@example\.test/);
+  for (const failureCase of failureCases) {
+    const logs: string[] = [];
+    const audits: Array<{ event: string; detail: Record<string, string> }> = [];
+    const result = await requestPasswordReset(
+      SYNTHETIC_EMAIL,
+      createDependencies({
+        ...failureCase.overrides,
+        log(message) {
+          logs.push(message);
+        },
+        async audit(event, detail) {
+          audits.push({ event, detail });
+        },
+      }),
+    );
+
+    assert.deepEqual(result, neutralResponse, failureCase.name);
+    assert.deepEqual(logs, ["Password reset request accepted."], failureCase.name);
+    assert.deepEqual(
+      audits,
+      [{ event: "password_reset_request_accepted", detail: { result: "accepted" } }],
+      failureCase.name,
+    );
+    assert.doesNotMatch(
+      JSON.stringify({ logs, audits }),
+      /token-synthetic|account-synthetic|known@example\.test/i,
+      failureCase.name,
+    );
+  }
 });
 
-test("token issuance requires a 15-minute expiry", async () => {
-  const receivedOptions: Array<{ expiresInMinutes: number; maxUses: 1 }> = [];
-  const dependencies = createDependencies({
-    async issueSingleUseToken(_accountId, options) {
-      receivedOptions.push(options);
-      return "token-synthetic-001";
-    },
-  });
+test("logging and audit failures are isolated and retain the neutral response", async () => {
+  let auditAfterLogFailureCount = 0;
+  const logFailureResult = await requestPasswordReset(
+    SYNTHETIC_EMAIL,
+    createDependencies({
+      log() {
+        throw new Error("Synthetic logging failure containing token-synthetic-001");
+      },
+      async audit() {
+        auditAfterLogFailureCount += 1;
+      },
+    }),
+  );
 
-  await requestPasswordReset("known@example.test", dependencies);
+  let logBeforeAuditFailureCount = 0;
+  const auditFailureResult = await requestPasswordReset(
+    SYNTHETIC_EMAIL,
+    createDependencies({
+      log() {
+        logBeforeAuditFailureCount += 1;
+      },
+      async audit() {
+        throw new Error("Synthetic audit failure containing account-synthetic-001");
+      },
+    }),
+  );
 
-  assert.deepEqual(receivedOptions, [{ expiresInMinutes: 15, maxUses: 1 }]);
+  assert.deepEqual(logFailureResult, neutralResponse);
+  assert.deepEqual(auditFailureResult, neutralResponse);
+  assert.equal(auditAfterLogFailureCount, 1);
+  assert.equal(logBeforeAuditFailureCount, 1);
 });
 
-test("one request issues one token under the single-use contract", async () => {
-  let issueCount = 0;
-  const dependencies = createDependencies({
-    async issueSingleUseToken(_accountId, options) {
-      issueCount += 1;
-      assert.equal(options.maxUses, 1);
-      return "token-synthetic-001";
-    },
-  });
+test("the default token lifetime is fifteen minutes", async () => {
+  const issuedAt = 10_000;
+  const { store, setNow } = createTokenStore({ now: issuedAt });
+  const token = store.issue(SYNTHETIC_ACCOUNT_ID);
+  setNow(issuedAt + 15 * 60 * 1_000);
 
-  await requestPasswordReset("known@example.test", dependencies);
-
-  assert.equal(issueCount, 1);
+  assert.equal(await store.redeem(token, async () => {}), false);
 });

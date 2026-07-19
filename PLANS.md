@@ -1,6 +1,6 @@
 # Flight Recorder Build Week Execution Plan
 
-**Status:** End-to-end goal active. Hardened passport Gate A, genuine fallback-capture Gate B, and the unsealed genuine candidate are verified locally. GPT-5.6 runtime Gate C and the selected interface build are the next human-gated lanes.
+**Status:** End-to-end goal active. Hardened passport Gate A, genuine fallback-capture Gate B, and real GPT-5.6 runtime Gate C are verified locally. The selected verification split-view interface and password-reset lifecycle remediation are implemented locally; final evidence binding, release, deployment, assets, and submission remain open.
 
 ## Objective
 
@@ -33,10 +33,10 @@ Build, test, document, deploy, and prepare Flight Recorder for the OpenAI Build 
 ## Current decision gates
 
 - Entrant: Floyd Livingstone Rowe as an individual. Confirmed 18 July 2026.
-- Remote owner: personal GitHub account or Evidary AI Ltd organisation.
-- Repository: recommended public Apache License 2.0, subject to ownership and commercial review.
-- Hosting: existing eligible provider or paid Vercel Pro; do not assume Vercel Hobby is valid for a prize-bearing deployment without provider confirmation.
-- Runtime model budget and OpenAI Application Programming Interface billing authority.
+- Remote owner: Floyd's personal GitHub account, pending authentication verification.
+- Repository: public Apache License 2.0, approved by Floyd.
+- Hosting: Vercel using the approved 14-day Pro trial; activation and provider terms remain separate human and deployment truth surfaces.
+- Runtime model budget: US$10.00 prepaid Application Programming Interface credit verified and genuine GPT-5.6 review executed.
 - Build credits: US$100 Build Week Codex credit confirmed received; actual remaining balance is not yet inspected.
 - Front-end delivery: Product Design skill invocation and visual selection are mandatory before user-interface implementation; use shadcn/ui to compress standard component work.
 - Devpost Plugin: installed and connected as an advisory aid; it never overrides current official rules or verified release facts.
@@ -52,4 +52,4 @@ Build, test, document, deploy, and prepare Flight Recorder for the OpenAI Build 
 
 ## Next clean action
 
-Run the bounded GPT-5.6 specialist and synthesis review through securely injected server-side access, then assemble the genuine signed judge passport.
+Bind the remediated final source and validation evidence to a new genuine Codex capture, rerun the bounded GPT-5.6 review, then assemble the genuine signed judge passport.
