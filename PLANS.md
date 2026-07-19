@@ -1,6 +1,6 @@
 # Flight Recorder Build Week Execution Plan
 
-**Status:** End-to-end goal active. Hardened passport Gate A, genuine fallback-capture Gate B, and real GPT-5.6 runtime Gate C are verified locally. The genuine passport and interface are verified, and public GitHub `main` matches local commit `a6d8baa`; release tagging, deployment, assets, and submission remain open.
+**Status:** End-to-end goal active. Gates A through D are verified: the signed passport, genuine capture, GPT-5.6 review, public GitHub repository, green Continuous Integration run, and public no-login judge route pass. Release tagging, video, final assets, `/feedback`, and submission remain open.
 
 ## Objective
 
@@ -26,7 +26,7 @@ Build, test, document, deploy, and prepare Flight Recorder for the OpenAI Build 
 - Gate A: fixture becomes a signed passport and verifies; tamper fails.
 - Gate B: genuine Codex session is captured or imported through the documented fallback.
 - Gate C: at least one real GPT-5.6 structured review succeeds and is evidence-linked.
-- Gate D: public no-login judge route completes twice and local live mode works on the stated platform.
+- Gate D: public no-login judge route completes twice and local live mode works on the stated platform. Verified for the hosted route on 19 July 2026; live approval exchange remains a separate local limitation.
 - Gate E: release checks, secret scan, licence review, links, video, and submission metadata are verified.
 - Gate F: Devpost draft is saved at final operator review without legal acceptance or submission.
 
@@ -35,13 +35,13 @@ Build, test, document, deploy, and prepare Flight Recorder for the OpenAI Build 
 - Entrant: Floyd Livingstone Rowe as an individual. Confirmed 18 July 2026.
 - Remote owner: Floyd's selected personal GitHub login `Procureallyai`, verified through Profile 7 and the GitHub command-line client on 19 July 2026.
 - Repository: public Apache License 2.0, approved by Floyd.
-- Hosting: Vercel using the approved 14-day Pro trial; activation and provider terms remain separate human and deployment truth surfaces.
+- Hosting: Vercel project `flight-recorder-web` is publicly deployed from GitHub. The dashboard currently reports Hobby; the approved 14-day Pro trial was not required or activated for the static judge route.
 - Runtime model budget: US$10.00 prepaid Application Programming Interface credit verified and genuine GPT-5.6 review executed.
 - Build credits: US$100 Build Week Codex credit confirmed received; actual remaining balance is not yet inspected.
 - Front-end delivery: Product Design skill invocation and visual selection are mandatory before user-interface implementation; use shadcn/ui to compress standard component work.
 - Devpost Plugin: installed and connected as an advisory aid; it never overrides current official rules or verified release facts.
 - Secrets: use user-approved 1Password Environments injection for the OpenAI Application Programming Interface key and deployment credentials; never persist raw values.
-- Repository: `https://github.com/Procureallyai/flight-recorder` is public under Apache License 2.0; live and local `main` match at `a6d8baa`.
+- Repository: `https://github.com/Procureallyai/flight-recorder` is public under Apache License 2.0; live and local `main` match at `f858933`, with green Continuous Integration run `29677887315`.
 - Parallelism: use explicitly owned sub-agent lanes when they materially accelerate research, review, testing, accessibility, security, or documentation. Preserve the primary task as the majority core-build record.
 - Browser fallback: use Chrome Profile 7 for authenticated Devpost state and operator handoff. If it is unavailable, use the Codex in-app browser for local, public, or unauthenticated checks, label the route, and leave Profile 7-dependent actions open.
 
@@ -53,4 +53,4 @@ Build, test, document, deploy, and prepare Flight Recorder for the OpenAI Build 
 
 ## Next clean action
 
-Deploy the published `a6d8baa` state to Vercel, then complete two no-login hosted verification runs.
+Use the final hosted 3:2 screenshots and create the under-three-minute video from `https://flight-recorder-web.vercel.app/`, then complete the release tag and `/feedback` gate.

@@ -6,7 +6,7 @@
 
 Vercel is the selected host. Floyd approved the 14-day Vercel Pro trial on 18 July 2026. Build and deployment remain plan-portable.
 
-No trial activation, provider-term acceptance, deployment, or purchase has yet been performed by Codex. Those remain separate execution and human-acceptance gates.
+Floyd completed Vercel provider and account-security steps on 19 July 2026. Codex installed the Vercel GitHub application for `Procureallyai/flight-recorder` only, deployed the static judge route, and verified the public production address twice. The dashboard reported the project under Hobby; the approved Pro trial was not activated, no purchase was made, and no Pro-only capability is required by this deployment.
 
 ## Evidence
 

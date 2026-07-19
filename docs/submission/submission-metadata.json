@@ -34,8 +34,8 @@
     "enteredInDevpost": false
   },
   "demoUrl": {
-    "value": "",
-    "verified": false,
+    "value": "https://flight-recorder-web.vercel.app/",
+    "verified": true,
     "enteredInDevpost": false
   },
   "videoUrl": {
@@ -43,6 +43,22 @@
     "verified": false,
     "enteredInDevpost": false
   },
+  "screenshots": [
+    {
+      "path": "docs/submission/assets/flight-recorder-hosted-verified-3x2.png",
+      "width": 1440,
+      "height": 960,
+      "verified": true,
+      "enteredInDevpost": false
+    },
+    {
+      "path": "docs/submission/assets/flight-recorder-hosted-invalid-3x2.png",
+      "width": 1440,
+      "height": 960,
+      "verified": true,
+      "enteredInDevpost": false
+    }
+  ],
   "feedbackSessionId": {
     "source": "docs/submission/submission-secrets.local.json",
     "verified": false,

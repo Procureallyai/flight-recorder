@@ -54,6 +54,7 @@ The demonstration intentionally proves one-process token atomicity and best-effo
 ## Repository and installation
 
 - Repository: `https://github.com/Procureallyai/flight-recorder`
+- Public judge route: `https://flight-recorder-web.vercel.app/`
 - Licence: Apache License 2.0
 - Tested local capture platform: macOS with desktop-bundled `codex-cli 0.145.0-alpha.18`
 - Local requirements: Node.js 22 or later and pnpm 8.15.9
@@ -69,6 +70,10 @@ node packages/cli/dist/index.js verify fixtures/judge-passport/passport.json fix
 
 Codex, GPT-5.6, OpenAI Responses Application Programming Interface, TypeScript, Node.js, React, Vite, Vitest, Codex App Server, Web Cryptography, Secure Hash Algorithm 256-bit, Ed25519, GitHub, and Vercel.
 
+## Judge instructions
+
+Open `https://flight-recorder-web.vercel.app/` in a modern browser. No account or Application Programming Interface key is required. Confirm the initial `VERIFIED` state, inspect the proof details and accepted warnings, select **Alter covered artifact in memory**, confirm the `INVALID` state and artifact mismatch, then select **Restore original artifact** and confirm that verification returns to `VERIFIED`.
+
 ## Release-dependent fields
 
-The public demonstration address, public YouTube address, final release tag, and private `/feedback` Session Identifier must be added only after direct verification. The private Session Identifier must never enter this public document or repository.
+The public YouTube address, final release tag, and private `/feedback` Session Identifier must be added only after direct verification. The private Session Identifier must never enter this public document or repository.

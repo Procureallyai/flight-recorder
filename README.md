@@ -41,7 +41,8 @@ The cryptographic claim is deliberately narrow: a valid passport shows that the 
 | Passport | Floyd approved the narrow integrity claim and accepted four warning records as demonstration-scope risks. The genuine-session passport contains 18 hash-linked events, four artifacts, five review receipts, 22 human finding decisions, and an Ed25519 signature created without persisting the private key. All eight independent checks pass. |
 | User interface | Floyd selected refined Product Design option 3. The local verification split view runs the actual browser verifier against the genuine-session passport and is production-built and interaction-checked through `in-app browser proof`. Public hosted proof remains open. |
 | GitHub | The public Apache License 2.0 repository is [Procureallyai/flight-recorder](https://github.com/Procureallyai/flight-recorder). Live `main` and local `main` matched when publication was verified on 19 July 2026. |
-| Deployment, video, and Devpost | Not yet release-complete. These remain separate evidence surfaces. |
+| Deployment | The public no-login judge route is [flight-recorder-web.vercel.app](https://flight-recorder-web.vercel.app/). Two fresh hosted runs completed verified, invalid after a memory-only artifact change, and verified after restoration. |
+| Video and Devpost | Not yet release-complete. These remain separate evidence surfaces. |
 
 See [the validation matrix](planning/VALIDATION_MATRIX.md) and [active context](memory_bank/activeContext.md) for current details.
 
@@ -73,13 +74,13 @@ planning                 Decisions, blockers, validation, security review, and c
 - A compatible signed-in Codex installation for new captures.
 - Separately billed OpenAI Application Programming Interface access for genuine runtime GPT-5.6 review.
 
-The hosted judge route will not require an account, an Application Programming Interface key, or local code execution.
+The hosted judge route requires no account, Application Programming Interface key, or local code execution.
 
 ## Supported platforms and judge instructions
 
 - The local Codex capture route is tested on macOS with desktop-bundled `codex-cli 0.145.0-alpha.18`.
 - Local build and verification require Node.js 22 or later and pnpm 8.15.9.
-- The judge interface performs verification in the browser through Web Cryptography. The hosted production address remains unverified until Vercel deployment and two no-login checks complete.
+- The judge interface performs verification in the browser through Web Cryptography. The production route is `https://flight-recorder-web.vercel.app/` and completed two no-login verification runs on 19 July 2026.
 - To verify the signed judge passport directly after installing dependencies and building, run:
 
 ```zsh
