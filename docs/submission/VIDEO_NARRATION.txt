@@ -1,21 +1,17 @@
-Code generation creates output. Serious engineering also needs evidence that can survive inspection.
+Code generation creates output. Serious engineering needs evidence that survives inspection.
 
-Flight Recorder is a verifiable engineering passport for software built with Codex. It records what changed, what was tested, reviewed, and approved.
+Flight Recorder is a verifiable engineering passport for software built with Codex. On the left is what happened: the task, agent actions, tests, final Git state, review findings, and approval. On the right is an independent verifier. This public replay comes from a genuine, sanitised Codex session. It records observable activity, not private reasoning.
 
-This public, no-login interface replays a sanitised genuine Codex session for a synthetic password-reset task. It preserves observable engineering events without storing private reasoning, and binds the task, commands, tests, final Git state, and four committed artifacts.
+The demonstration task is a password-reset flow. Codex used G P T five point six Terra to find a stalled audit path, repair it, and pass sixteen deterministic tests. Flight Recorder then bound the final capture to one clean commit, one passing post-commit test, and four committed artifacts.
 
-Codex was the primary engineering partner throughout Build Week. The final run used G P T five point six Terra. It found a stalled audit-response path, repaired it, and completed sixteen deterministic tests. Flight Recorder then bound the capture to one clean commit and one passing post-commit test.
+G P T five point six is not only how we built it. It runs inside the product. Four structured reviewers examine requirements, security, tests, and evidence completeness. A fifth synthesises their findings. Every finding points to stable evidence. The model advises. Deterministic logic alone decides whether the passport is ready to seal.
 
-G P T five point six is also part of the runtime product. Four structured specialists review requirements traceability, security, test adequacy, and evidence completeness. A fifth call synthesises the result. Findings cite stable evidence identifiers, but deterministic application logic decides whether the passport is ready to seal.
+This passport contains five signed review receipts and twenty-two findings. Eighteen were resolved. Four low-severity warnings remain visible as explicitly accepted demonstration-scope risks, not hidden production capabilities.
 
-This passport contains five signed review receipts and twenty-two findings. Eighteen were resolved. Four remain visible as accepted demonstration-scope risks for durable audit delivery and distributed token atomicity.
+The browser verifier recomputes every Secure Hash Algorithm 256-bit artifact hash, the hash-linked event chain, the deterministic Merkle root, and the E D two five five one nine signature. It needs no Flight Recorder server, Codex account, or OpenAI Application Programming Interface key.
 
-The independent browser verifier recomputes the Secure Hash Algorithm 256-bit artifact hashes, hash-linked event chain, deterministic Merkle root, and E D two five five one nine signature. It needs no Flight Recorder server, Codex account, or OpenAI Application Programming Interface key.
+The claim is deliberately narrow. The covered evidence has not changed since sealing by the corresponding key holder. That does not prove correctness, certified security, signer identity, legal compliance, or trusted time.
 
-The claim is narrow: the covered evidence has not changed since sealing by the corresponding key holder. It does not claim correctness, certified security, signer identity, legal compliance, or trusted time.
+Now I change one covered artifact, safely, in browser memory. The signed manifest remains intact, but the artifact no longer matches. Verification turns red immediately, identifies the exact mismatch, and uploads nothing.
 
-I will alter one covered artifact safely in browser memory. The signature remains valid, but the artifact hash no longer matches. Verification turns red immediately and identifies the mismatch. Nothing is uploaded.
-
-Restoring the artifact returns the passport to verified. That green-to-red transition is the core proof: the evidence is portable, independently checkable, and sensitive to a covered change.
-
-Flight Recorder does not ask reviewers to trust an engineering story. It gives them the evidence, the limits, and the means to verify both.
+Restore the original artifact, and the passport verifies again. That green-to-red-to-green transition is the point. A pull request shows the code that landed. Flight Recorder adds the reviewable evidence around it, and gives any reviewer the means to verify it independently. This demonstration, including its disclosed OpenAI voice narration, was created through Codex.

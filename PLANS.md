@@ -1,6 +1,6 @@
 # Flight Recorder Build Week Execution Plan
 
-**Status:** End-to-end goal active. Gates A through D are verified, the public `v0.1.0` release is published from the green release candidate, and a validated 160-second local video draft exists. Public video publication, `/feedback`, Devpost completion, and human acceptance remain open.
+**Status:** End-to-end goal active. Gates A through D are verified, the public `v0.1.0` release is published from the green release candidate, and a validated 163-second local OpenAI Cedar video draft exists. Public video publication, `/feedback`, Devpost completion, and human acceptance remain open.
 
 ## Objective
 
@@ -37,6 +37,7 @@ Build, test, document, deploy, and prepare Flight Recorder for the OpenAI Build 
 - Repository: public Apache License 2.0, approved by Floyd.
 - Hosting: Vercel project `flight-recorder-web` is publicly deployed from only `Procureallyai/flight-recorder`. Profile 7 trusted browser proof reports Hobby and a `Ready` production deployment from inspected deployment-source commit `ef80990`; the approved 14-day Pro trial was not required or activated for the static judge route.
 - Runtime model budget: US$10.00 prepaid Application Programming Interface credit verified and genuine GPT-5.6 review executed.
+- Narration models: the OpenAI project allows `gpt-4o-mini-tts`, its dated `2025-12-15` snapshot, `gpt-realtime-2.1`, and `gpt-audio-1.5`. Use the dedicated `gpt-4o-mini-tts` speech endpoint with Cedar for the bounded film; reserve Realtime and conversational audio models for interactive voice-agent work.
 - Build credits: US$100 Build Week Codex credit confirmed received; actual remaining balance is not yet inspected.
 - Front-end delivery: Product Design skill invocation and visual selection are mandatory before user-interface implementation; use shadcn/ui to compress standard component work.
 - Devpost Plugin: installed and connected as an advisory aid; it never overrides current official rules or verified release facts.
@@ -53,4 +54,4 @@ Build, test, document, deploy, and prepare Flight Recorder for the OpenAI Build 
 
 ## Next clean action
 
-Review the local 160-second video draft at `output/video/flight-recorder-openai-build-week-demo.mp4`, publish the accepted file publicly on YouTube, then complete the `/feedback` gate.
+Review the local 163-second OpenAI Cedar video draft at `output/video/flight-recorder-openai-build-week-demo.mp4`, publish the accepted file publicly on YouTube, then complete the `/feedback` gate.

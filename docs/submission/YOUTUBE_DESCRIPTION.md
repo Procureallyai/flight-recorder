@@ -27,7 +27,7 @@ The demonstration shows:
 
 The integrity claim is deliberately narrow: the covered evidence has not changed since sealing by the corresponding key holder. Flight Recorder does not claim correctness, certified security, verified signer identity, legal compliance, or trusted time.
 
-This video uses synthetic narration. No private reasoning, Application Programming Interface key, private signing key, or private `/feedback` Session Identifier appears in the recording.
+This demonstration was scripted, assembled, synchronised, and validated through Codex. Its disclosed synthetic narration was generated with OpenAI's `gpt-4o-mini-tts` speech model using the Cedar voice. No private reasoning, Application Programming Interface key, private signing key, or private `/feedback` Session Identifier appears in the recording.
 
 #OpenAIBuildWeek #Codex #DeveloperTools
 

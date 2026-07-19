@@ -42,8 +42,8 @@
 - The primary Codex task now has an active end-to-end delivery goal covering build, verification, release, deployment, and Devpost draft preparation.
 - Front-end implementation used the Product Design skill, the approved refined direction 3 source image, Radix accessibility primitives, shadcn/ui-style local components, Phosphor icons, and IBM Plex fonts. The genuine passport production build and `in-app browser proof` pass for verified, invalid, restore, proof details, accepted warnings, and 390-pixel mobile states without horizontal overflow or console warnings and errors. The design quality assurance comparison passes; browser requests remained local and hosted proof remains open.
 - Selective sub-agent parallelism is authorised for bounded research, review, testing, accessibility, security, and documentation lanes. Core implementation and final truth integration remain in this primary task.
-- A reproducible 160-second 1920 by 1080 H.264 demonstration video now exists locally at `output/video/flight-recorder-openai-build-week-demo.mp4`. It includes an Advanced Audio Coding narration track at 48 kilohertz, a visible synthetic-narration disclosure, the genuine verified and invalid states, the narrow claim, Codex use, GPT-5.6 runtime use, and the public judge address. The final file has Secure Hash Algorithm 256-bit digest `2175c3c92867d39522028fd733bd5274d506e6f51b50a6b1f39fabe2c6fc595c`. Integrated loudness measures minus 16.53 loudness units relative to full scale. Public YouTube availability and human acceptance remain unverified.
-- The OpenAI Audio Application Programming Interface returned permission errors for the version-pinned speech model, the general GPT-4o speech model, and the high-definition text-to-speech model under the selected project. The local video therefore uses the macOS British English synthetic voice `Daniel` at 160 words per minute; no key or audio payload was exposed.
+- A reproducible 163-second 1920 by 1080 H.264 demonstration video now exists locally at `output/video/flight-recorder-openai-build-week-demo.mp4`. It includes a 48-kilohertz Advanced Audio Coding track generated in five screen-aligned scenes with OpenAI's `gpt-4o-mini-tts` speech model and Cedar voice, a visible synthetic-narration disclosure, the genuine verified and invalid states, the narrow claim, Codex use, GPT-5.6 runtime use, and the public judge address. The file has Secure Hash Algorithm 256-bit digest `cf5baa5d022139453473f13322a0cce3349954d68d492f172abf8fae8e762b3f`. Measured integrated loudness is minus 17.0 loudness units relative to full scale, true peak is minus 1.4 decibels true peak, no silence longer than two seconds was detected, and sampled frames cover every scene. Public YouTube availability and Floyd's playback acceptance remain unverified.
+- Profile 7 trusted browser proof expanded the OpenAI project allowlist to `gpt-4o-mini-tts`, its dated `2025-12-15` snapshot, `gpt-realtime-2.1`, and `gpt-audio-1.5`. The project key lists all four models. The stable speech alias generated the narration, while both speech identifiers intermittently returned permission-denied responses during propagation; bounded retries completed the five local scenes without exposing the key.
 
 ## Live GitHub truth
 
@@ -64,6 +64,7 @@
 - The Devpost Hackathons Plugin was installed and connected through Profile 7 trusted browser proof on 18 July 2026. No secret or repository file was transmitted during installation.
 - Profile 7 trusted browser proof confirmed the signed-in YouTube Studio channel dashboard loads and exposes the standard video-upload control. No upload or channel setting was changed; the Studio tab remains open for the accepted-video handoff.
 - Profile 7 trusted browser proof showed a US$10.00 OpenAI Application Programming Interface prepaid balance, automatic recharge off, Usage Tier 1, and US$0.00 of a US$100.00 organisation spend limit.
+- Profile 7 trusted browser proof saved broader model permissions for speech and conversational audio. Direct Application Programming Interface model enumeration confirmed `gpt-4o-mini-tts`, its dated snapshot, `gpt-realtime-2.1`, and `gpt-audio-1.5` are visible to the selected project key.
 - Browser fallback contract: use Chrome Profile 7 for authenticated Devpost work and real-session operator handoff. If it is unavailable, use the Codex in-app browser for local, public, or unauthenticated work, label the evidence `in-app browser proof`, and leave Profile 7-dependent actions open.
 
 ## Deployment truth
@@ -84,9 +85,9 @@
 
 ## Immediate work
 
-1. Have Floyd review the local 160-second video draft, then publish the accepted file publicly on YouTube and verify it in private browsing. Two final 1440 by 960 pixel hosted screenshots exist under `docs/submission/assets/` and are already attached to the Devpost project-details draft.
+1. Have Floyd review the local 163-second OpenAI Cedar video draft, then publish the accepted file publicly on YouTube and verify it in private browsing. Two final 1440 by 960 pixel hosted screenshots exist under `docs/submission/assets/` and are already attached to the Devpost project-details draft.
 2. Run `/feedback`, store the private Session Identifier outside public artifacts, and complete the remaining factual Devpost fields.
 
 ## Next clean action
 
-Obtain Floyd's human acceptance of the local video draft, publish it publicly on YouTube, then run `/feedback` from this primary task.
+Obtain Floyd's human acceptance of the local OpenAI Cedar video draft, publish it publicly on YouTube, then run `/feedback` from this primary task.
