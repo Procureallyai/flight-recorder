@@ -1,7 +1,7 @@
 # Flight Recorder Active Context
 
 **Updated:** 19 July 2026, British Summer Time
-**Overall status:** End-to-end goal active; the genuine passport, interface, public repository, hosted judge route, annotated `v0.1.0` tag and release, public under-three-minute video, and ordinary Devpost fields are verified, but a bounded privacy, dependency, licensing, documentation, and thumbnail remediation pass is active before final legal review and human submission
+**Overall status:** Technical delivery and the bounded remediation pass are complete. The genuine passport, interface, public repository, hosted judge route, annotated `v0.1.0` tag and release, public under-three-minute video, final Devpost thumbnail and screenshots, and all ordinary Devpost fields are verified. Playback acceptance of the remediated film, final factual and legal review, acceptance of terms, and human submission remain open.
 
 ## Memory context
 
@@ -26,9 +26,9 @@
 - A redaction regression discovered during import was fixed: source-code expressions such as `token = dependencies.tokenStore.issue(...)` and synthetic identifier constants are preserved, while literal secret assignments remain redacted. Focused evidence tests cover both cases.
 - The raw capture remains private and gitignored. The public fixture records approval coverage as `not-observed` and contains no raw reasoning or absolute local path.
 - Review binding assembled the remediated genuine-session candidate from 17 events, four artifacts, 19 findings, and five GPT-5.6 receipts. Floyd approved sealing under the narrow integrity claim and accepted the four unresolved warnings as demonstration-scope risks. The typed approval tail records 19 human decisions: 15 evidence-backed resolved findings and four accepted-risk warnings.
-- The genuine judge passport now exists at `fixtures/judge-passport/passport.json`. It contains 18 hash-linked events, four committed artifacts, five signed review receipts, 22 finding decisions, an Ed25519 signature generated with an in-memory key, and no persisted private key. Independent command-line verification passes all eight checks, and regression coverage proves covered-artifact tampering fails verification.
+- The genuine judge passport now exists at `fixtures/judge-passport/passport.json`. It contains 18 hash-linked events, four committed artifacts, five signed review receipts, 19 finding decisions, an Ed25519 signature generated with an in-memory key, and no persisted private key. Independent command-line verification passes all eight checks, and regression coverage proves covered-artifact tampering fails verification.
 - Portable-path, count, and file-size limits protect schema, command-line verification, deterministic directory bundles, and the final-state evidence envelope. The product suite passes 126 tests, plus 16 demonstration-workspace tests.
-- The final pre-submit audit identified scanner coverage gaps around the private feedback identifier and absolute local paths, plus Vite advisories. Current working-tree remediation is verified: nine scanner regression tests pass, 161 public files pass without printing candidate values, no tracked working-tree file contains the private feedback identifier, Vite is upgraded to 6.4.3, the production build and complete test suites pass, and production and full dependency audits report no known vulnerabilities. Rewriting and verifying the affected public history remains open.
+- The final pre-submit audit identified scanner coverage gaps around the private feedback identifier and absolute local paths, plus Vite advisories. The remediation is verified: nine scanner regression tests pass, 161 public files and all 59 public-history commits pass without printing candidate values, no tracked working-tree file contains the private feedback identifier, Vite is upgraded to 6.4.3, the production build and complete test suites pass, and production and full dependency audits report no known vulnerabilities.
 - The bridge binds only to `127.0.0.1`, uses a one-time fragment pairing link and restricted session cookie, rejects non-loopback origins, and exposes no generic command endpoint. Live executable preflight matches `codex-cli 0.145.0-alpha.18`.
 - The App Server client launches without a shell, correlates bounded requests, suppresses recognised reasoning notifications, supports explicit command and file approval responses, and fails closed on malformed output. A second normalisation boundary validates authoritative observable events, applies redaction and pseudonymisation, and fails closed on unsupported or unresolved state.
 - Direct local proof covers protocol initialisation, ephemeral thread creation, and a bounded live no-command turn. The hardened normaliser produced four sanitised observable events with zero issues and no command or file-change evidence. Approval mapping is fixture-tested; live approval exchange remains unverified, and typed permission approvals are intentionally unsupported.
@@ -38,7 +38,7 @@
 - A React verification split-view interface exists under `apps/web/`, based on Floyd's approved refined direction 3. It runs the real browser-compatible verifier against the genuine signed judge passport and provides proof disclosure, accepted-scope warnings, a truthful verified-to-invalid in-memory artifact mismatch, restore and visible loading states, and responsive layout. The exact release candidate is publicly deployed on Vercel.
 - The evidence layer now supports a bounded final-state envelope containing committed artifact snapshots, one stable final commit, clean scoped Git state, and exactly one passing post-commit test. The command-line finaliser reads covered bytes from Git objects, checks scope cleanliness and commit stability before and after testing, writes atomically with mode `0600`, and candidate assembly accepts only the finalised capture without rereading the working tree.
 - The synthetic password-reset workspace now has uniform deferred scheduling off the response path, an injected clock and token generator, exact expiry rejection, single-process atomic reservation, consume-after-success behaviour, safe retry contracts, neutral dependency-failure responses, identifier-free telemetry, and 16 passing deterministic tests. Audit durability and cross-process persistence remain explicit production boundaries.
-- The rewritten public `v0.1.0` tag and GitHub Release resolve to the remediated release record. Two final 1440 by 960 pixel submission screenshots exist under `docs/submission/assets/`. A genuine billed GPT-5.6 review artifact exists at `fixtures/demo-session/review-run-post-remediation.json`. The tag requires one final move after the refreshed assets and evidence record are committed.
+- The rewritten public `v0.1.0` tag and GitHub Release resolve to the final remediated release record. Two final 1440 by 960 pixel submission screenshots exist under `docs/submission/assets/`. A genuine billed GPT-5.6 review artifact exists at `fixtures/demo-session/review-run-post-remediation.json`.
 - The primary Codex task now has an active end-to-end delivery goal covering build, verification, release, deployment, and Devpost draft preparation.
 - Front-end implementation used the Product Design skill, the approved refined direction 3 source image, Radix accessibility primitives, shadcn/ui-style local components, Phosphor icons, and IBM Plex fonts. The genuine passport production build, local `in-app browser proof`, and two public no-login hosted runs pass verified, invalid, restore, proof details, accepted warnings, and responsive states without horizontal overflow or console warnings and errors. The design quality assurance comparison passes.
 - Selective sub-agent parallelism is authorised for bounded research, review, testing, accessibility, security, and documentation lanes. Core implementation and final truth integration remain in this primary task.
@@ -49,9 +49,9 @@
 
 - Profile 7 trusted browser proof completed GitHub's device authorisation for the official GitHub command-line client as `Procureallyai` on 19 July 2026.
 - The public Apache License 2.0 repository exists at `https://github.com/Procureallyai/flight-recorder` with `main` as its default branch.
-- Public `main` and annotated tag `v0.1.0` resolve to the remediated release record. Repository metadata reports `PUBLIC`, Apache License 2.0, and the approved description. GitHub release immutability is not enabled. The tag requires one final move after the refreshed assets and evidence record are committed.
-- Continuous Integration run `29683935509` passed the remediated release record. GitHub emitted one informational deprecation warning because pinned actions still target the Node.js 20 action runtime and were forced onto Node.js 24 by the runner. A final run is required after the refreshed assets and evidence record are committed.
-- The non-draft, non-prerelease GitHub Release is published at `https://github.com/Procureallyai/flight-recorder/releases/tag/v0.1.0`; its release text requires reconciliation after the final tag move.
+- Public `main` and annotated tag `v0.1.0` resolve to the same final remediated release record. Repository metadata reports `PUBLIC`, Apache License 2.0, and the approved description. GitHub release immutability is not enabled.
+- Live GitHub truth confirms current-head Continuous Integration passes the release gates. GitHub emits one informational deprecation warning because pinned actions still target the Node.js 20 action runtime and are forced onto Node.js 24 by the runner.
+- The reconciled non-draft, non-prerelease GitHub Release is published at `https://github.com/Procureallyai/flight-recorder/releases/tag/v0.1.0`.
 
 ## Browser or hosted truth
 
@@ -69,7 +69,7 @@
 
 ## Deployment truth
 
-- Profile 7 trusted browser proof verified Vercel project `flight-recorder-web` on the Hobby plan, connected only to `Procureallyai/flight-recorder`. Deployment proof confirms that the remediated passport and third-party notice are live at the stable production route. A final deployment-source reconciliation remains required after the refreshed assets and evidence record are published.
+- Profile 7 trusted browser proof verified Vercel project `flight-recorder-web` on the Hobby plan, connected only to `Procureallyai/flight-recorder`. Deployment proof confirms successful deployment of the final release record, and the remediated passport and third-party notice are live at the stable production route.
 - The stable production route is `https://flight-recorder-web.vercel.app/`. It is public, requires no account or Application Programming Interface key, and completed two independent hosted verification runs.
 - The dashboard displayed the project under the Hobby plan. Floyd's earlier approval of a 14-day Pro trial did not itself activate that trial, and no Pro-only runtime capability is required for this static judge route.
 
@@ -80,16 +80,15 @@
 - Floyd directed that runtime secrets use the configured 1Password Environments integration without raw values entering repository or task output.
 - Floyd approved Apache License 2.0, his personal GitHub account as repository owner, the dark `Integrity Control Room` visual direction, Vercel, and its 14-day Pro trial.
 - Floyd personally completed Vercel account terms and account-security setup. Codex limited the Vercel GitHub application to `Procureallyai/flight-recorder` only.
-- Floyd reviewed and approved the 163-second OpenAI Cedar demonstration video on 19 July 2026 and explicitly authorised public YouTube publication and continued Devpost draft completion.
+- Floyd reviewed and approved the earlier 163-second OpenAI Cedar cut on 19 July 2026 and explicitly authorised public YouTube publication and continued Devpost draft completion. The remediated render corrects release counts and screenshots; Floyd's playback acceptance of that public render remains open.
 - A OnePassword Environment and named-pipe mount exist, but the secure OpenAI writer correctly rejected the mount as a non-regular file. The replacement key is in a permission-restricted, gitignored local file pending a safe OnePassword migration path; no raw value entered task output.
 - Eligibility, orphaned-key revocation, final release acceptance, and final submission remain human review surfaces.
 
 ## Immediate work
 
-1. Commit the refreshed screenshots, thumbnails, and evidence records; move annotated tag `v0.1.0`; and publish the final repository state.
-2. Verify final Continuous Integration, deployment, public refs, and the GitHub Release record.
-3. Return Profile 7 to the finalisation page for Floyd's playback, factual, and legal review.
+1. Floyd reviews the public remediated film and final Devpost facts in Chrome Profile 7.
+2. Floyd accepts the applicable legal declaration and submits personally if satisfied.
 
 ## Next clean action
 
-Publish and verify the final asset record, then return Chrome Profile 7 to the finalisation page for Floyd's playback, factual, and legal review and personal submission.
+Floyd reviews the public remediated film and the finalisation page in Chrome Profile 7, then accepts the legal declaration and submits personally if satisfied.

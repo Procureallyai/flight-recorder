@@ -45,7 +45,6 @@
 
 ## Remaining gates
 
-1. Publish the final asset and evidence-record commit, move annotated tag `v0.1.0` to that commit, and verify the final Continuous Integration and deployment runs.
-2. Floyd performs the final factual and legal review, including playback acceptance of the remediated film.
-3. Floyd personally accepts the applicable Official Rules and Devpost Terms of Service declaration.
-4. Floyd personally selects the final submission button.
+1. Floyd performs the final factual and legal review, including playback acceptance of the remediated film.
+2. Floyd personally accepts the applicable Official Rules and Devpost Terms of Service declaration.
+3. Floyd personally selects the final submission button.
