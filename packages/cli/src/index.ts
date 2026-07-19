@@ -1,13 +1,15 @@
 #!/usr/bin/env node
 import { execFileSync, spawnSync } from "node:child_process";
 import { randomUUID } from "node:crypto";
-import { mkdir, readFile, realpath, rename, writeFile } from "node:fs/promises";
-import { dirname, join, relative, resolve } from "node:path";
+import { lstat, mkdir, readFile, realpath, rename, rm, writeFile } from "node:fs/promises";
+import { basename, dirname, join, relative, resolve } from "node:path";
 import {
   buildEventChain,
   calculateMerkleRoot,
+  canonicalize,
   createDeterministicDemoKeyPair,
   describeArtifact,
+  generateSigningKeyPair,
   sha256,
   sealManifest,
   verifyEventChain,
@@ -18,11 +20,13 @@ import {
   createReviewDigestFromExecCapture,
   createFinalArtifactSnapshot,
   finalStateEvidenceEnvelopeSchema,
+  getReviewedEventPrefix,
+  humanSealApprovalPayloadSchema,
   reviewableExecCaptureSchema,
 } from "@flight-recorder/evidence";
 import { assembleManifest } from "@flight-recorder/passport";
 import { evaluateSealGate, genuineReviewArtifactSchema, toPassportReviewFindings } from "@flight-recorder/review";
-import { evidenceEventSchema, type PassportManifest } from "@flight-recorder/schema";
+import { evidenceEventSchema, passportManifestSchema, type FindingDecision, type PassportManifest } from "@flight-recorder/schema";
 import { createLocalSession } from "@flight-recorder/session";
 import { verifyPassport } from "@flight-recorder/verifier";
 import { z } from "zod";
@@ -177,6 +181,45 @@ async function writeJsonAtomically(outputFile: string, value: unknown): Promise<
   await rename(temporaryPath, outputPath);
 }
 
+function normaliseSystemDirectoryAlias(path: string): string {
+  if (path === "/tmp" || path.startsWith("/tmp/")) return `/private${path}`;
+  if (path === "/var" || path.startsWith("/var/")) return `/private${path}`;
+  return path;
+}
+
+async function createDirectoryWithoutSymbolicLinks(directory: string): Promise<void> {
+  const requestedDirectory = resolve(directory);
+  const missingSegments: string[] = [];
+  let existingAncestor = requestedDirectory;
+  while (true) {
+    try {
+      const metadata = await lstat(existingAncestor);
+      if (metadata.isSymbolicLink() || !metadata.isDirectory()) {
+        throw new Error("Passport output parents must not contain symbolic links or non-directory ancestors.");
+      }
+      break;
+    } catch (error) {
+      if (!(error instanceof Error) || !("code" in error) || error.code !== "ENOENT") throw error;
+      const parent = dirname(existingAncestor);
+      if (parent === existingAncestor) throw new Error("A safe passport output ancestor could not be resolved.");
+      missingSegments.push(basename(existingAncestor));
+      existingAncestor = parent;
+    }
+  }
+  if (await realpath(existingAncestor) !== normaliseSystemDirectoryAlias(existingAncestor)) {
+    throw new Error("Passport output parents must not resolve through symbolic links.");
+  }
+  let current = existingAncestor;
+  for (const segment of missingSegments.reverse()) {
+    current = join(current, segment);
+    await mkdir(current, { recursive: false, mode: 0o700 });
+    const metadata = await lstat(current);
+    if (metadata.isSymbolicLink() || !metadata.isDirectory()) {
+      throw new Error("Passport output parents must remain ordinary directories during creation.");
+    }
+  }
+}
+
 function gitText(argumentsForGit: string[], cwd: string): string {
   return execFileSync("git", argumentsForGit, {
     cwd,
@@ -297,6 +340,48 @@ const genuineAcceptanceCriteria = [
   "Deterministic automated tests cover every stated acceptance criterion.",
 ] as const;
 
+const humanSealDecisionSchema = z.object({
+  schemaVersion: z.literal("0.1.0"),
+  recordKind: z.literal("human-seal-decision"),
+  decision: z.literal("approved-for-sealing"),
+  passportId: z.string().trim().min(1).max(200),
+  repositoryCommit: z.string().regex(/^(?:[a-f0-9]{40}|[a-f0-9]{64})$/u),
+  evidenceDigestSha256: z.string().regex(/^[a-f0-9]{64}$/u),
+  acceptedRiskFindingIds: z.array(z.string().trim().min(1).max(200)).min(1).max(1_000),
+  acknowledgedNarrowClaim: z.literal(true),
+  acknowledgedResidualLimitations: z.literal(true),
+  reason: z.string().trim().min(1).max(4_000),
+}).strict().superRefine((decision, context) => {
+  if (new Set(decision.acceptedRiskFindingIds).size !== decision.acceptedRiskFindingIds.length) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["acceptedRiskFindingIds"],
+      message: "Accepted-risk finding identifiers must be unique.",
+    });
+  }
+});
+
+const humanSealApprovalRequestSchema = z.object({
+  schemaVersion: z.literal("0.1.0"),
+  recordKind: z.literal("human-seal-approval-request"),
+  status: z.literal("awaiting-human"),
+  passportId: z.string().trim().min(1).max(200),
+  repositoryCommit: z.string().regex(/^(?:[a-f0-9]{40}|[a-f0-9]{64})$/u),
+  evidenceDigestSha256: z.string().regex(/^[a-f0-9]{64}$/u),
+  model: z.string().trim().min(1).max(200),
+  modelVerdict: z.literal("ready"),
+  reviewSummary: z.string().trim().min(1).max(100_000),
+  narrowClaim: z.literal("The covered evidence has not changed since it was sealed by the holder of the corresponding signing key."),
+  requiredFindingDecisionIds: z.array(z.string().trim().min(1).max(200)).max(1_000),
+  residualFindings: z.array(z.object({
+    findingId: z.string().trim().min(1).max(200),
+    severity: z.enum(["blocking", "warning", "informational"]),
+    title: z.string().trim().min(1).max(2_000),
+    resolvedByReviewer: z.boolean(),
+  }).strict()).max(1_000),
+  limitations: z.array(z.string().max(100_000)).max(1_000),
+}).strict();
+
 async function assembleDemoCandidate(
   captureFile: string,
   outputFile: string,
@@ -416,6 +501,223 @@ async function assembleDemoCandidate(
   process.stdout.write(`Assembled ${reviewArtifact === undefined ? "unreviewed" : "review-bound"} unsealed genuine-session candidate ${manifest.passportId}.\n`);
 }
 
+async function sealDemoPassport(
+  candidateFile: string,
+  finalisedCaptureFile: string,
+  reviewFile: string,
+  approvalRequestFile: string,
+  approvalFile: string,
+  passportFile: string,
+  artifactRoot: string,
+): Promise<void> {
+  const candidate = passportManifestSchema.parse(JSON.parse(await readFile(resolve(candidateFile), "utf8")));
+  const capture = reviewableExecCaptureSchema.parse(JSON.parse(await readFile(resolve(finalisedCaptureFile), "utf8")));
+  const reviewArtifact = genuineReviewArtifactSchema.parse(JSON.parse(await readFile(resolve(reviewFile), "utf8")));
+  const approvalRequest = humanSealApprovalRequestSchema.parse(JSON.parse(await readFile(resolve(approvalRequestFile), "utf8")));
+  const approvalDecision = humanSealDecisionSchema.parse(JSON.parse(await readFile(resolve(approvalFile), "utf8")));
+
+  if (candidate.evidenceClassification !== "genuine-session" || candidate.reviewProvenance === undefined) {
+    throw new Error("Only a review-bound genuine-session candidate may be sealed by this command.");
+  }
+  if (
+    candidate.sealDecision.ready ||
+    candidate.sealDecision.humanApproved ||
+    candidate.sealDecision.blockingReasons.length !== 1 ||
+    candidate.sealDecision.blockingReasons[0] !== "Explicit human approval is required."
+  ) {
+    throw new Error("The reviewed candidate must be blocked only on explicit human approval.");
+  }
+  if (!verifyEventChain(capture.events) || canonicalize(candidate.events) !== canonicalize(capture.events)) {
+    throw new Error("The reviewed candidate is not bound to the supplied finalised capture.");
+  }
+
+  const reviewedEvents = getReviewedEventPrefix(candidate.events);
+  const finalStateEvent = reviewedEvents.at(-1);
+  if (finalStateEvent === undefined) throw new Error("The reviewed candidate is missing final Git-state evidence.");
+  const envelope = assertFinalStateEvidenceEnvelope(finalStateEvent.payload, reviewedEvents);
+  const digest = createReviewDigestFromExecCapture(capture);
+  const expectedFindings = toPassportReviewFindings(reviewArtifact.run);
+  const expectedPassportId = `frp_${sha256(`${finalStateEvent.hash}:${envelope.finalCommit}`).slice(0, 24)}`;
+  const expectedArtifactDescriptors = envelope.artifacts.map((artifact) => {
+    const scope = demoScope.find((candidateScope) => artifact.path === candidateScope.path || artifact.path.endsWith(`/${candidateScope.path}`));
+    if (scope === undefined || scope.mediaType !== artifact.mediaType) {
+      throw new Error("The finalised capture contains an unexpected demonstration artifact.");
+    }
+    return describeArtifact(scope.id, artifact.path, artifact.mediaType, artifact.content);
+  });
+  const expectedSession = {
+    task: "Repair the synthetic password-reset implementation using expiring, single-use tokens without account enumeration or unsafe token logging.",
+    acceptanceCriteria: [...genuineAcceptanceCriteria],
+  };
+  if (
+    reviewArtifact.eventCount !== reviewedEvents.length ||
+    reviewArtifact.evidenceDigestSha256 !== digest.inputDigestSha256 ||
+    canonicalize(reviewArtifact.provenance) !== canonicalize(candidate.reviewProvenance) ||
+    canonicalize(expectedFindings) !== canonicalize(candidate.findings) ||
+    canonicalize(expectedArtifactDescriptors) !== canonicalize(candidate.artifacts) ||
+    canonicalize(expectedSession) !== canonicalize(candidate.session) ||
+    candidate.passportId !== expectedPassportId ||
+    candidate.createdAt !== finalStateEvent.recordedAt ||
+    candidate.project.name !== "Synthetic password-reset remediation" ||
+    candidate.project.repositoryCommit !== envelope.finalCommit
+  ) {
+    throw new Error("The reviewed candidate does not match the bound capture and genuine review artifact.");
+  }
+  if (
+    approvalDecision.passportId !== candidate.passportId ||
+    approvalDecision.repositoryCommit !== candidate.project.repositoryCommit ||
+    approvalDecision.repositoryCommit !== envelope.finalCommit ||
+    approvalDecision.evidenceDigestSha256 !== candidate.reviewProvenance.evidenceDigestSha256 ||
+    approvalDecision.evidenceDigestSha256 !== digest.inputDigestSha256
+  ) {
+    throw new Error("The human seal decision does not match the reviewed passport, commit, or evidence digest.");
+  }
+
+  const acceptedRiskIds = new Set(approvalDecision.acceptedRiskFindingIds);
+  const requiredAcceptedRiskIds = candidate.findings
+    .filter((finding) => !finding.resolved && finding.severity === "warning")
+    .map((finding) => finding.id);
+  if (
+    acceptedRiskIds.size !== requiredAcceptedRiskIds.length ||
+    requiredAcceptedRiskIds.some((findingId) => !acceptedRiskIds.has(findingId))
+  ) {
+    throw new Error("The human seal decision must accept exactly the recorded unresolved warning findings.");
+  }
+  const residualFindings = candidate.findings
+    .filter((finding) => !finding.resolved && finding.severity === "warning")
+    .map((finding) => ({
+      findingId: finding.id,
+      severity: finding.severity,
+      title: finding.title,
+      resolvedByReviewer: finding.resolved,
+    }));
+  const expectedApprovalRequest = humanSealApprovalRequestSchema.parse({
+    schemaVersion: "0.1.0",
+    recordKind: "human-seal-approval-request",
+    status: "awaiting-human",
+    passportId: candidate.passportId,
+    repositoryCommit: envelope.finalCommit,
+    evidenceDigestSha256: digest.inputDigestSha256,
+    model: reviewArtifact.run.synthesis.model,
+    modelVerdict: reviewArtifact.run.synthesis.output.verdict,
+    reviewSummary: reviewArtifact.run.synthesis.output.summary,
+    narrowClaim: candidate.claim,
+    requiredFindingDecisionIds: requiredAcceptedRiskIds,
+    residualFindings,
+    limitations: [...new Set([
+      ...reviewArtifact.run.specialists.flatMap((review) => review.output.limitations),
+      ...reviewArtifact.run.synthesis.output.limitations,
+    ])],
+  });
+  if (
+    canonicalize(approvalRequest) !== canonicalize(expectedApprovalRequest) ||
+    canonicalize(approvalDecision.acceptedRiskFindingIds) !== canonicalize(approvalRequest.requiredFindingDecisionIds)
+  ) {
+    throw new Error("The human seal decision does not match the exact approval request and reviewed warnings.");
+  }
+  if (candidate.findings.some((finding) => !finding.resolved && finding.severity !== "warning")) {
+    throw new Error("An unresolved finding exists that cannot be accepted by this scoped seal decision.");
+  }
+
+  const approvedAt = new Date().toISOString();
+  const approvalEventId = `ev_human_seal_approval_${sha256(`${candidate.passportId}:${approvedAt}`).slice(0, 16)}`;
+  const findingDecisions: FindingDecision[] = candidate.findings.map((finding) => ({
+    id: `decision_${sha256(finding.id).slice(0, 20)}`,
+    findingId: finding.id,
+    decision: finding.resolved ? "resolved" : "accepted-risk",
+    reason: finding.resolved
+      ? "The human approver accepts the evidence-backed resolved status for sealing under the narrow integrity claim."
+      : "The human approver accepts this warning as a scoped synthetic-demonstration risk, not a resolved production capability.",
+    decidedAt: approvedAt,
+    actor: "human",
+    decisionEventId: approvalEventId,
+  }));
+  const approvalPayload = humanSealApprovalPayloadSchema.parse({
+    recordKind: "human-seal-approval",
+    decision: "approved-for-sealing",
+    passportId: candidate.passportId,
+    repositoryCommit: candidate.project.repositoryCommit,
+    evidenceDigestSha256: digest.inputDigestSha256,
+    findingDecisionIds: findingDecisions.map((decision) => decision.id),
+    acknowledgedNarrowClaim: approvalDecision.acknowledgedNarrowClaim,
+    acknowledgedResidualLimitations: approvalDecision.acknowledgedResidualLimitations,
+    reason: approvalDecision.reason,
+  });
+  const events = buildEventChain([
+    ...reviewedEvents.map(({ index: _index, previousHash: _previousHash, hash: _hash, ...event }) => event),
+    {
+      id: approvalEventId,
+      recordedAt: approvedAt,
+      type: "approval",
+      summary: "The human approver authorised sealing under the narrow integrity claim and accepted the recorded residual warnings.",
+      payload: approvalPayload,
+    },
+  ]);
+
+  const contentByPath = new Map(envelope.artifacts.map((artifact) => [artifact.path, artifact.content]));
+  const manifest = assembleManifest({
+    passportId: candidate.passportId,
+    createdAt: approvedAt,
+    evidenceClassification: candidate.evidenceClassification,
+    project: candidate.project,
+    session: candidate.session,
+    artifacts: candidate.artifacts.map((artifact) => {
+      const content = contentByPath.get(artifact.path);
+      if (content === undefined) throw new Error("The finalised capture is missing a candidate artifact.");
+      return { id: artifact.id, path: artifact.path, mediaType: artifact.mediaType, content };
+    }),
+    events,
+    findings: candidate.findings,
+    findingDecisions,
+    reviewProvenance: candidate.reviewProvenance,
+    sealDecision: { ready: true, blockingReasons: [], humanApproved: true },
+  });
+  const keys = generateSigningKeyPair();
+  const passport = sealManifest(manifest, keys.privateKey);
+  const artifactContents = Object.fromEntries(contentByPath);
+  const verification = verifyPassport(passport, artifactContents);
+  if (!verification.valid) throw new Error("The newly sealed genuine passport failed independent verification.");
+
+  const passportOutputPath = resolve(passportFile);
+  const artifactOutputRoot = resolve(artifactRoot);
+  await createDirectoryWithoutSymbolicLinks(dirname(passportOutputPath));
+  await createDirectoryWithoutSymbolicLinks(dirname(artifactOutputRoot));
+  for (const target of [passportOutputPath, artifactOutputRoot]) {
+    try {
+      await lstat(target);
+      throw new Error("Genuine passport output targets must not already exist.");
+    } catch (error) {
+      if (!(error instanceof Error) || !("code" in error) || error.code !== "ENOENT") throw error;
+    }
+  }
+
+  const stagedArtifactRoot = join(dirname(artifactOutputRoot), `.flight-recorder-artifacts-${randomUUID()}.tmp`);
+  await mkdir(stagedArtifactRoot, { recursive: false, mode: 0o700 });
+  try {
+    for (const [path, content] of contentByPath) {
+      const outputPath = resolve(stagedArtifactRoot, path);
+      const outputRelativePath = relative(stagedArtifactRoot, outputPath);
+      if (outputRelativePath === ".." || outputRelativePath.startsWith("../") || resolve(stagedArtifactRoot, outputRelativePath) !== outputPath) {
+        throw new Error("A covered artifact path escapes the requested output root.");
+      }
+      await mkdir(dirname(outputPath), { recursive: true });
+      await writeFile(outputPath, content, { encoding: "utf8", mode: 0o600, flag: "wx" });
+    }
+    const stagedContents = Object.fromEntries(await Promise.all(
+      [...contentByPath.keys()].map(async (path) => [path, await readFile(resolve(stagedArtifactRoot, path))] as const),
+    ));
+    if (!verifyPassport(passport, stagedContents).valid) {
+      throw new Error("The staged genuine passport artifacts failed independent verification.");
+    }
+    await rename(stagedArtifactRoot, artifactOutputRoot);
+    await writeJsonAtomically(passportOutputPath, passport);
+  } catch (error) {
+    await rm(stagedArtifactRoot, { recursive: true, force: true });
+    throw error;
+  }
+  process.stdout.write(`Sealed and independently verified genuine passport ${passport.manifest.passportId}; the private signing key was not persisted.\n`);
+}
+
 async function exportBundle(passportFile: string, artifactRoot: string, outputParent: string): Promise<void> {
   const destination = await exportPassportBundle(passportFile, artifactRoot, outputParent);
   process.stdout.write(`Exported portable passport bundle to ${relative(process.cwd(), destination)}.\n`);
@@ -482,7 +784,7 @@ function classifyCommandFailure(error: unknown): PublicCommandFailure {
 }
 
 async function main(argumentsAfterExecutable: string[]): Promise<void> {
-  const [command, first, second, third, fourth] = argumentsAfterExecutable;
+  const [command, first, second, third, fourth, fifth, sixth, seventh] = argumentsAfterExecutable;
   if (command === "generate-demo") {
     await generateDemo();
   } else if (command === "verify" && first !== undefined && second !== undefined) {
@@ -495,6 +797,8 @@ async function main(argumentsAfterExecutable: string[]): Promise<void> {
     await assembleDemoCandidate(first, second);
   } else if (command === "bind-demo-review" && first !== undefined && second !== undefined && third !== undefined && fourth !== undefined) {
     await assembleDemoCandidate(first, third, second, fourth);
+  } else if (command === "seal-demo-passport" && first !== undefined && second !== undefined && third !== undefined && fourth !== undefined && fifth !== undefined && sixth !== undefined && seventh !== undefined) {
+    await sealDemoPassport(first, second, third, fourth, fifth, sixth, seventh);
   } else if (command === "export-bundle" && first !== undefined && second !== undefined && third !== undefined) {
     await exportBundle(first, second, third);
   } else if (command === "verify-bundle" && first !== undefined) {
@@ -502,7 +806,7 @@ async function main(argumentsAfterExecutable: string[]): Promise<void> {
   } else if (command === "init-session" && first !== undefined) {
     await initialiseSession(first, argumentsAfterExecutable.includes("--json"));
   } else {
-    process.stderr.write("Usage: flight-recorder init-session <request.json> [--json] | generate-demo | verify <passport.json> <artifact-directory> [--json] | export-bundle <passport.json> <artifact-directory> <output-parent> | verify-bundle <passport-directory> [--json] | import-exec-json <raw.jsonl> <sanitised.json> [codex-version] [repository-root] | finalise-demo-capture <capture.json> <workspace-root> <finalised-capture.json> | assemble-demo-candidate <finalised-capture.json> <candidate.json> | bind-demo-review <finalised-capture.json> <review.json> <candidate.json> <approval-request.json>\n");
+    process.stderr.write("Usage: flight-recorder init-session <request.json> [--json] | generate-demo | verify <passport.json> <artifact-directory> [--json] | export-bundle <passport.json> <artifact-directory> <output-parent> | verify-bundle <passport-directory> [--json] | import-exec-json <raw.jsonl> <sanitised.json> [codex-version] [repository-root] | finalise-demo-capture <capture.json> <workspace-root> <finalised-capture.json> | assemble-demo-candidate <finalised-capture.json> <candidate.json> | bind-demo-review <finalised-capture.json> <review.json> <candidate.json> <approval-request.json> | seal-demo-passport <candidate.json> <finalised-capture.json> <review.json> <approval-request.json> <approval.json> <passport.json> <artifact-directory>\n");
     process.exitCode = 2;
   }
 }

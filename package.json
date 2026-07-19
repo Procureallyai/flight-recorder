@@ -20,6 +20,7 @@
     "capture:finalise": "pnpm build && node packages/cli/dist/index.js finalise-demo-capture fixtures/demo-session/capture-post-remediation.json demo/password-reset-workspace fixtures/demo-session/finalised-capture-post-remediation.json",
     "candidate:generate": "pnpm build && node packages/cli/dist/index.js assemble-demo-candidate fixtures/demo-session/finalised-capture-post-remediation.json fixtures/demo-session/passport-candidate-post-remediation.json",
     "candidate:bind-review": "pnpm build && node packages/cli/dist/index.js bind-demo-review fixtures/demo-session/finalised-capture-post-remediation.json fixtures/demo-session/review-run-post-remediation.json fixtures/demo-session/passport-candidate-reviewed.json fixtures/demo-session/human-approval-request.json",
+    "passport:seal": "pnpm build && node packages/cli/dist/index.js seal-demo-passport fixtures/demo-session/passport-candidate-reviewed.json fixtures/demo-session/finalised-capture-post-remediation.json fixtures/demo-session/review-run-post-remediation.json fixtures/demo-session/human-approval-request.json fixtures/demo-session/human-seal-decision.json fixtures/judge-passport/passport.json fixtures/judge-passport/artifacts",
     "review:genuine": "pnpm build && node scripts/run-genuine-review.mjs",
     "security:secrets": "node scripts/scan-public-secrets.mjs",
     "validate:truth": "bash scripts/validate-canonical-truth.sh"

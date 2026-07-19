@@ -1,0 +1,955 @@
+{
+  "manifest": {
+    "schemaVersion": "0.1.0",
+    "passportId": "frp_f36024b2a0d9b46ac33a4134",
+    "createdAt": "2026-07-19T06:31:16.327Z",
+    "timestampType": "local-recorded-time",
+    "evidenceClassification": "genuine-session",
+    "project": {
+      "name": "Synthetic password-reset remediation",
+      "repositoryCommit": "a5d1093d7e1b65bd8d874b16ce832ba0840d6452"
+    },
+    "session": {
+      "task": "Repair the synthetic password-reset implementation using expiring, single-use tokens without account enumeration or unsafe token logging.",
+      "acceptanceCriteria": [
+        "Password-reset tokens expire and are single use.",
+        "Known and unknown accounts receive the same neutral public response.",
+        "Raw reset tokens never enter logs or audit events.",
+        "A safe audit event contains no direct account or token identifier.",
+        "Concurrent attempts produce exactly one successful redemption.",
+        "A safely failed reset action permits retry while the token remains valid.",
+        "Dependency failures preserve the neutral response and safe telemetry.",
+        "Deterministic automated tests cover every stated acceptance criterion."
+      ]
+    },
+    "artifacts": [
+      {
+        "id": "artifact_source",
+        "path": "demo/password-reset-workspace/src/password-reset.ts",
+        "mediaType": "text/typescript",
+        "size": 5553,
+        "sha256": "214191f78f469e5bf7d4941ec9a1c8d25e6954668b8854b0b54ffc8c044cd0e6"
+      },
+      {
+        "id": "artifact_tests",
+        "path": "demo/password-reset-workspace/test/password-reset.test.ts",
+        "mediaType": "text/typescript",
+        "size": 14735,
+        "sha256": "eda6eea73a0cccd87feb1d70cf263fa0df5f00d69a8c64ccba840f32f112f437"
+      },
+      {
+        "id": "artifact_task",
+        "path": "demo/password-reset-workspace/CODEX_TASK.md",
+        "mediaType": "text/markdown",
+        "size": 3886,
+        "sha256": "d718633ef099a11cf9be1b75012622b29b2cfc58190304f1fab7a56632412301"
+      },
+      {
+        "id": "artifact_package",
+        "path": "demo/password-reset-workspace/package.json",
+        "mediaType": "application/json",
+        "size": 206,
+        "sha256": "bf3a6aefe281637a0d25a12aef926bd4e73254ba388fe9288f179bb37dc57aa2"
+      }
+    ],
+    "events": [
+      {
+        "id": "ev_000001",
+        "index": 0,
+        "recordedAt": "2026-07-19T03:40:21.879Z",
+        "type": "task",
+        "summary": "A non-interactive Codex capture thread started.",
+        "payload": {
+          "threadReference": "sha256:631255b4359c1af3095273d3e27a4bd690603ec16274d80281aff352503d96a3"
+        },
+        "previousHash": null,
+        "hash": "17957aa712394880a2fbf939a3dcd9ac445fd561bb87ecc9b829fc5426a476be"
+      },
+      {
+        "id": "ev_000002",
+        "index": 1,
+        "recordedAt": "2026-07-19T03:40:21.884Z",
+        "type": "completion",
+        "summary": "An unknown completed item was retained as envelope metadata only.",
+        "payload": {
+          "itemType": "error",
+          "sourceReference": "sha256:2f58b7d7725eac66c32ab446bb53a188688dc1d76fcc40cf31f5cf6509181ce8",
+          "topLevelKeys": [
+            "id",
+            "message",
+            "type"
+          ]
+        },
+        "previousHash": "17957aa712394880a2fbf939a3dcd9ac445fd561bb87ecc9b829fc5426a476be",
+        "hash": "1d76d95adc82af298a6d2edd3798734a3a13ad9fb9de95f4f2ed0bc2186df19b"
+      },
+      {
+        "id": "ev_000003",
+        "index": 2,
+        "recordedAt": "2026-07-19T03:40:21.885Z",
+        "type": "task",
+        "summary": "A Codex turn started.",
+        "payload": {},
+        "previousHash": "1d76d95adc82af298a6d2edd3798734a3a13ad9fb9de95f4f2ed0bc2186df19b",
+        "hash": "f45e7787b430f91f739ca6c825d6a2af70aa87019772c6e78f536ad20d792335"
+      },
+      {
+        "id": "ev_000004",
+        "index": 3,
+        "recordedAt": "2026-07-19T03:40:21.885Z",
+        "type": "completion",
+        "summary": "An unknown completed item was retained as envelope metadata only.",
+        "payload": {
+          "itemType": "error",
+          "sourceReference": "sha256:32012c4c32888ee2c4ba4331e3c77ece9acd811a4b3abb708363123591abfea2",
+          "topLevelKeys": [
+            "id",
+            "message",
+            "type"
+          ]
+        },
+        "previousHash": "f45e7787b430f91f739ca6c825d6a2af70aa87019772c6e78f536ad20d792335",
+        "hash": "7beab6c6c47c9e92850eda364c8de7d272af544ac043832df8bc50e7ff595d47"
+      },
+      {
+        "id": "ev_000005",
+        "index": 4,
+        "recordedAt": "2026-07-19T03:40:21.885Z",
+        "type": "completion",
+        "summary": "Codex completed an observable agent message.",
+        "payload": {
+          "text": "I’m using the workspace’s Flight Recorder delivery workflow because this is a focused implementation and verification task. I’ll keep all inspection and changes inside the synthetic workspace.",
+          "sourceReference": "sha256:6a9722cdf589a2a068832c955a8253b9df87983501c03dd92e95debae1f409da"
+        },
+        "previousHash": "7beab6c6c47c9e92850eda364c8de7d272af544ac043832df8bc50e7ff595d47",
+        "hash": "26c130f4790f8fcc35f26634358c00c05c75be6234bdb679a16577109784f581"
+      },
+      {
+        "id": "ev_000006",
+        "index": 5,
+        "recordedAt": "2026-07-19T03:40:21.886Z",
+        "type": "command",
+        "summary": "A command execution completed.",
+        "payload": {
+          "command": "/bin/zsh -lc \"sed -n '1,240p' .agents/skills/flight-recorder-delivery/SKILL.md && printf '\\\\n--- files ---\\\\n' && rg --files -g '\"'!*node_modules*'\"' | sed -n '1,240p'\"",
+          "cwd": ".",
+          "status": "failed",
+          "exitCode": 1,
+          "output": "sed: .agents/skills/flight-recorder-delivery/SKILL.md: No such file or directory\n",
+          "manuallyConfirmedTest": false,
+          "sourceReference": "sha256:4a317b6972e2f1834050485420bd71fe6fc2d87cd25d572cb4b8b327b37bc030"
+        },
+        "previousHash": "26c130f4790f8fcc35f26634358c00c05c75be6234bdb679a16577109784f581",
+        "hash": "92f86592d9c85033ea3fe929608f1cf7720bdf95fcfeda3112233d34a0fc9e10"
+      },
+      {
+        "id": "ev_000007",
+        "index": 6,
+        "recordedAt": "2026-07-19T03:40:21.886Z",
+        "type": "command",
+        "summary": "A command execution completed.",
+        "payload": {
+          "command": "/bin/zsh -lc \"sed -n '1,260p' '<repository>/.agents/skills/flight-recorder-delivery/SKILL.md'\nprintf '\\\\n--- workspace files ---\\\\n'\nrg --files -g '\"'!*node_modules*'\"' | sed -n '1,260p'\"",
+          "cwd": ".",
+          "status": "completed",
+          "exitCode": 0,
+          "output": "---\nname: flight-recorder-delivery\ndescription: Build, continue, review, or release the Flight Recorder OpenAI Build Week project. Use for canonical-truth refreshes, implementation slices, cryptographic passport work, Codex capture, GPT-5.6 review integration, testing, deployment, release evidence, or submission-pack preparation.\n---\n\n# Flight Recorder Delivery\n\n## Start with truth\n\n1. Read repository-root `AGENTS.md` and `CANONICAL_TRUTH.md`.\n2. Read `memory_bank/projectbrief.md`, `memory_bank/activeContext.md`, `PLANS.md`, `planning/DECISION_LOG.md`, `planning/BLOCKERS.md`, and `planning/VALIDATION_MATRIX.md`.\n3. Read the relevant handoff source under `docs/handoff/`. Treat the Product Requirements Document as desired state until implementation evidence exists.\n4. Refresh local repository truth before editing. Refresh live GitHub, hosted, browser, or deployment truth only when the task needs that surface.\n\n## Execute one evidence-backed slice\n\n- Prefer the smallest Priority Zero slice that produces a working, testable result.\n- Keep memory context, local repository truth, live GitHub truth, browser or hosted truth, deployment truth, and human acceptance separate.\n- Preserve user changes. Use a dedicated worktree once a remote and stable `main` branch exist or when parallel lanes begin.\n- Do not copy Evidary production code. Prior artificial intelligence assurance expertise may inform decisions only.\n- Never persist raw model reasoning, secrets, Codex credentials, private signing keys, or the private `/feedback` Session ID.\n- Use advisory GPT-5.6 findings plus deterministic application gates. Never let model output certify correctness, security, compliance, identity, or trusted time.\n- Before front-end implementation, invoke `product-design:index`, follow its routed visual-selection workflow, and use accessible shadcn/ui primitives where they accelerate standard component delivery.\n- Use sub-agents for bounded parallel research, review, testing, accessibility, security, or documentation work when materially helpful. Keep most core implementation and every final truth claim in the primary task, assign explicit ownership, and never delegate secrets, legal acceptance, purchases, or final submission.\n\n## Validate and close\n\n1. Run the focused tests for the changed behaviour.\n2. Run `bash scripts/validate-canonical-truth.sh`.\n3. Update active context, validation evidence, decisions, and blockers when their truth changed.\n4. Report completed, unactioned, blocked, unverified, validation, blind spots, and the next clean action.\n5. Include a Truth Claim Ledger for material completion claims.\n\n## Read detailed sources only when needed\n\n- Product and architecture: `docs/handoff/flight-recorder-build-week-master-prd.md`\n- Primary build contract: `docs/handoff/codex-flight-recorder-master-build-prompt.md`\n- Current official-rule snapshot: `docs/research/BUILD_WEEK_RULES_SNAPSHOT.md`\n- Source map: `references/source-map.md`\n\n--- workspace files ---\nsrc/password-reset.ts\npackage.json\nREADME.md\ntest/password-reset.test.ts\nCODEX_TASK.md\n",
+          "manuallyConfirmedTest": false,
+          "sourceReference": "sha256:57dbfc296665f072254d15345fb3a2bbf457ae03cbb6ee8f6020e8f11d4b056b"
+        },
+        "previousHash": "92f86592d9c85033ea3fe929608f1cf7720bdf95fcfeda3112233d34a0fc9e10",
+        "hash": "45ef4365cf6606a4229a45ab9e8ca9c02ef07cc77718932b40fe946ac4e19c70"
+      },
+      {
+        "id": "ev_000008",
+        "index": 7,
+        "recordedAt": "2026-07-19T03:40:21.886Z",
+        "type": "completion",
+        "summary": "Codex completed an observable agent message.",
+        "payload": {
+          "text": "The synthetic workspace is deliberately minimal: it contains one implementation file and one test file. I will not run repository-wide validation or inspect unrelated project materials, because the task explicitly limits scope to this workspace.",
+          "sourceReference": "sha256:9462965f2002ffb6e5ebf84d633936910b584441932a9dee26f8497eb9d82c75"
+        },
+        "previousHash": "45ef4365cf6606a4229a45ab9e8ca9c02ef07cc77718932b40fe946ac4e19c70",
+        "hash": "d07aef1045228568a19fa7df5130e9e650a1eba713b95fa358be9688b5d839f3"
+      },
+      {
+        "id": "ev_000009",
+        "index": 8,
+        "recordedAt": "2026-07-19T03:40:21.887Z",
+        "type": "command",
+        "summary": "A command execution completed.",
+        "payload": {
+          "command": "/bin/zsh -lc \"git status --short -- src/password-reset.ts test/password-reset.test.ts CODEX_TASK.md\ngit diff -- src/password-reset.ts test/password-reset.test.ts CODEX_TASK.md\nprintf '\\\\n--- implementation ---\\\\n'\nsed -n '1,320p' src/password-reset.ts\nprintf '\\\\n--- tests ---\\\\n'\nsed -n '1,420p' test/password-reset.test.ts\nprintf '\\\\n--- package ---\\\\n'\ncat package.json\nprintf '\\\\n--- task ---\\\\n'\nsed -n '1,260p' CODEX_TASK.md\"",
+          "cwd": ".",
+          "status": "completed",
+          "exitCode": 0,
+          "output": "\n--- implementation ---\nexport interface PasswordResetTokenIssuer {\n  issue(accountId: string): string;\n}\n\nexport type PasswordResetWork = () => Promise<void>;\n\n/**\n * Enqueues work without running it on the caller's response path.\n *\n * Implementations must return before invoking `work`. A production service\n * should use a durable queue; this synthetic workspace injects the boundary so\n * tests can prove that account lookup and delivery are deferred uniformly.\n */\nexport interface PasswordResetWorkScheduler {\n  enqueue(work: PasswordResetWork): void;\n}\n\nexport interface ResetDependencies {\n  scheduler: PasswordResetWorkScheduler;\n  findAccountByEmail(email: string): Promise<{ id: string } | undefined>;\n  tokenStore: PasswordResetTokenIssuer;\n  sendResetInstructions(accountId: string, token: string): Promise<void>;\n  audit(event: string, detail: Record<string, string>): Promise<void>;\n  log(message: string): void;\n}\n\nexport interface PasswordResetTokenStoreOptions {\n  clock: () => number;\n  generateToken: () => string;\n  expiresInMilliseconds?: number;\n}\n\ntype TokenState = \"active\" | \"redeeming\" | \"consumed\";\n\ninterface TokenRecord {\n  accountId: string;\n  expiresAt: number;\n  state: TokenState;\n}\n\n/**\n * The callback must either complete its durable reset atomically or be safe to\n * invoke again after rejection. A rejection reactivates a still-valid token,\n * so callers must roll back partial changes or provide idempotent behaviour.\n */\nexport type PasswordResetAction = (accountId: string) => Promise<void>;\n\nconst FIFTEEN_MINUTES_IN_MILLISECONDS = 15 * 60 * 1_000;\n\n/**\n * An expiring token store for this single-process demonstration workspace.\n *\n * The state transition that reserves a token is synchronous and therefore\n * atomic only within one JavaScript process. A production deployment with\n * multiple processes or hosts needs a persistent shared store with a\n * transaction or atomic compare-and-set operation.\n */\nexport class InMemoryPasswordResetTokenStore implements PasswordResetTokenIssuer {\n  readonly #clock: () => number;\n  readonly #generateToken: () => string;\n  readonly #expiresInMilliseconds: number;\n  readonly #records = new Map<string, TokenRecord>();\n\n  constructor(options: PasswordResetTokenStoreOptions) {\n    if (\n      options.expiresInMilliseconds !== undefined &&\n      (!Number.isFinite(options.expiresInMilliseconds) || options.expiresInMilliseconds <= 0)\n    ) {\n      throw new RangeError(\"Token lifetime must be a positive finite number.\");\n    }\n\n    this.#clock = options.clock;\n    this.#generateToken = options.generateToken;\n    this.#expiresInMilliseconds =\n      options.expiresInMilliseconds ?? FIFTEEN_MINUTES_IN_MILLISECONDS;\n  }\n\n  issue(accountId: string): string {\n    const token = this.#generateToken();\n\n    if (token.length === 0) {\n      throw new Error(\"Token generator returned an empty token.\");\n    }\n    if (this.#records.has(token)) {\n      throw new Error(\"Token generator returned a duplicate token.\");\n    }\n\n    this.#records.set(token, {\n      accountId,\n      expiresAt: this.#clock() + this.#expiresInMilliseconds,\n      state: \"active\",\n    });\n\n    return token;\n  }\n\n  async redeem(token: string, resetAction: PasswordResetAction): Promise<boolean> {\n    const record = this.#records.get(token);\n\n    if (record === undefined) {\n      return false;\n    }\n\n    if (this.#clock() >= record.expiresAt) {\n      this.#records.delete(token);\n      return false;\n    }\n\n    if (record.state !== \"active\") {\n      return false;\n    }\n\n    // Shape: active -> redeeming before the first await, reserving one attempt in this process.\n    record.state = \"redeeming\";\n\n    try {\n      await resetAction(record.accountId);\n      record.state = \"consumed\";\n      return true;\n    } catch (error) {\n      // Contract: a rejected action was rolled back or is idempotent, so retry remains safe.\n      record.state = \"active\";\n      throw error;\n    }\n  }\n}\n\nconst PUBLIC_RESPONSE = Object.freeze({\n  accepted: true,\n  message: \"If an account matches that email address, reset instructions will be sent.\",\n});\n\nconst SAFE_LOG_MESSAGE = \"Password reset request accepted.\";\nconst SAFE_AUDIT_EVENT = \"password_reset_request_accepted\";\nconst SAFE_AUDIT_DETAIL = Object.freeze({ result: \"accepted\" });\n\nexport async function requestPasswordReset(email: string, dependencies: ResetDependencies) {\n  try {\n    // Shape: every request enqueues one job; account-dependent work begins only off-path.\n    dependencies.scheduler.enqueue(async () => {\n      try {\n        const account = await dependencies.findAccountByEmail(email);\n\n        if (account !== undefined) {\n          const token = dependencies.tokenStore.issue(account.id);\n          await dependencies.sendResetInstructions(account.id, token);\n        }\n      } catch {\n        // Lookup, issuance, and delivery failures stay inside the asynchronous worker.\n      }\n    });\n  } catch {\n    // Queue failures must not create an enumeration signal or change the neutral response.\n  }\n\n  try {\n    dependencies.log(SAFE_LOG_MESSAGE);\n  } catch {\n    // Observability failures do not change the public response or expose private context.\n  }\n\n  try {\n    await dependencies.audit(SAFE_AUDIT_EVENT, SAFE_AUDIT_DETAIL);\n  } catch {\n    // Audit transport failures remain private and do not prevent the neutral response.\n  }\n\n  return PUBLIC_RESPONSE;\n}\n\n--- tests ---\nimport assert from \"node:assert/strict\";\nimport test from \"node:test\";\nimport {\n  InMemoryPasswordResetTokenStore,\n  requestPasswordReset,\n  type PasswordResetWork,\n  type PasswordResetTokenIssuer,\n  type ResetDependencies,\n} from \"../src/password-reset.ts\";\n\nconst SYNTHETIC_EMAIL = \"known@example.test\";\nconst SYNTHETIC_ACCOUNT_ID = \"account-synthetic-001\";\nconst SYNTHETIC_TOKEN = \"token-synthetic-001\";\n\nfunction createDeferredScheduler() {\n  const jobs: PasswordResetWork[] = [];\n\n  return {\n    scheduler: {\n      enqueue(work: PasswordResetWork) {\n        jobs.push(work);\n      },\n    },\n    get scheduledCount() {\n      return jobs.length;\n    },\n    async runAll() {\n      while (jobs.length > 0) {\n        const job = jobs.shift();\n        await job?.();\n      }\n    },\n  };\n}\n\nfunction createTokenStore(\n  options: {\n    now?: number;\n    token?: string;\n    expiresInMilliseconds?: number;\n  } = {},\n) {\n  let now = options.now ?? 1_000_000;\n  const store = new InMemoryPasswordResetTokenStore({\n    clock: () => now,\n    generateToken: () => options.token ?? SYNTHETIC_TOKEN,\n    expiresInMilliseconds: options.expiresInMilliseconds,\n  });\n\n  return {\n    store,\n    setNow(value: number) {\n      now = value;\n    },\n  };\n}\n\nfunction createDependencies(overrides: Partial<ResetDependencies> = {}): ResetDependencies {\n  const { store } = createTokenStore();\n  const { scheduler } = createDeferredScheduler();\n  const dependencies: ResetDependencies = {\n    scheduler,\n    async findAccountByEmail() {\n      return { id: SYNTHETIC_ACCOUNT_ID };\n    },\n    tokenStore: store,\n    async sendResetInstructions() {},\n    async audit() {},\n    log() {},\n  };\n\n  return { ...dependencies, ...overrides };\n}\n\nconst neutralResponse = {\n  accepted: true,\n  message: \"If an account matches that email address, reset instructions will be sent.\",\n};\n\ntest(\"known accounts receive reset instructions and a neutral response\", async () => {\n  const deliveries: Array<{ accountId: string; token: string }> = [];\n  const deferred = createDeferredScheduler();\n  const result = await requestPasswordReset(\n    SYNTHETIC_EMAIL,\n    createDependencies({\n      scheduler: deferred.scheduler,\n      async sendResetInstructions(accountId, token) {\n        deliveries.push({ accountId, token });\n      },\n    }),\n  );\n\n  assert.deepEqual(result, neutralResponse);\n  assert.deepEqual(deliveries, []);\n  assert.equal(deferred.scheduledCount, 1);\n  await deferred.runAll();\n  assert.deepEqual(deliveries, [{ accountId: SYNTHETIC_ACCOUNT_ID, token: SYNTHETIC_TOKEN }]);\n});\n\ntest(\"unknown accounts receive the same ne\n[TRUNCATED]",
+          "manuallyConfirmedTest": false,
+          "sourceReference": "sha256:919299b8b8860441036a08b8ce4a6486ee1712366afaec2286c8579387359f27"
+        },
+        "previousHash": "d07aef1045228568a19fa7df5130e9e650a1eba713b95fa358be9688b5d839f3",
+        "hash": "0c9ed1f7f9d97e24028132fe2a791d7018ede7bf143aa06b7206577d87b7bac2"
+      },
+      {
+        "id": "ev_000010",
+        "index": 9,
+        "recordedAt": "2026-07-19T03:40:21.887Z",
+        "type": "command",
+        "summary": "A command execution completed.",
+        "payload": {
+          "command": "/bin/zsh -lc \"sed -n '400,760p' test/password-reset.test.ts\nnpm test\"",
+          "cwd": ".",
+          "status": "completed",
+          "exitCode": 0,
+          "output": "\n> flight-recorder-synthetic-password-reset@0.0.0 test\n> node --experimental-strip-types --test test/*.test.ts\n\n✔ known accounts receive reset instructions and a neutral response (2.963125ms)\n✔ unknown accounts receive the same neutral response without issuing or delivering (0.219042ms)\n✔ lookup and delivery never run on the response path (0.119417ms)\n✔ complete telemetry is identifier-free and identical for known and unknown accounts (0.449708ms)\n✔ tokens work before expiry and are rejected exactly at the expiry boundary (0.145959ms)\n✔ a successfully redeemed token rejects every repeated redemption (0.087917ms)\n✔ concurrent redemption reserves the token before awaiting the reset action (0.09875ms)\n✔ a failed reset action does not consume the token and permits a later retry (0.391917ms)\n✔ lookup, issuance, and delivery failures retain the neutral response and safe telemetry (0.572958ms)\n✔ logging and audit failures are isolated and retain the neutral response (0.206791ms)\n✔ scheduler failure retains the neutral response and safe telemetry (0.206167ms)\n✔ the default token lifetime is fifteen minutes (0.084916ms)\n✔ token lifetime rejects zero, negative, non-finite, and not-a-number values (0.135458ms)\n✔ token issuance rejects empty and duplicate generated values (0.095625ms)\n✔ unknown tokens do not invoke the reset callback (0.043916ms)\nℹ tests 15\nℹ suites 0\nℹ pass 15\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 196.983458\n",
+          "manuallyConfirmedTest": false,
+          "sourceReference": "sha256:3f21b4ea2fbe67cd553dbcfae108e6632bdb6c655218a1e4ad5a543cc24800f4"
+        },
+        "previousHash": "0c9ed1f7f9d97e24028132fe2a791d7018ede7bf143aa06b7206577d87b7bac2",
+        "hash": "dd62fc4a15c04fd9439cd0f815ea9206ef8f4e388cce19ca816b18c00b9b362a"
+      },
+      {
+        "id": "ev_000011",
+        "index": 10,
+        "recordedAt": "2026-07-19T03:40:21.887Z",
+        "type": "completion",
+        "summary": "Codex completed an observable agent message.",
+        "payload": {
+          "text": "The existing token-store design already covers most of the requested behaviour. I found one response-path reliability gap: awaiting audit delivery could prevent a neutral response if that dependency never settles. I’m making audit delivery best-effort without awaiting it, then adding a deterministic regression test.",
+          "sourceReference": "sha256:f4fdd034b54297294baf2c6977028dba2f4e8949c52e921b04118670cad8192e"
+        },
+        "previousHash": "dd62fc4a15c04fd9439cd0f815ea9206ef8f4e388cce19ca816b18c00b9b362a",
+        "hash": "e32a24454b3edd8c307c46f211e07924dd3c1ba5642c1ab4122bb56b9f722bd4"
+      },
+      {
+        "id": "ev_000012",
+        "index": 11,
+        "recordedAt": "2026-07-19T03:40:21.887Z",
+        "type": "file-change",
+        "summary": "A file change completed.",
+        "payload": {
+          "status": "completed",
+          "changes": [
+            {
+              "path": "<repository>/demo/password-reset-workspace/src/password-reset.ts",
+              "kind": "update"
+            },
+            {
+              "path": "<repository>/demo/password-reset-workspace/test/password-reset.test.ts",
+              "kind": "update"
+            }
+          ],
+          "sourceReference": "sha256:cfc5c391b5ba915c081c7d09c3edfc599f5369196d03ab00aa96b73369f89b5f"
+        },
+        "previousHash": "e32a24454b3edd8c307c46f211e07924dd3c1ba5642c1ab4122bb56b9f722bd4",
+        "hash": "0f0aa622a4ed2c0a9bc8c0ef8a24d53713e26d9a07499fde653409f4e436464c"
+      },
+      {
+        "id": "ev_000013",
+        "index": 12,
+        "recordedAt": "2026-07-19T03:40:21.887Z",
+        "type": "test",
+        "summary": "A recognised or explicitly confirmed test command completed.",
+        "payload": {
+          "command": "/bin/zsh -lc 'git diff --check\nnpm test\ngit status --short -- src/password-reset.ts test/password-reset.test.ts CODEX_TASK.md\nshasum -a 256 src/password-reset.ts test/password-reset.test.ts CODEX_TASK.md'",
+          "cwd": ".",
+          "status": "completed",
+          "exitCode": 0,
+          "output": "\n> flight-recorder-synthetic-password-reset@0.0.0 test\n> node --experimental-strip-types --test test/*.test.ts\n\n✔ known accounts receive reset instructions and a neutral response (2.743416ms)\n✔ unknown accounts receive the same neutral response without issuing or delivering (0.18225ms)\n✔ lookup and delivery never run on the response path (0.122041ms)\n✔ complete telemetry is identifier-free and identical for known and unknown accounts (0.449542ms)\n✔ tokens work before expiry and are rejected exactly at the expiry boundary (0.141083ms)\n✔ a successfully redeemed token rejects every repeated redemption (0.0915ms)\n✔ concurrent redemption reserves the token before awaiting the reset action (0.102917ms)\n✔ a failed reset action does not consume the token and permits a later retry (0.420166ms)\n✔ lookup, issuance, and delivery failures retain the neutral response and safe telemetry (0.394291ms)\n✔ logging and audit failures are isolated and retain the neutral response (0.223709ms)\n✔ a stalled audit transport does not delay the neutral response (0.104583ms)\n✔ scheduler failure retains the neutral response and safe telemetry (0.151709ms)\n✔ the default token lifetime is fifteen minutes (0.065625ms)\n✔ token lifetime rejects zero, negative, non-finite, and not-a-number values (0.13125ms)\n✔ token issuance rejects empty and duplicate generated values (0.092459ms)\n✔ unknown tokens do not invoke the reset callback (0.042333ms)\nℹ tests 16\nℹ suites 0\nℹ pass 16\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 172.715625\n M src/password-reset.ts\n M test/password-reset.test.ts\n214191f78f469e5bf7d4941ec9a1c8d25e6954668b8854b0b54ffc8c044cd0e6  src/password-reset.ts\neda6eea73a0cccd87feb1d70cf263fa0df5f00d69a8c64ccba840f32f112f437  test/password-reset.test.ts\nd718633ef099a11cf9be1b75012622b29b2cfc58190304f1fab7a56632412301  CODEX_TASK.md\n",
+          "manuallyConfirmedTest": false,
+          "sourceReference": "sha256:a26c6de8780e4e792e8ad6df3fb6ac31fe229b7b2f8bc2aa29c602e8d647918c"
+        },
+        "previousHash": "0f0aa622a4ed2c0a9bc8c0ef8a24d53713e26d9a07499fde653409f4e436464c",
+        "hash": "32c508fee6ad366e1f9dca097125671836ece32e6195105eeef2567ed4e0d9c2"
+      },
+      {
+        "id": "ev_000014",
+        "index": 13,
+        "recordedAt": "2026-07-19T03:40:21.887Z",
+        "type": "completion",
+        "summary": "Codex completed an observable agent message.",
+        "payload": {
+          "text": "Implemented and verified the synthetic password-reset remediation.\n\n- Final source: [src/password-reset.ts](<repository>/demo/password-reset-workspace/src/password-reset.ts:1)\n- Final tests: [test/password-reset.test.ts](<repository>/demo/password-reset-workspace/test/password-reset.test.ts:1)\n- Added regression coverage ensuring a stalled audit transport cannot delay the neutral response.\n\n## Validation\n\n`npm test` passed: 16 passed, 0 failed.\n\n## Scoped Git Status\n\n- Modified: `src/password-reset.ts`\n- Modified: `test/password-reset.test.ts`\n- Unchanged: `CODEX_TASK.md`\n\n## Secure Hash Algorithm 256-bit Digests\n\n- `src/password-reset.ts`: `214191f78f469e5bf7d4941ec9a1c8d25e6954668b8854b0b54ffc8c044cd0e6`\n- `test/password-reset.test.ts`: `eda6eea73a0cccd87feb1d70cf263fa0df5f00d69a8c64ccba840f32f112f437`\n- `CODEX_TASK.md`: `d718633ef099a11cf9be1b75012622b29b2cfc58190304f1fab7a56632412301`\n\n## Unactioned / Unverified\n\nRepository-wide canonical validation, release checks, hosted verification, deployment proof, and human acceptance are unavailable and were not run, as required for this isolated workspace.\n\n## Truth Claim Ledger\n\n- Local repository truth: token expiry, single-use redemption, deterministic concurrent reservation, safe retry behaviour, deferred request processing, safe telemetry, and dependency-failure handling are covered by the passing test suite.\n- Deployment and hosted truth: unavailable.\n- Human acceptance: unavailable.\n- Production limitation: the in-memory atomic transition remains limited to one JavaScript process; a multi-worker deployment needs a shared persistent compare-and-set or transaction.",
+          "sourceReference": "sha256:00bf463c9d57c76acacd039e798555d6101dbddf9708e68d232d71a4c30e0633"
+        },
+        "previousHash": "32c508fee6ad366e1f9dca097125671836ece32e6195105eeef2567ed4e0d9c2",
+        "hash": "2fb151f2f1bad6f7e1aafa570e162eee2486aa88ae2adaf9ab147b3787de212f"
+      },
+      {
+        "id": "ev_000015",
+        "index": 14,
+        "recordedAt": "2026-07-19T03:40:21.887Z",
+        "type": "completion",
+        "summary": "The Codex turn completed.",
+        "payload": {
+          "usage": {
+            "input_tokens": "[REDACTED]",
+            "cached_input_tokens": "[REDACTED]",
+            "cache_write_input_tokens": "[REDACTED]",
+            "output_tokens": "[REDACTED]",
+            "reasoning_output_tokens": "[REDACTED]"
+          },
+          "status": "completed"
+        },
+        "previousHash": "2fb151f2f1bad6f7e1aafa570e162eee2486aa88ae2adaf9ab147b3787de212f",
+        "hash": "450fc157bd3f5c996c505e24069a29c3c6673ca49152e92374ee67e82afeccc6"
+      },
+      {
+        "id": "ev_post_commit_test_a5d1093d7e1b",
+        "index": 15,
+        "recordedAt": "2026-07-19T03:41:30.172Z",
+        "type": "test",
+        "summary": "The committed password-reset demonstration passed its post-commit test suite.",
+        "payload": {
+          "command": "npm test",
+          "status": "passed",
+          "exitCode": 0,
+          "phase": "post-commit",
+          "repositoryCommit": "a5d1093d7e1b65bd8d874b16ce832ba0840d6452",
+          "durationMilliseconds": 646
+        },
+        "previousHash": "450fc157bd3f5c996c505e24069a29c3c6673ca49152e92374ee67e82afeccc6",
+        "hash": "2d910827fefac8e02e0567fee4fb9dcf992d454a1b6261679af0fcc8e3e0b34e"
+      },
+      {
+        "id": "ev_final_git_state_a5d1093d7e1b",
+        "index": 16,
+        "recordedAt": "2026-07-19T03:41:30.174Z",
+        "type": "completion",
+        "summary": "The final committed Git state and covered artifacts were bound to the capture.",
+        "payload": {
+          "schemaVersion": "0.1.0",
+          "recordKind": "final-git-state",
+          "finalCommit": "a5d1093d7e1b65bd8d874b16ce832ba0840d6452",
+          "scopedClean": true,
+          "scopePaths": [
+            "demo/password-reset-workspace/src/password-reset.ts",
+            "demo/password-reset-workspace/test/password-reset.test.ts",
+            "demo/password-reset-workspace/CODEX_TASK.md",
+            "demo/password-reset-workspace/package.json"
+          ],
+          "postCommitPassingTestEvidenceId": "ev_post_commit_test_a5d1093d7e1b",
+          "artifacts": [
+            {
+              "path": "demo/password-reset-workspace/src/password-reset.ts",
+              "mediaType": "text/typescript",
+              "byteSize": 5553,
+              "sha256": "214191f78f469e5bf7d4941ec9a1c8d25e6954668b8854b0b54ffc8c044cd0e6",
+              "content": "export interface PasswordResetTokenIssuer {\n  issue(accountId: string): string;\n}\n\nexport type PasswordResetWork = () => Promise<void>;\n\n/**\n * Enqueues work without running it on the caller's response path.\n *\n * Implementations must return before invoking `work`. A production service\n * should use a durable queue; this synthetic workspace injects the boundary so\n * tests can prove that account lookup and delivery are deferred uniformly.\n */\nexport interface PasswordResetWorkScheduler {\n  enqueue(work: PasswordResetWork): void;\n}\n\nexport interface ResetDependencies {\n  scheduler: PasswordResetWorkScheduler;\n  findAccountByEmail(email: string): Promise<{ id: string } | undefined>;\n  tokenStore: PasswordResetTokenIssuer;\n  sendResetInstructions(accountId: string, token: string): Promise<void>;\n  audit(event: string, detail: Record<string, string>): Promise<void>;\n  log(message: string): void;\n}\n\nexport interface PasswordResetTokenStoreOptions {\n  clock: () => number;\n  generateToken: () => string;\n  expiresInMilliseconds?: number;\n}\n\ntype TokenState = \"active\" | \"redeeming\" | \"consumed\";\n\ninterface TokenRecord {\n  accountId: string;\n  expiresAt: number;\n  state: TokenState;\n}\n\n/**\n * The callback must either complete its durable reset atomically or be safe to\n * invoke again after rejection. A rejection reactivates a still-valid token,\n * so callers must roll back partial changes or provide idempotent behaviour.\n */\nexport type PasswordResetAction = (accountId: string) => Promise<void>;\n\nconst FIFTEEN_MINUTES_IN_MILLISECONDS = 15 * 60 * 1_000;\n\n/**\n * An expiring token store for this single-process demonstration workspace.\n *\n * The state transition that reserves a token is synchronous and therefore\n * atomic only within one JavaScript process. A production deployment with\n * multiple processes or hosts needs a persistent shared store with a\n * transaction or atomic compare-and-set operation.\n */\nexport class InMemoryPasswordResetTokenStore implements PasswordResetTokenIssuer {\n  readonly #clock: () => number;\n  readonly #generateToken: () => string;\n  readonly #expiresInMilliseconds: number;\n  readonly #records = new Map<string, TokenRecord>();\n\n  constructor(options: PasswordResetTokenStoreOptions) {\n    if (\n      options.expiresInMilliseconds !== undefined &&\n      (!Number.isFinite(options.expiresInMilliseconds) || options.expiresInMilliseconds <= 0)\n    ) {\n      throw new RangeError(\"Token lifetime must be a positive finite number.\");\n    }\n\n    this.#clock = options.clock;\n    this.#generateToken = options.generateToken;\n    this.#expiresInMilliseconds =\n      options.expiresInMilliseconds ?? FIFTEEN_MINUTES_IN_MILLISECONDS;\n  }\n\n  issue(accountId: string): string {\n    const token = this.#generateToken();\n\n    if (token.length === 0) {\n      throw new Error(\"Token generator returned an empty token.\");\n    }\n    if (this.#records.has(token)) {\n      throw new Error(\"Token generator returned a duplicate token.\");\n    }\n\n    this.#records.set(token, {\n      accountId,\n      expiresAt: this.#clock() + this.#expiresInMilliseconds,\n      state: \"active\",\n    });\n\n    return token;\n  }\n\n  async redeem(token: string, resetAction: PasswordResetAction): Promise<boolean> {\n    const record = this.#records.get(token);\n\n    if (record === undefined) {\n      return false;\n    }\n\n    if (this.#clock() >= record.expiresAt) {\n      this.#records.delete(token);\n      return false;\n    }\n\n    if (record.state !== \"active\") {\n      return false;\n    }\n\n    // Shape: active -> redeeming before the first await, reserving one attempt in this process.\n    record.state = \"redeeming\";\n\n    try {\n      await resetAction(record.accountId);\n      record.state = \"consumed\";\n      return true;\n    } catch (error) {\n      // Contract: a rejected action was rolled back or is idempotent, so retry remains safe.\n      record.state = \"active\";\n      throw error;\n    }\n  }\n}\n\nconst PUBLIC_RESPONSE = Object.freeze({\n  accepted: true,\n  message: \"If an account matches that email address, reset instructions will be sent.\",\n});\n\nconst SAFE_LOG_MESSAGE = \"Password reset request accepted.\";\nconst SAFE_AUDIT_EVENT = \"password_reset_request_accepted\";\nconst SAFE_AUDIT_DETAIL = Object.freeze({ result: \"accepted\" });\n\nexport async function requestPasswordReset(email: string, dependencies: ResetDependencies) {\n  try {\n    // Shape: every request enqueues one job; account-dependent work begins only off-path.\n    dependencies.scheduler.enqueue(async () => {\n      try {\n        const account = await dependencies.findAccountByEmail(email);\n\n        if (account !== undefined) {\n          const token = dependencies.tokenStore.issue(account.id);\n          await dependencies.sendResetInstructions(account.id, token);\n        }\n      } catch {\n        // Lookup, issuance, and delivery failures stay inside the asynchronous worker.\n      }\n    });\n  } catch {\n    // Queue failures must not create an enumeration signal or change the neutral response.\n  }\n\n  try {\n    dependencies.log(SAFE_LOG_MESSAGE);\n  } catch {\n    // Observability failures do not change the public response or expose private context.\n  }\n\n  try {\n    // Audit transport is best-effort: a stalled sink must not delay this neutral response.\n    void dependencies.audit(SAFE_AUDIT_EVENT, SAFE_AUDIT_DETAIL).catch(() => {\n      // Audit failures remain private and do not change the public response.\n    });\n  } catch {\n    // Synchronously thrown audit failures remain private and do not prevent the response.\n  }\n\n  return PUBLIC_RESPONSE;\n}\n"
+            },
+            {
+              "path": "demo/password-reset-workspace/test/password-reset.test.ts",
+              "mediaType": "text/typescript",
+              "byteSize": 14735,
+              "sha256": "eda6eea73a0cccd87feb1d70cf263fa0df5f00d69a8c64ccba840f32f112f437",
+              "content": "import assert from \"node:assert/strict\";\nimport test from \"node:test\";\nimport {\n  InMemoryPasswordResetTokenStore,\n  requestPasswordReset,\n  type PasswordResetWork,\n  type PasswordResetTokenIssuer,\n  type ResetDependencies,\n} from \"../src/password-reset.ts\";\n\nconst SYNTHETIC_EMAIL = \"known@example.test\";\nconst SYNTHETIC_ACCOUNT_ID = \"account-synthetic-001\";\nconst SYNTHETIC_TOKEN = \"token-synthetic-001\";\n\nfunction createDeferredScheduler() {\n  const jobs: PasswordResetWork[] = [];\n\n  return {\n    scheduler: {\n      enqueue(work: PasswordResetWork) {\n        jobs.push(work);\n      },\n    },\n    get scheduledCount() {\n      return jobs.length;\n    },\n    async runAll() {\n      while (jobs.length > 0) {\n        const job = jobs.shift();\n        await job?.();\n      }\n    },\n  };\n}\n\nfunction createTokenStore(\n  options: {\n    now?: number;\n    token?: string;\n    expiresInMilliseconds?: number;\n  } = {},\n) {\n  let now = options.now ?? 1_000_000;\n  const store = new InMemoryPasswordResetTokenStore({\n    clock: () => now,\n    generateToken: () => options.token ?? SYNTHETIC_TOKEN,\n    expiresInMilliseconds: options.expiresInMilliseconds,\n  });\n\n  return {\n    store,\n    setNow(value: number) {\n      now = value;\n    },\n  };\n}\n\nfunction createDependencies(overrides: Partial<ResetDependencies> = {}): ResetDependencies {\n  const { store } = createTokenStore();\n  const { scheduler } = createDeferredScheduler();\n  const dependencies: ResetDependencies = {\n    scheduler,\n    async findAccountByEmail() {\n      return { id: SYNTHETIC_ACCOUNT_ID };\n    },\n    tokenStore: store,\n    async sendResetInstructions() {},\n    async audit() {},\n    log() {},\n  };\n\n  return { ...dependencies, ...overrides };\n}\n\nconst neutralResponse = {\n  accepted: true,\n  message: \"If an account matches that email address, reset instructions will be sent.\",\n};\n\ntest(\"known accounts receive reset instructions and a neutral response\", async () => {\n  const deliveries: Array<{ accountId: string; token: string }> = [];\n  const deferred = createDeferredScheduler();\n  const result = await requestPasswordReset(\n    SYNTHETIC_EMAIL,\n    createDependencies({\n      scheduler: deferred.scheduler,\n      async sendResetInstructions(accountId, token) {\n        deliveries.push({ accountId, token });\n      },\n    }),\n  );\n\n  assert.deepEqual(result, neutralResponse);\n  assert.deepEqual(deliveries, []);\n  assert.equal(deferred.scheduledCount, 1);\n  await deferred.runAll();\n  assert.deepEqual(deliveries, [{ accountId: SYNTHETIC_ACCOUNT_ID, token: SYNTHETIC_TOKEN }]);\n});\n\ntest(\"unknown accounts receive the same neutral response without issuing or delivering\", async () => {\n  let issueCount = 0;\n  let deliveryCount = 0;\n  const tokenStore: PasswordResetTokenIssuer = {\n    issue() {\n      issueCount += 1;\n      return \"token-synthetic-unexpected\";\n    },\n  };\n  const unknownDeferred = createDeferredScheduler();\n  const knownDeferred = createDeferredScheduler();\n\n  const unknownResult = await requestPasswordReset(\n    \"unknown@example.test\",\n    createDependencies({\n      scheduler: unknownDeferred.scheduler,\n      async findAccountByEmail() {\n        return undefined;\n      },\n      tokenStore,\n      async sendResetInstructions() {\n        deliveryCount += 1;\n      },\n    }),\n  );\n  const knownResult = await requestPasswordReset(\n    SYNTHETIC_EMAIL,\n    createDependencies({ scheduler: knownDeferred.scheduler }),\n  );\n\n  assert.deepEqual(unknownResult, neutralResponse);\n  assert.deepEqual(unknownResult, knownResult);\n  assert.equal(unknownDeferred.scheduledCount, 1);\n  assert.equal(knownDeferred.scheduledCount, 1);\n  assert.equal(issueCount, 0);\n  assert.equal(deliveryCount, 0);\n  await unknownDeferred.runAll();\n  await knownDeferred.runAll();\n  assert.equal(issueCount, 0);\n  assert.equal(deliveryCount, 0);\n});\n\ntest(\"lookup and delivery never run on the response path\", async () => {\n  const deferred = createDeferredScheduler();\n  let lookupCount = 0;\n  let deliveryCount = 0;\n\n  const result = await requestPasswordReset(\n    SYNTHETIC_EMAIL,\n    createDependencies({\n      scheduler: deferred.scheduler,\n      async findAccountByEmail() {\n        lookupCount += 1;\n        return { id: SYNTHETIC_ACCOUNT_ID };\n      },\n      async sendResetInstructions() {\n        deliveryCount += 1;\n      },\n    }),\n  );\n\n  assert.deepEqual(result, neutralResponse);\n  assert.equal(deferred.scheduledCount, 1);\n  assert.equal(lookupCount, 0);\n  assert.equal(deliveryCount, 0);\n\n  await deferred.runAll();\n  assert.equal(lookupCount, 1);\n  assert.equal(deliveryCount, 1);\n});\n\ntest(\"complete telemetry is identifier-free and identical for known and unknown accounts\", async () => {\n  async function captureTelemetry(email: string, accountExists: boolean) {\n    const logs: string[] = [];\n    const audits: Array<{ event: string; detail: Record<string, string> }> = [];\n    const deferred = createDeferredScheduler();\n\n    await requestPasswordReset(\n      email,\n      createDependencies({\n        scheduler: deferred.scheduler,\n        async findAccountByEmail() {\n          return accountExists ? { id: SYNTHETIC_ACCOUNT_ID } : undefined;\n        },\n        log(message) {\n          logs.push(message);\n        },\n        async audit(event, detail) {\n          audits.push({ event, detail });\n        },\n      }),\n    );\n    await deferred.runAll();\n\n    return { logs, audits };\n  }\n\n  const knownTelemetry = await captureTelemetry(SYNTHETIC_EMAIL, true);\n  const unknownTelemetry = await captureTelemetry(\"unknown@example.test\", false);\n\n  assert.deepEqual(knownTelemetry, {\n    logs: [\"Password reset request accepted.\"],\n    audits: [{ event: \"password_reset_request_accepted\", detail: { result: \"accepted\" } }],\n  });\n  assert.deepEqual(unknownTelemetry, knownTelemetry);\n\n  const completeTelemetry = JSON.stringify({ knownTelemetry, unknownTelemetry });\n  assert.doesNotMatch(completeTelemetry, /token-synthetic/i);\n  assert.doesNotMatch(completeTelemetry, /known@example\\.test|unknown@example\\.test/i);\n  assert.doesNotMatch(completeTelemetry, /account-synthetic/i);\n  assert.doesNotMatch(completeTelemetry, /[a-f0-9]{32,}/i);\n});\n\ntest(\"tokens work before expiry and are rejected exactly at the expiry boundary\", async () => {\n  const issuedAt = 5_000;\n  const lifetime = 900_000;\n  const beforeExpiry = createTokenStore({ now: issuedAt, expiresInMilliseconds: lifetime });\n  const beforeToken = beforeExpiry.store.issue(SYNTHETIC_ACCOUNT_ID);\n  beforeExpiry.setNow(issuedAt + lifetime - 1);\n\n  assert.equal(beforeToken, SYNTHETIC_TOKEN);\n  assert.equal(await beforeExpiry.store.redeem(beforeToken, async () => {}), true);\n\n  const atExpiry = createTokenStore({\n    now: issuedAt,\n    token: \"token-synthetic-expiry-boundary\",\n    expiresInMilliseconds: lifetime,\n  });\n  const atExpiryToken = atExpiry.store.issue(SYNTHETIC_ACCOUNT_ID);\n  atExpiry.setNow(issuedAt + lifetime);\n  let actionCount = 0;\n\n  assert.equal(\n    await atExpiry.store.redeem(atExpiryToken, async () => {\n      actionCount += 1;\n    }),\n    false,\n  );\n  assert.equal(actionCount, 0);\n});\n\ntest(\"a successfully redeemed token rejects every repeated redemption\", async () => {\n  const { store } = createTokenStore();\n  const token = store.issue(SYNTHETIC_ACCOUNT_ID);\n  let actionCount = 0;\n  const resetAction = async () => {\n    actionCount += 1;\n  };\n\n  assert.equal(await store.redeem(token, resetAction), true);\n  assert.equal(await store.redeem(token, resetAction), false);\n  assert.equal(await store.redeem(token, resetAction), false);\n  assert.equal(actionCount, 1);\n});\n\ntest(\"concurrent redemption reserves the token before awaiting the reset action\", async () => {\n  const { store } = createTokenStore();\n  const token = store.issue(SYNTHETIC_ACCOUNT_ID);\n  let releaseFirstAction: (() => void) | undefined;\n  const firstActionCanFinish = new Promise<void>((resolve) => {\n    releaseFirstAction = resolve;\n  });\n  let actionCount = 0;\n\n  const firstAttempt = store.redeem(token, async () => {\n    actionCount += 1;\n    await firstActionCanFinish;\n  });\n  const secondAttempt = store.redeem(token, async () => {\n    actionCount += 1;\n  });\n\n  assert.equal(await secondAttempt, false);\n  releaseFirstAction?.();\n  assert.equal(await firstAttempt, true);\n  assert.equal(actionCount, 1);\n});\n\ntest(\"a failed reset action does not consume the token and permits a later retry\", async () => {\n  const { store } = createTokenStore();\n  const token = store.issue(SYNTHETIC_ACCOUNT_ID);\n  const syntheticFailure = new Error(\"Synthetic reset action failure.\");\n  let actionCount = 0;\n\n  await assert.rejects(\n    store.redeem(token, async () => {\n      actionCount += 1;\n      throw syntheticFailure;\n    }),\n    syntheticFailure,\n  );\n\n  assert.equal(\n    await store.redeem(token, async (accountId) => {\n      actionCount += 1;\n      assert.equal(accountId, SYNTHETIC_ACCOUNT_ID);\n    }),\n    true,\n  );\n  assert.equal(actionCount, 2);\n  assert.equal(await store.redeem(token, async () => {}), false);\n});\n\ntest(\"lookup, issuance, and delivery failures retain the neutral response and safe telemetry\", async () => {\n  const failureCases: Array<{ name: string; overrides: Partial<ResetDependencies> }> = [\n    {\n      name: \"lookup\",\n      overrides: {\n        async findAccountByEmail() {\n          throw new Error(\"Synthetic lookup failure containing known@example.test\");\n        },\n      },\n    },\n    {\n      name: \"issuance\",\n      overrides: {\n        tokenStore: {\n          issue() {\n            throw new Error(\"Synthetic issuance failure containing account-synthetic-001\");\n          },\n        },\n      },\n    },\n    {\n      name: \"delivery\",\n      overrides: {\n        async sendResetInstructions() {\n          throw new Error(\"Synthetic delivery failure containing token-synthetic-001\");\n        },\n      },\n    },\n  ];\n\n  for (const failureCase of failureCases) {\n    const logs: string[] = [];\n    const audits: Array<{ event: string; detail: Record<string, string> }> = [];\n    const deferred = createDeferredScheduler();\n    const result = await requestPasswordReset(\n      SYNTHETIC_EMAIL,\n      createDependencies({\n        ...failureCase.overrides,\n        scheduler: deferred.scheduler,\n        log(message) {\n          logs.push(message);\n        },\n        async audit(event, detail) {\n          audits.push({ event, detail });\n        },\n      }),\n    );\n    await deferred.runAll();\n\n    assert.deepEqual(result, neutralResponse, failureCase.name);\n    assert.deepEqual(logs, [\"Password reset request accepted.\"], failureCase.name);\n    assert.deepEqual(\n      audits,\n      [{ event: \"password_reset_request_accepted\", detail: { result: \"accepted\" } }],\n      failureCase.name,\n    );\n    assert.doesNotMatch(\n      JSON.stringify({ logs, audits }),\n      /token-synthetic|account-synthetic|known@example\\.test/i,\n      failureCase.name,\n    );\n  }\n});\n\ntest(\"logging and audit failures are isolated and retain the neutral response\", async () => {\n  let auditAfterLogFailureCount = 0;\n  const logFailureResult = await requestPasswordReset(\n    SYNTHETIC_EMAIL,\n    createDependencies({\n      log() {\n        throw new Error(\"Synthetic logging failure containing token-synthetic-001\");\n      },\n      async audit() {\n        auditAfterLogFailureCount += 1;\n      },\n    }),\n  );\n\n  let logBeforeAuditFailureCount = 0;\n  const auditFailureResult = await requestPasswordReset(\n    SYNTHETIC_EMAIL,\n    createDependencies({\n      log() {\n        logBeforeAuditFailureCount += 1;\n      },\n      async audit() {\n        throw new Error(\"Synthetic audit failure containing account-synthetic-001\");\n      },\n    }),\n  );\n\n  assert.deepEqual(logFailureResult, neutralResponse);\n  assert.deepEqual(auditFailureResult, neutralResponse);\n  assert.equal(auditAfterLogFailureCount, 1);\n  assert.equal(logBeforeAuditFailureCount, 1);\n});\n\ntest(\"a stalled audit transport does not delay the neutral response\", async () => {\n  let resolveAudit: (() => void) | undefined;\n  const auditCanFinish = new Promise<void>((resolve) => {\n    resolveAudit = resolve;\n  });\n  let auditStarted = false;\n\n  const result = await requestPasswordReset(\n    SYNTHETIC_EMAIL,\n    createDependencies({\n      async audit() {\n        auditStarted = true;\n        await auditCanFinish;\n      },\n    }),\n  );\n\n  assert.deepEqual(result, neutralResponse);\n  assert.equal(auditStarted, true);\n  resolveAudit?.();\n  await auditCanFinish;\n});\n\ntest(\"scheduler failure retains the neutral response and safe telemetry\", async () => {\n  const logs: string[] = [];\n  const audits: Array<{ event: string; detail: Record<string, string> }> = [];\n  const result = await requestPasswordReset(\n    SYNTHETIC_EMAIL,\n    createDependencies({\n      scheduler: {\n        enqueue() {\n          throw new Error(\"Synthetic queue failure containing known@example.test\");\n        },\n      },\n      log(message) {\n        logs.push(message);\n      },\n      async audit(event, detail) {\n        audits.push({ event, detail });\n      },\n    }),\n  );\n\n  assert.deepEqual(result, neutralResponse);\n  assert.deepEqual(logs, [\"Password reset request accepted.\"]);\n  assert.deepEqual(audits, [\n    { event: \"password_reset_request_accepted\", detail: { result: \"accepted\" } },\n  ]);\n  assert.doesNotMatch(JSON.stringify({ logs, audits }), /known@example\\.test/i);\n});\n\ntest(\"the default token lifetime is fifteen minutes\", async () => {\n  const issuedAt = 10_000;\n  const { store, setNow } = createTokenStore({ now: issuedAt });\n  const token = store.issue(SYNTHETIC_ACCOUNT_ID);\n  setNow(issuedAt + 15 * 60 * 1_000);\n\n  assert.equal(await store.redeem(token, async () => {}), false);\n});\n\ntest(\"token lifetime rejects zero, negative, non-finite, and not-a-number values\", () => {\n  for (const invalidLifetime of [\n    0,\n    -1,\n    Number.POSITIVE_INFINITY,\n    Number.NEGATIVE_INFINITY,\n    Number.NaN,\n  ]) {\n    assert.throws(\n      () => createTokenStore({ expiresInMilliseconds: invalidLifetime }),\n      /positive finite number/,\n    );\n  }\n});\n\ntest(\"token issuance rejects empty and duplicate generated values\", () => {\n  const empty = createTokenStore({ token: \"\" });\n  assert.throws(() => empty.store.issue(SYNTHETIC_ACCOUNT_ID), /empty token/);\n\n  const duplicate = createTokenStore({ token: SYNTHETIC_TOKEN });\n  assert.equal(duplicate.store.issue(SYNTHETIC_ACCOUNT_ID), SYNTHETIC_TOKEN);\n  assert.throws(() => duplicate.store.issue(\"account-synthetic-002\"), /duplicate token/);\n});\n\ntest(\"unknown tokens do not invoke the reset callback\", async () => {\n  const { store } = createTokenStore();\n  let actionCount = 0;\n\n  assert.equal(\n    await store.redeem(\"token-synthetic-unknown\", async () => {\n      actionCount += 1;\n    }),\n    false,\n  );\n  assert.equal(actionCount, 0);\n});\n"
+            },
+            {
+              "path": "demo/password-reset-workspace/CODEX_TASK.md",
+              "mediaType": "text/markdown",
+              "byteSize": 3886,
+              "sha256": "d718633ef099a11cf9be1b75012622b29b2cfc58190304f1fab7a56632412301",
+              "content": "# Codex remediation task\n\nWork only in this fully synthetic password-reset workspace.\n\nRepair the existing implementation so that it satisfies all of these acceptance criteria:\n\n1. Password-reset tokens expire and are single use. The workspace must include an actual token store with an injected clock and token generator, and reject redemption at or after expiry.\n2. Known and unknown accounts receive the same neutral public response. Account lookup, token issuance, and delivery must run behind one explicitly injected asynchronous scheduler or queue boundary, and every request must schedule the same amount of work before returning so response timing does not disclose account existence.\n3. Raw reset tokens never enter logs or audit events.\n4. A safe audit event is recorded without exposing direct account or token identifiers.\n5. Concurrent attempts produce exactly one successful redemption through a deterministic state transition.\n6. A token is consumed only after the reset action succeeds. A failed reset action permits a later retry while the token remains valid. The reset callback must roll back partial durable changes or be idempotent before rejecting, because rejection reactivates the token and permits that retry.\n7. Scheduling, lookup, issuance, delivery, logging, and audit dependency failures retain the neutral public response and do not leak failure details into telemetry.\n8. Automated tests deterministically cover known and unknown accounts, equal scheduling, absence of lookup and delivery on the response path, response equality, complete safe telemetry, invalid token lifetimes, empty and duplicate generated tokens, unknown-token callback exclusion, the exact expiry boundary, repeated and concurrent redemption, retry after action failure, and every dependency failure listed above.\n\n## Scheduler boundary\n\nThe injected scheduler must enqueue the supplied work and return before invoking it. The request handler enqueues exactly one job for every request and performs no account lookup, token issuance, or delivery before producing the neutral response. The synthetic tests use a deterministic deferred scheduler. A production implementation should use a durable queue with bounded retries, monitoring, and failure handling.\n\n## Atomicity boundary\n\nThe in-memory store reserves a token by changing its state synchronously before the first awaited reset action. That transition is atomic only among asynchronous attempts in one JavaScript process. It does not coordinate multiple worker processes or hosts, and it does not survive a process restart. A production implementation therefore requires a persistent shared store with a transaction or atomic compare-and-set operation covering the equivalent state transition.\n\nIf a reset callback rejects, the store changes `redeeming` back to `active` while the token remains valid. This retry rule is safe only when the callback has rolled back any partial durable change or applies the same reset idempotently. The store cannot infer or enforce that external transaction boundary.\n\n## Final evidence handoff\n\nBefore completing the task:\n\n1. Run the complete test command for this workspace and report the exact pass or fail count.\n2. Identify the final source file and final test file by repository-relative path.\n3. Report scoped Git status only for those two files and this task file.\n4. Report a Secure Hash Algorithm 256-bit digest for each final file without printing any secret-bearing value.\n5. Do not claim that repository-wide canonical validation, release checks, or hosted verification passed. Those checks are outside this isolated workspace and must be recorded as unavailable here.\n\nUse only synthetic values. Preserve dependency injection so the behaviour remains testable. Run the test suite and leave the workspace in a passing state. Do not access or modify files outside this workspace.\n"
+            },
+            {
+              "path": "demo/password-reset-workspace/package.json",
+              "mediaType": "application/json",
+              "byteSize": 206,
+              "sha256": "bf3a6aefe281637a0d25a12aef926bd4e73254ba388fe9288f179bb37dc57aa2",
+              "content": "{\n  \"name\": \"flight-recorder-synthetic-password-reset\",\n  \"version\": \"0.0.0\",\n  \"private\": true,\n  \"type\": \"module\",\n  \"scripts\": {\n    \"test\": \"node --experimental-strip-types --test test/*.test.ts\"\n  }\n}\n"
+            }
+          ]
+        },
+        "previousHash": "2d910827fefac8e02e0567fee4fb9dcf992d454a1b6261679af0fcc8e3e0b34e",
+        "hash": "2802200a658dae745aee3e7437eb01181c46aa35784a249de70f3c430e3cc6c9"
+      },
+      {
+        "id": "ev_human_seal_approval_725d79887171e1d9",
+        "index": 17,
+        "recordedAt": "2026-07-19T06:31:16.327Z",
+        "type": "approval",
+        "summary": "The human approver authorised sealing under the narrow integrity claim and accepted the recorded residual warnings.",
+        "payload": {
+          "recordKind": "human-seal-approval",
+          "decision": "approved-for-sealing",
+          "passportId": "frp_f36024b2a0d9b46ac33a4134",
+          "repositoryCommit": "a5d1093d7e1b65bd8d874b16ce832ba0840d6452",
+          "evidenceDigestSha256": "13af368970c111ce5a455f739318517eba774d0a95851b9504b0bfee395641a4",
+          "findingDecisionIds": [
+            "decision_55cb8c50561ca4528677",
+            "decision_f527fae793557d6ececd",
+            "decision_343f6abb73abda3d0451",
+            "decision_b3b29e9f0be7f1bfba01",
+            "decision_eec60bfa555c0b59ee90",
+            "decision_350003fc32f574c596de",
+            "decision_cb0d9eb9eb181da4c481",
+            "decision_05d94f48037caff43bb4",
+            "decision_189d5040cee07eb0024e",
+            "decision_238f0c94fd660b1ae808",
+            "decision_20377a8287959fa8f6e0",
+            "decision_fd2f70cb27fadb41be1a",
+            "decision_9bb5c62e460b74011ecf",
+            "decision_8535ec637b0888f6ee90",
+            "decision_eced693140f6b44927fe",
+            "decision_e59474477efa6724c1b4",
+            "decision_2d04f24f447ec3750294",
+            "decision_cc7707a10213f4262494",
+            "decision_386e3f7cab1a2d957fdf",
+            "decision_6136bbaa49740f030b9e",
+            "decision_b310105e6bc7ebbbfa0c",
+            "decision_210bea589dea0b7ae6a7"
+          ],
+          "acknowledgedNarrowClaim": true,
+          "acknowledgedResidualLimitations": true,
+          "reason": "I approve sealing the Flight Recorder passport under the narrow integrity claim. I acknowledge that durable audit delivery and distributed token atomicity are outside the synthetic demonstration scope, and I accept the four related warning findings as scoped risks rather than resolved production capabilities."
+        },
+        "previousHash": "2802200a658dae745aee3e7437eb01181c46aa35784a249de70f3c430e3cc6c9",
+        "hash": "1dd6adb4b236bd66b7d9340295e047c66ea0296a38bc1a699ccef1a0c46054a8"
+      }
+    ],
+    "findings": [
+      {
+        "id": "requirements-REQ-001",
+        "reviewer": "requirements",
+        "severity": "informational",
+        "title": "Token expiry and single-use redemption are implemented and tested",
+        "detail": "AC1 is satisfied: the injected-clock/token-generator store rejects tokens at or after expiry and permits only one successful redemption.\n\nThe committed implementation stores an expiry and state for each token, rejects when the clock is at or beyond expiry, and transitions successfully redeemed tokens to consumed. Tests cover the exact expiry boundary, default lifetime, repeated redemption, invalid lifetimes, and invalid generated tokens.\n\nRecommended remediation: None for the declared single-process demonstration scope.",
+        "evidenceIds": [
+          "ev_final_git_state_a5d1093d7e1b",
+          "ev_post_commit_test_a5d1093d7e1b",
+          "ev_000013"
+        ],
+        "resolved": true
+      },
+      {
+        "id": "requirements-REQ-002",
+        "reviewer": "requirements",
+        "severity": "informational",
+        "title": "Neutral responses and equal deferred scheduling are implemented and tested",
+        "detail": "AC2 is satisfied: known and unknown accounts receive the same response, and each request enqueues exactly one account-dependent job before returning.\n\nThe handler always invokes the injected scheduler once with lookup, issuance, and delivery inside the deferred job. Deterministic tests establish response equality, equal scheduling, and absence of lookup or delivery on the response path.\n\nRecommended remediation: None for the declared demonstration scope.",
+        "evidenceIds": [
+          "ev_final_git_state_a5d1093d7e1b",
+          "ev_post_commit_test_a5d1093d7e1b",
+          "ev_000013"
+        ],
+        "resolved": true
+      },
+      {
+        "id": "requirements-REQ-003",
+        "reviewer": "requirements",
+        "severity": "informational",
+        "title": "Telemetry is identifier-free and audit invocation is safe",
+        "detail": "AC3 and AC4 are satisfied: raw tokens and direct account identifiers are excluded from logs and audit details, while a fixed safe audit event is invoked.\n\nThe implementation emits only a constant log message and a constant audit event/detail. Tests compare complete telemetry for known and unknown accounts and assert that synthetic email, account, token, and long hexadecimal identifier patterns are absent.\n\nRecommended remediation: None. Audit delivery remains intentionally best-effort so a stalled transport cannot delay the neutral response.",
+        "evidenceIds": [
+          "ev_final_git_state_a5d1093d7e1b",
+          "ev_post_commit_test_a5d1093d7e1b",
+          "ev_000013"
+        ],
+        "resolved": true
+      },
+      {
+        "id": "requirements-REQ-004",
+        "reviewer": "requirements",
+        "severity": "informational",
+        "title": "Concurrent redemption and retry semantics are deterministic",
+        "detail": "AC5 and AC6 are satisfied within the declared single-process atomicity boundary.\n\nThe token state changes synchronously from active to redeeming before the reset action is awaited, causing a concurrent attempt to fail. Consumption occurs only after successful completion; rejection restores active state so a still-valid token may be retried. The callback idempotency or rollback requirement is explicitly documented and tested for rejection followed by retry.\n\nRecommended remediation: None for this demonstration. A production multi-worker implementation would require shared persistent atomic storage.",
+        "evidenceIds": [
+          "ev_final_git_state_a5d1093d7e1b",
+          "ev_post_commit_test_a5d1093d7e1b",
+          "ev_000013"
+        ],
+        "resolved": true
+      },
+      {
+        "id": "requirements-REQ-005",
+        "reviewer": "requirements",
+        "severity": "informational",
+        "title": "Dependency failures retain the neutral response",
+        "detail": "AC7 is satisfied for scheduling, lookup, issuance, delivery, logging, and audit failures.\n\nEach dependency boundary is isolated from the public response. Account-dependent exceptions are contained in the worker, scheduler and logging exceptions are caught, and audit rejection or synchronous failure is contained. Tests cover every listed failure and additionally verify that a stalled audit transport does not delay the response.\n\nRecommended remediation: None for the stated criteria.",
+        "evidenceIds": [
+          "ev_final_git_state_a5d1093d7e1b",
+          "ev_post_commit_test_a5d1093d7e1b",
+          "ev_000013"
+        ],
+        "resolved": true
+      },
+      {
+        "id": "requirements-REQ-006",
+        "reviewer": "requirements",
+        "severity": "informational",
+        "title": "Required deterministic automated coverage passes post-commit",
+        "detail": "AC8 is satisfied by 16 passing tests bound to final commit a5d1093d7e1b65bd8d874b16ce832ba0840d6452.\n\nThe supplied final artifacts contain tests for known and unknown accounts, equal scheduling, deferred lookup and delivery, response equality, safe telemetry, lifetime validation, generated-token validation, unknown tokens, exact expiry, repeated and concurrent redemption, retry after failure, all listed dependency failures, and stalled audit behavior. The post-commit npm test result passed with exit code 0.\n\nRecommended remediation: None.",
+        "evidenceIds": [
+          "ev_final_git_state_a5d1093d7e1b",
+          "ev_post_commit_test_a5d1093d7e1b",
+          "ev_000013"
+        ],
+        "resolved": true
+      },
+      {
+        "id": "requirements-REQ-007",
+        "reviewer": "requirements",
+        "severity": "informational",
+        "title": "Final evidence handoff is integrity-bound and scoped clean",
+        "detail": "The supplied final state binds the source, tests, task, and package manifest to a specific commit and passing post-commit test.\n\nThe final-git-state record identifies commit a5d1093d7e1b65bd8d874b16ce832ba0840d6452, reports the scoped paths clean, includes artifact content and SHA-256 digests, and references the passing post-commit test. Earlier working-tree modifications are superseded by this final committed state.\n\nRecommended remediation: None.",
+        "evidenceIds": [
+          "ev_final_git_state_a5d1093d7e1b",
+          "ev_post_commit_test_a5d1093d7e1b",
+          "ev_000013",
+          "ev_000014"
+        ],
+        "resolved": true
+      },
+      {
+        "id": "security-SEC-001",
+        "reviewer": "security",
+        "severity": "informational",
+        "title": "Password-reset enumeration controls are implemented and tested",
+        "detail": "Known and unknown accounts receive the same neutral response, while account lookup, token issuance, and delivery are deferred behind one scheduler job per request. Telemetry excludes email addresses, account identifiers, tokens, and dependency failure details.\n\nThe committed implementation schedules account-dependent work before returning a constant response and uses fixed log and audit payloads. Tests cover response equality, equal scheduling, deferred lookup and delivery, safe telemetry, and dependency failures. The post-commit suite passed.\n\nRecommended remediation: None within the demonstration scope.",
+        "evidenceIds": [
+          "ev_final_git_state_a5d1093d7e1b",
+          "ev_post_commit_test_a5d1093d7e1b"
+        ],
+        "resolved": true
+      },
+      {
+        "id": "security-SEC-002",
+        "reviewer": "security",
+        "severity": "informational",
+        "title": "Token expiry, single use, and deterministic concurrent reservation are implemented",
+        "detail": "The in-memory token store rejects tokens at or after expiry, reserves a token synchronously before awaiting reset work, permits only one concurrent redemption, and consumes the token only after successful reset action completion.\n\nThe implementation contains explicit active, redeeming, and consumed states with an injected clock and generator. Deterministic tests cover the expiry boundary, repeated redemption, concurrent redemption, failed-action retry, invalid lifetimes, duplicate and empty tokens, and unknown tokens.\n\nRecommended remediation: None within the single-process demonstration scope.",
+        "evidenceIds": [
+          "ev_final_git_state_a5d1093d7e1b",
+          "ev_post_commit_test_a5d1093d7e1b"
+        ],
+        "resolved": true
+      },
+      {
+        "id": "security-SEC-003",
+        "reviewer": "security",
+        "severity": "informational",
+        "title": "Stalled audit transport no longer delays the neutral response",
+        "detail": "Audit dispatch is best-effort and is not awaited on the response path; synchronous throws and asynchronous rejections are isolated.\n\nThe final source invokes audit with a fixed identifier-free event and attaches rejection handling without awaiting completion. A regression test verifies that a pending audit promise does not block the response, and the committed test suite passed.\n\nRecommended remediation: None for this demonstration. A production system should deliver audit events through a reliable, bounded, privacy-preserving mechanism.",
+        "evidenceIds": [
+          "ev_000011",
+          "ev_000013",
+          "ev_final_git_state_a5d1093d7e1b",
+          "ev_post_commit_test_a5d1093d7e1b"
+        ],
+        "resolved": true
+      },
+      {
+        "id": "security-SEC-004",
+        "reviewer": "security",
+        "severity": "informational",
+        "title": "Final evidence is bound to a clean committed state",
+        "detail": "The supplied final artifacts are associated with commit a5d1093d7e1b65bd8d874b16ce832ba0840d6452, have recorded SHA-256 digests, are scoped clean, and passed the post-commit test command.\n\nThe final-git-state record binds the source, tests, task, and package manifest to the commit and references a passing post-commit test. The source, test, and task hashes also agree with the pre-commit validation output.\n\nRecommended remediation: None for the supplied evidence-integrity claim.",
+        "evidenceIds": [
+          "ev_000013",
+          "ev_post_commit_test_a5d1093d7e1b",
+          "ev_final_git_state_a5d1093d7e1b"
+        ],
+        "resolved": true
+      },
+      {
+        "id": "tests-TST-001",
+        "reviewer": "tests",
+        "severity": "informational",
+        "title": "Acceptance criteria have broad deterministic automated coverage",
+        "detail": "The committed suite covers the required positive, negative, boundary, concurrency, failure-isolation, and regression scenarios within the synthetic workspace.\n\nThe 16 tests cover known and unknown accounts, equal scheduling, deferred lookup and delivery, neutral response equality, identifier-free telemetry, exact expiry, repeated and concurrent redemption, retry after callback failure, invalid lifetimes, invalid generated tokens, unknown tokens, and failures across scheduler, lookup, issuance, delivery, logging, and audit dependencies. The post-commit test run passed at the artifact-bound commit.\n\nRecommended remediation: None required for the declared demonstration scope.",
+        "evidenceIds": [
+          "ev_final_git_state_a5d1093d7e1b",
+          "ev_post_commit_test_a5d1093d7e1b",
+          "ev_000013"
+        ],
+        "resolved": true
+      },
+      {
+        "id": "tests-TST-002",
+        "reviewer": "tests",
+        "severity": "informational",
+        "title": "Stalled-audit response-path regression is covered",
+        "detail": "A deterministic regression test verifies that an audit promise which remains unsettled does not delay the neutral public response.\n\nThe final implementation invokes audit best-effort without awaiting transport completion, while handling synchronous throws and promise rejection. The added test holds the audit promise open, awaits the request result, and verifies the neutral response before releasing the audit.\n\nRecommended remediation: None required.",
+        "evidenceIds": [
+          "ev_000011",
+          "ev_000012",
+          "ev_000013",
+          "ev_final_git_state_a5d1093d7e1b"
+        ],
+        "resolved": true
+      },
+      {
+        "id": "tests-TST-003",
+        "reviewer": "tests",
+        "severity": "informational",
+        "title": "Evidence integrity is bound to a clean committed state",
+        "detail": "The supplied final artifacts, hashes, scoped Git state, commit, and post-commit passing test are coherently linked.\n\nThe final-git-state record reports scopedClean=true at commit a5d1093d7e1b65bd8d874b16ce832ba0840d6452, includes the artifact contents and SHA-256 digests, and references a successful post-commit npm test run. The source and test hashes match the earlier validation output.\n\nRecommended remediation: None required.",
+        "evidenceIds": [
+          "ev_000013",
+          "ev_post_commit_test_a5d1093d7e1b",
+          "ev_final_git_state_a5d1093d7e1b"
+        ],
+        "resolved": true
+      },
+      {
+        "id": "evidence-F-001",
+        "reviewer": "evidence",
+        "severity": "informational",
+        "title": "Acceptance criteria are implemented and covered by the committed test suite",
+        "detail": "The scoped password-reset demonstration implements expiring single-use tokens, neutral responses, deferred account-dependent work, identifier-free telemetry, deterministic single-process redemption, retry after failed reset action, and dependency-failure isolation.\n\nThe final bound source implements the required token state transitions and scheduler boundary. The final test artifact contains deterministic coverage corresponding to all eight acceptance criteria, and the linked post-commit test completed successfully at the final commit.\n\nRecommended remediation: None for the declared demonstration scope.",
+        "evidenceIds": [
+          "ev_final_git_state_a5d1093d7e1b",
+          "ev_post_commit_test_a5d1093d7e1b",
+          "ev_000013"
+        ],
+        "resolved": true
+      },
+      {
+        "id": "evidence-F-002",
+        "reviewer": "evidence",
+        "severity": "informational",
+        "title": "Final-state evidence has commit, artifact, hash, cleanliness, and post-commit test binding",
+        "detail": "The supplied evidence establishes a clean scoped final state at commit a5d1093d7e1b65bd8d874b16ce832ba0840d6452 and binds the covered artifacts to a passing post-commit test.\n\nThe final-git-state record names the final commit, reports scopedClean=true, embeds the four scoped artifacts with SHA-256 digests, and references the passing post-commit test. The source, test, and task-file hashes also match the earlier validation output, supporting continuity between validation and the committed state.\n\nRecommended remediation: None.",
+        "evidenceIds": [
+          "ev_final_git_state_a5d1093d7e1b",
+          "ev_post_commit_test_a5d1093d7e1b",
+          "ev_000013"
+        ],
+        "resolved": true
+      },
+      {
+        "id": "evidence-F-003",
+        "reviewer": "evidence",
+        "severity": "warning",
+        "title": "Audit delivery is intentionally best-effort rather than durably guaranteed",
+        "detail": "The handler initiates a safe audit event without awaiting transport completion, so a stalled or failed audit sink cannot delay the neutral response; this does not prove durable audit recording.\n\nThe final implementation calls audit with fixed identifier-free data and suppresses synchronous and asynchronous failures. The regression test proves a stalled audit does not block the response. This satisfies response isolation and demonstrates safe audit invocation, but durable persistence is outside the injected interface and evidence.\n\nRecommended remediation: If durable recording is required beyond this demonstration, enqueue the audit event to a durable outbox or queue while preserving the neutral response path.",
+        "evidenceIds": [
+          "ev_final_git_state_a5d1093d7e1b",
+          "ev_000013"
+        ],
+        "resolved": false
+      },
+      {
+        "id": "evidence-F-004",
+        "reviewer": "evidence",
+        "severity": "warning",
+        "title": "Atomicity and scheduling guarantees are scoped to one process and injected test boundaries",
+        "detail": "The demonstration does not establish multi-process token atomicity, restart survival, or durable background scheduling.\n\nThe implementation and task contract explicitly limit the token store to one JavaScript process and identify the production need for a persistent compare-and-set or transaction. The scheduler contract likewise recommends a durable production queue. These are declared out-of-scope production limitations and do not contradict the synthetic acceptance criteria.\n\nRecommended remediation: For production use, replace the in-memory store with shared persistent transactional storage and use a durable monitored queue with bounded retries.",
+        "evidenceIds": [
+          "ev_final_git_state_a5d1093d7e1b",
+          "ev_000014"
+        ],
+        "resolved": false
+      },
+      {
+        "id": "synthesis-SYN-001",
+        "reviewer": "synthesis",
+        "severity": "informational",
+        "title": "Acceptance criteria are satisfied within the declared demonstration scope",
+        "detail": "The supplied evidence supports AC1–AC8 for the scoped single-process password-reset demonstration.\n\nThe specialist reviews consistently report deterministic coverage of token expiry and single use, neutral responses, equal deferred scheduling, safe telemetry and audit invocation, concurrent redemption, retry after reset failure, dependency-failure isolation, and positive, negative, boundary, and regression cases. The artifact-bound post-commit test reports success.\n\nRecommended remediation: None for the declared demonstration scope.",
+        "evidenceIds": [
+          "ev_final_git_state_a5d1093d7e1b",
+          "ev_post_commit_test_a5d1093d7e1b",
+          "ev_000013"
+        ],
+        "resolved": true
+      },
+      {
+        "id": "synthesis-SYN-002",
+        "reviewer": "synthesis",
+        "severity": "informational",
+        "title": "Final evidence is bound to a clean committed state",
+        "detail": "The final source, tests, task, and package manifest are reported as bound by hashes and scoped cleanliness to commit a5d1093d7e1b65bd8d874b16ce832ba0840d6452 and a passing post-commit test.\n\nThe final-state record identifies the commit, reports scopedClean=true, embeds artifact digests, and references the successful post-commit test. The reviews also report continuity with earlier validation hashes.\n\nRecommended remediation: None for the narrow supplied evidence-integrity claim.",
+        "evidenceIds": [
+          "ev_final_git_state_a5d1093d7e1b",
+          "ev_post_commit_test_a5d1093d7e1b",
+          "ev_000013",
+          "ev_000014"
+        ],
+        "resolved": true
+      },
+      {
+        "id": "synthesis-SYN-003",
+        "reviewer": "synthesis",
+        "severity": "warning",
+        "title": "Audit invocation is response-safe but not durably persisted",
+        "detail": "Audit dispatch uses fixed identifier-free data and does not block the neutral response, but the evidence does not establish durable audit receipt.\n\nThe implementation reportedly contains synchronous throws and asynchronous rejections and includes a regression test showing that a pending audit promise does not delay the response. Best-effort invocation satisfies the stated scope but is not a durable recording guarantee.\n\nRecommended remediation: If durable audit recording becomes a requirement, use a privacy-preserving transactional outbox or durable queue without placing transport completion on the public response path.",
+        "evidenceIds": [
+          "ev_000011",
+          "ev_000012",
+          "ev_000013",
+          "ev_final_git_state_a5d1093d7e1b"
+        ],
+        "resolved": false
+      },
+      {
+        "id": "synthesis-SYN-004",
+        "reviewer": "synthesis",
+        "severity": "warning",
+        "title": "Atomicity and scheduling guarantees do not extend beyond one process",
+        "detail": "The demonstration does not establish cross-process token atomicity, restart persistence, or durable background-job execution.\n\nThe supplied artifacts and reviews explicitly scope atomic state transitions to one JavaScript process and use an injected demonstration scheduler. These limitations do not contradict the current acceptance criteria but prevent extrapolation to a multi-worker production system.\n\nRecommended remediation: For production use, adopt shared persistent storage with transactional or compare-and-set redemption and a durable monitored queue with bounded retries.",
+        "evidenceIds": [
+          "ev_final_git_state_a5d1093d7e1b",
+          "ev_000014"
+        ],
+        "resolved": false
+      }
+    ],
+    "findingDecisions": [
+      {
+        "id": "decision_55cb8c50561ca4528677",
+        "findingId": "requirements-REQ-001",
+        "decision": "resolved",
+        "reason": "The human approver accepts the evidence-backed resolved status for sealing under the narrow integrity claim.",
+        "decidedAt": "2026-07-19T06:31:16.327Z",
+        "actor": "human",
+        "decisionEventId": "ev_human_seal_approval_725d79887171e1d9"
+      },
+      {
+        "id": "decision_f527fae793557d6ececd",
+        "findingId": "requirements-REQ-002",
+        "decision": "resolved",
+        "reason": "The human approver accepts the evidence-backed resolved status for sealing under the narrow integrity claim.",
+        "decidedAt": "2026-07-19T06:31:16.327Z",
+        "actor": "human",
+        "decisionEventId": "ev_human_seal_approval_725d79887171e1d9"
+      },
+      {
+        "id": "decision_343f6abb73abda3d0451",
+        "findingId": "requirements-REQ-003",
+        "decision": "resolved",
+        "reason": "The human approver accepts the evidence-backed resolved status for sealing under the narrow integrity claim.",
+        "decidedAt": "2026-07-19T06:31:16.327Z",
+        "actor": "human",
+        "decisionEventId": "ev_human_seal_approval_725d79887171e1d9"
+      },
+      {
+        "id": "decision_b3b29e9f0be7f1bfba01",
+        "findingId": "requirements-REQ-004",
+        "decision": "resolved",
+        "reason": "The human approver accepts the evidence-backed resolved status for sealing under the narrow integrity claim.",
+        "decidedAt": "2026-07-19T06:31:16.327Z",
+        "actor": "human",
+        "decisionEventId": "ev_human_seal_approval_725d79887171e1d9"
+      },
+      {
+        "id": "decision_eec60bfa555c0b59ee90",
+        "findingId": "requirements-REQ-005",
+        "decision": "resolved",
+        "reason": "The human approver accepts the evidence-backed resolved status for sealing under the narrow integrity claim.",
+        "decidedAt": "2026-07-19T06:31:16.327Z",
+        "actor": "human",
+        "decisionEventId": "ev_human_seal_approval_725d79887171e1d9"
+      },
+      {
+        "id": "decision_350003fc32f574c596de",
+        "findingId": "requirements-REQ-006",
+        "decision": "resolved",
+        "reason": "The human approver accepts the evidence-backed resolved status for sealing under the narrow integrity claim.",
+        "decidedAt": "2026-07-19T06:31:16.327Z",
+        "actor": "human",
+        "decisionEventId": "ev_human_seal_approval_725d79887171e1d9"
+      },
+      {
+        "id": "decision_cb0d9eb9eb181da4c481",
+        "findingId": "requirements-REQ-007",
+        "decision": "resolved",
+        "reason": "The human approver accepts the evidence-backed resolved status for sealing under the narrow integrity claim.",
+        "decidedAt": "2026-07-19T06:31:16.327Z",
+        "actor": "human",
+        "decisionEventId": "ev_human_seal_approval_725d79887171e1d9"
+      },
+      {
+        "id": "decision_05d94f48037caff43bb4",
+        "findingId": "security-SEC-001",
+        "decision": "resolved",
+        "reason": "The human approver accepts the evidence-backed resolved status for sealing under the narrow integrity claim.",
+        "decidedAt": "2026-07-19T06:31:16.327Z",
+        "actor": "human",
+        "decisionEventId": "ev_human_seal_approval_725d79887171e1d9"
+      },
+      {
+        "id": "decision_189d5040cee07eb0024e",
+        "findingId": "security-SEC-002",
+        "decision": "resolved",
+        "reason": "The human approver accepts the evidence-backed resolved status for sealing under the narrow integrity claim.",
+        "decidedAt": "2026-07-19T06:31:16.327Z",
+        "actor": "human",
+        "decisionEventId": "ev_human_seal_approval_725d79887171e1d9"
+      },
+      {
+        "id": "decision_238f0c94fd660b1ae808",
+        "findingId": "security-SEC-003",
+        "decision": "resolved",
+        "reason": "The human approver accepts the evidence-backed resolved status for sealing under the narrow integrity claim.",
+        "decidedAt": "2026-07-19T06:31:16.327Z",
+        "actor": "human",
+        "decisionEventId": "ev_human_seal_approval_725d79887171e1d9"
+      },
+      {
+        "id": "decision_20377a8287959fa8f6e0",
+        "findingId": "security-SEC-004",
+        "decision": "resolved",
+        "reason": "The human approver accepts the evidence-backed resolved status for sealing under the narrow integrity claim.",
+        "decidedAt": "2026-07-19T06:31:16.327Z",
+        "actor": "human",
+        "decisionEventId": "ev_human_seal_approval_725d79887171e1d9"
+      },
+      {
+        "id": "decision_fd2f70cb27fadb41be1a",
+        "findingId": "tests-TST-001",
+        "decision": "resolved",
+        "reason": "The human approver accepts the evidence-backed resolved status for sealing under the narrow integrity claim.",
+        "decidedAt": "2026-07-19T06:31:16.327Z",
+        "actor": "human",
+        "decisionEventId": "ev_human_seal_approval_725d79887171e1d9"
+      },
+      {
+        "id": "decision_9bb5c62e460b74011ecf",
+        "findingId": "tests-TST-002",
+        "decision": "resolved",
+        "reason": "The human approver accepts the evidence-backed resolved status for sealing under the narrow integrity claim.",
+        "decidedAt": "2026-07-19T06:31:16.327Z",
+        "actor": "human",
+        "decisionEventId": "ev_human_seal_approval_725d79887171e1d9"
+      },
+      {
+        "id": "decision_8535ec637b0888f6ee90",
+        "findingId": "tests-TST-003",
+        "decision": "resolved",
+        "reason": "The human approver accepts the evidence-backed resolved status for sealing under the narrow integrity claim.",
+        "decidedAt": "2026-07-19T06:31:16.327Z",
+        "actor": "human",
+        "decisionEventId": "ev_human_seal_approval_725d79887171e1d9"
+      },
+      {
+        "id": "decision_eced693140f6b44927fe",
+        "findingId": "evidence-F-001",
+        "decision": "resolved",
+        "reason": "The human approver accepts the evidence-backed resolved status for sealing under the narrow integrity claim.",
+        "decidedAt": "2026-07-19T06:31:16.327Z",
+        "actor": "human",
+        "decisionEventId": "ev_human_seal_approval_725d79887171e1d9"
+      },
+      {
+        "id": "decision_e59474477efa6724c1b4",
+        "findingId": "evidence-F-002",
+        "decision": "resolved",
+        "reason": "The human approver accepts the evidence-backed resolved status for sealing under the narrow integrity claim.",
+        "decidedAt": "2026-07-19T06:31:16.327Z",
+        "actor": "human",
+        "decisionEventId": "ev_human_seal_approval_725d79887171e1d9"
+      },
+      {
+        "id": "decision_2d04f24f447ec3750294",
+        "findingId": "evidence-F-003",
+        "decision": "accepted-risk",
+        "reason": "The human approver accepts this warning as a scoped synthetic-demonstration risk, not a resolved production capability.",
+        "decidedAt": "2026-07-19T06:31:16.327Z",
+        "actor": "human",
+        "decisionEventId": "ev_human_seal_approval_725d79887171e1d9"
+      },
+      {
+        "id": "decision_cc7707a10213f4262494",
+        "findingId": "evidence-F-004",
+        "decision": "accepted-risk",
+        "reason": "The human approver accepts this warning as a scoped synthetic-demonstration risk, not a resolved production capability.",
+        "decidedAt": "2026-07-19T06:31:16.327Z",
+        "actor": "human",
+        "decisionEventId": "ev_human_seal_approval_725d79887171e1d9"
+      },
+      {
+        "id": "decision_386e3f7cab1a2d957fdf",
+        "findingId": "synthesis-SYN-001",
+        "decision": "resolved",
+        "reason": "The human approver accepts the evidence-backed resolved status for sealing under the narrow integrity claim.",
+        "decidedAt": "2026-07-19T06:31:16.327Z",
+        "actor": "human",
+        "decisionEventId": "ev_human_seal_approval_725d79887171e1d9"
+      },
+      {
+        "id": "decision_6136bbaa49740f030b9e",
+        "findingId": "synthesis-SYN-002",
+        "decision": "resolved",
+        "reason": "The human approver accepts the evidence-backed resolved status for sealing under the narrow integrity claim.",
+        "decidedAt": "2026-07-19T06:31:16.327Z",
+        "actor": "human",
+        "decisionEventId": "ev_human_seal_approval_725d79887171e1d9"
+      },
+      {
+        "id": "decision_b310105e6bc7ebbbfa0c",
+        "findingId": "synthesis-SYN-003",
+        "decision": "accepted-risk",
+        "reason": "The human approver accepts this warning as a scoped synthetic-demonstration risk, not a resolved production capability.",
+        "decidedAt": "2026-07-19T06:31:16.327Z",
+        "actor": "human",
+        "decisionEventId": "ev_human_seal_approval_725d79887171e1d9"
+      },
+      {
+        "id": "decision_210bea589dea0b7ae6a7",
+        "findingId": "synthesis-SYN-004",
+        "decision": "accepted-risk",
+        "reason": "The human approver accepts this warning as a scoped synthetic-demonstration risk, not a resolved production capability.",
+        "decidedAt": "2026-07-19T06:31:16.327Z",
+        "actor": "human",
+        "decisionEventId": "ev_human_seal_approval_725d79887171e1d9"
+      }
+    ],
+    "reviewProvenance": {
+      "evidenceSource": "codex-exec-json",
+      "evidenceDigestSha256": "13af368970c111ce5a455f739318517eba774d0a95851b9504b0bfee395641a4",
+      "calls": [
+        {
+          "reviewer": "requirements",
+          "responseId": "resp_03a88ce12fc16f85016a5c483eb8a081a191638963c3eec28f",
+          "createdAt": "2026-07-19T03:45:02.000Z",
+          "model": "gpt-5.6-sol",
+          "inputDigestSha256": "13af368970c111ce5a455f739318517eba774d0a95851b9504b0bfee395641a4"
+        },
+        {
+          "reviewer": "security",
+          "responseId": "resp_09c8f617c883af16016a5c483e915481a3a0d53eaaeb7549c4",
+          "createdAt": "2026-07-19T03:45:02.000Z",
+          "model": "gpt-5.6-sol",
+          "inputDigestSha256": "13af368970c111ce5a455f739318517eba774d0a95851b9504b0bfee395641a4"
+        },
+        {
+          "reviewer": "tests",
+          "responseId": "resp_0caaa19d25ba1754016a5c483e8e6c81a2b65a2bf69d276050",
+          "createdAt": "2026-07-19T03:45:02.000Z",
+          "model": "gpt-5.6-sol",
+          "inputDigestSha256": "13af368970c111ce5a455f739318517eba774d0a95851b9504b0bfee395641a4"
+        },
+        {
+          "reviewer": "evidence",
+          "responseId": "resp_0df377f1a8339f78016a5c483e8e20819c834a157fb7f22c29",
+          "createdAt": "2026-07-19T03:45:02.000Z",
+          "model": "gpt-5.6-sol",
+          "inputDigestSha256": "13af368970c111ce5a455f739318517eba774d0a95851b9504b0bfee395641a4"
+        },
+        {
+          "reviewer": "synthesis",
+          "responseId": "resp_01ba93260500f7ad016a5c4854e5e4819e91e84d495ff0477e",
+          "createdAt": "2026-07-19T03:45:24.000Z",
+          "model": "gpt-5.6-sol",
+          "inputDigestSha256": "13af368970c111ce5a455f739318517eba774d0a95851b9504b0bfee395641a4"
+        }
+      ]
+    },
+    "eventChainHead": "1dd6adb4b236bd66b7d9340295e047c66ea0296a38bc1a699ccef1a0c46054a8",
+    "merkleRoot": "72db7d80b0e14350035a6d605460dbef512b4aef0a355e7488d4b64dd31f68f7",
+    "sealDecision": {
+      "ready": true,
+      "blockingReasons": [],
+      "humanApproved": true
+    },
+    "claim": "The covered evidence has not changed since it was sealed by the holder of the corresponding signing key."
+  },
+  "signature": {
+    "algorithm": "Ed25519",
+    "publicKeyPem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAW1WUD9M14cowNhkM3mONgp1a+IL07K3XAU6/VjJRMjw=\n-----END PUBLIC KEY-----\n",
+    "signedDigestSha256": "fd9f06ef27ce06efa7bb780dd90848cb446d5abc9f51cf4a79e139adb526df66",
+    "signatureBase64": "ztR/Em8jZ/whsyJYc8Votm1/Y2DYvqS0U65ELw8DXz3ogMmZfTzIXqSTN0Xu9yMChjC+fKlJM51wfW9CarjcCQ=="
+  }
+}

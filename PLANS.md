@@ -1,6 +1,6 @@
 # Flight Recorder Build Week Execution Plan
 
-**Status:** End-to-end goal active. Hardened passport Gate A, genuine fallback-capture Gate B, and real GPT-5.6 runtime Gate C are verified locally. The selected verification split-view interface and password-reset lifecycle remediation are implemented locally; final evidence binding, release, deployment, assets, and submission remain open.
+**Status:** End-to-end goal active. Hardened passport Gate A, genuine fallback-capture Gate B, and real GPT-5.6 runtime Gate C are verified locally. Human approval is recorded and the genuine passport is sealed and independently verified; genuine interface binding, release, deployment, assets, and submission remain open.
 
 ## Objective
 
@@ -53,4 +53,4 @@ Build, test, document, deploy, and prepare Flight Recorder for the OpenAI Build 
 
 ## Next clean action
 
-Bind the remediated final source and validation evidence to a new genuine Codex capture, rerun the bounded GPT-5.6 review, then assemble the genuine signed judge passport.
+Checkpoint the genuine passport and verified split view, then complete publication and public deployment proof.

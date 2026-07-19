@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "0.1.0",
+  "recordKind": "human-seal-decision",
+  "decision": "approved-for-sealing",
+  "passportId": "frp_f36024b2a0d9b46ac33a4134",
+  "repositoryCommit": "a5d1093d7e1b65bd8d874b16ce832ba0840d6452",
+  "evidenceDigestSha256": "13af368970c111ce5a455f739318517eba774d0a95851b9504b0bfee395641a4",
+  "acceptedRiskFindingIds": [
+    "evidence-F-003",
+    "evidence-F-004",
+    "synthesis-SYN-003",
+    "synthesis-SYN-004"
+  ],
+  "acknowledgedNarrowClaim": true,
+  "acknowledgedResidualLimitations": true,
+  "reason": "I approve sealing the Flight Recorder passport under the narrow integrity claim. I acknowledge that durable audit delivery and distributed token atomicity are outside the synthetic demonstration scope, and I accept the four related warning findings as scoped risks rather than resolved production capabilities."
+}

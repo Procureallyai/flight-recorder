@@ -1,4 +1,4 @@
-import { cp, mkdir, mkdtemp, readFile, readdir, stat, writeFile } from "node:fs/promises";
+import { cp, mkdir, mkdtemp, readFile, readdir, stat, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { execFileSync, spawnSync } from "node:child_process";
@@ -277,5 +277,148 @@ describe("flight-recorder command-line interface", () => {
       events: rebuildEvents(mismatchedEvents),
     }), "utf8");
     expect(runCli(["assemble-demo-candidate", mismatchedPath, join(fixture.root, "bad-binding-candidate.json")]).status).toBe(1);
+  });
+
+  it("records the exact human decision, seals with an ephemeral key, verifies, and detects artifact tampering", async () => {
+    const root = await mkdtemp(join(tmpdir(), "flight-recorder-cli-seal-"));
+    const passportPath = join(root, "passport.json");
+    const artifactRoot = join(root, "artifacts");
+    const sealed = runCli([
+      "seal-demo-passport",
+      "fixtures/demo-session/passport-candidate-reviewed.json",
+      "fixtures/demo-session/finalised-capture-post-remediation.json",
+      "fixtures/demo-session/review-run-post-remediation.json",
+      "fixtures/demo-session/human-approval-request.json",
+      "fixtures/demo-session/human-seal-decision.json",
+      passportPath,
+      artifactRoot,
+    ]);
+    expect(sealed.status, sealed.stderr).toBe(0);
+    expect(sealed.stdout).toContain("private signing key was not persisted");
+
+    const passport = JSON.parse(await readFile(passportPath, "utf8")) as {
+      manifest: {
+        events: EvidenceEvent[];
+        findingDecisions: Array<{ findingId: string; decision: string; decisionEventId: string }>;
+        sealDecision: { ready: boolean; humanApproved: boolean; blockingReasons: string[] };
+      };
+    };
+    expect(passport.manifest.sealDecision).toEqual({ ready: true, humanApproved: true, blockingReasons: [] });
+    expect(passport.manifest.events).toHaveLength(18);
+    expect(passport.manifest.findingDecisions).toHaveLength(22);
+    expect(passport.manifest.findingDecisions.filter((decision) => decision.decision === "accepted-risk").map((decision) => decision.findingId)).toEqual([
+      "evidence-F-003",
+      "evidence-F-004",
+      "synthesis-SYN-003",
+      "synthesis-SYN-004",
+    ]);
+    const approvalEvent = passport.manifest.events.at(-1)!;
+    expect(approvalEvent.type).toBe("approval");
+    expect(passport.manifest.findingDecisions.every((decision) => decision.decisionEventId === approvalEvent.id)).toBe(true);
+    expect(approvalEvent.payload).toMatchObject({
+      recordKind: "human-seal-approval",
+      acknowledgedNarrowClaim: true,
+      acknowledgedResidualLimitations: true,
+    });
+    expect(await readdir(root)).not.toContain("private-key.pem");
+
+    const verified = runCli(["verify", passportPath, artifactRoot, "--json"]);
+    expect(verified.status, verified.stderr).toBe(0);
+    expect(JSON.parse(verified.stdout)).toMatchObject({ valid: true });
+
+    const coveredPath = join(artifactRoot, "demo/password-reset-workspace/src/password-reset.ts");
+    await writeFile(coveredPath, `${await readFile(coveredPath, "utf8")} `, "utf8");
+    const tampered = runCli(["verify", passportPath, artifactRoot, "--json"]);
+    expect(tampered.status).toBe(1);
+    expect(JSON.parse(tampered.stdout)).toMatchObject({ valid: false });
+  });
+
+  it("rejects a seal decision that does not match the reviewed digest or acknowledgements", async () => {
+    const root = await mkdtemp(join(tmpdir(), "flight-recorder-cli-seal-reject-"));
+    const source = JSON.parse(await readFile("fixtures/demo-session/human-seal-decision.json", "utf8")) as Record<string, unknown>;
+    const mismatchedPath = join(root, "mismatched.json");
+    await writeFile(mismatchedPath, JSON.stringify({ ...source, evidenceDigestSha256: "0".repeat(64) }), "utf8");
+    expect(runCli([
+      "seal-demo-passport",
+      "fixtures/demo-session/passport-candidate-reviewed.json",
+      "fixtures/demo-session/finalised-capture-post-remediation.json",
+      "fixtures/demo-session/review-run-post-remediation.json",
+      "fixtures/demo-session/human-approval-request.json",
+      mismatchedPath,
+      join(root, "mismatched-passport.json"),
+      join(root, "mismatched-artifacts"),
+    ]).status).toBe(1);
+
+    const unacknowledgedPath = join(root, "unacknowledged.json");
+    await writeFile(unacknowledgedPath, JSON.stringify({ ...source, acknowledgedResidualLimitations: false }), "utf8");
+    expect(runCli([
+      "seal-demo-passport",
+      "fixtures/demo-session/passport-candidate-reviewed.json",
+      "fixtures/demo-session/finalised-capture-post-remediation.json",
+      "fixtures/demo-session/review-run-post-remediation.json",
+      "fixtures/demo-session/human-approval-request.json",
+      unacknowledgedPath,
+      join(root, "unacknowledged-passport.json"),
+      join(root, "unacknowledged-artifacts"),
+    ]).status).toBe(1);
+  });
+
+  it("rejects review-derived candidate mutation and symbolic-link output parents", async () => {
+    const root = await mkdtemp(join(tmpdir(), "flight-recorder-cli-seal-hardening-"));
+    const candidate = JSON.parse(await readFile("fixtures/demo-session/passport-candidate-reviewed.json", "utf8")) as {
+      findings: Array<{ title: string }>;
+    };
+    candidate.findings[0]!.title = "Mutated after the genuine model review";
+    const mutatedCandidatePath = join(root, "mutated-candidate.json");
+    await writeFile(mutatedCandidatePath, JSON.stringify(candidate), "utf8");
+    expect(runCli([
+      "seal-demo-passport",
+      mutatedCandidatePath,
+      "fixtures/demo-session/finalised-capture-post-remediation.json",
+      "fixtures/demo-session/review-run-post-remediation.json",
+      "fixtures/demo-session/human-approval-request.json",
+      "fixtures/demo-session/human-seal-decision.json",
+      join(root, "mutated-passport.json"),
+      join(root, "mutated-artifacts"),
+    ]).status).toBe(1);
+
+    const outside = await mkdtemp(join(tmpdir(), "flight-recorder-cli-seal-outside-"));
+    const linkedParent = join(root, "linked-parent");
+    await symlink(outside, linkedParent);
+    const linkedResult = runCli([
+      "seal-demo-passport",
+      "fixtures/demo-session/passport-candidate-reviewed.json",
+      "fixtures/demo-session/finalised-capture-post-remediation.json",
+      "fixtures/demo-session/review-run-post-remediation.json",
+      "fixtures/demo-session/human-approval-request.json",
+      "fixtures/demo-session/human-seal-decision.json",
+      join(linkedParent, "new-passport-parent", "linked-passport.json"),
+      join(linkedParent, "new-artifact-parent", "artifacts"),
+    ]);
+    expect(linkedResult.status).toBe(1);
+    await expect(stat(join(outside, "new-passport-parent"))).rejects.toMatchObject({ code: "ENOENT" });
+    await expect(stat(join(outside, "new-artifact-parent"))).rejects.toMatchObject({ code: "ENOENT" });
+  });
+
+  it("rejects approval-request summary and limitation mutation", async () => {
+    const root = await mkdtemp(join(tmpdir(), "flight-recorder-cli-approval-request-"));
+    const request = JSON.parse(await readFile("fixtures/demo-session/human-approval-request.json", "utf8")) as {
+      reviewSummary: string;
+      limitations: string[];
+    };
+    request.reviewSummary = "Mutated after human review.";
+    request.limitations = ["Mutated limitation."];
+    const mutatedRequestPath = join(root, "mutated-request.json");
+    await writeFile(mutatedRequestPath, JSON.stringify(request), "utf8");
+    expect(runCli([
+      "seal-demo-passport",
+      "fixtures/demo-session/passport-candidate-reviewed.json",
+      "fixtures/demo-session/finalised-capture-post-remediation.json",
+      "fixtures/demo-session/review-run-post-remediation.json",
+      mutatedRequestPath,
+      "fixtures/demo-session/human-seal-decision.json",
+      join(root, "passport.json"),
+      join(root, "artifacts"),
+    ]).status).toBe(1);
   });
 });

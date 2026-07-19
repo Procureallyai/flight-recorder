@@ -22,26 +22,32 @@ import {
   XCircle,
 } from "@phosphor-icons/react";
 import { verifyPassportInBrowser } from "@flight-recorder/verifier/browser";
-import passport from "../../../fixtures/demo-passport/passport.json";
-import passwordResetSource from "../../../fixtures/demo-passport/artifacts/src/password-reset.ts?raw";
-import passwordResetTest from "../../../fixtures/demo-passport/artifacts/test/password-reset.test.ts?raw";
+import passport from "../../../fixtures/judge-passport/passport.json";
+import codexTask from "../../../fixtures/judge-passport/artifacts/demo/password-reset-workspace/CODEX_TASK.md?raw";
+import packageDefinition from "../../../fixtures/judge-passport/artifacts/demo/password-reset-workspace/package.json?raw";
+import passwordResetSource from "../../../fixtures/judge-passport/artifacts/demo/password-reset-workspace/src/password-reset.ts?raw";
+import passwordResetTest from "../../../fixtures/judge-passport/artifacts/demo/password-reset-workspace/test/password-reset.test.ts?raw";
 import { Badge } from "./components/ui/badge.jsx";
 import { Button } from "./components/ui/button.jsx";
 
 const manifest = passport.manifest;
+const sourceArtifactPath = "demo/password-reset-workspace/src/password-reset.ts";
 const originalArtifacts = Object.freeze({
-  "src/password-reset.ts": passwordResetSource,
-  "test/password-reset.test.ts": passwordResetTest,
+  "demo/password-reset-workspace/CODEX_TASK.md": codexTask,
+  "demo/password-reset-workspace/package.json": packageDefinition,
+  [sourceArtifactPath]: passwordResetSource,
+  "demo/password-reset-workspace/test/password-reset.test.ts": passwordResetTest,
 });
 const tamperedSource = `${passwordResetSource}\n// Temporary in-memory verifier demonstration change.\n`;
 const MINIMUM_INTERACTIVE_VERIFICATION_MILLISECONDS = 220;
 
 const eventPresentation = {
-  task: { title: "Task and acceptance criteria", actor: "Synthetic fixture event", Icon: File, tone: "task" },
-  review: { title: "Modelled security finding", actor: "Synthetic fixture event", Icon: Sparkle, tone: "review" },
-  "file-change": { title: "Modelled remediation", actor: "Synthetic fixture event", Icon: PencilSimpleLine, tone: "codex" },
-  test: { title: "Intended test scenarios", actor: "Synthetic fixture event", Icon: Flask, tone: "test" },
-  approval: { title: "Modelled approval state", actor: "Synthetic fixture event", Icon: SealCheck, tone: "codex" },
+  task: { title: "Codex task", actor: "Observable Codex event", Icon: File, tone: "task" },
+  command: { title: "Command completed", actor: "Observable Codex event", Icon: Sparkle, tone: "review" },
+  completion: { title: "Session checkpoint", actor: "Observable Codex event", Icon: CheckCircle, tone: "review" },
+  "file-change": { title: "Codex remediation", actor: "Observable Codex event", Icon: PencilSimpleLine, tone: "codex" },
+  test: { title: "Test evidence", actor: "Executed evidence", Icon: Flask, tone: "test" },
+  approval: { title: "Human seal approval", actor: "Typed human decision", Icon: SealCheck, tone: "codex" },
 };
 
 const sessionSteps = manifest.events.map((event, index) => ({
@@ -145,6 +151,12 @@ function SessionStep({ step }) {
               ))}
             </ul>
           )}
+          {step.type === "approval" && (
+            <ul className="criteria-list">
+              <li><CheckCircle weight="fill" />Narrow integrity claim acknowledged.</li>
+              <li><CheckCircle weight="fill" />Four demonstration-scope warnings accepted, not marked as resolved production capabilities.</li>
+            </ul>
+          )}
           <div className="step-footer">
             {step.type === "file-change" && manifest.artifacts.map((artifact) => (
               <span className="file-pill" key={artifact.path}><FileCode />{artifact.path}</span>
@@ -166,10 +178,10 @@ function VerificationBanner({ result, busy }) {
       <div>
         <strong>{busy || result === null ? "VERIFYING" : invalid ? "INVALID" : "VERIFIED"}</strong>
         <p>{busy || result === null
-          ? "Recomputing the signed fixture and covered artifacts in this browser."
+          ? "Recomputing the genuine signed passport and covered artifacts in this browser."
           : invalid
             ? "The signed manifest is intact, but one covered artifact no longer matches."
-            : "The signed fixture and every covered artifact verify successfully."}</p>
+            : "The signed genuine-session passport and every covered artifact verify successfully."}</p>
         <small>Created {formatRecordedAt(manifest.createdAt, true)}</small>
       </div>
     </div>
@@ -200,7 +212,7 @@ function Verifier({ result, busy, tampered, onVerify, onToggleTamper }) {
         </div>
         <ol className="artifact-list">
           {manifest.artifacts.map((artifact, index) => {
-            const changed = tampered && artifact.path === "src/password-reset.ts";
+            const changed = tampered && artifact.path === sourceArtifactPath;
             return (
               <li key={artifact.id} className={changed ? "artifact-row artifact-row--invalid" : "artifact-row"}>
                 <span className="artifact-index">{index + 1}</span>
@@ -258,13 +270,25 @@ function Verifier({ result, busy, tampered, onVerify, onToggleTamper }) {
           </Tooltip.Trigger>
           <Tooltip.Portal>
             <Tooltip.Content className="tooltip-content" sideOffset={8}>
-              {tampered ? "Return to the signed fixture's original artifact bytes." : "Create a temporary browser-memory change only."}
+              {tampered ? "Return to the signed passport's original artifact bytes." : "Create a temporary browser-memory change only."}
               <Tooltip.Arrow className="tooltip-arrow" />
             </Tooltip.Content>
           </Tooltip.Portal>
         </Tooltip.Root>
         <p className="action-note">No file is changed on disk, and no network request or Application Programming Interface key is used.</p>
       </div>
+
+      <section className="risk-section" aria-labelledby="risk-title">
+        <div className="section-title-row">
+          <h3 id="risk-title">Accepted scope warnings</h3>
+          <Badge tone="warning">4 records</Badge>
+        </div>
+        <p>The passport keeps two production boundaries visible rather than presenting them as completed capabilities.</p>
+        <ul className="risk-list">
+          <li><WarningCircle weight="fill" /><span><strong>Durable audit delivery</strong> requires a production queue or transactional outbox.</span></li>
+          <li><WarningCircle weight="fill" /><span><strong>Distributed token atomicity</strong> requires persistent shared infrastructure across workers and restarts.</span></li>
+        </ul>
+      </section>
 
       <div className="limitations">
         <Info size={22} weight="fill" aria-hidden="true" />
@@ -282,7 +306,7 @@ export function App() {
   async function runVerification(nextTampered = tampered) {
     setBusy(true);
     const artifacts = nextTampered
-      ? { ...originalArtifacts, "src/password-reset.ts": tamperedSource }
+      ? { ...originalArtifacts, [sourceArtifactPath]: tamperedSource }
       : originalArtifacts;
     // Keep the genuine browser computation visible long enough for a judge to perceive the state change.
     const [nextResult] = await Promise.all([
@@ -316,7 +340,7 @@ export function App() {
           <div className="brand"><Record size={30} weight="duotone" /><strong>Flight Recorder</strong></div>
           <span className="view-name">Verification split view</span>
           <div className="topbar-meta">
-            <Badge tone="neutral">Signed synthetic cryptographic fixture</Badge>
+            <Badge tone="success">Genuine signed Codex session</Badge>
             <time dateTime={manifest.createdAt}>{formatRecordedAt(manifest.createdAt)}</time>
           </div>
         </header>
@@ -325,9 +349,9 @@ export function App() {
           <section className="session-panel" aria-labelledby="session-title">
             <div className="session-heading">
               <div>
-                <Badge tone="neutral"><Record weight="fill" /> Signed synthetic cryptographic fixture</Badge>
-                <h1 id="session-title">Password-reset fixture replay</h1>
-                <p>This replay is synthetic. It demonstrates the evidence structure and does not claim a genuine Codex or GPT-5.6 session.</p>
+                <Badge tone="success"><Record weight="fill" /> Genuine Codex session · GPT-5.6 reviewed</Badge>
+                <h1 id="session-title">Password-reset remediation replay</h1>
+                <p>A sanitised record of observable Codex activity, committed evidence, GPT-5.6 advisory review, human approval, and cryptographic sealing.</p>
               </div>
               <div className="session-meta">
                 <span>Passport</span>
@@ -335,13 +359,13 @@ export function App() {
               </div>
             </div>
 
-            <Accordion.Root type="multiple" defaultValue={["event-001", "event-002", "event-003"]} className="timeline">
+            <Accordion.Root type="multiple" defaultValue={["ev_000001", "ev_000012", "ev_post_commit_test_a5d1093d7e1b", "ev_human_seal_approval_725d79887171e1d9"]} className="timeline">
               {sessionSteps.map((step) => <SessionStep key={step.id} step={step} />)}
             </Accordion.Root>
 
             <footer className="session-footer">
-              <span><CheckCircle weight="fill" /> Signed fixture ready for local verification</span>
-              <EvidencePill>{manifest.events.length} synthetic events</EvidencePill>
+              <span><CheckCircle weight="fill" /> Genuine passport independently verifiable</span>
+              <EvidencePill>{manifest.events.length} hash-linked events</EvidencePill>
             </footer>
           </section>
 

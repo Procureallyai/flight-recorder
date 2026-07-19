@@ -204,6 +204,12 @@ code {
   background: #331719;
 }
 
+.badge--warning {
+  color: #ffd483;
+  border-color: #765c25;
+  background: #2d2412;
+}
+
 .timeline {
   margin-top: 24px;
 }
@@ -474,6 +480,7 @@ code {
 }
 
 .artifact-section,
+.risk-section,
 .integrity-section {
   margin-top: 22px;
 }
@@ -487,9 +494,47 @@ code {
 }
 
 .artifact-section h3,
+.risk-section h3,
 .integrity-section h3 {
   margin: 0;
   font-size: 16px;
+}
+
+.risk-section > p {
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.risk-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.risk-list li {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  gap: 8px;
+  padding: 10px 11px;
+  border: 1px solid #4f4329;
+  border-radius: 7px;
+  color: #d7d0bf;
+  background: #19170f;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.risk-list svg {
+  margin-top: 1px;
+  color: var(--amber);
+}
+
+.risk-list strong {
+  color: #f2e7cf;
 }
 
 .section-title-row > span {
