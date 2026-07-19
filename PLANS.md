@@ -1,6 +1,6 @@
 # Flight Recorder Build Week Execution Plan
 
-**Status:** End-to-end goal active. Hardened passport Gate A, genuine fallback-capture Gate B, and real GPT-5.6 runtime Gate C are verified locally. Human approval is recorded and the genuine passport is sealed and independently verified; genuine interface binding, release, deployment, assets, and submission remain open.
+**Status:** End-to-end goal active. Hardened passport Gate A, genuine fallback-capture Gate B, and real GPT-5.6 runtime Gate C are verified locally. The genuine passport and interface are verified, and public GitHub `main` matches local commit `a6d8baa`; release tagging, deployment, assets, and submission remain open.
 
 ## Objective
 
@@ -33,7 +33,7 @@ Build, test, document, deploy, and prepare Flight Recorder for the OpenAI Build 
 ## Current decision gates
 
 - Entrant: Floyd Livingstone Rowe as an individual. Confirmed 18 July 2026.
-- Remote owner: Floyd's personal GitHub account, pending authentication verification.
+- Remote owner: Floyd's selected personal GitHub login `Procureallyai`, verified through Profile 7 and the GitHub command-line client on 19 July 2026.
 - Repository: public Apache License 2.0, approved by Floyd.
 - Hosting: Vercel using the approved 14-day Pro trial; activation and provider terms remain separate human and deployment truth surfaces.
 - Runtime model budget: US$10.00 prepaid Application Programming Interface credit verified and genuine GPT-5.6 review executed.
@@ -41,7 +41,7 @@ Build, test, document, deploy, and prepare Flight Recorder for the OpenAI Build 
 - Front-end delivery: Product Design skill invocation and visual selection are mandatory before user-interface implementation; use shadcn/ui to compress standard component work.
 - Devpost Plugin: installed and connected as an advisory aid; it never overrides current official rules or verified release facts.
 - Secrets: use user-approved 1Password Environments injection for the OpenAI Application Programming Interface key and deployment credentials; never persist raw values.
-- Repository: target a public, appropriately licensed repository under the authenticated individual owner. Current GitHub command-line authentication is invalid and must be repaired before remote creation.
+- Repository: `https://github.com/Procureallyai/flight-recorder` is public under Apache License 2.0; live and local `main` match at `a6d8baa`.
 - Parallelism: use explicitly owned sub-agent lanes when they materially accelerate research, review, testing, accessibility, security, or documentation. Preserve the primary task as the majority core-build record.
 - Browser fallback: use Chrome Profile 7 for authenticated Devpost state and operator handoff. If it is unavailable, use the Codex in-app browser for local, public, or unauthenticated checks, label the route, and leave Profile 7-dependent actions open.
 
@@ -53,4 +53,4 @@ Build, test, document, deploy, and prepare Flight Recorder for the OpenAI Build 
 
 ## Next clean action
 
-Checkpoint the genuine passport and verified split view, then complete publication and public deployment proof.
+Deploy the published `a6d8baa` state to Vercel, then complete two no-login hosted verification runs.
