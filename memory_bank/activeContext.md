@@ -50,7 +50,7 @@
 - Profile 7 trusted browser proof completed GitHub's device authorisation for the official GitHub command-line client as `Procureallyai` on 19 July 2026.
 - The public Apache License 2.0 repository exists at `https://github.com/Procureallyai/flight-recorder` with `main` as its default branch.
 - The immutable `v0.1.0` release resolves to commit `6675e41ad5b0fcec2f8d42ad07e4321950cbf821`. Repository metadata reports `PUBLIC`, Apache License 2.0, and the approved description. Post-release `main` includes submission documentation and video-production provenance without moving the release tag.
-- Continuous Integration run `29679019561` passed against post-release submission-video commit `1110bf60077b71171bf32a59d2b803ef27ec8d55`. The run built and passed 126 product tests, 16 demonstration tests, deterministic fixture regeneration, both signed passport verifiers, the secret scan, and canonical-truth validation on Ubuntu. GitHub emitted one informational deprecation warning because three pinned actions still target the Node.js 20 action runtime and were forced onto Node.js 24 by the runner.
+- Continuous Integration run `29679128761` passed against current `main` commit `ef8099058efce0c651dfd847217a08a15c724531`. The run followed the already-green submission-video run `29679019561` and preserved the same release gates. GitHub emitted one informational deprecation warning because three pinned actions still target the Node.js 20 action runtime and were forced onto Node.js 24 by the runner.
 - The public annotated tag `v0.1.0` peels to `6675e41`, and the non-draft, non-prerelease GitHub Release is published at `https://github.com/Procureallyai/flight-recorder/releases/tag/v0.1.0`.
 
 ## Browser or hosted truth
@@ -67,7 +67,7 @@
 
 ## Deployment truth
 
-- Vercel project `flight-recorder-web` deployed the GitHub-connected `apps/web` application from release commit `6675e41ad5b0fcec2f8d42ad07e4321950cbf821` on 19 July 2026.
+- Profile 7 trusted browser proof verified Vercel project `flight-recorder-web` on the Hobby plan, connected only to `Procureallyai/flight-recorder`, with production status `Ready` from current `main` commit `ef8099058efce0c651dfd847217a08a15c724531` on 19 July 2026. The immutable `v0.1.0` release remains commit `6675e41ad5b0fcec2f8d42ad07e4321950cbf821`; the later commits contain submission and evidence documentation rather than a changed product release.
 - The stable production route is `https://flight-recorder-web.vercel.app/`. It is public, requires no account or Application Programming Interface key, and completed two independent hosted verification runs.
 - The dashboard displayed the project under the Hobby plan. Floyd's earlier approval of a 14-day Pro trial did not itself activate that trial, and no Pro-only runtime capability is required for this static judge route.
 
